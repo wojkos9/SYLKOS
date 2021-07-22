@@ -2,7 +2,7 @@
 
 <p><b> krok 0</b> - pobranie projektu i otworzenie go w visual studio code w głównym katalogu.</p>
 
-$  git clone https://github.com/wojkos9/SYLKOS.git
+<code>git clone https://github.com/wojkos9/SYLKOS.git</code>
 
 <p><b> krok 1</b> - instalacja django i aplikacji <p>
 <p align="justify"> po upewnieniu się, że mamy zainstalowanego pythona kolejno wykonać poniższe polecenia (najlepiej w folderze głównym). Zależnie od wersji pythona polecenia należy wpisać pip lub pip3 (jeśli jedno nie działa warto wypróbować drugie i później analogicznie z poleceniami zaczynającymi się od python - zależnie od wersji może działać python3). </p>
