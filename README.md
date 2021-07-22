@@ -34,6 +34,8 @@ $  git clone https://github.com/wojkos9/SYLKOS.git
 <code>python manage.py migrate</code><br>
 <code>python manage.py runserver</code><br>
 
+<br><br><br>
+<p>Gdyby któryś z kroków się nie powiódł i internet szybko nie pomógł, to proszę się ze mną skontaktować! Zawsze może się okazać że już znam rozwiązanie problemu! Wyżej opisany proces jest już wypróbowany na innym komputerze więc teoretycznie powinien działać bez problemów, ale jak wiadomo - różnie bywa</p>
 
 
 
