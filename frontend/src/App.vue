@@ -2,7 +2,11 @@
 <template>
   <div id="app">
     <navbar-comp/>
-    <groups v-bind:title="mainTitle"/>
+    <div>
+    <groups/>
+    <projects />
+    </div>
+    <user-projects/>
     <router-view/>
   </div>
   <!-- <router-link to="/"> Home</router-link> -->
@@ -12,26 +16,35 @@
 import NavbarComp from "@/components/navbar_footer/Navbar.vue"
 import {apiService} from "@/common/api.service.js"
 import Groups from './components/user/groups.vue';
+import Projects from './components/user/projects.vue';
+import {getString} from '@/language/string.js'
+import {getColor} from '@/colors.js'
+import UserProjects from './components/user/userProjects.vue';
 
 export default {
   name: "App",
   components: {
     NavbarComp,
-    Groups
+    Groups,
+    Projects,
+    UserProjects
   },
   data() {
     return {
       title:"Osiedle Kwiatowe",
       desc:"Oswietlenie wszystkich zaciemnionych ulic",
       image:"https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg",
-      mainTitle: "Grupy, do kórych należysz"
+      mainTitle: "Grupy, do kórych należysz",
+      projectsTitle: "Projekty, na które głosowałes"
     }
   },
   methods: {
     async setUserInfo(){
       const data = await  apiService("/api/user/")
       const requestUser = data["username"]
-      window.localStorage.setItem("username", requestUser)
+      window.localStorage.setItem("username", requestUser),
+      getString,
+      getColor
     }
   },
   created() {
@@ -50,6 +63,7 @@ export default {
     font-family: 'Inter', sans-serif ;
     font-weight: 500;
     font-size: 16px;
+    background-color: #f2f6fa;
   }
 
   .btn:focus{

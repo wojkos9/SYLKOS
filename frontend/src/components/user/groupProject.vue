@@ -1,5 +1,5 @@
 <template>
-    <div class="area">
+    <div class="content">
       <img class="image" v-bind:src="image"/>
       <div  class="title"><div class="text">{{title}}</div></div>
       <div class="desc">{{desc}}</div>
@@ -26,10 +26,11 @@ export default {
 </script>
 
 <style scoped>
-  .area{
-    height: 300px;
+  .content{
+    height: 200px;
     width: 160px;
     padding: 10px;
+    margin:10px;
   }
   .image{
     width: 160px;

@@ -27,5 +27,5 @@ export const pl = {
     votedProjects: 'Projekty, na które głosowałeś',
     myProjects:'Zgłoszone projekty',
     more: 'więcej'
-  }
+  },
 }

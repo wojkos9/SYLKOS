@@ -38,7 +38,8 @@ export default{
         display: "flex",
         height: "150px",
         borderBottomRightRadius: "40px",
-        borderBottomLeftRadius: "40px"
+        borderBottomLeftRadius: "40px",
+        width: "100%"
       }
     },
     button(){
@@ -77,7 +78,8 @@ export default{
     align-self:center;
   }
   .rigthSection{
-    margin-left: 500px;
+    margin-left: 440px;
+    margin-right: 10px;
     /* margin-left: 700px; */
     align-self: center;
     display: flex;
