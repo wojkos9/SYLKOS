@@ -9,7 +9,7 @@
           <div class="button">
             <img src="https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg" class="image" />
           </div>
-          <div class="button"><div :style="text">{{getString('myProject', 'details')}}</div></div>  
+          <div class="button"><div :style="text">{{getString('userPanel', 'details')}}</div></div>  
         </div>
     </div>
   </div>

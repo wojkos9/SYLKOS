@@ -21,7 +21,11 @@ export const pl = {
     createAccount: 'Utwórz konto',
     message: '*Aby uzyskać klucz wymagany do rejestracji należy udać się do odpowiedniego organu',
   },
-  myProject:{
-    details: "Dowiedz się więcej"
+  userPanel:{
+    details: 'Dowiedz się więcej',
+    myGroups: 'Grupy, do kórych należysz',
+    votedProjects: 'Projekty, na które głosowałeś',
+    myProjects:'Zgłoszone projekty',
+    more: 'więcej'
   }
 }
