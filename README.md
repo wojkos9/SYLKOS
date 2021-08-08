@@ -1,5 +1,11 @@
 <h1 align="center">Praca inżynierska SYLKOS</h1>
 
+<h3><b>update!</b></h3>
+<p> w konsoli: </p>
+<code>pip uninstall django-webpack-loader==0.7.0</code><br>
+<code>pip install django-webpack-loader==0.7.0</code>
+<p>wcześniej nie dało się na bieżąco odswieżać frontu - trzeba zmienić wersje webpack-loader</p>
+
 <p><b> krok 0</b> - pobranie projektu i otworzenie go w visual studio code w głównym katalogu.</p>
 
 <code>git clone https://github.com/wojkos9/SYLKOS.git</code>
