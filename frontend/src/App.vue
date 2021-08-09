@@ -8,6 +8,9 @@
     </div>
     <user-projects/>
     <router-view/>
+    <div>
+      <comment/>
+    </div>
   </div>
   <!-- <router-link to="/"> Home</router-link> -->
 </template>
@@ -20,6 +23,7 @@ import Projects from './components/user/projects.vue';
 import {getString} from '@/language/string.js'
 import {getColor} from '@/colors.js'
 import UserProjects from './components/user/userProjects.vue';
+import Comment from './components/user/comment.vue';
 
 export default {
   name: "App",
@@ -27,7 +31,8 @@ export default {
     NavbarComp,
     Groups,
     Projects,
-    UserProjects
+    UserProjects,
+    Comment
   },
   data() {
     return {
