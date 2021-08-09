@@ -62,7 +62,8 @@ export default {
     height: 100%;
     font-family: 'Inter', sans-serif ;
     font-weight: 500;
-    font-size: 16px;
+    /* font-size: 1rem; */
+    font-size: 12px;
     background-color: #f2f6fa;
   }
 

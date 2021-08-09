@@ -1,20 +1,18 @@
 <template>
-    <div class="area">
+    <div class="contentarea">
       <div class="title">{{title}}</div>
       <div class="nextTo">
-      <group-project  v-bind:title="grupa1.title" v-bind:image="grupa1.image" v-bind:desc="grupa1.desc"/>
-      <group-project  v-bind:title="grupa1.title" v-bind:image="grupa1.image" v-bind:desc="grupa1.desc"/>
-      <group-project  v-bind:title="grupa1.title" v-bind:image="grupa1.image" v-bind:desc="grupa1.desc"/>
+      <my-project/>
       </div>
       <div class="button"><button-next/></div>
     </div>
 </template>
 
 <script>
-import GroupProject from './groupProject.vue'
+
 import {getString} from '@/language/string.js'
 import {getColor} from '@/colors.js'
-import ButtonNext from '../UI/buttonNext.vue'
+import MyProject from './myProject.vue'
 
 export default {
   name: "userProjects",
@@ -34,8 +32,7 @@ export default {
     getColor
   },
   components:{
-    GroupProject,
-    ButtonNext 
+    MyProject,
   }
 }
 </script>
@@ -55,7 +52,7 @@ export default {
     align-self: center;
     margin-bottom: 15px;
   }
-  .area{
+  .contentarea{
     display: flex;
     flex-direction: column;
     margin-top: 10px;

@@ -9,8 +9,9 @@
           <div class="button">
             <img src="https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg" class="image" />
           </div>
-          <div class="button"><div :style="text">{{getString('userPanel', 'details')}}</div></div>  
+          <!-- <div class="button"><div :style="text">{{getString('userPanel', 'details')}}</div></div>   -->
         </div>
+       <div class="arrow"> <v-mdi  v-style="icon" name="mdi-arrow-right-bold-circle-outline"></v-mdi></div>
     </div>
   </div>
 </template>
@@ -18,11 +19,12 @@
 <script>
 import {getString} from '@/language/string.js'
 import {getColor} from '@/colors.js'
+
 export default({
     name:"myProject",
     methods: {
       getString,
-      getColor
+      getColor,
     },
     computed:{
       text(){
@@ -37,6 +39,8 @@ export default({
         width: "80%",
       }
     },
+    components:{
+    }
     }
 })
 </script>
@@ -53,6 +57,7 @@ export default({
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
+      justify-content: space-around;
     }
     .title{
       font-weight: 500;
@@ -71,7 +76,7 @@ export default({
       padding: 2%;
     }
     .rightSection{
-      width: 34%;
+      width: 30%;
       margin-top: 2%;
       margin-right: 2%;
       /* display: flex; */
@@ -87,10 +92,19 @@ export default({
       margin-bottom: 2%;
       align-content: center;
     }
+    .arrow{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* border: 3px solid green; */
+      /* margin-bottom: 2%; */
+      margin-right: 5px;
+      align-content: center;
+    }
     .text{
       height: 25px;
       text-align: center;
-      width: 80%;
+      width: 75%;
       align-self: center;
       background-color: cornflowerblue;
       border-radius: 10px;
@@ -98,7 +112,12 @@ export default({
       margin-top: 10px;
     }
     .image{
-      width: 95%;
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
     }
-
+  .icon{
+    align-self: center;
+    justify-content:center;
+  }
 </style>
