@@ -46,8 +46,8 @@ urlpatterns = [
     path("api/",
         include("users.api.urls")),
 
-    # path("api/",
-    #     include("questions.api.urls")),
+    path("api/",
+        include("voting.api.urls")),
 
     #login via browsable api
     path("api-auth/",

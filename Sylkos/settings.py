@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'webpack_loader',
 
     'users',
+    'voting',
 ]
 
 MIDDLEWARE = [
