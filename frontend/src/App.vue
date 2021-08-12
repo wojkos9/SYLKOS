@@ -2,6 +2,7 @@
 <template>
   <div id="app">
     <navbar-comp/>
+    <main-screen/>
     <div>
     <groups/>
     <projects />
@@ -20,6 +21,7 @@ import Projects from './components/user/projects.vue';
 import {getString} from '@/language/string.js'
 import {getColor} from '@/colors.js'
 import UserProjects from './components/user/userProjects.vue';
+import MainScreen from './screens/mainScreen.vue';
 
 export default {
   name: "App",
@@ -27,7 +29,8 @@ export default {
     NavbarComp,
     Groups,
     Projects,
-    UserProjects
+    UserProjects,
+    MainScreen
   },
   data() {
     return {

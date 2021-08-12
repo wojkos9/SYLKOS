@@ -1,10 +1,13 @@
 <template>
     <div class="contentarea">
       <div class="title">{{title}}</div>
-      <div class="nextTo">
+
       <my-project/>
-      </div>
-      <div class="button"><button-next/></div>
+       <my-project/>
+        <my-project/>
+         <my-project/>
+
+    
     </div>
 </template>
 
@@ -55,12 +58,23 @@ export default {
   .contentarea{
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
-    width: 50%;
+    margin-top: 50px;
   }
   .button{
     display:flex;
     flex-direction: row;
     justify-content: flex-end;
   }
+
+  @media only screen and (max-width: 1200px) {
+  .title {
+    font-size: 22px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .title {
+    font-size: 20px;
+  }
+}
 </style>
