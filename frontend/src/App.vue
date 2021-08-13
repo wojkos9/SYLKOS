@@ -8,8 +8,9 @@
     </div>
     <user-projects/>
     <router-view/>
-    <div>
+    <div style="display: flex;">
       <comment/>
+      <add-comment/>
     </div>
   </div>
   <!-- <router-link to="/"> Home</router-link> -->
@@ -24,6 +25,7 @@ import {getString} from '@/language/string.js'
 import {getColor} from '@/colors.js'
 import UserProjects from './components/user/userProjects.vue';
 import Comment from './components/user/comment.vue';
+import addComment from './components/user/addComment.vue';
 
 export default {
   name: "App",
@@ -32,7 +34,8 @@ export default {
     Groups,
     Projects,
     UserProjects,
-    Comment
+    Comment,
+    addComment
   },
   data() {
     return {
@@ -61,6 +64,7 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Material+Icons");
   
   html,
   body {
