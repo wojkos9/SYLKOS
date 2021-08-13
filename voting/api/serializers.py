@@ -9,7 +9,7 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def countUsers(self, instance):
-        pass
+        return instance.members.count()
 
 
 
