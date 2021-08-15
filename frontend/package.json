@@ -14,6 +14,7 @@
     "core-js": "^3.6.5",
     "mdi-vue": "^3.0.7",
     "vue": "^2.6.11",
+    "vue-material": "^1.0.0-beta-15",
     "vue-material-design-icons": "^4.12.1",
     "vue-mdijs": "^0.4.3"
   },
