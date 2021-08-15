@@ -28,11 +28,13 @@ class JoinGroupAPIView(APIView):
         group.members.remove(user)
         group.save()
 
+        user.groups.remove(group)
+        user.save()
+
         serializer_context = {"request": request}
         serializer = self.serializer_class(group, context=serializer_context)
 
-        # return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response("Udało się opuścić grupę", status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, pk):
         group = get_object_or_404(Group, pk=pk)
@@ -40,6 +42,9 @@ class JoinGroupAPIView(APIView):
         
         group.members.add(user)
         group.save()
+
+        user.groups.add(group)
+        user.save()
 
         serializer_context = {"request": request}
         serializer = self.serializer_class(group, context=serializer_context)
