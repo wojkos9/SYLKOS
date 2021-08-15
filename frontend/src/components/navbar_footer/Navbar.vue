@@ -40,6 +40,7 @@ import Button from './Button.vue';
 export default {
   components: { Button },
   name: "NavbarComponent",
+  props:["setShowSideMenu"],
   data() {
     return {
       role: "admin",
@@ -51,6 +52,7 @@ export default {
     getColor,
     clicked() {
       console.log("kliknieto!");
+      this.setShowSideMenu();
     },
     projectsClicked() {
       console.log("projekty");

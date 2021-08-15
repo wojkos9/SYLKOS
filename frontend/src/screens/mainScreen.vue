@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="col-sm-1 " />
-    <div class="col-sm-4 cos">
+    <div class="col-sm-4">
       <div class="container">
         <user-projects />
       </div>

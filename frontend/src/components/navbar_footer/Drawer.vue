@@ -109,6 +109,9 @@ export default {
 </script>
 
 <style>
+
+
+
 .logo{
   width: 100px;
   height: 50px;;
