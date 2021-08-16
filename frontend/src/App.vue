@@ -12,6 +12,15 @@
       <comment/>
       <add-comment/>
     </div>
+    <div>
+      <comments/>
+    </div>
+    <div>
+      <voting-header 
+        date="24 listopada 2021"
+        group="Osiedle Kwiatowe"
+      />
+    </div>
   </div>
   <!-- <router-link to="/"> Home</router-link> -->
 </template>
@@ -26,6 +35,8 @@ import {getColor} from '@/colors.js'
 import UserProjects from './components/user/userProjects.vue';
 import Comment from './components/user/comment.vue';
 import addComment from './components/user/addComment.vue';
+import Comments from './components/user/comments.vue';
+import VotingHeader from './components/UI/votingHeader.vue';
 
 export default {
   name: "App",
@@ -35,7 +46,9 @@ export default {
     Projects,
     UserProjects,
     Comment,
-    addComment
+    addComment,
+    Comments,
+    VotingHeader
   },
   data() {
     return {

@@ -18,7 +18,6 @@
                     <div class="plus" @click="incrementLikes">
                         <v-mdi v-style="icon" name="mdiPlusThick"></v-mdi>
                     </div>
-                    <!-- <button type="button" @click="incrementLikes">Increase By 1</button> -->
                     {{ likes }}
                     <div class="minus" @click="incrementDislikes">
                         <v-mdi v-style="icon" name="mdiMinusThick"></v-mdi>
@@ -63,12 +62,13 @@
     }
 </script>
 
-<style link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons" scope>
+<style link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons" scoped>
     
     .commentContainer {
         border: solid 1px black;
         border-radius: 25px;
         /* height: 200px; */
+        margin: 20px;
         padding: 20px; 
         width: 400px;
     }
@@ -94,7 +94,6 @@
         display: flex;  
         font-family: "playfair display";
         font-size: 25px;
-        object-position: 5px 0%;
     }
     .plus {
         color: green;
