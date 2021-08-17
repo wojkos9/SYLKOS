@@ -2,7 +2,8 @@
 <template>
   <div id="app">
     <navbar-comp v-bind:setShowSideMenu="setShowSideMenu"/>
-    <main-screen/>
+    <!-- <main-screen/> -->
+    <groups-screen/>
     <router-view/>
     <drawer v-bind:showSideMenu="showSideMenu"/>
   </div>
@@ -13,15 +14,20 @@ import NavbarComp from "@/components/navbar_footer/Navbar.vue"
 import {apiService} from "@/common/api.service.js"
 import {getString} from '@/language/string.js'
 import {getColor} from '@/colors.js'
-import MainScreen from './screens/mainScreen.vue';
+// import MainScreen from './screens/mainScreen.vue';
 import Drawer from './components/navbar_footer/Drawer.vue'
+import GroupsScreen from './screens/groupsScreen.vue'
+
 
 export default {
   name: "App",
   components: {
     NavbarComp,
-    MainScreen,
-    Drawer
+    // MainScreen,
+   
+    Drawer,
+    GroupsScreen,
+   
   },
   data() {
     return {
@@ -60,11 +66,11 @@ export default {
 
 html,
   body {
-    height: 100%;
+    /* height: 100%; */
     font-family: 'Inter', sans-serif ;
     font-weight: 500;
     font-size: 12px;
-    background-color: #f2f6fa;
+    /* background-color: #f2f6fa; */
   }
 
   .btn:focus{

@@ -1,10 +1,16 @@
 <template>
-    <div class="area">
+    <div class="groups">
       <div class="title">{{title}}</div>
-      <div class="nextTo">
-      <group-project  v-bind:title="grupa1.title" v-bind:image="grupa1.image" />
-      <group-project  v-bind:title="grupa1.title" v-bind:image="grupa1.image" />
-      <group-project  v-bind:title="grupa1.title" v-bind:image="grupa1.image" />
+      <div class="row" style="z-index:-1">
+        <div class="col-lg-6 col-xl-4">
+           <group-project  v-bind:title="grupa1.title" v-bind:image="grupa1.image" />
+        </div>
+       <div class="col-lg-6 col-xl-4">
+           <group-project  v-bind:title="grupa1.title" v-bind:image="grupa1.image" />
+        </div>
+       <div class="col-lg-6 col-xl-4">
+           <group-project  v-bind:title="grupa1.title" v-bind:image="grupa1.image" />
+        </div>
       </div>
     </div>
 </template>
@@ -37,6 +43,10 @@ export default {
 </script>
 
 <style scoped>
+
+.groups{
+  margin-top: 50px;
+}
   .nextTo{
     display: flex;
     flex-direction: row;
@@ -56,5 +66,17 @@ export default {
     flex-direction: column; 
     width: 50%;
   }
+
+  @media only screen and (max-width: 1200px) {
+  .title {
+    font-size: 22px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .title {
+    font-size: 20px;
+  }
+}
 
 </style>

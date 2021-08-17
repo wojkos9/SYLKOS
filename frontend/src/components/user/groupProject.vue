@@ -1,7 +1,7 @@
 <template>
     <div class="content">
       <img class="image" v-bind:src="image"/>
-      <div  class="title"><div class="text">{{title}}</div></div>
+      <div  class="titleIn"><div class="text">{{title}}</div></div>
       <div class="desc">{{desc}}</div>
     </div>
 </template>
@@ -27,17 +27,17 @@ export default {
 
 <style scoped>
   .content{
-    height: 200px;
+    /* height: 200px; */
     width: 160px;
-    padding: 10px;
-    margin:10px;
+    /* padding: 10px; */
+    margin:20px;
   }
   .image{
     width: 160px;
     height: 160px ;
     object-fit: cover;
   }
-  .title{
+  .titleIn{
     font-family: 'Playfair Display';
     font-size: 16px;
     font-weight: 400;
@@ -51,4 +51,15 @@ export default {
   .text{
     text-align: center;
   }
+
+  
+
+  @media only screen and (max-width: 1300px) {
+  .image{
+    width: 140px;
+    height: 140px ;
+  }
+}
+
+
 </style>
