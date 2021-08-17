@@ -1,12 +1,24 @@
 <template>
-    <div class="area">
+    <div class="projects">
       <div class="title">{{title}}</div>
-      <div class="nextTo">
+      <div class="row">
+        <div class="col-lg-6 col-xl-4">
       <group-project  v-bind:title="grupa1.title" v-bind:image="grupa1.image" v-bind:desc="grupa1.desc"/>
+        </div>
+
+        <div class="col-lg-6 col-xl-4">
       <group-project  v-bind:title="grupa1.title" v-bind:image="grupa1.image" v-bind:desc="grupa1.desc"/>
+        </div>
+
+        <div class="col-lg-6 col-xl-4">
       <group-project  v-bind:title="grupa1.title" v-bind:image="grupa1.image" v-bind:desc="grupa1.desc"/>
+        </div>
+     
       </div>
-      <div class="button"><button-next/></div>
+      <div class="row">
+        <div class="col-lg-4 col-xl-8"></div>
+        <div class="col-lg-3 col-xl-3"> <button-next/></div>
+    </div>
     </div>
 </template>
 
@@ -61,9 +73,16 @@ export default {
     margin-top: 10px;
     width: 50%;
   }
-  .button{
-    display:flex;
-    flex-direction: row;
-    justify-content: flex-end;
+  
+    @media only screen and (max-width: 1200px) {
+  .title {
+    font-size: 22px;
   }
+}
+
+@media only screen and (max-width: 1000px) {
+  .title {
+    font-size: 20px;
+  }
+}
 </style>

@@ -28,4 +28,11 @@ export const pl = {
     myProjects:'Zgłoszone projekty',
     more: 'więcej'
   },
+  groups:{
+    membersNumber: 'Liczba uczestników: ',
+    sort: 'sortuj po...',
+    name: 'nazwa grupy',
+    membersNumberSort: 'liczba uczestników',
+    groups: 'Grupy'
+  }
 }

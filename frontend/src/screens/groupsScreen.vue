@@ -2,6 +2,7 @@
 <template>
   <div class="center">
    <Title v-bind:numberOfAllGroups="243"/>
+   
    <group/>
    <group/>
    <group/>
