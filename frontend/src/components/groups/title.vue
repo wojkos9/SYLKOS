@@ -8,6 +8,22 @@
       </div>
     </div>
 
+<div class="search">
+    <md-card class="md-layout-item md-size-50 md-small-size-700">
+        <md-card-content>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-500">
+              <md-field >
+                <label for="first-name">nazwa</label>
+                <md-input v-model="groupName"  name="first-name" id="first-name" autocomplete="given-name" 
+                v-on:change="clearInput"/>
+              </md-field>
+            </div>
+          </div>
+        </md-card-content>
+    </md-card>
+    </div>
+
   <div class="listFlex">
     <div class="myList">
         <div class="list">
@@ -44,6 +60,7 @@ export default {
   components: {},
   data() {
     return {
+      groupName: "",
       title: "Osiedle Kwiatowe",
       desc: "Oswietlenie wszystkich zaciemnionych ulic",
       image:
@@ -56,6 +73,10 @@ export default {
   methods: {
     getString,
     getColor,
+    clearInput(){
+      this.groupName = ""
+      this.$emit('changeSearcgName',"")
+    }
   },
   computed: {
     filtrList() {
@@ -64,6 +85,11 @@ export default {
       };
     },
   },
+  watch: {
+    groupName: function (val) {
+      this.$emit('changeSearcgName', val)
+    },
+    }
 };
 </script>
 
@@ -96,6 +122,11 @@ export default {
   width: 300px;
   position: absolute;
  
+}
+
+
+.search{
+   width: 500px;
 }
 
 .listFlex{

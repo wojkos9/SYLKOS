@@ -3,24 +3,19 @@
     <div class="row area">
       <div class="col-lg-12 col-xl-9">
         <div>
-          <div class="groupTitle">Osiedle Kwiatowe</div>
+          <div class="groupTitle">{{name}}</div>
           <div class="desc">
-            Boisko do siatkówki plażowej w miejscu obecnego kamienistego placu
-            przy ulicy MajaBoisko do siatkówki plażowej w miejscu obecnego
-            kamienistego placu przy ulicy MajaBoisko do siatkówki plażowej w
-            miejscu obecnego kamienistego placu przy ulicy MajaBoisko do
-            siatkówki plażowej w miejscu obecnego kamienistego placu przy ulicy
-            Maja
+            {{desc}}
           </div>
           <div class="membersNumber desc">
-            {{ getString("groups", "membersNumber") }} 34
+            {{ getString("groups", "membersNumber") }} {{members}}
           </div>
         </div>
       </div>
       <div class="col center">
         <div class="center">
           <img
-            src="https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg"
+            :src="picture"
             class="image"
           />
             <div :style="button">Dowiedz się więcej</div>
@@ -36,6 +31,7 @@ import { getColor } from "@/colors.js";
 
 export default {
   name: "group",
+  props:["name", "desc", "members", "picture"],
   methods: {
     getString,
     getColor,
