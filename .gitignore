@@ -4,3 +4,4 @@ db.sqlite3
 frontend/webpack-stats.json
 voting/migrations/
 voting/users/
+.*/

@@ -13,4 +13,15 @@ class Group(models.Model):
         return self.name
 
 
+class Project(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+    budget = models.DecimalField(decimal_places=2)
+    stage = models.CharField(max_length=50)
+    finish_date = models.DateTimeField()
+    image_path = models.CharField(max_length=200, blank=True)
+    rating = models.FloatField(blank=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
