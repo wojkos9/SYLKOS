@@ -17,7 +17,7 @@ class Group(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
-    budget = models.DecimalField(decimal_places=2)
+    budget = models.DecimalField(decimal_places=2, max_digits=100)
     stage = models.CharField(max_length=50)
     finish_date = models.DateTimeField()
     image_path = models.CharField(max_length=200, blank=True)
