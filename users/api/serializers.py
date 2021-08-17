@@ -3,6 +3,10 @@ from users.models import CustomUser
 
 class UserDisplaySerializer(serializers.ModelSerializer):
 
+    #user_groups = serializers.SerializerMethodField()
+
     class Meta:
         model = CustomUser
-        fields = ["username"]
+        fields = ["username", "groups"]
+
+    #def get_user_groups(self, instance):
