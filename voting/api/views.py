@@ -1,5 +1,5 @@
 from rest_framework import generics
-from voting.models import Group, Project
+from voting.models import Group, Project, Comment
 from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
 from voting.api.serializers import GroupSerializer, ProjectSerializer
 from rest_framework import generics, status, viewsets
@@ -65,3 +65,11 @@ class JoinGroupAPIView(APIView):
         serializer = self.serializer_class(group, context=serializer_context)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CommentCreateAPIView(generics.CreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [IsAdminOrReadOnly]
+
+    
