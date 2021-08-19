@@ -23,7 +23,7 @@ class Project(models.Model):
     image_path = models.CharField(max_length=200, blank=True)
     rating = models.FloatField(blank=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
-
+    
     def __str__(self):
         return self.name
 
@@ -34,9 +34,9 @@ class Comment(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="comments")
     rating = models.FloatField(blank=True)
-    commenters = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="commenters")
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    voters = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="voters")
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="comment")
 
     def __str__(self):
         return f"{self.author.username}: {self.content[:10]}..."

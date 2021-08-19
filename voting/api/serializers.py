@@ -31,14 +31,15 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = "__all__"
+        # fields = "__all__"
+        exclude=["project", "voters"]
 
     def get_created_at(self, instance):
         return instance.created_at.strftime("%d.%m.%Y")
 
     def get_user_has_commented(self, instance):
         request = self.context.get("request")
-        return instance.commenters.filter(pk=request.user.pk).exists()
+        return instance.voters.filter(pk=request.user.pk).exists()
 
     def get_average_rating(self, instance):
         pass
