@@ -27,19 +27,14 @@ class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     created_at = serializers.SerializerMethodField()
     user_has_commented = serializers.SerializerMethodField()
-    average_rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
-        # fields = "__all__"
-        exclude=["project", "voters"]
+        exclude = ["project", "voters"]
 
     def get_created_at(self, instance):
-        return instance.created_at.strftime("%d.%m.%Y")
+        return instance.created_at.strftime("%d.%m.%Y %H:%M")
 
     def get_user_has_commented(self, instance):
         request = self.context.get("request")
         return instance.voters.filter(pk=request.user.pk).exists()
-
-    def get_average_rating(self, instance):
-        pass
