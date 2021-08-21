@@ -7,46 +7,7 @@
         }})
       </div>
     </div>
-
-<div class="search">
-    <md-card class="md-layout-item md-size-50 md-small-size-700">
-        <md-card-content>
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-500">
-              <md-field >
-                <label for="first-name">nazwa</label>
-                <md-input v-model="groupName"  name="first-name" id="first-name" autocomplete="given-name" 
-                v-on:change="clearInput"/>
-              </md-field>
-            </div>
-          </div>
-        </md-card-content>
-    </md-card>
-    </div>
-
-  <div class="listFlex">
-    <div class="myList">
-        <div class="list">
-          <md-list class="list">
-            <md-list-item md-expand>
-              <md-icon>sort</md-icon>
-              <span class="md-list-item-text">{{
-                getString("groups", "sort")
-              }}</span>
-              <md-list slot="md-expand">
-                <md-list-item class="md-inset">{{
-                  getString("groups", "name")
-                }}</md-list-item>
-                <md-list-item class="md-inset">{{
-                  getString("groups", "membersNumberSort")
-                }}</md-list-item>
-              </md-list>
-            </md-list-item>
-          </md-list>
-        </div>
-      </div>
-      </div>
-
+    
   </div>
 </template>
 
@@ -55,9 +16,8 @@ import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 
 export default {
-  name: "title",
+  name: "groupTitle",
   props: ["numberOfAllGroups"],
-  components: {},
   data() {
     return {
       groupName: "",
@@ -68,14 +28,19 @@ export default {
       mainTitle: "Grupy, do kórych należysz",
       projectsTitle: "Projekty, na które głosowałes",
       sideDrawer: false,
+      sortGroups: "",
     };
   },
   methods: {
     getString,
     getColor,
-    clearInput(){
-      this.groupName = ""
-      this.$emit('changeSearcgName',"")
+    clearInput() {
+      this.groupName = "";
+      this.$emit("changeSearcgName", "");
+    },
+    sendMssg(str){
+      console.log('tak')
+      this.$emit("changeSearcgName", str);
     }
   },
   computed: {
@@ -86,14 +51,14 @@ export default {
     },
   },
   watch: {
-    groupName: function (val) {
-      this.$emit('changeSearcgName', val)
+    groupName: function(val) {
+      this.$emit("changeSearcgName", val);
     },
-    }
+  },
 };
 </script>
 
-<style>
+<style scoped>
 .title {
   font-family: "Playfair Display";
   align-self: center;
@@ -106,35 +71,36 @@ export default {
 .nextToGroups {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
 }
+
 
 .allTitle {
   margin-top: 50px;
   margin-bottom: 50px;
   width: 100%;
 }
+.sortGroups {
+  width: 200px;
+}
 
 .myList {
   background-color: red;
-  /* border: solid; */
   margin-right: 50px;
   width: 300px;
   position: absolute;
- 
 }
 
 
-.search{
-   width: 500px;
+
+.listFlex {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: -55px;
 }
 
-.listFlex{
- display: flex;
- flex-direction: row;
-justify-content: flex-end;
-margin-top: -50px;
-}
+
 
 @media only screen and (max-width: 1000px) {
   .title {
@@ -152,7 +118,7 @@ margin-top: -50px;
   .title {
     font-size: 20px;
   }
-  .allTitle{
+  .allTitle {
     margin-bottom: 60px;
   }
 
@@ -162,8 +128,8 @@ margin-top: -50px;
     margin-right: 0px;
   }
 
-  .listFlex{
-    margin-top:20px;
+  .listFlex {
+    margin-top: 20px;
     justify-content: center;
     /* margin-right: 0px; */
   }
@@ -173,8 +139,5 @@ margin-top: -50px;
   .nextToGroups {
     flex-direction: column;
   }
-
-
-  
 }
 </style>

@@ -34,5 +34,12 @@ export const pl = {
     name: 'nazwa grupy',
     membersNumberSort: 'liczba uczestników',
     groups: 'Grupy'
+  },
+  projects:{
+    title: 'Projekty',
+    membersNumber: 'Liczba uczestników: ',
+    sort: 'sortuj po...',
+    group: 'grupa',
+    name: 'nazwa projektu',
   }
 }

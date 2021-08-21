@@ -1,6 +1,6 @@
 <template>
   <div class="row area">
-    <div class="col-lg-12 col-xl-9 ">
+    <div class="col-lg-9 ">
       <div class="about">
         <div class="title">siatkówka plażowa</div>
         <div class="desc">
@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <div class="imageBox">
+    <div class="col-lg-3 imageBox"> 
       <img
         src="https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg"
         class="image"
@@ -73,9 +73,12 @@ export default {
 .about {
   padding-bottom: 30px;
   padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@media only screen and (max-width: 1600px) {
+ @media only screen and (max-width: 1600px) {
   .image {
     width: 110px;
     height: 110px;
@@ -91,8 +94,8 @@ export default {
 
 @media only screen and (max-width: 1400px) {
   .image {
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
   }
 
   .title {
@@ -101,9 +104,9 @@ export default {
   .desc {
     font-size: 14px;
   }
-}
-
-@media only screen and (max-width: 1200px) {
+} 
+ 
+@media only screen and (max-width: 1000px) {
   .image {
     width: 200px;
     height: 200px;
@@ -120,5 +123,5 @@ export default {
   .desc {
     font-size: 12px;
   }
-}
+} 
 </style>

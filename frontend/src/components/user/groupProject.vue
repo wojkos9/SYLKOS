@@ -55,11 +55,13 @@ export default {
   
 
   @media only screen and (max-width: 1300px) {
+    .content{
+      width: 140px;
+    }
   .image{
     width: 140px;
     height: 140px ;
   }
-}
-
+  }
 
 </style>

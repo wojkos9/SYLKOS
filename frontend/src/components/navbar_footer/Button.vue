@@ -1,25 +1,25 @@
 <template>
- 
-    
-
-     <div :style="button" v-if="!hover" @click="fun">
-       <div
-      @mouseover="hover = true"
-      @mouseleave="hover = false"
-      :class="{ active: hover }"
-    >
-      {{ title.toUpperCase() }}
-       </div>
-    </div>
-    <div :style="buttonHovered" v-else @click="fun">
-         <div
-      @mouseover="hover = true"
-      @mouseleave="hover = false"
-      :class="{ active: hover }"
-    >
-       {{ title.toUpperCase() }}
-
-    </div>
+  <div>
+    <router-link :to="{ name: route }">
+      <div :style="button" v-if="!hover" @click="fun">
+        <div
+          @mouseover="hover = true"
+          @mouseleave="hover = false"
+          :class="{ active: hover }"
+        >
+          {{ title.toUpperCase() }}
+        </div>
+      </div>
+      <div :style="buttonHovered" v-else @click="fun">
+        <div
+          @mouseover="hover = true"
+          @mouseleave="hover = false"
+          :class="{ active: hover }"
+        >
+          {{ title.toUpperCase() }}
+        </div>
+      </div>
+    </router-link>
   </div>
 </template>
 
@@ -28,7 +28,7 @@ import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 export default {
   name: "Button",
-  props: ["title", "fun"],
+  props: ["title", "fun", "route"],
   data() {
     return {
       role: "admin",
@@ -43,35 +43,25 @@ export default {
     button() {
       return {
         backgroundColor: this.getColor("backgroundcolor"),
-        // height:"50%",
         alignSelf: "center",
         borderRadius: "35px",
         marginLeft: "10px",
         padding: "9px",
-        // paddingLeft: "1%",
-        // paddingRight: "1%",
         width: "150px",
-        //  width: "10rem",
         textAlign: "center",
-        // fontSize: "4px"
       };
     },
-    buttonHovered(){
-      return{
-         backgroundColor: "#93abc4",
-        // height:"50%",
+    buttonHovered() {
+      return {
+        backgroundColor: "#93abc4",
         alignSelf: "center",
         borderRadius: "35px",
-        marginLeft: "3px",
-        padding: "3px",
-        // paddingLeft: "1%",
-        // paddingRight: "1%",
+        marginLeft: "10px",
+        padding: "9px",
         width: "150px",
-        //  width: "10rem",
         textAlign: "center",
-        // fontSize: "4px"
-      }
-    }
+      };
+    },
   },
 };
 </script>

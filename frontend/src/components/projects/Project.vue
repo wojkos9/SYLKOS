@@ -3,7 +3,7 @@
     <div class="row area">
       <div class="col-lg-12 col-xl-9">
         <div>
-          <div class="groupTitle">{{ name }}</div>
+          <div class="projectTitle">{{ name }}</div>
           <div class="desc">
             {{ desc }}
           </div>
@@ -62,7 +62,7 @@ export default {
   /* width: 70%; */
 }
 
-.groupTitle {
+.projectTitle {
   font-weight: 700;
   font-size: 24px;
   margin-bottom: 40px;

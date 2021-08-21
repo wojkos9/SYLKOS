@@ -1,22 +1,21 @@
 /* eslint-disable */
 <template>
   <div class="row">
-    <div class="col-sm-1 " />
-    <div class="col-sm-5 ">
-      <div class="container" >
+    <div class="col-lg-12 col-xl-6 ">
+      <div class="container">
         <groups />
         <div style="margin-top: 20px;">
           <projects />
         </div>
       </div>
     </div>
-    <div class="col-sm-1 " />
-    <div class="col-sm-4">
+    <div class="col-lg-12 col-xl-5 ">
       <div class="container">
         <user-projects />
       </div>
+
+      <div class="col-sm-1 " />
     </div>
-    <div class="col-sm-1 " />
   </div>
 </template>
 

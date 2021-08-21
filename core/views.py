@@ -8,5 +8,5 @@ class IndexTemplateView(LoginRequiredMixin, TemplateView):
        # if not settings.DEBUG:
         template_name = "index-dev.html" 
         # else:
-        #    template_name = "index.html" 
+        #   template_name = "index.html" 
         return template_name

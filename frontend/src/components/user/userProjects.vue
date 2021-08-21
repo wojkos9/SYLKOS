@@ -51,7 +51,7 @@ export default {
   font-size: 26px;
   font-weight: lighter;
   align-self: center;
-  margin-bottom: 15px;
+  margin-bottom: 35px;
 }
 .contentarea {
   display: flex;
@@ -68,11 +68,16 @@ export default {
   .title {
     font-size: 22px;
   }
+  .contentarea{
+    margin-left: 120px;
+    margin-right: 120px;
+  }
 }
 
 @media only screen and (max-width: 1000px) {
   .title {
     font-size: 20px;
   }
+  
 }
 </style>

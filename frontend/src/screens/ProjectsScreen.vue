@@ -1,34 +1,36 @@
 <template>
   <div >
-   <GroupTitle v-bind:numberOfAllGroups="243" v-on:changeSearchName="makeSth($event)"/>
+   <ProjectsTitle v-bind:numberOfAllGroups="243" v-on:changeSearchName="makeSth($event)"/>
 
    <div class="options">
-      <Search v-on:changeSearchName="makeSth($event)" :title="getString('groups', 'name')"/>
-      <Sort :options="sortOptions"/>
+     <Sort :options="sortOptions"/>
+     <div class="searchOptions"> <Search v-on:changeSearchName="makeSth($event)" :title="getString('projects', 'group')"/>
+      <Search v-on:changeSearchName="makeSth($event)" :title="getString('projects', 'name')"/>
+      </div>
     </div>
 
-   <group
+   <Project
     v-show="check(this.title)"
     v-bind:name="title"
     v-bind:desc="desc"
     v-bind:members="members"
     v-bind:picture="image"
     />
-    <group
+    <Project
     v-show="check(this.title)"
     v-bind:name="title"
     v-bind:desc="desc"
     v-bind:members="members"
     v-bind:picture="image"
     />
-    <group
+    <Project
     v-show="check(this.name)"
     v-bind:name="name"
     v-bind:desc="desc"
     v-bind:members="members"
     v-bind:picture="image"
     />
-    <group
+    <Project
     v-show="check(this.title)"
     v-bind:name="title"
     v-bind:desc="desc"
@@ -41,14 +43,14 @@
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-import GroupTitle from '../components/groups/GroupTitle.vue';
-import Group from '../components/groups/group.vue';
+import ProjectsTitle from '../components/projects/ProjectsTitle.vue';
+import Project from '../components/projects/Project.vue';
 import Sort from '../components/UI/Sort.vue'
 import Search from '../components/UI/Search.vue'
 
 export default {
-  name: "groupsScreen",
-  components: {GroupTitle, Group, Sort, Search},
+  name: "projectsScreen",
+  components: {ProjectsTitle, Project, Sort, Search},
   data() {
     return {
       name:"Zatorze",
@@ -101,17 +103,22 @@ export default {
   flex-direction: row;
   justify-content: flex-end;
   margin-top: -110px;
+  margin-bottom: -30px;
 }
 
-@media only screen and (max-width: 1100px) {
+.searchOptions{
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (max-width: 1600px) {
 
 .options{
     margin-top: 15px;
     justify-content: center;
+    margin-bottom:0px
   }
-  .search{
-    margin-right: 50px;
-    margin-left: 50px;;
+  .searchOptions{
+    flex-direction: row;
   }
 }
 </style>
