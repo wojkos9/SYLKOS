@@ -14,6 +14,20 @@ class Group(models.Model):
         return self.name
 
 
+class VotingType(models.Model):
+    name = models.CharField(primary_key=True, max_length=50)
+    number_required = models.FloatField()
+
+    def __str__(self):
+        return self.name
+
+
+class Voting(models.Model):
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    voting_type = models.ForeignKey(VotingType, on_delete=models.CASCADE)
+
+
 class Project(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
@@ -23,6 +37,7 @@ class Project(models.Model):
     image_path = models.CharField(max_length=200, blank=True)
     rating = models.FloatField(blank=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    voting = models.ForeignKey(Voting, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
