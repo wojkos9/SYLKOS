@@ -48,6 +48,7 @@ export const pl = {
     sort: 'sortuj po...',
     group: 'grupa',
     name: 'nazwa projektu',
+  },
   commentSorting:{
     sort: "sortuj",
     ratingASC: "ocena rosnąco",

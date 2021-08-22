@@ -85,9 +85,9 @@
 
 <script>
 import { getString } from "@/language/string.js";
-import ButtonSort from "../UI/buttonSort.vue";
-import Comment from './comment.vue';
-import addComment from './addComment.vue';
+import ButtonSort from "./ButtonSort.vue";
+import Comment from './Comment.vue';
+import addComment from './AddComment.vue';
 export default {
   name: "comments",
   props: ['userName', 'rating', 'postingDate', 'commentText', 'likes', 'dislikes', 'userVotedFor'],

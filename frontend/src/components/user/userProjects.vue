@@ -12,7 +12,7 @@
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-import MyProject from "./myProject.vue";
+import MyProject from "./MyProject.vue";
 
 export default {
   name: "userProjects",

@@ -16,7 +16,7 @@
         name: "plusMinusRating",
         props: ['likes', 'dislikes', 'userVotedFor'],
         methods:{
-            incrementLikes: function(){
+            incrementLikes(){
                 if(this.userVotedFor == "minus"){
                     this.likes++;
                     this.dislikes--;

@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import PlusMinusRating from '../UI/PlusMinusRating.vue'
     import Stars from '../UI/Stars.vue'
     export default {
         name: "comment",
@@ -41,7 +42,8 @@
             }
         },
         components:{
-                Stars
+                Stars,
+                PlusMinusRating
         }
     }
 </script>

@@ -1,11 +1,10 @@
-/* eslint-disable */
 <template>
   <div class="row">
     <div class="col-lg-12 col-xl-6 ">
       <div class="container">
-        <groups />
+        <Groups />
         <div style="margin-top: 20px;">
-          <projects />
+          <Projects />
         </div>
       </div>
     </div>
@@ -20,11 +19,11 @@
 </template>
 
 <script>
-import Groups from "../components/user/groups.vue";
-import Projects from "../components/user/projects.vue";
+import Groups from "../components/user/Groups.vue";
+import Projects from "../components/user/Projects.vue";
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-import UserProjects from "../components/user/userProjects.vue";
+import UserProjects from "../components/user/UserProjects.vue";
 
 export default {
   name: "mainScreen",

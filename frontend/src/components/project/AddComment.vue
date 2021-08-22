@@ -19,7 +19,7 @@
             </textarea
       >
       <div class="submitCommentIcon" @click="postComment">
-        <v-mdi class="postComment" v-style="icon" name="mdiSend"></v-mdi>
+        <v-mdi class="postComment" name="mdiSend"></v-mdi>
       </div>
     </div>
   </div>

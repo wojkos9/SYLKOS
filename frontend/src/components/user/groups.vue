@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import GroupProject from "./groupProject.vue";
+import GroupProject from "./GroupProject.vue";
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 

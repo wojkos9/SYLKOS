@@ -21,17 +21,17 @@
       </div>
       <div class="gallery">
             <div class="leftArrow">
-                <v-mdi v-style="icon" name="mdiChevronLeft"></v-mdi>
+                <v-mdi  name="mdiChevronLeft"></v-mdi>
             </div>
             <div class="galleryImage">
                 <img src="https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg">
             </div>
             <div class="rightArrow">
-                <v-mdi v-style="icon" name="mdiChevronRight"></v-mdi>
+                <v-mdi  name="mdiChevronRight"></v-mdi>
             </div>
       </div>
       <div class="commentSectionRedirectButton">
-          <a href="http://www.google.com">{{ getString('userPanel', 'seeDiscussion') }}</a> 
+          <router-link :to="{ name: 'project', params:{id:1}}"> {{ getString('userPanel', 'seeDiscussion') }}</router-link> 
       </div>
       <div class="voteForProject">
           <label>
@@ -45,7 +45,7 @@
 
 <script>
     import { getString } from "@/language/string.js";
-import plusMinusRating from '../UI/plusMinusRating.vue';
+import plusMinusRating from '../UI/PlusMinusRating.vue';
     export default {
   components: { plusMinusRating },
         name: "votingProject",

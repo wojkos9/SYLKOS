@@ -1,6 +1,6 @@
 <template>
-    <div class="area">
-        <div class="header">
+    <div >
+        <div>
             <voting-header 
             :date="date"
             :group="group"
@@ -13,7 +13,7 @@
             :price="price"
             :likes="likes"
             :dislikes="dislikes"
-            :userVotedFor="nothing"
+            :userVotedFor="userVotedFor"
             />
             <voting-project
             :title="title"
@@ -21,7 +21,7 @@
             :price="price"
             :likes="likes"
             :dislikes="dislikes"
-            :userVotedFor="nothing"
+            :userVotedFor="userVotedFor"
             />
             <voting-project
             :title="title"
@@ -29,7 +29,7 @@
             :price="price"
             :likes="likes"
             :dislikes="dislikes"
-            :userVotedFor="nothing"
+            :userVotedFor="userVotedFor"
             />
             <voting-project
             :title="title"
@@ -37,7 +37,7 @@
             :price="price"
             :likes="likes"
             :dislikes="dislikes"
-            :userVotedFor="nothing"
+            :userVotedFor="userVotedFor"
             />
             
         </div>
@@ -48,15 +48,33 @@
 </template>
 
 <script>
-    import VotingHeader from '../UI/votingHeader.vue';
-    import ButtonSubmitVote from '../UI/buttonSubmitVote.vue';
-    import VotingProject from './votingProject.vue';
+    import VotingHeader from '../components/voting/VotingHeader.vue';
+    import ButtonSubmitVote from '../components/voting/ButtonSubmitVote.vue';
+    import VotingProject from '../components/voting/VotingProject.vue';
     export default {
-        name: "votingPage",
-        props: ['date', 'group', 'title', 'description', 'price', 'likes', 'dislikes', 'userVotedFor'],
+        name: "votingScreen",
+        props: {
+            id: {
+            type: Number,
+            required: true,
+            },
+            vId: {
+            type: Number,
+            required: true,
+            },
+        },
+        // props: ['date', 'group', 'title', 'description', 'price', 'likes', 'dislikes', 'userVotedFor'],
         data(){
             return {
-
+                date:"24 listopada 2021",
+                group:"Osiedle Kwiatowe",
+                title:"Łąka przy osiedlowym strumyku",
+                description:"Miejsce do relaksu dla mieszkańców osiedla. Obok strumyka przepływającego " +
+                "przez osiedle planujemy zasadzić drzewa i kwiaty, postawić ławki i dać możliwość odpoczynku z naturą.",
+                price:"10 000",
+                likes:"21",
+                dislikes:"37",
+                userVotedFor:"nothing",
             }
         },
         components: {
