@@ -1,14 +1,14 @@
 from django.db import models
 from django.conf import settings
 
+
 class Group(models.Model):
-    # domyslne ID powinno starczyć?
     name = models.CharField(max_length=50)
     subname = models.CharField(max_length=150, blank=True, default='')
     description = models.TextField()
-    members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="members", blank=True )
+    members = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="members", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
 
     def __str__(self):
         return self.name
@@ -26,3 +26,20 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Comment(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    content = models.TextField()
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="comments")
+    rating = models.FloatField(blank=True)
+    voters = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="voters")
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE, related_name="comment")
+    likes_counter = models.PositiveIntegerField(default=0, blank=True)
+    dislikes_counter = models.PositiveIntegerField(default=0, blank=True)
+
+    def __str__(self):
+        return f"{self.author.username}: {self.content[:10]}..."
