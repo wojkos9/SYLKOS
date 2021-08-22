@@ -9,10 +9,11 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import VueRouter from 'vue-router'
 import { routes } from './router/index.js'
+import moment from 'moment';
 
 Vue.config.productionTip = false
 Vue.component('menu-icon', MenuIcon);
-VueMdijs.add({ mdiArrowRightBoldCircleOutline })
+VueMdijs.add({ mdiPlusThick, mdiMinusThick, mdiSend, mdiChevronLeft, mdiChevronRight })
 Vue.use(VueMdijs)
 Vue.component(mdiArrowRightBoldCircleOutline)
 Vue.use(MdButton)
@@ -25,7 +26,7 @@ Vue.use(MdList)
 Vue.use(MdCard)
 Vue.use(MdField)
 Vue.use(MdMenu)
-
+Vue.prototype.moment = moment;
 
 Vue.use(VueRouter)
 

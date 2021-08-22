@@ -26,7 +26,14 @@ export const pl = {
     myGroups: 'Grupy, do kórych należysz',
     votedProjects: 'Projekty, na które głosowałeś',
     myProjects:'Zgłoszone projekty',
-    more: 'więcej'
+    more: 'więcej',
+    discussion: 'Dyskusja',
+    group: 'Grupa',
+    voting: 'Głosowanie',
+    seeDiscussion: 'Zobacz dyskusję',
+    price: 'koszt',
+    voteForThisProject: 'głosuję na ten projekt',
+    submitMyVote: 'Zatwierdzam wybór'
   },
   groups:{
     membersNumber: 'Liczba uczestników: ',
@@ -41,5 +48,11 @@ export const pl = {
     sort: 'sortuj po...',
     group: 'grupa',
     name: 'nazwa projektu',
+  commentSorting:{
+    sort: "sortuj",
+    ratingASC: "ocena rosnąco",
+    ratingDESC: "ocena malejąco",
+    newest: "data dodania malejąco",
+    oldest: "data dodania rosnąco"
   }
 }
