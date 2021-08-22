@@ -29,7 +29,11 @@ export const pl = {
     more: 'więcej',
     discussion: 'Dyskusja',
     group: 'Grupa',
-    voting: 'Głosowanie'
+    voting: 'Głosowanie',
+    seeDiscussion: 'Zobacz dyskusję',
+    price: 'koszt',
+    voteForThisProject: 'głosuję na ten projekt',
+    submitMyVote: 'Zatwierdzam wybór'
   },
   commentSorting:{
     sort: "sortuj",

@@ -24,12 +24,60 @@
     <div class="commentSection">
       <div class="comments">
         <add-comment />
-        <comment />
-        <comment />
-        <comment />
-        <comment />
-        <comment />
-        <comment />
+        <comment 
+        :userName="userName"
+        :rating="rating"
+        :postingDate="postingDate"
+        :commentText="commentText"
+        :likes="likes"
+        :dislikes="dislikes"
+        :userVotedFor="userVotedFor"
+        />
+        <comment 
+        :userName="userName"
+        :rating="rating"
+        :postingDate="postingDate"
+        :commentText="commentText"
+        :likes="likes"
+        :dislikes="dislikes"
+        :userVotedFor="userVotedFor"
+        />
+        <comment 
+        :userName="userName"
+        :rating="rating"
+        :postingDate="postingDate"
+        :commentText="commentText"
+        :likes="likes"
+        :dislikes="dislikes"
+        :userVotedFor="userVotedFor"
+        />
+        <comment 
+        :userName="userName"
+        :rating="rating"
+        :postingDate="postingDate"
+        :commentText="commentText"
+        :likes="likes"
+        :dislikes="dislikes"
+        :userVotedFor="userVotedFor"
+        />
+        <comment 
+        :userName="userName"
+        :rating="rating"
+        :postingDate="postingDate"
+        :commentText="commentText"
+        :likes="likes"
+        :dislikes="dislikes"
+        :userVotedFor="userVotedFor"
+        />
+        <comment 
+        :userName="userName"
+        :rating="rating"
+        :postingDate="postingDate"
+        :commentText="commentText"
+        :likes="likes"
+        :dislikes="dislikes"
+        :userVotedFor="userVotedFor"
+        />
       </div>
     </div>
   </div>
@@ -42,6 +90,7 @@ import Comment from './comment.vue';
 import addComment from './addComment.vue';
 export default {
   name: "comments",
+  props: ['userName', 'rating', 'postingDate', 'commentText', 'likes', 'dislikes', 'userVotedFor'],
   data() {
     return {
       title: getString("userPanel", "discussion"),

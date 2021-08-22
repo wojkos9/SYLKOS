@@ -8,17 +8,28 @@
     </div>
     <user-projects/>
     <router-view/>
-    <div style="display: flex;">
-      <comment/>
-      <add-comment/>
+    <div>
+      <comments
+        userName = 'Mateusz Kluba'
+        rating = "3.5"
+        postingDate = '13.09.2021'
+        commentText = 'Świetny pomysł! Sam nieraz widzę potrzebę lepszego oświetlenia naszych alejek. Chciałbym jednak znać więcej szczegółów'
+        likes = "0"
+        dislikes = "0"
+        userVotedFor="nothing"
+      />
     </div>
     <div>
-      <comments/>
-    </div>
-    <div>
-      <voting-header 
+      <voting-page
         date="24 listopada 2021"
         group="Osiedle Kwiatowe"
+        title="Łąka przy osiedlowym strumyku"
+        description="Miejsce do relaksu dla mieszkańców osiedla. Obok strumyka przepływającego
+         przez osiedle planujemy zasadzić drzewa i kwiaty, postawić ławki i dać możliwość odpoczynku z naturą."
+        price="10 000"
+        likes="21"
+        dislikes="37"
+        userVotedFor="nothing"
       />
     </div>
   </div>
@@ -33,10 +44,8 @@ import Projects from './components/user/projects.vue';
 import {getString} from '@/language/string.js'
 import {getColor} from '@/colors.js'
 import UserProjects from './components/user/userProjects.vue';
-import Comment from './components/user/comment.vue';
-import addComment from './components/user/addComment.vue';
 import Comments from './components/user/comments.vue';
-import VotingHeader from './components/UI/votingHeader.vue';
+import VotingPage from './components/user/votingPage.vue';
 
 export default {
   name: "App",
@@ -45,10 +54,8 @@ export default {
     Groups,
     Projects,
     UserProjects,
-    Comment,
-    addComment,
     Comments,
-    VotingHeader
+    VotingPage,
   },
   data() {
     return {
@@ -56,7 +63,10 @@ export default {
       desc:"Oswietlenie wszystkich zaciemnionych ulic",
       image:"https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg",
       mainTitle: "Grupy, do kórych należysz",
-      projectsTitle: "Projekty, na które głosowałes"
+      projectsTitle: "Projekty, na które głosowałes",
+      likes: 0,
+      dislikes: 0,
+      userVotedFor: "nothing"
     }
   },
   methods: {
