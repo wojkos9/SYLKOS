@@ -5,52 +5,41 @@
     </div>
     <div class="sectionsContainer">
       <div class="leftSection">
-        <div class="groupInfo">
-          {{ getString('groups', 'region') }}: {{ region }}
-          <br>
-          {{ getString('groups', 'areaType') }}: {{ areaType }}
-          <br>
-          {{ getString('groups', 'usersNumber') }}: {{ usersNumber }}
-          <br>
-          {{ getString('groups', 'activeVotings') }}: {{ activeVotings }}
-          <br>
-          {{ getString('groups', 'registeredProjects') }}: {{ registeredProjects }}
-          <br>
-          {{ getString('groups', 'yearCosts') }}{{ moment(new Date()).format('YYYY') }}: {{ yearCosts }}
-        </div>
-        <div class="votingsListContainer">
-          <div class="votingsListTitle">
-            {{ getString('groups', 'votingsList') }}
-          </div>
-          <div class="votingsList">
-            <voting-list
-              :id="id"
-            />
-          </div>
-        </div>
+        
+        <group-info
+          :region="region"
+          :areaType="areaType"
+          :usersNumber="usersNumber"
+          :registeredProjects="registeredProjects"
+          :activeVotings="activeVotings"
+          :yearCosts="yearCosts"
+        />
+        
+          <voting-list :id="id" />
+      
       </div>
       <div class="rightSection">
         <div class="gallery">
           <div class="galleryTitle">
-            {{ getString('groups', 'galleryTitle').toUpperCase() }}
+            {{ getString("groups", "galleryTitle").toUpperCase() }}
           </div>
           <div class="images">
             <div class="leftArrow" v-if="imageId > 2">
               <v-mdi name="mdiChevronLeftCircle"></v-mdi>
             </div>
             <div class="image">
-              <img src="https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg"/>
+              <img
+                src="https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg"
+              />
             </div>
             <div class="rightArrow" v-if="imageId < totalImages">
               <v-mdi name="mdiChevronRightCircle"></v-mdi>
             </div>
           </div>
           <div class="imageDescription">
-              {{ imageDescription }}
+            {{ imageDescription }}
           </div>
-          <div class="imageId">
-              {{ imageId }}/{{ totalImages }}
-          </div>
+          <div class="imageId">{{ imageId }}/{{ totalImages }}</div>
         </div>
       </div>
     </div>
@@ -60,12 +49,14 @@
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-import VotingList from "../components/voting/VotingList.vue";
+import VotingList from "../components/groupDetails/VotingList.vue";
+import GroupInfo from "../components/groupDetails/GroupInfo.vue";
 
 export default {
   name: "groupScreen",
   components: {
-    VotingList
+    VotingList,
+    GroupInfo,
   },
   props: {
     id: {
@@ -84,7 +75,7 @@ export default {
       yearCosts: "34 000 zł",
       imageDescription: "Ulica Leśna 34",
       imageId: 3,
-      totalImages: 35
+      totalImages: 35,
     };
   },
   methods: {
@@ -95,56 +86,63 @@ export default {
 </script>
 
 <style scoped>
-  .groupName{
-    display: flex;
-    font-family: "playfair display";
-    font-size: 35px;
-    justify-content: center;
-    margin: 50px;
-    padding-bottom: 30px;
-    padding-top: 10px;
-  }
-  .sectionsContainer{
-    display: flex;
-    justify-content: space-around;
-  }
-  .leftSection {
-    padding: 20px;
-    font-size: 20px;
-  }
-  .votingsListContainer{
-    margin-top: 20px;
-  }
-  .votingsListTitle{
-    font-family: "playfair display";
-    font-weight: 700;
-    margin-bottom: 30px;
-    margin-top: 30px;
-  }
-  .galleryTitle{
-    display: flex;
-    font-family: "playfair display";
-    font-size: 25px;
-    justify-content: center;
-    margin: 20px;
-  }
-  .images{
-    display: flex;
-  }
-  .image{
-    width: 600px;
-    margin: 20px;
-  }
-  .leftArrow, .rightArrow{
-    align-items: center;
-    display: flex; 
-    justify-content: center;
-    margin: 10px;
-  }
-  .imageDescription, .imageId, .totalImages {
-    display: flex;
-    font-size: 15px;
-    justify-content: center;
-    margin-top: 10px;
-  }
+.area{
+  background-color: white;
+  margin: 30px;
+  border-radius: 20px;
+  padding-bottom: 50px;
+}
+.groupName {
+  display: flex;
+  font-family: "playfair display";
+  font-size: 35px;
+  justify-content: center;
+  margin: 50px;
+  padding-bottom: 30px;
+  padding-top: 50px;
+}
+.sectionsContainer {
+  display: flex;
+  justify-content: space-around;
+}
+.leftSection {
+  padding: 20px;
+  font-size: 20px;
+  margin-left: -100px;
+}
+
+.rightSection {
+  padding: 20px;
+  font-size: 20px;
+}
+
+.galleryTitle {
+  display: flex;
+  font-family: "playfair display";
+  font-size: 25px;
+  justify-content: center;
+  margin: 20px;
+}
+.images {
+  display: flex;
+}
+.image {
+  width: 600px;
+  margin: 20px;
+}
+.leftArrow,
+.rightArrow {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+.imageDescription,
+.imageId,
+.totalImages {
+  display: flex;
+  font-size: 15px;
+  justify-content: center;
+  margin-top: 10px;
+}
 </style>
