@@ -1,17 +1,16 @@
 <template>
   <div>
-    {{ getString("groups", "region") }}: {{ region }}
-    <br />
-    {{ getString("groups", "areaType") }}: {{ areaType }}
-    <br />
-    {{ getString("groups", "usersNumber") }}: {{ usersNumber }}
-    <br />
-    {{ getString("groups", "activeVotings") }}: {{ activeVotings }}
-    <br />
-    {{ getString("groups", "registeredProjects") }}: {{ registeredProjects }}
-    <br />
-    {{ getString("groups", "yearCosts")
-    }}{{ moment(new Date()).format("YYYY") }}: {{ yearCosts }}
+    <div class="singleInfo">{{ getString("groups", "region") }}: {{ region }}</div>
+    <div class="singleInfo">{{ getString("groups", "areaType") }}: {{ areaType }}</div>
+    <div class="singleInfo">{{ getString("groups", "usersNumber") }}: {{ usersNumber }}</div>
+    <div class="singleInfo">{{ getString("groups", "activeVotings") }}: {{ activeVotings }}</div>
+    <div class="singleInfo">
+      {{ getString("groups", "registeredProjects") }}: {{ registeredProjects }}
+    </div>
+    <div class="singleInfo">
+      {{ getString("groups", "yearCosts")
+      }}{{ moment(new Date()).format("YYYY") }}: {{ yearCosts }}
+    </div>
   </div>
 </template>
 
@@ -20,7 +19,14 @@ import { getString } from "@/language/string.js";
 
 export default {
   name: "GroupInfo",
-  props: ["region", "areaType", "usersNumber", "activeVotings", "registeredProjects", "yearCosts"],
+  props: [
+    "region",
+    "areaType",
+    "usersNumber",
+    "activeVotings",
+    "registeredProjects",
+    "yearCosts",
+  ],
   methods: {
     getString,
   },
@@ -29,4 +35,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.singleInfo{
+  padding: 10px;
+}
+</style>

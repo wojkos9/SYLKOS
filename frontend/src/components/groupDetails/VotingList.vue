@@ -1,5 +1,5 @@
 <template>
-  <div class="area">
+  <div class="votingList">
     <div class="votingsListTitle">
       {{ getString("groups", "votingsList") }}
     </div>
@@ -68,12 +68,23 @@ export default {
 </script>
 
 <style scoped>
-.votingsListContainer{
-    margin-top: 20px;
-  }
+
   .votingsListTitle{
     font-family: "playfair display";
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     margin-top: 30px;
-  }</style>
+    text-align: center;
+  }
+  
+  .votingList{
+    border-radius: 10px;
+    background-color: #f2f6fa;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom:5px;
+    padding-top: 10px;
+    margin-top: 30px;
+    margin-left: 10px;
+  }
+  </style>
