@@ -67,11 +67,11 @@ export default {
       title: "Osiedle Kwiatowe",
       desc:
         "Boisko do siatkówki plażowej w miejscu obecnego kamienistego placu " +
-        "przy ulicy MajaBoisko do siatkówki plażowej w miejscu obecnego " +
+        "przy ulicy 3 Maja. Boisko do siatkówki plażowej w miejscu obecnego " +
         "kamienistego placu przy ulicy MajaBoisko do siatkówki plażowej w " +
         "miejscu obecnego kamienistego placu przy ulicy MajaBoisko do " +
         "siatkówki plażowej w miejscu obecnego kamienistego placu przy ulicy " +
-        "Maja",
+        "3 Maja",
       members: 34,
       image:
         "https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg",

@@ -40,7 +40,17 @@ export const pl = {
     sort: 'sortuj po...',
     name: 'nazwa grupy',
     membersNumberSort: 'liczba uczestników',
-    groups: 'Grupy'
+    groups: 'Grupy',
+    region: 'Region',
+    areaType: 'Typ jednostki administracyjnej',
+    usersNumber: 'Liczba użytkowników',
+    activeVotings: 'Aktywne głosowania',
+    registeredProjects: "Zgłoszone projekty",
+    yearCosts: "Łączny koszt zrealizowanych projektów w roku ",
+    votingsList: "Lista głosowań",
+    expirationDate: "termin",
+    galleryTitle: "galeria",
+    goToVoting: "Przejdź do głosowania"
   },
   projects:{
     title: 'Projekty',
