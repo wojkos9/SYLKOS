@@ -5,29 +5,22 @@
     </div>
     <div class="sectionsContainer">
       <div class="leftSection">
-        <div class="groupInfo">
-          {{ getString('groups', 'region') }}: {{ region }}
-          <br>
-          {{ getString('groups', 'areaType') }}: {{ areaType }}
-          <br>
-          {{ getString('groups', 'usersNumber') }}: {{ usersNumber }}
-          <br>
-          {{ getString('groups', 'activeVotings') }}: {{ activeVotings }}
-          <br>
-          {{ getString('groups', 'registeredProjects') }}: {{ registeredProjects }}
-          <br>
-          {{ getString('groups', 'yearCosts') }}{{ moment(new Date()).format('YYYY') }}: {{ yearCosts }}
-        </div>
+        <group-info
+        :region="region"
+        :areaType="areaType"
+        :usersNumber="usersNumber"
+        :registeredProjects="registeredProjects"
+        :activeVotings="activeVotings"
+        :yearCosts="yearCosts"
+        />
         <div class="votingsListContainer">
-          <div class="votingsListTitle">
-            {{ getString('groups', 'votingsList') }}
-          </div>
-          <div class="votingsList">
+       
+         
             <voting-list
               :id="id"
             />
-          </div>
         </div>
+        
       </div>
       <div class="rightSection">
         <div class="gallery">
@@ -60,12 +53,14 @@
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-import VotingList from "../components/voting/VotingList.vue";
+import VotingList from "../components/groupDetails/VotingList.vue";
+import GroupInfo from '../components/groupDetails/GroupInfo.vue';
 
 export default {
   name: "groupScreen",
   components: {
-    VotingList
+    VotingList,
+    GroupInfo
   },
   props: {
     id: {
