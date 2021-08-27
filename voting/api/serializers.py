@@ -43,8 +43,10 @@ class CommentSerializer(serializers.ModelSerializer):
 class VotingTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = VotingType
+        fields = "__all__"
 
 
 class VotingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Voting
+        fields = "__all__"

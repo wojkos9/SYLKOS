@@ -16,7 +16,7 @@ class Group(models.Model):
 
 class VotingType(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
-    number_required = models.FloatField()
+    description = models.TextField()
 
     def __str__(self):
         return self.name
@@ -27,6 +27,9 @@ class Voting(models.Model):
     end_date = models.DateTimeField()
     voting_type = models.ForeignKey(VotingType, on_delete=models.CASCADE)
 
+    def __str__(self):
+        projects_included = Project.objects.filter(voting=self)
+        return f"Voting {self.pk} ({', '.join([str(x) for x in projects_included])})"
 
 class Project(models.Model):
     name = models.CharField(max_length=50)
