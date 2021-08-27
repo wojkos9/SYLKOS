@@ -5,7 +5,6 @@
     </div>
     <div class="sectionsContainer">
       <div class="leftSection">
-        
         <group-info
           :region="region"
           :areaType="areaType"
@@ -14,32 +13,13 @@
           :activeVotings="activeVotings"
           :yearCosts="yearCosts"
         />
-        
+        <div class="voting">
           <voting-list :id="id" />
-      
+        </div>
       </div>
       <div class="rightSection">
-        <div class="gallery">
-          <div class="galleryTitle">
-            {{ getString("groups", "galleryTitle").toUpperCase() }}
-          </div>
-          <div class="images">
-            <div class="leftArrow" v-if="imageId > 2">
-              <v-mdi name="mdiChevronLeftCircle"></v-mdi>
-            </div>
-            <div class="image">
-              <img
-                src="https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg"
-              />
-            </div>
-            <div class="rightArrow" v-if="imageId < totalImages">
-              <v-mdi name="mdiChevronRightCircle"></v-mdi>
-            </div>
-          </div>
-          <div class="imageDescription">
-            {{ imageDescription }}
-          </div>
-          <div class="imageId">{{ imageId }}/{{ totalImages }}</div>
+        <div style="width: 800px">
+          <Carousel :slides="slides" :ifRoute="ifRoute" :group="group" :title="groupName"/>
         </div>
       </div>
     </div>
@@ -51,12 +31,14 @@ import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 import VotingList from "../components/groupDetails/VotingList.vue";
 import GroupInfo from "../components/groupDetails/GroupInfo.vue";
+import Carousel from "../components/UI/Carousel.vue";
 
 export default {
   name: "groupScreen",
   components: {
     VotingList,
     GroupInfo,
+    Carousel,
   },
   props: {
     id: {
@@ -76,6 +58,25 @@ export default {
       imageDescription: "Ulica Leśna 34",
       imageId: 3,
       totalImages: 35,
+      group:true,
+      slides: [
+        {
+          src:
+            "https://martyloose.files.wordpress.com/2019/02/sunrise-wallpapers-28064-5395027.jpg",
+          desc: "zdj",
+        },
+        {
+          src:
+            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+          desc: "dd",
+        },
+        {
+          src:
+            "https://images.unsplash.com/photo-1612151855475-877969f4a6cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGQlMjBpbWFnZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
+          desc: "rodzinne okolice",
+        },
+      ],
+      ifRoute: true,
     };
   },
   methods: {
@@ -86,7 +87,7 @@ export default {
 </script>
 
 <style scoped>
-.area{
+.area {
   background-color: white;
   margin: 30px;
   border-radius: 20px;
@@ -108,12 +109,15 @@ export default {
 .leftSection {
   padding: 20px;
   font-size: 20px;
-  margin-left: -100px;
+  /* margin-left: -100px; */
+  width: 1000px;
 }
 
 .rightSection {
   padding: 20px;
   font-size: 20px;
+  /* width: 1000px; */
+  margin-left: 100px;
 }
 
 .galleryTitle {
@@ -144,5 +148,21 @@ export default {
   font-size: 15px;
   justify-content: center;
   margin-top: 10px;
+}
+
+@media only screen and (max-width: 1500px) {
+  .sectionsContainer {
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+  }
+
+  .voting {
+    margin-top: 70px;
+  }
+
+  .rightSection{
+    margin-left: 0px;
+  }
 }
 </style>

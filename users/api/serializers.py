@@ -8,5 +8,6 @@ class UserDisplaySerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ["username", "groups"]
+        # fields="__all__"
 
     #def get_user_groups(self, instance):

@@ -6,6 +6,7 @@ import ProjectsScreen from '../screens/ProjectsScreen'
 import ProjectScreen from '../screens/ProjectScreen'
 import GroupScreen from '../screens/GroupScreen'
 import VotingScreen from '../screens/VotingScreen'
+import PhotoScreen from '../screens/PhotoScreen'
 
 Vue.use(Router)
 
@@ -40,6 +41,12 @@ export const routes = [{
         path:"/project/:id",
         name:"project",
         component:ProjectScreen,
+        props: true
+    },
+    {
+        path:"/photo",
+        name:"photo",
+        component:PhotoScreen,
         props: true
     }
 ]

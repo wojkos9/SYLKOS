@@ -1,45 +1,51 @@
 /* eslint-disable */
 <template>
   <md-drawer :md-active.sync="showSideMenu" class="drawer">
-    <md-toolbar class="md-transparent" md-elevation="0">
-      <img src="@/assets/logo3.png" class="logo" />
+    <md-toolbar class="md-transparent" md-elevation="0"
+      ><router-link :to="{ name: mainPageRoute }">
+        <img src="@/assets/logo3.png" class="logo"
+      /></router-link>
     </md-toolbar>
 
     <md-list>
-      <md-list-item @click="isProjectsClicked">
-        <md-icon :class="projects  ? isiconChecked : ''">grid_view</md-icon>
-        <span class="md-list-item-text"  >{{
-          getString("navbar", "projects")
-        }}</span>
-      </md-list-item>
+      <router-link :to="{ name: projectsRoute }">
+        <md-list-item @click="isProjectsClicked">
+          <md-icon :class="projects ? isiconChecked : ''">grid_view</md-icon>
+          <span class="md-list-item-text">{{
+            getString("navbar", "projects")
+          }}</span>
+        </md-list-item>
+      </router-link>
 
-      <md-list-item @click="groupsClicked">
-        <md-icon :class="groups  ? isiconChecked : ''">groups</md-icon>
-        <span class="md-list-item-text">{{
-          getString("navbar", "groups")
-        }}</span>
-      </md-list-item>
+      <router-link :to="{ name: groupsRoute }">
+        <md-list-item @click="groupsClicked">
+          <md-icon :class="groups ? isiconChecked : ''">groups</md-icon>
+          <span class="md-list-item-text">{{
+            getString("navbar", "groups")
+          }}</span>
+        </md-list-item>
+      </router-link>
 
       <md-list-item @click="newProjectClicked">
-        <md-icon :class="addProject  ? isiconChecked : ''">add</md-icon>
+        <md-icon :class="addProject ? isiconChecked : ''">add</md-icon>
         <span class="md-list-item-text">{{
           getString("navbar", "addProject")
         }}</span>
       </md-list-item>
 
       <md-list-item md-expand>
-        <md-icon >
+        <md-icon>
           manage_accounts
         </md-icon>
         <span class="md-list-item-text">{{
           getString("navbar", "account")
         }}</span>
 
-        <md-list slot="md-expand" >
-          <md-list-item class="md-inset" @click="settingsClicked" >{{
+        <md-list slot="md-expand">
+          <md-list-item class="md-inset" @click="settingsClicked">{{
             getString("navbar", "settings")
           }}</md-list-item>
-          <md-list-item class="md-inset" @click="userPanelClicked" >{{
+          <md-list-item class="md-inset" @click="userPanelClicked">{{
             getString("navbar", "user")
           }}</md-list-item>
         </md-list>
@@ -61,6 +67,9 @@ export default {
       projects: false,
       groups: false,
       addProject: false,
+      groupsRoute: "groups",
+      projectsRoute: "projects",
+      mainPageRoute: "main",
     };
   },
   methods: {
@@ -68,55 +77,52 @@ export default {
     getColor,
     isProjectsClicked() {
       console.log("projekty1");
-      this.projects = true
-      this.groups = false
-      this.addProject = false
-      console.log("efekt: ", this.projects)
+      this.projects = true;
+      this.groups = false;
+      this.addProject = false;
+      console.log("efekt: ", this.projects);
     },
     groupsClicked() {
       console.log("grupy");
-      this.projects = false
-      this.groups = true
-      this.addProject = false
+      this.projects = false;
+      this.groups = true;
+      this.addProject = false;
     },
     newProjectClicked() {
       console.log("nowy projekt");
-      this.projects = false
-      this.groups = false
-      this.addProject = true
+      this.projects = false;
+      this.groups = false;
+      this.addProject = true;
     },
     settingsClicked() {
       console.log("ustawienia");
-      this.projects = false
-      this.groups = false
-      this.addProject = false
+      this.projects = false;
+      this.groups = false;
+      this.addProject = false;
     },
     userPanelClicked() {
       console.log("panel użytkownika");
-      this.projects = false
-      this.groups = false
-      this.addProject = false
+      this.projects = false;
+      this.groups = false;
+      this.addProject = false;
     },
   },
-  computed:{
-    isiconChecked(){
-      return{
+  computed: {
+    isiconChecked() {
+      return {
         border: "3",
-      }
-    }
-  }
+      };
+    },
+  },
 };
 </script>
 
 <style>
-
-
-
-.logo{
+.logo {
   width: 100px;
-  height: 50px;;
-}  
-.drawer{
+  height: 50px;
+}
+.drawer {
   width: 250px !important;
 }
 </style>

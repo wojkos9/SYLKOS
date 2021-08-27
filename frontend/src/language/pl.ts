@@ -65,5 +65,9 @@ export const pl = {
     ratingDESC: "ocena malejąco",
     newest: "data dodania malejąco",
     oldest: "data dodania rosnąco"
+  },
+  gallery:{
+    group: 'Galeria grupy',
+    project: 'Galeria projektu'
   }
 }
