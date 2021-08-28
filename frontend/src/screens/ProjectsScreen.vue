@@ -15,6 +15,7 @@
     v-bind:desc="desc"
     v-bind:members="members"
     v-bind:picture="image"
+    v-bind:id="id"
     />
     <Project
     v-show="check(this.title)"
@@ -22,6 +23,7 @@
     v-bind:desc="desc"
     v-bind:members="members"
     v-bind:picture="image"
+    v-bind:id="id"
     />
     <Project
     v-show="check(this.name)"
@@ -29,6 +31,7 @@
     v-bind:desc="desc"
     v-bind:members="members"
     v-bind:picture="image"
+    v-bind:id="id"
     />
     <Project
     v-show="check(this.title)"
@@ -36,6 +39,7 @@
     v-bind:desc="desc"
     v-bind:members="members"
     v-bind:picture="image"
+    v-bind:id="id"
     />
   </div>
 </template>
@@ -68,7 +72,8 @@ export default {
       projectsTitle: "Projekty, na które głosowałes",
       sideDrawer: false,
       searchName: "",
-      sortOptions: [ [getString("groups", "name"), this.sortByName],  [getString("groups", "membersNumberSort"), this.sortByMembers]]
+      sortOptions: [ [getString("groups", "name"), this.sortByName],  [getString("groups", "membersNumberSort"), this.sortByMembers]],
+      id: 1
     };
   },
   methods: {

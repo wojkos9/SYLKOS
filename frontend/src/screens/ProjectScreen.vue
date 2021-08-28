@@ -1,12 +1,43 @@
 <template>
-  <div>
+  <div class="area">
+    <div class="projectDetails"> 
+      <div class="row">
+        <div class="col-sm-5" />
+        <div class="col-sm-4">
+          <div class="projectTitle">
+            {{ projectName }}
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="groupName">
+            ({{ groupName }})
+          </div>
+        </div>
 
-    <discussion-title />
-    <div class="options">
-      <Sort :options="sortOptions" />
+      </div>
+      <div class="projectDescription">
+        {{ projectDescription }}
+      </div>
+      <div class="projectInfoAndGallery">
+        <div class="projectInfo">
+          <project-info
+          :price="price"
+          :votingEndDate="votingEndDate"
+          :projectUploadDate="projectUploadDate"
+          />
+        </div>
+        <div class="gallery">
+          <Carousel :slides="slides" :ifRoute="ifRoute" :group="group" :title="groupName"/>
+        </div>
+      </div>
     </div>
 
+    
     <div class="commentSection">
+      <discussion-title />
+      <div class="options">
+        <Sort :options="sortOptions" />
+      </div>
       <div class="comments">
         <add-comment />
         <comment
@@ -74,6 +105,9 @@ import Sort from '../components/UI/Sort.vue'
 import Comment from "../components/project/Comment.vue";
 import addComment from "../components/project/AddComment.vue";
 import DiscussionTitle from '../components/project/DiscussionTitle.vue';
+import projectInfo from '../components/projects/ProjectInfo.vue';
+import Carousel from "../components/UI/Carousel.vue";
+
 export default {
   name: "projectOptions",
   //   props: ['userName', 'rating', 'postingDate', 'commentText', 'likes', 'dislikes', 'userVotedFor'],
@@ -98,6 +132,31 @@ export default {
         [this.getString('commentSorting', 'ratingDESC'), this.sortByMembersDesc],
         [this.getString('commentSorting', 'newest'), this.sortByMembers],
         [this.getString('commentSorting', 'oldest'), this.sortByMembers]],
+      price: "20 000zł",
+      votingEndDate: "23.09.2022",
+      projectUploadDate: "21.08.2022",
+      groupName: "Osiedle Kwiatowe",
+      group:true,
+      slides: [
+        {
+          src:
+            "https://martyloose.files.wordpress.com/2019/02/sunrise-wallpapers-28064-5395027.jpg",
+          desc: "zdj",
+        },
+        {
+          src:
+            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+          desc: "dd",
+        },
+        {
+          src:
+            "https://images.unsplash.com/photo-1612151855475-877969f4a6cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGQlMjBpbWFnZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
+          desc: "rodzinne okolice",
+        },
+      ],
+      ifRoute: true,
+      projectName: "Oświetlenie uliczek",
+      projectDescription: "Ulice naszego osiedla są bardzo ciemne. Nocą w drodze do domu nie da się przejść przez żadną w żadną z nich w pełni oświetloną. Dlatego nasza propozycja to oświetlenie ulic. Zadbajmy o to, aby każdy mieszkaniec osiedla mógł czuć się bezpiecznie!",  
   }
   },
   components: {
@@ -105,6 +164,8 @@ export default {
     Comment,
     addComment,
     DiscussionTitle,
+    projectInfo,
+    Carousel
   },
   methods: {
     getString,
@@ -125,24 +186,44 @@ export default {
 </script>
 
 <style scoped>
+.row {
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+.projectTitle {
+  font-family: "playfair display";
+  font-size: 40px;
+}
+.groupName{
+  font-family: "playfair display";
+  font-size: 30px;
+}
+.projectDescription {
+  font-family: "playfair display";
+  font-size: 20px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+.projectInfoAndGallery {
+  display: flex;
+  justify-content: space-around;
+}
+.projectInfo {
+  align-items: center;
+  display: flex;
+  font-family: "playfair display";
+  font-size: 30px;
+  justify-content: center;
+}
+.gallery{
+  width: 800px;
+}
 .comments {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 50px;
-}
-.projectTitle {
-  font-family: "playfair display";
-  font-size: 50px;
-}
-
-.projectOptions{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  /* margin-bottom: 100px; */
-  /* margin-top: -280px; */
 }
 
 @media only screen and (max-width: 1100px) {

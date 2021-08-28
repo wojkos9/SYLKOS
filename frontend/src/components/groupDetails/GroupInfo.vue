@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="singleInfo">{{ getString("groups", "region") }}: {{ region }}</div>
-    <div class="singleInfo">{{ getString("groups", "areaType") }}: {{ areaType }}</div>
-    <div class="singleInfo">{{ getString("groups", "usersNumber") }}: {{ usersNumber }}</div>
-    <div class="singleInfo">{{ getString("groups", "activeVotings") }}: {{ activeVotings }}</div>
+    <div class="singleInfo">{{ getString("groupInfo", "region") }}: {{ region }}</div>
+    <div class="singleInfo">{{ getString("groupInfo", "areaType") }}: {{ areaType }}</div>
+    <div class="singleInfo">{{ getString("groupInfo", "usersNumber") }}: {{ usersNumber }}</div>
+    <div class="singleInfo">{{ getString("groupInfo", "activeVotings") }}: {{ activeVotings }}</div>
     <div class="singleInfo">
-      {{ getString("groups", "registeredProjects") }}: {{ registeredProjects }}
+      {{ getString("groupInfo", "registeredProjects") }}: {{ registeredProjects }}
     </div>
     <div class="singleInfo">
-      {{ getString("groups", "yearCosts")
+      {{ getString("groupInfo", "yearCosts")
       }}{{ moment(new Date()).format("YYYY") }}: {{ yearCosts }}
     </div>
   </div>

@@ -1,6 +1,6 @@
 <template>
     <div :style="button">
-        <div>{{ getString('userPanel', 'submitMyVote').toUpperCase() }}</div>
+        <div>{{ getString('buttonSubmitVote', 'submitMyVote').toUpperCase() }}</div>
     </div>
 </template>
 

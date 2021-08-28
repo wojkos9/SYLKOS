@@ -7,6 +7,7 @@ import ProjectScreen from '../screens/ProjectScreen'
 import GroupScreen from '../screens/GroupScreen'
 import VotingScreen from '../screens/VotingScreen'
 import PhotoScreen from '../screens/PhotoScreen'
+import ProjectRegistrationScreen from '../screens/ProjectRegistrationScreen'
 
 Vue.use(Router)
 
@@ -38,7 +39,7 @@ export const routes = [{
         component:ProjectsScreen
     },
     {
-        path:"/project/:id",
+        path:"/projects/:id",
         name:"project",
         component:ProjectScreen,
         props: true
@@ -48,5 +49,10 @@ export const routes = [{
         name:"photo",
         component:PhotoScreen,
         props: true
+    },
+    {
+        path:"/registerProject",
+        name:"registerProject",
+        component:ProjectRegistrationScreen,  
     }
 ]

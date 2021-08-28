@@ -24,7 +24,8 @@
               v-bind:fun="groupsClicked"
               v-bind:route="groupsRoute"/>
       <Button v-bind:title="getString('navbar', 'addProject')"
-            v-bind:fun="newProjectClicked"/>
+              v-bind:fun="newProjectClicked"
+              v-bind:route="addProjectRoute"/>
       
 
       <div class="role" v-if="role === 'admin'">
@@ -51,7 +52,8 @@ export default {
       hover: false,
       groupsRoute: 'groups',
       projectsRoute: 'projects',
-      mainPageRoute: 'main'
+      mainPageRoute: 'main',
+      addProjectRoute: 'registerProject'
     };
   },
   methods: {

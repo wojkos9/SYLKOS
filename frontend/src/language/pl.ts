@@ -28,34 +28,18 @@ export const pl = {
     myProjects:'Zgłoszone projekty',
     more: 'więcej',
     discussion: 'Dyskusja',
-    group: 'Grupa',
-    voting: 'Głosowanie',
-    seeDiscussion: 'Zobacz dyskusję',
-    price: 'koszt',
-    voteForThisProject: 'głosuję na ten projekt',
-    submitMyVote: 'Zatwierdzam wybór'
   },
   groups:{
     membersNumber: 'Liczba uczestników: ',
-    sort: 'sortuj po...',
+    sortBy: 'sortuj po...',
     name: 'nazwa grupy',
     membersNumberSort: 'liczba uczestników',
-    groups: 'Grupy',
-    region: 'Region',
-    areaType: 'Typ jednostki administracyjnej',
-    usersNumber: 'Liczba użytkowników',
-    activeVotings: 'Aktywne głosowania',
-    registeredProjects: "Zgłoszone projekty",
-    yearCosts: "Łączny koszt zrealizowanych projektów w roku ",
-    votingsList: "Lista głosowań",
-    expirationDate: "termin",
-    galleryTitle: "galeria",
-    goToVoting: "Przejdź do głosowania"
+    groups: 'Grupy',   
   },
   projects:{
     title: 'Projekty',
     membersNumber: 'Liczba uczestników: ',
-    sort: 'sortuj po...',
+    sortBy: 'sortuj po...',
     group: 'grupa',
     name: 'nazwa projektu',
   },
@@ -69,5 +53,38 @@ export const pl = {
   gallery:{
     group: 'Galeria grupy',
     project: 'Galeria projektu'
+  },
+  groupInfo: {
+    activeVotings: 'Aktywne głosowania',
+    areaType: 'Typ jednostki administracyjnej',
+    region: 'Region',
+    registeredProjects: "Zgłoszone projekty",
+    usersNumber: 'Liczba użytkowników',
+    yearCosts: "Łączny koszt zrealizowanych projektów w roku ",
+  },
+  votingHeader:{
+    group: 'Grupa',
+    voting: 'Głosowanie',
+  },
+  buttonSubmitVote: {
+    submitMyVote: 'Zatwierdzam wybór'
+  },
+  projectInfo:{
+    price: 'Potrzebna kwota',
+    votingEndDate: 'Termin głosowania',
+    projectUploadDate: 'Data wstawienia projektu'
+  },
+  votingProject:{
+    seeDiscussion: 'Zobacz dyskusję',
+    price: 'Koszt',
+    voteForThisProject: 'głosuję na ten projekt',
+  },
+  votingsList: {
+    expirationDate: "Termin głosowania",
+    goToVoting: "Przejdź do głosowania", 
+    title: "Lista głosowań",
+  },
+  projectRegistration:{
+    title: "Zgłoś projekt",
   }
 }

@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
+import { getString } from "@/languagprojectDescriptione/string.js";
 import ButtonSort from "./ButtonSort.vue";
 import Comment from './Comment.vue';
 import addComment from './AddComment.vue';

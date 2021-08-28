@@ -1,7 +1,7 @@
 <template>
   <div class="votingList">
     <div class="votingsListTitle">
-      {{ getString("groups", "votingsList") }}
+      {{ getString("votingsList", "title") }}
     </div>
     <div class="votingsList">
       <ol>
