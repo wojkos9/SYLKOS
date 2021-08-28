@@ -19,7 +19,7 @@ class GroupListCreateAPIView(generics.ListCreateAPIView):
 class GroupDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [IsAdminOrReadOnly, IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class ProjectListCreateAPIView(generics.ListCreateAPIView):
@@ -98,6 +98,63 @@ class CommentRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+
+
+class CommentLikeAPIView(APIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        user = request.user
+
+        comment.voters_like.remove(user)
+        comment.save()
+
+        serializer_context = {"request": request}
+        serializer = self.serializer_class(comment, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        user = request.user
+
+        comment.voters_like.add(user)
+        comment.save()
+
+        serializer_context = {"request": request}
+        serializer = self.serializer_class(comment, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class CommentDislikeAPIView(APIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        user = request.user
+
+        comment.voters_dislike.remove(user)
+        comment.save()
+
+        serializer_context = {"request": request}
+        serializer = self.serializer_class(comment, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        user = request.user
+
+        comment.voters_dislike.add(user)
+        comment.save()
+
+        serializer_context = {"request": request}
+        serializer = self.serializer_class(comment, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class VotingTypeView(viewsets.ModelViewSet):
