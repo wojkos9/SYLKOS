@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.db import models
 from django.db.models import fields
-from voting.models import Group, Project, Comment
+from voting.models import Group, Project, Comment, Voting, VotingType
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -38,3 +38,15 @@ class CommentSerializer(serializers.ModelSerializer):
     def get_user_has_commented(self, instance):
         request = self.context.get("request")
         return instance.voters.filter(pk=request.user.pk).exists()
+
+
+class VotingTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VotingType
+        fields = "__all__"
+
+
+class VotingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Voting
+        fields = "__all__"

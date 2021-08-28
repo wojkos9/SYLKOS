@@ -1,7 +1,7 @@
 from rest_framework import generics
-from voting.models import Group, Project, Comment
+from voting.models import Group, Project, Comment, VotingType, Voting
 from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
-from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer
+from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer
 from rest_framework import generics, status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -98,3 +98,14 @@ class CommentRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+
+
+class VotingTypeView(viewsets.ModelViewSet):
+    queryset = VotingType.objects.all()
+    serializer_class = VotingTypeSerializer
+    permission_classes = [IsAdminOrReadOnly]
+
+
+class VotingView(viewsets.ModelViewSet):
+    queryset = Voting.objects.all()
+    serializer_class = VotingSerializer
