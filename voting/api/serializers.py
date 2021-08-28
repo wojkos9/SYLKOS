@@ -7,6 +7,7 @@ from voting.models import Group, Project, Comment
 class GroupSerializer(serializers.ModelSerializer):
 
     count_user = serializers.SerializerMethodField()
+    members = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Group

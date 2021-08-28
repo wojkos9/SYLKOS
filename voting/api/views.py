@@ -13,30 +13,30 @@ from rest_framework.permissions import IsAuthenticated
 class GroupListCreateAPIView(generics.ListCreateAPIView):
     queryset = Group.objects.all().order_by("id")
     serializer_class = GroupSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
 
 class GroupDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly, IsAuthenticated]
 
 
 class ProjectListCreateAPIView(generics.ListCreateAPIView):
     queryset = Project.objects.all().order_by("id")
     serializer_class = ProjectSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
 
 class ProjectDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
 
 class JoinGroupAPIView(APIView):
     serializer_class = GroupSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def delete(self, request, pk):
         group = get_object_or_404(Group, pk=pk)

@@ -27,8 +27,8 @@
             v-bind:fun="newProjectClicked"/>
       
 
-      <div class="role" v-if="role === 'admin'">
-        {{ getString("navbar", "admin") }}
+      <div class="role">
+        {{role}}
       </div>
       <Button v-bind:title="getString('navbar', 'account')"
             v-bind:fun="accountClicked"/>
@@ -41,6 +41,8 @@
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 import Button from './Button.vue';
+import {apiService} from "@/common/api.service.js"
+
 export default {
   components: { Button },
   name: "NavbarComponent",
@@ -51,7 +53,7 @@ export default {
       hover: false,
       groupsRoute: 'groups',
       projectsRoute: 'projects',
-      mainPageRoute: 'main'
+      mainPageRoute: 'main',
     };
   },
   methods: {
@@ -73,6 +75,16 @@ export default {
     accountClicked() {
       console.log("konto");
     },
+    async setUserInfo() {
+      const data = await apiService("/api/user/");
+      const requestUser = data["username"];
+      window.localStorage.setItem("username", requestUser);
+      console.log("rola: ", window.localStorage.getItem("username"))
+      this.role = window.localStorage.getItem("username")
+    },
+  },
+  created(){
+    this.setUserInfo()
   },
   mounted() {
     console.log(this.color);

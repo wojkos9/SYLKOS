@@ -1,7 +1,7 @@
 <template>
   <div>
     <GroupTitle
-      v-bind:numberOfAllGroups="243"
+      v-bind:numberOfAllGroups="allGroups"
       v-on:changeSearchName="makeSth($event)"
     />
 
@@ -14,7 +14,19 @@
     </div>
 
     <div class="allGroups">
-      <Group
+      <div v-for="group in groups" :key="group.id">
+        <Group
+        v-show="check(group.name)"
+        v-bind:name="group.name"
+        v-bind:desc="group.description"
+        v-bind:members="group.count_user"
+        v-bind:picture="image"
+        v-bind:id="group.id"
+        v-bind:allMembers="group.members"
+        v-bind:requestUser="requestUser"
+      />
+      </div>
+      <!-- <Group
         v-show="check(this.title)"
         v-bind:name="title"
         v-bind:desc="desc"
@@ -45,7 +57,7 @@
         v-bind:members="members"
         v-bind:picture="image"
         v-bind:id="id"
-      />
+      /> -->
     </div>
   </div>
 </template>
@@ -57,6 +69,7 @@ import GroupTitle from "../components/groups/GroupTitle.vue";
 import Group from "../components/groups/Group.vue";
 import Sort from "../components/UI/Sort.vue";
 import Search from "../components/UI/Search.vue";
+import { apiService } from "@/common/api.service.js";
 
 export default {
   name: "groupsScreen",
@@ -72,13 +85,15 @@ export default {
         "miejscu obecnego kamienistego placu przy ulicy MajaBoisko do " +
         "siatkówki plażowej w miejscu obecnego kamienistego placu przy ulicy " +
         "3 Maja",
-      members: 34,
+      allGroups: 34,
+      groups : [],
       image:
         "https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg",
       mainTitle: "Grupy, do kórych należysz",
       projectsTitle: "Projekty, na które głosowałes",
       sideDrawer: false,
       searchName: "",
+      requestUser:"",
       sortOptions: [
         [getString("groups", "name"), this.sortByName],
         [getString("groups", "membersNumberSort"), this.sortByMembers],
@@ -89,6 +104,14 @@ export default {
   methods: {
     getString,
     getColor,
+    async getAllGroups() {
+      const data = await apiService("/api/groups/");
+      this.allGroups = data["count"]
+      for(var group of data["results"]){
+        console.log(group)
+        this.groups.push(group)
+      }
+    },
     makeSth(str) {
       this.searchName = str;
     },
@@ -100,8 +123,17 @@ export default {
     },
     sortByMembers() {
       console.log("sortByMembers");
+      this.groups = this.groups.sort((a, b) => a.count_user - b.count_user)
+    },
+    setRequestUser(){
+      this.requestUser = window.localStorage.getItem("username")
     },
   },
+  
+  created(){
+    this.getAllGroups()
+    this.setRequestUser()
+  }
 };
 </script>
 
@@ -120,7 +152,8 @@ export default {
 }
 
 .allGroups{
-  margin-top: 87px
+  margin-top: 87px;
+  margin-bottom: 50px;
 }
 
 @media only screen and (max-width: 1100px) {

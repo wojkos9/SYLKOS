@@ -3,7 +3,11 @@
     <div class="row area">
       <div class="col-lg-12 col-xl-9">
         <div>
-          <div class="groupTitle">{{ name }}</div>
+          <div>
+            <div class="groupTitle">{{ name }}</div>
+            <md-icon>person_add</md-icon><span v-if="isUserMember">członek</span><span v-else>dołącz</span>
+          </div>
+          
           <div class="desc">
             {{ desc }}
           </div>
@@ -28,7 +32,7 @@ import { getColor } from "@/colors.js";
 
 export default {
   name: "Group",
-  props: ["name", "desc", "members", "picture", "id"],
+  props: ["name", "desc", "members", "picture", "id", "requestUser", "allMembers"],
   methods: {
     getString,
     getColor,
@@ -46,6 +50,9 @@ export default {
         fontWeight: "500",
       };
     },
+    isUserMember(){
+      return this.allMembers.includes(this.requestUser)
+    }
   },
   components: {},
 };
