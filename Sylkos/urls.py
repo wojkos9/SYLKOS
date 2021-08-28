@@ -19,47 +19,54 @@ from django.urls import include, path, re_path
 from django_registration.backends.one_step.views import RegistrationView
 
 from core.views import IndexTemplateView
-from users.forms import CustomUserForm 
+from users.forms import CustomUserForm
 
-#form e-mail verification
+from django.conf.urls.static import static
+from django.conf import settings
+
+# form e-mail verification
 # https://django-registration.readthedocs.io/en/3.0/activation-workflow.html
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    #custom version of the registration view
-    path("accounts/register/", 
-        RegistrationView.as_view(
-            form_class=CustomUserForm,
-            success_url = "/"
-        ),
-        name="django_registration_register"),
+    # custom version of the registration view
+    path("accounts/register/",
+         RegistrationView.as_view(
+             form_class=CustomUserForm,
+             success_url="/"
+         ),
+         name="django_registration_register"),
 
 
-    path("accounts/", 
-        include("django_registration.backends.one_step.urls")),
+    path("accounts/",
+         include("django_registration.backends.one_step.urls")),
 
-    #login via browser
-    path("accounts/", 
-        include("django.contrib.auth.urls")),
-
-    path("api/",
-        include("users.api.urls")),
+    # login via browser
+    path("accounts/",
+         include("django.contrib.auth.urls")),
 
     path("api/",
-        include("voting.api.urls")),
+         include("users.api.urls")),
 
-    #login via browsable api
+    path("api/",
+         include("voting.api.urls")),
+
+    # login via browsable api
     path("api-auth/",
-        include("rest_framework.urls")),
+         include("rest_framework.urls")),
 
-    #login via rest
+    # login via rest
     path("api/rest-auth/",
-        include("rest_auth.urls")),
+         include("rest_auth.urls")),
 
-    #registration via rest
+    # registration via rest
     path("api/rest-auth/registration/",
-        include("rest_auth.registration.urls")),
+         include("rest_auth.registration.urls")),
 
-    re_path(r"^$",IndexTemplateView.as_view(), name="entry-point")
+    re_path(r"^$", IndexTemplateView.as_view(), name="entry-point")
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

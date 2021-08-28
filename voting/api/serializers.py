@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.db import models
 from django.db.models import fields
-from voting.models import Group, Project, Comment, Voting, VotingType
+from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -24,6 +24,27 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ImageAlbumSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ImageAlbum
+        fields = "__all__"
+
+
+class ImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Image
+        fields = "__all__"
+
+
+# class ProjectImageSerializer(serializers.ModelSerializer):
+
+#     class Meta:
+#         model = ProjectImage
+#         fields = "__all__"
+
+
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     created_at = serializers.SerializerMethodField()
@@ -42,7 +63,7 @@ class CommentSerializer(serializers.ModelSerializer):
     def get_user_has_commented(self, instance):
         request = self.context.get("request")
         return instance.voters_like.filter(pk=request.user.pk).exists()
-    
+
     def get_likes_count(self, instance):
         return instance.voters_like.count()
 

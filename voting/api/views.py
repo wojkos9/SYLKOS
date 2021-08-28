@@ -1,7 +1,7 @@
 from rest_framework import generics
-from voting.models import Group, Project, Comment, VotingType, Voting
+from voting.models import Group, ImageAlbum, Project, Comment, VotingType, Voting, Image
 from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
-from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer
+from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, ImageAlbumSerializer, ImageSerializer
 from rest_framework import generics, status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -22,10 +22,28 @@ class GroupDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 
+class ImageListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Image.objects.all().order_by("id")
+    serializer_class = ImageSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class ImageAlbumListCreateAPIView(generics.ListCreateAPIView):
+    queryset = ImageAlbum.objects.all().order_by("id")
+    serializer_class = ImageAlbumSerializer
+    permission_classes = [IsAuthenticated]
+
+
 class ProjectListCreateAPIView(generics.ListCreateAPIView):
     queryset = Project.objects.all().order_by("id")
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
+
+
+# class ProjectImageListCreateAPIView(generics.ListCreateAPIView):
+#     queryset = ProjectImage.objects.all().order_by("id")
+#     serializer_class = ProjectSerializer
+#     permission_classes = [IsAuthenticated]
 
 
 class ProjectDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -127,6 +145,7 @@ class CommentLikeAPIView(APIView):
         serializer = self.serializer_class(comment, context=serializer_context)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class CommentDislikeAPIView(APIView):
     serializer_class = CommentSerializer
