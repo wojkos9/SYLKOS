@@ -23,7 +23,7 @@
     </div>
     <div class="bottomSection" v-if="showDetails">
       <div class="expirationDate">
-        {{ getString("groups", "expirationDate") }}:
+        {{ getString("votingsList", "expirationDate") }}:
         {{ votingDetails.expirationDate }}
       </div>
       <div class="projectsList">
@@ -38,7 +38,7 @@
       </div>
       <div class="goToVotingLink">
         <router-link :to="{ name: 'voting', params: { id: id, vId: 1 } }"
-          ><h3>{{ getString("groups", "goToVoting") }}</h3></router-link
+          ><h3>{{ getString("votingsList", "goToVoting") }}</h3></router-link
         >
       </div>
     </div>

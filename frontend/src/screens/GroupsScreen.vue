@@ -89,8 +89,6 @@ export default {
       groups : [],
       image:
         "https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg",
-      mainTitle: "Grupy, do kórych należysz",
-      projectsTitle: "Projekty, na które głosowałes",
       sideDrawer: false,
       searchName: "",
       requestUser:"",

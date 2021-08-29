@@ -3,7 +3,7 @@
     <div class="md-layout-item">
       <md-field>
         <label for="sortGroups"
-          ><md-icon>sort</md-icon> {{ getString("groups", "sort") }}</label
+          ><md-icon>sort</md-icon> {{ getString("groups", "sortBy") }}</label
         >
         <md-select v-model="sort" name="sortGroups" id="sortGroups">
           <md-option

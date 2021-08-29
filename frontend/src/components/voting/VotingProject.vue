@@ -8,7 +8,7 @@
             {{ description }}
         </div>
         <div class="price">
-            {{ getString('userPanel', 'price') }} : {{ price }}
+            {{ getString('votingProject', 'price') }} : {{ price }}
         </div>
     </div>
     <div class="rightSection">
@@ -31,11 +31,11 @@
             </div>
       </div>
       <div class="commentSectionRedirectButton">
-          <router-link :to="{ name: 'project', params:{id:1}}"> {{ getString('userPanel', 'seeDiscussion') }}</router-link> 
+          <router-link :to="{ name: 'project', params:{id:1}}"> {{ getString('votingProject', 'seeDiscussion') }}</router-link> 
       </div>
       <div class="voteForProject">
           <label>
-              <b>{{ getString('userPanel', 'voteForThisProject') }}</b>
+              <b>{{ getString('votingProject', 'voteForThisProject') }}</b>
               <input type="radio" style="margin-left: 5px">
           </label>
       </div>

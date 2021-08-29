@@ -1,11 +1,11 @@
 <template>
   <div class="area">
     <div class="date">
-      <div style="margin-right: 8px">{{ getString("userPanel", "voting") }}</div>
+      <div style="margin-right: 8px">{{ getString("votingHeader", "voting") }}</div>
       <div>{{ date }}</div>
     </div>
     <div class="group">
-      <div>{{ getString("userPanel", "group") }}</div>
+      <div>{{ getString("votingHeader", "group") }}</div>
       <div>: {{ group }}</div>
     </div>
   </div>

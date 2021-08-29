@@ -15,7 +15,7 @@
       <div class="col center">
         <div class="center">
           <img :src="picture" class="image" />
-          <div :style="button">Dowiedz się więcej</div>
+           <router-link :to="{ name: 'project', params:{id:id}}"><div :style="button">{{ getString('userPanel', 'details') }}</div></router-link>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@ import { getColor } from "@/colors.js";
 
 export default {
   name: "group",
-  props: ["name", "desc", "members", "picture"],
+  props: ["id", "name", "desc", "members", "picture"],
   methods: {
     getString,
     getColor,
