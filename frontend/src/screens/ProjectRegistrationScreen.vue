@@ -11,6 +11,7 @@
                             <md-field class="field">
                                 <label for="project-name">{{ getString('projectRegistration','projectName') }}</label>
                                 <md-input name="project-name" id="project-name" autocomplete="given-name"/>
+
                             </md-field>
                         </div>
                     </div>
