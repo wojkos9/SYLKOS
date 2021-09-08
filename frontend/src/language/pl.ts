@@ -38,10 +38,10 @@ export const pl = {
   },
   projects:{
     title: 'Projekty',
-    membersNumber: 'Liczba uczestników: ',
     sortBy: 'sortuj po...',
     group: 'grupa',
     name: 'nazwa projektu',
+    price: 'koszt'
   },
   commentSorting:{
     sort: "sortuj",
@@ -86,5 +86,9 @@ export const pl = {
   },
   projectRegistration:{
     title: "Zgłoś projekt",
+    projectName: "Tytuł projektu",
+    projectPrice: "Koszt projektu",
+    projectDescription: "Opis projektu",
+    submitProject: "Zgłoś projekt"
   }
 }

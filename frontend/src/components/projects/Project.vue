@@ -7,8 +7,8 @@
           <div class="desc">
             {{ desc }}
           </div>
-          <div class="membersNumber desc">
-            {{ getString("groups", "membersNumber") }} {{ members }}
+          <div class="price desc">
+            {{ getString("projects", "price") }}: {{ price }} zł
           </div>
         </div>
       </div>
@@ -27,8 +27,8 @@ import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 
 export default {
-  name: "group",
-  props: ["id", "name", "desc", "members", "picture"],
+  name: "project",
+  props: ["id", "name", "desc", "price", "picture"],
   methods: {
     getString,
     getColor,
@@ -59,7 +59,6 @@ export default {
   border: solid 1px black;
   margin-top: 10px;
   margin-bottom: 30px;
-  /* width: 70%; */
 }
 
 .projectTitle {
@@ -98,7 +97,6 @@ export default {
   border-radius: 5px;
 }
 .center {
-  /* display: flex; */
   justify-content: center;
   justify-items: center;
   align-items: center;
@@ -113,8 +111,6 @@ export default {
     margin-bottom: 20px;
   }
   .center {
-    /* width: 100% !important; */
-    /* border: red 1px solid; */
     float: none;
     margin: 0 auto;
     width: auto;
