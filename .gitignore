@@ -6,3 +6,4 @@ voting/migrations/
 users/migrations/
 media/
 .*/
+!.vscode
