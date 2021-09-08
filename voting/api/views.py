@@ -1,7 +1,7 @@
 from rest_framework import generics
-from voting.models import Group, Project, Comment, VotingType, Voting
+from voting.models import Group, ImageAlbum, Project, Comment, VotingType, Voting, Image
 from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
-from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer
+from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, ImageAlbumSerializer, ImageSerializer
 from rest_framework import generics, status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -19,13 +19,31 @@ class GroupListCreateAPIView(generics.ListCreateAPIView):
 class GroupDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [IsAdminOrReadOnly, IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+
+
+class ImageListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Image.objects.all().order_by("id")
+    serializer_class = ImageSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class ImageAlbumListCreateAPIView(generics.ListCreateAPIView):
+    queryset = ImageAlbum.objects.all().order_by("id")
+    serializer_class = ImageAlbumSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class ProjectListCreateAPIView(generics.ListCreateAPIView):
     queryset = Project.objects.all().order_by("id")
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
+
+
+# class ProjectImageListCreateAPIView(generics.ListCreateAPIView):
+#     queryset = ProjectImage.objects.all().order_by("id")
+#     serializer_class = ProjectSerializer
+#     permission_classes = [IsAuthenticated]
 
 
 class ProjectDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -98,6 +116,64 @@ class CommentRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+
+
+class CommentLikeAPIView(APIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        user = request.user
+
+        comment.voters_like.remove(user)
+        comment.save()
+
+        serializer_context = {"request": request}
+        serializer = self.serializer_class(comment, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        user = request.user
+
+        comment.voters_like.add(user)
+        comment.save()
+
+        serializer_context = {"request": request}
+        serializer = self.serializer_class(comment, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CommentDislikeAPIView(APIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        user = request.user
+
+        comment.voters_dislike.remove(user)
+        comment.save()
+
+        serializer_context = {"request": request}
+        serializer = self.serializer_class(comment, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        user = request.user
+
+        comment.voters_dislike.add(user)
+        comment.save()
+
+        serializer_context = {"request": request}
+        serializer = self.serializer_class(comment, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class VotingTypeView(viewsets.ModelViewSet):
