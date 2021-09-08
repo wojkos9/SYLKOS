@@ -10,7 +10,7 @@
                         <div class="md-layout-item md-small-size-100">
                             <md-field>
                                 <label for="first-name">First Name</label>
-                                <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.firstName"/>
+                                <md-input name="first-name" id="first-name" autocomplete="given-name" />
                             </md-field>
                         </div>
                     </div>

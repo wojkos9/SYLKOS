@@ -54,7 +54,8 @@ export default {
       hover: false,
       groupsRoute: 'groups',
       projectsRoute: 'projects',
-      mainPageRoute: 'main',
+     mainPageRoute: 'main',
+      addProjectRoute: 'registerProject'
     };
   },
   methods: {
