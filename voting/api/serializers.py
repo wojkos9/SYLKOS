@@ -1,6 +1,9 @@
 from rest_framework import serializers
+from django.http import request
 from django.db import models
-from django.db.models import fields
+from django.db.models import fields, manager
+from django.forms.models import model_to_dict
+from statistics import mean
 from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image
 
 
@@ -19,9 +22,22 @@ class GroupSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
 
+    rating_avg = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Project
         fields = "__all__"
+
+    def get_rating_avg(self, instance):
+        sum = 0.0
+        comments = Comment.objects.filter(project=instance.pk)
+
+        for comment in comments:
+            sum += comment.rating
+
+        if len(comments) > 0:
+            return round(((float)(sum / len(comments))), 2)
+        return ''
 
 
 class ImageAlbumSerializer(serializers.ModelSerializer):
