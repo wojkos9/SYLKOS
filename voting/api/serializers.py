@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models import fields, manager
 from django.forms.models import model_to_dict
 from statistics import mean
-from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image
+from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image, Photo
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -18,6 +18,14 @@ class GroupSerializer(serializers.ModelSerializer):
 
     def get_count_user(self, instance):
         return instance.members.count()
+
+class PhotoSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = Photo
+        fields = "__all__"
+
 
 
 class ProjectSerializer(serializers.ModelSerializer):

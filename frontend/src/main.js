@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import MenuIcon from 'vue-material-design-icons/Menu.vue';
 import VueMdijs from 'vue-mdijs'
-import {  mdiPlusThick, mdiMinusThick, mdiSend, mdiChevronLeft, mdiChevronRight, mdiPlusBox, mdiMinusBox, mdiChevronLeftCircle, mdiChevronRightCircle } from '@mdi/js';
+import {  mdiPlusThick, mdiMinusThick, mdiSend, mdiChevronLeft, mdiChevronRight, mdiPlusBox, mdiMinusBox, mdiChevronLeftCircle, mdiChevronRightCircle, mdiCamera } from '@mdi/js';
 import { MdButton, MdContent, MdTabs, MdIcon, MdToolbar, MdDrawer, MdList, MdCard, MdField, MdMenu  } from 'vue-material/dist/components'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
@@ -13,7 +13,7 @@ import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
 Vue.component('menu-icon', MenuIcon);
-VueMdijs.add({ mdiPlusThick, mdiMinusThick, mdiSend, mdiChevronLeft, mdiChevronRight, mdiPlusBox, mdiMinusBox, mdiChevronLeftCircle, mdiChevronRightCircle })
+VueMdijs.add({ mdiPlusThick, mdiMinusThick, mdiSend, mdiChevronLeft, mdiChevronRight, mdiPlusBox, mdiMinusBox, mdiChevronLeftCircle, mdiChevronRightCircle, mdiCamera })
 Vue.use(VueMdijs)
 Vue.use(MdButton)
 Vue.use(MdContent)

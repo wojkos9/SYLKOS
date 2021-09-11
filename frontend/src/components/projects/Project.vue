@@ -72,7 +72,7 @@ export default {
 
 .desc {
   font-family: "Playfair Display", serif;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
   margin-bottom: 10px;
   text-align: justify;
@@ -116,10 +116,10 @@ export default {
     width: auto;
   }
   .desc {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .title {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
   .myButton {
     width: 300px;

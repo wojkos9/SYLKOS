@@ -96,11 +96,12 @@ export default {
 .groupName {
   display: flex;
   font-family: "playfair display";
-  font-size: 35px;
+  font-size: 2rem;
   justify-content: center;
   margin: 50px;
   padding-bottom: 30px;
   padding-top: 50px;
+  
 }
 .sectionsContainer {
   display: flex;

@@ -18,7 +18,10 @@
       </div>
       <div class="col center">
         <div class="center">
-          <img :src="picture" class="image" />
+          <div v-show="!loading">
+              <img  :src="image.image" class="image" />
+          </div>
+          
           <router-link :to="{ name: 'group', params:{id:id}}"><div :style="button">Dowiedz się więcej</div></router-link>
         </div>
       </div>
@@ -29,10 +32,18 @@
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
+import { apiService } from "@/common/api.service.js";
 
 export default {
   name: "Group",
   props: ["name", "desc", "members", "picture", "id", "requestUser", "allMembers"],
+  data() {
+    return {
+      loading: true,
+      image: "",
+    }
+  },
+
   methods: {
     getString,
     getColor,
@@ -55,6 +66,14 @@ export default {
     }
   },
   components: {},
+  async created(){
+      await apiService("/api/photo/20/").then((data) => {
+          this.image = data;
+          console.log(data)
+          this.loading = false
+        });
+    
+  }
 };
 </script>
 
@@ -71,7 +90,7 @@ export default {
 .groupTitle {
   font-family: "Playfair Display", serif;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 1.5rem;
   margin-bottom: 40px;
   margin-top: 20px;
   text-align: center;
@@ -79,7 +98,7 @@ export default {
 
 .desc {
   font-family: "Playfair Display", serif;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
   margin-bottom: 10px;
   text-align: justify;
@@ -124,10 +143,10 @@ export default {
     width: auto;
   }
   .desc {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .title {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
   .myButton {
     width: 300px;

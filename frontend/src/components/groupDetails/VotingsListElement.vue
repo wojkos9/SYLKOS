@@ -91,7 +91,7 @@ export default {
 }
 .votingName {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 .bottomSection {
   align-items: flex-start;

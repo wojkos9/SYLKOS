@@ -51,7 +51,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .slick-prev:before {
   color: black !important;
   background-color: rgba(255, 255, 255, 0);
@@ -73,7 +73,7 @@ export default {
 }
 .groupName{
   font-family: "playfair display";
-  font-size: 35px;
+  font-size: 2rem;
   text-align: center;
 }
 .galleryTitle{

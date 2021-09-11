@@ -48,7 +48,7 @@ html,
 body {
   font-family: "playfair display";
   font-weight: 500;
-  font-size: 16px;
+  /* font-size: 16px; */
   background-color: #f2f6fa;
 }
 
@@ -59,4 +59,15 @@ body {
 .icon {
   color: #32e20e;
 }
+
+@media only screen and (max-width: 758px){
+  :root {
+    font-size: 18px;
+}}
+
+
+@media only screen and (max-width: 460px){
+  :root {
+    font-size: 16px;
+}}
 </style>

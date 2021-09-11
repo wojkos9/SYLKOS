@@ -92,14 +92,16 @@ export const pl = {
     submitProject: "Zgłoś projekt"
   },
   groupForm:{
+    title: "Nowa grupa",
     groupNameError: 'Nazwa jest wymagana',
     groupNameLabel: 'Nazwa grupy',
     groupSubNameError: 'Podnazwa jest wymagana',
     groupSubNameLabel: 'Podnazwa grupy',
     groupDescError: 'Opis jest wymagany',
     groupDescLabel: 'Opis grupy',
+    groupPhotoLabel: 'Dodaj zdjęcie',
     newGroup: 'Utwórz nową grupę',
     submit: 'Dodaj grupę',
-    clearData: 'Wyczyść formularz'
+    clearData: 'Wyczyść formularz',
   }
 }

@@ -130,7 +130,7 @@ export default {
 }
 
 .role {
-  font-size: 36px;
+  font-size: 2.5rem;
   align-self: center;
   font-weight: 300;
   margin-left: 25%;

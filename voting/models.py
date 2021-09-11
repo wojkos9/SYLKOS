@@ -1,7 +1,9 @@
 from django.db import models
 from django.conf import settings
 
-
+class Photo(models.Model):
+    image = models.ImageField(upload_to='images/')
+    
 class Group(models.Model):
     name = models.CharField(max_length=50)
     subname = models.CharField(max_length=150, blank=True, default='')
@@ -9,7 +11,7 @@ class Group(models.Model):
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="members", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -54,6 +56,7 @@ class Image(models.Model):
     length = models.FloatField(default=100)
     album = models.ForeignKey(
         ImageAlbum, related_name='images', on_delete=models.CASCADE)
+
 
 
 class Project(models.Model):
