@@ -2,8 +2,6 @@ from rest_framework import serializers
 from django.http import request
 from django.db import models
 from django.db.models import fields, manager
-from django.forms.models import model_to_dict
-from statistics import mean
 from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image
 
 
@@ -54,16 +52,7 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-# class ProjectImageSerializer(serializers.ModelSerializer):
-
-#     class Meta:
-#         model = ProjectImage
-#         fields = "__all__"
-
-
 class CommentSerializer(serializers.ModelSerializer):
-    author = serializers.StringRelatedField(read_only=True)
-    created_at = serializers.SerializerMethodField()
     user_has_commented = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField()
     dislikes_count = serializers.SerializerMethodField()

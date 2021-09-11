@@ -40,12 +40,6 @@ class ProjectListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
 
-# class ProjectImageListCreateAPIView(generics.ListCreateAPIView):
-#     queryset = ProjectImage.objects.all().order_by("id")
-#     serializer_class = ProjectSerializer
-#     permission_classes = [IsAuthenticated]
-
-
 class ProjectDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer

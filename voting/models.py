@@ -7,7 +7,7 @@ class Group(models.Model):
     subname = models.CharField(max_length=150, blank=True, default='')
     description = models.TextField()
     members = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="members", blank=True)
+        settings.AUTH_USER_MODEL, related_name="user_groups", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(null=True, blank=True)
 
@@ -57,6 +57,7 @@ class Image(models.Model):
 
 
 class Project(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=50)
     description = models.TextField()
     budget = models.DecimalField(decimal_places=2, max_digits=100)
@@ -64,21 +65,11 @@ class Project(models.Model):
     finish_date = models.DateTimeField()
     album = models.OneToOneField(
         ImageAlbum, related_name='model', on_delete=models.CASCADE)
-    # rating = models.FloatField(blank=True, null=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     voting = models.ForeignKey(Voting, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
-
-
-# class ProjectImage(models.Model):
-#     name = models.CharField(max_length=255)
-#     image = models.ImageField(default='', upload_to='images/')
-#     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return self.name
 
 
 class Comment(models.Model):
