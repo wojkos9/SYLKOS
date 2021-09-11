@@ -38,10 +38,10 @@ export const pl = {
   },
   projects:{
     title: 'Projekty',
-    membersNumber: 'Liczba uczestników: ',
     sortBy: 'sortuj po...',
     group: 'grupa',
     name: 'nazwa projektu',
+    price: 'koszt'
   },
   commentSorting:{
     sort: "sortuj",
@@ -86,5 +86,20 @@ export const pl = {
   },
   projectRegistration:{
     title: "Zgłoś projekt",
+    projectName: "Tytuł projektu",
+    projectPrice: "Koszt projektu",
+    projectDescription: "Opis projektu",
+    submitProject: "Zgłoś projekt"
+  },
+  groupForm:{
+    groupNameError: 'Nazwa jest wymagana',
+    groupNameLabel: 'Nazwa grupy',
+    groupSubNameError: 'Podnazwa jest wymagana',
+    groupSubNameLabel: 'Podnazwa grupy',
+    groupDescError: 'Opis jest wymagany',
+    groupDescLabel: 'Opis grupy',
+    newGroup: 'Utwórz nową grupę',
+    submit: 'Dodaj grupę',
+    clearData: 'Wyczyść formularz'
   }
 }

@@ -8,6 +8,7 @@ import GroupScreen from '../screens/GroupScreen'
 import VotingScreen from '../screens/VotingScreen'
 import PhotoScreen from '../screens/PhotoScreen'
 import ProjectRegistrationScreen from '../screens/ProjectRegistrationScreen'
+import GroupsFormScreen from '../screens/GroupsFormScreen' 
 
 Vue.use(Router)
 
@@ -26,6 +27,11 @@ export const routes = [{
         name:"group",
         component:GroupScreen,
         props: true
+    },
+    {
+        path:"/newgroup",
+        name:"groupNew",
+        component:GroupsFormScreen,
     },
     {
         path:"/groups/:id/voting/:vId",

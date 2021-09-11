@@ -1,7 +1,9 @@
 <template>
   <div class="area">
     <div class="date">
-      <div style="margin-right: 8px">{{ getString("votingHeader", "voting") }}</div>
+      <div style="margin-right: 8px">
+        {{ getString("votingHeader", "voting") }}
+      </div>
       <div>{{ date }}</div>
     </div>
     <div class="group">

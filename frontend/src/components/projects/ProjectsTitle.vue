@@ -3,7 +3,7 @@
     <div class="nextToGroups">
       <div class="title">
         {{ getString("projects", "title").toUpperCase() }} ({{
-          numberOfAllGroups
+          numberOfAllProjects
         }})
       </div>
     </div>
@@ -17,7 +17,7 @@ import { getColor } from "@/colors.js";
 
 export default {
   name: "projectsTitle",
-  props: ["numberOfAllGroups"],
+  props: ["numberOfAllProjects"],
   data() {
     return {
       groupName: "",

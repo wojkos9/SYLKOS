@@ -46,9 +46,9 @@ export default {
 
 html,
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "playfair display";
   font-weight: 500;
-  font-size: 12px;
+  font-size: 16px;
   background-color: #f2f6fa;
 }
 
