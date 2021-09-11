@@ -56,6 +56,9 @@ INSTALLED_APPS = [
 
     'users',
     'voting',
+
+    'django.core',
+    'django.core.serializers',
 ]
 
 MIDDLEWARE = [
