@@ -9,6 +9,7 @@ import 'vue-material/dist/theme/default.css'
 import VueRouter from 'vue-router'
 import { routes } from './router/index.js'
 import moment from 'moment';
+import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
 Vue.component('menu-icon', MenuIcon);
@@ -28,6 +29,7 @@ Vue.prototype.moment = moment;
 
 Vue.use(VueRouter)
 
+
 const router = new VueRouter({
   routes
 })
@@ -44,6 +46,7 @@ Vue.config.errorHandler = (err) => {
 
 
 new Vue({
+  vuetify,
   render: h => h(App),
   router,
 }).$mount('#app')
