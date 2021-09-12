@@ -54,13 +54,6 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-# class ProjectImageSerializer(serializers.ModelSerializer):
-
-#     class Meta:
-#         model = ProjectImage
-#         fields = "__all__"
-
-
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     created_at = serializers.SerializerMethodField()
@@ -71,7 +64,6 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         exclude = ["voters_like", "voters_dislike"]
-        # fields = "__all__"
 
     def get_created_at(self, instance):
         return instance.created_at.strftime("%d.%m.%Y %H:%M")
@@ -94,6 +86,14 @@ class VotingTypeSerializer(serializers.ModelSerializer):
 
 
 class VotingSerializer(serializers.ModelSerializer):
+
+    voted_projects = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Voting
         fields = "__all__"
+
+    def get_voted_projects(self, instance):
+        projects = Project.objects.filter(voting=instance.pk).values()
+
+        return projects

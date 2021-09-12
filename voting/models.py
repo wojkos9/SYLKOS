@@ -64,21 +64,11 @@ class Project(models.Model):
     finish_date = models.DateTimeField()
     album = models.OneToOneField(
         ImageAlbum, related_name='model', on_delete=models.CASCADE)
-    # rating = models.FloatField(blank=True, null=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     voting = models.ForeignKey(Voting, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
-
-
-# class ProjectImage(models.Model):
-#     name = models.CharField(max_length=255)
-#     image = models.ImageField(default='', upload_to='images/')
-#     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return self.name
 
 
 class Comment(models.Model):
