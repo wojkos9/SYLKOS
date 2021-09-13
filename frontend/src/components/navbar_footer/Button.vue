@@ -1,24 +1,11 @@
 <template>
   <div>
     <router-link :to="{ name: route }">
-      <div :style="button" v-if="!hover" @click="fun">
-        <div
-          @mouseover="hover = true"
-          @mouseleave="hover = false"
-          :class="{ active: hover }"
-        >
-          {{ title.toUpperCase() }}
-        </div>
-      </div>
-      <div :style="buttonHovered" v-else @click="fun">
-        <div
-          @mouseover="hover = true"
-          @mouseleave="hover = false"
-          :class="{ active: hover }"
-        >
-          {{ title.toUpperCase() }}
-        </div>
-      </div>
+      <v-btn
+        :style="button"
+        elevation="2"
+        rounded
+      >{{ title.toUpperCase() }}</v-btn>
     </router-link>
   </div>
 </template>
@@ -28,13 +15,7 @@ import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 export default {
   name: "Button",
-  props: ["title", "fun", "route"],
-  data() {
-    return {
-      role: "admin",
-      hover: false,
-    };
-  },
+  props: ["title", "route"],
   methods: {
     getString,
     getColor,
@@ -51,24 +32,6 @@ export default {
         textAlign: "center",
       };
     },
-    buttonHovered() {
-      return {
-        backgroundColor: "#93abc4",
-        alignSelf: "center",
-        borderRadius: "35px",
-        marginLeft: "10px",
-        padding: "9px",
-        width: "150px",
-        textAlign: "center",
-      };
-    },
   },
 };
 </script>
-
-<style>
-.active {
-  cursor: pointer;
-  /* background-color: #93abc4 !important; */
-}
-</style>
