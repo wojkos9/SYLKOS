@@ -4,22 +4,22 @@
       <div class="col-lg-12 col-xl-9">
         <div>
           <div>
-            <div class="groupTitle">{{ name }}</div>
+            <div class="groupTitle">{{ group.name }}</div>
             <md-icon>person_add</md-icon><span v-if="isUserMember">członek</span><span v-else>dołącz</span>
           </div>
           
           <div class="desc">
-            {{ desc }}
+            {{ group.description }}
           </div>
           <div class="membersNumber desc">
-            {{ getString("groups", "membersNumber") }} {{ members }}
+            {{ getString("groups", "membersNumber") }} {{ group.count_user }}
           </div>
         </div>
       </div>
       <div class="col center">
         <div class="center">
-          <div v-show="!loading">
-              <img  :src="image.image" class="image" />
+          <div v-show="!loading && image">
+              <img  :src="image" class="image" />
           </div>
           
           <router-link :to="{ name: 'group', params:{id:id}}"><div :style="button">Dowiedz się więcej</div></router-link>
@@ -36,7 +36,7 @@ import { apiService } from "@/common/api.service.js";
 
 export default {
   name: "Group",
-  props: ["name", "desc", "members", "picture", "id", "requestUser", "allMembers"],
+  props: ["group", "name", "desc", "members", "picture", "id", "requestUser", "allMembers"],
   data() {
     return {
       loading: true,
@@ -67,13 +67,13 @@ export default {
   },
   components: {},
   async created(){
-      await apiService("/api/photo/20/").then((data) => {
-          this.image = data;
-          console.log(data)
+    if(this.group.image)
+      await apiService(`/api/photo/${this.group.image}/`).then((data) => {
+          this.image = data.image;
           this.loading = false
         });
-    
   }
+
 };
 </script>
 

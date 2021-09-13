@@ -1,14 +1,14 @@
 <template>
   <div class="area">
     <div class="groupName">
-      {{ groupName }}
+      {{ group.name }}
     </div>
     <div class="sectionsContainer">
       <div class="leftSection">
         <group-info
           :region="region"
           :areaType="areaType"
-          :usersNumber="usersNumber"
+          :usersNumber="group.count_user"
           :registeredProjects="registeredProjects"
           :activeVotings="activeVotings"
           :yearCosts="yearCosts"
@@ -19,7 +19,7 @@
       </div>
       <div class="rightSection">
         <div style="width: 800px">
-          <Carousel :slides="slides" :ifRoute="ifRoute" :group="group" :title="groupName"/>
+          <Carousel :slides="group.image" :ifRoute="ifRoute" :group="group" :title="group.name"/>
         </div>
       </div>
     </div>
@@ -32,6 +32,7 @@ import { getColor } from "@/colors.js";
 import VotingList from "../components/groupDetails/VotingList.vue";
 import GroupInfo from "../components/groupDetails/GroupInfo.vue";
 import Carousel from "../components/UI/Carousel.vue";
+import { apiService } from "@/common/api.service.js";
 
 export default {
   name: "groupScreen",
@@ -57,6 +58,8 @@ export default {
       yearCosts: "34 000 zł",
       imageDescription: "Ulica Leśna 34",
       imageId: 3,
+      image: [],
+      loading: true,
       totalImages: 35,
       group:true,
       slides: [
@@ -83,6 +86,18 @@ export default {
     getString,
     getColor,
   },
+  async beforeRouteEnter(to, from, next){
+        if(to.params.id !== undefined){
+            let endpoint = `api/groups/${to.params.id}/`
+            let data = await apiService(endpoint)
+            return next(vm => {
+              vm.group = data
+        });
+        }else{
+            return next()
+        }
+       
+    },
 };
 </script>
 

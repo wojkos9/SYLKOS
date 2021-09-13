@@ -146,11 +146,11 @@ export default {
           members: [],
           image: photoId
         }).then(data => {
-                        this.$router.push({
-                            name:'group',
-                            params:{id: data.id}
-                        })
-                    })
+            this.$router.push({
+                name:'group',
+                params:{id: data.id}
+            })
+        })
     }
     },
     
