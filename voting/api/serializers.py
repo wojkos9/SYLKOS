@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models import fields, manager
 from django.forms.models import model_to_dict
 from statistics import mean
+import re
 from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image, Photo
 
 
@@ -11,6 +12,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
     count_user = serializers.SerializerMethodField()
     members = serializers.StringRelatedField(many=True)
+    photos = serializers.SerializerMethodField()
 
     class Meta:
         model = Group
@@ -19,13 +21,23 @@ class GroupSerializer(serializers.ModelSerializer):
     def get_count_user(self, instance):
         return instance.members.count()
 
-class PhotoSerializer(serializers.ModelSerializer):
+    def get_photos(self, instance):
+        pattern = re.compile(r"[0-9]+")
+        res = pattern.findall(str(instance.image))
 
+        if len(res) > 0:
+            res_i = int(res[0])
+            images = Photo.objects.filter(id=res_i).values()
+            return images
+
+        return []
+
+
+class PhotoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Photo
         fields = "__all__"
-
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -62,13 +74,6 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-# class ProjectImageSerializer(serializers.ModelSerializer):
-
-#     class Meta:
-#         model = ProjectImage
-#         fields = "__all__"
-
-
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     created_at = serializers.SerializerMethodField()
@@ -79,7 +84,6 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         exclude = ["voters_like", "voters_dislike"]
-        # fields = "__all__"
 
     def get_created_at(self, instance):
         return instance.created_at.strftime("%d.%m.%Y %H:%M")
