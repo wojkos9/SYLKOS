@@ -1,40 +1,35 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light cos">
-    <router-link :to="{ name: mainPageRoute }">
-    <img src="@/assets/logo3.png" class="logo" />
-    </router-link>
-    <button
+  <nav class="cos d-flex justify-content-between p-4">
+    <div class="d-flex justify-content-between leftSection"  >
+      <router-link :to="{ name: mainPageRoute }">
+        <img src="@/assets/logo3.png" class="logo" />
+      </router-link>
+     <v-btn
+      class="mx-2 showBurger"
+      fab
+      dark
+      color="teal"
       @click="clicked"
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
     >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <v-icon dark>
+        mdi-format-list-bulleted-square
+      </v-icon>
+    </v-btn>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <Button v-bind:title="getString('navbar', 'projects')"
-              v-bind:fun="projectsClicked"
-              v-bind:route="projectsRoute"/>
-      <Button v-bind:title="getString('navbar', 'groups')"
-              v-bind:fun="groupsClicked"
-              v-bind:route="groupsRoute"/>
-      <Button v-bind:title="getString('navbar', 'addProject')"
-              v-bind:fun="newProjectClicked"
-              v-bind:route="addProjectRoute"/>
-      
-
-      <div class="role">
-        {{role}}
+      <div class="d-flex justify-content-between align-self-center menu" id="navbarSupportedContent">
+        <Button v-bind:title="getString('navbar', 'projects')"
+                v-bind:route="projectsRoute"/>
+        <Button v-bind:title="getString('navbar', 'groups')"
+                v-bind:route="groupsRoute"/>
+        <Button v-bind:title="getString('navbar', 'addProject')"
+                v-bind:route="addProjectRoute"/>
       </div>
-      <Button v-bind:title="getString('navbar', 'account')"
-            v-bind:fun="accountClicked"/>
-     
+
     </div>
+    <div class="d-flex justify-flex-end  align-self-start menu " style="position:relative; width: 200px; ">
+      <list-button :title="role" :options="accountOptions"/>
+    </div>
+    
   </nav>
 </template>
 
@@ -43,9 +38,10 @@ import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 import Button from './Button.vue';
 import {apiService} from "@/common/api.service.js"
+import ListButton from '../UI/ListButton.vue';
 
 export default {
-  components: { Button },
+  components: { Button, ListButton },
   name: "NavbarComponent",
   props:["setShowSideMenu"],
   data() {
@@ -55,24 +51,20 @@ export default {
       groupsRoute: 'groups',
       projectsRoute: 'projects',
       mainPageRoute: 'main',
-      addProjectRoute: 'registerProject'
+      addProjectRoute: 'registerProject',
+      show: false,
+      accountOptions: [ 
+        [this.getString('commentSorting', 'ratingASC'), this.accountClicked],
+        [this.getString('commentSorting', 'ratingDESC'), this.accountClicked],
+        [this.getString('commentSorting', 'newest'), this.accountClicked],
+        [this.getString('commentSorting', 'oldest'), this.accountClicked]],
     };
   },
   methods: {
     getString,
     getColor,
     clicked() {
-      console.log("kliknieto!");
       this.setShowSideMenu();
-    },
-    projectsClicked() {
-      console.log("projekty");
-    },
-    groupsClicked() {
-      console.log("grupy");
-    },
-    newProjectClicked() {
-      console.log("nowy projekt");
     },
     accountClicked() {
       console.log("konto");
@@ -81,15 +73,11 @@ export default {
       const data = await apiService("/api/user/");
       const requestUser = data["username"];
       window.localStorage.setItem("username", requestUser);
-      console.log("rola: ", window.localStorage.getItem("username"))
       this.role = window.localStorage.getItem("username")
     },
   },
   created(){
     this.setUserInfo()
-  },
-  mounted() {
-    console.log(this.color);
   },
   computed: {
     myNavbar() {
@@ -97,17 +85,6 @@ export default {
         backgroundColor: this.getColor("navbar"),
         borderBottom: 1,
         borderBottomRightRadius: "40px",
-      };
-    },
-    button() {
-      return {
-        backgroundColor: this.getColor("backgroundcolor"),
-        alignSelf: "center",
-        borderRadius: "35px",
-        marginLeft: "1%",
-        padding: "1%",
-        width: "15%",
-        textAlign: "center",
       };
     },
   },
@@ -118,48 +95,45 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100&display=swap");
 
+.showBurger {
+    display:none;
+  }
+
 .logo {
   margin-top: 4px;
   margin-bottom: 4px;
   align-self: center;
 }
-.rigthSection {
-  align-self: center;
-  display: flex;
-  align-content: center;
-}
 
 .role {
-  font-size: 2.5rem;
+  font-size: 2.5em;
   align-self: center;
   font-weight: 300;
-  margin-left: 25%;
 }
 
-.cos {
+.cos { 
   background-color: #c0cfe6 !important;
 }
 
-.active {
-  cursor: pointer;
-  background-color: #93abc4;
-}
-
 @media only screen and (max-width: 1400px) {
-  .role {
-    font-size: 30px;
+  nav {
+    font-size: 14px;
   }
 }
 
-@media only screen and (max-width: 1300px) {
-  .role {
-    font-size: 26px;
+
+@media only screen and (max-width: 992px) {
+  .leftSection{
+    width: 100%;
+    justify-content: space-between;
   }
+  .showBurger {
+    display:block !important;
+  }
+  .menu{  
+  display:none !important;
+}
 }
 
-@media only screen and (max-width: 1200px) {
-  .role {
-    font-size: 20px;
-  }
-}
+
 </style>
