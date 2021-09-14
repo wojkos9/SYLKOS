@@ -15,15 +15,18 @@ class GroupListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = GroupSerializer
     permission_classes = [IsAuthenticated]
 
+
 class GroupDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [IsAuthenticated]
 
+
 class PhotoListCreateAPIView(generics.ListCreateAPIView):
     queryset = Photo.objects.all().order_by("id")
     serializer_class = PhotoSerializer
     permission_classes = [IsAuthenticated]
+
 
 class PhotoDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()
@@ -47,12 +50,6 @@ class ProjectListCreateAPIView(generics.ListCreateAPIView):
     queryset = Project.objects.all().order_by("id")
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
-
-
-# class ProjectImageListCreateAPIView(generics.ListCreateAPIView):
-#     queryset = ProjectImage.objects.all().order_by("id")
-#     serializer_class = ProjectSerializer
-#     permission_classes = [IsAuthenticated]
 
 
 class ProjectDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -194,5 +191,3 @@ class VotingTypeView(viewsets.ModelViewSet):
 class VotingView(viewsets.ModelViewSet):
     queryset = Voting.objects.all()
     serializer_class = VotingSerializer
-
-
