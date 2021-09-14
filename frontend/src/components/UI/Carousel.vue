@@ -5,15 +5,17 @@
       <span v-else-if="!group">{{ getString("gallery", "project") }}</span>
       <div class="galleryTitle">{{title}}</div>
       </div>
-      
+    
     <vue-slick-carousel :arrows="true" :dots="true" :fade="true" ref="carousel">
+      
       <div v-for="(item, index) in slides" v-bind:key="index">
+        
         <div class="image" v-if="ifRoute">
           <router-link :to="{ name: 'photo', params: { slides: slides, title: title, group:group } }">
-            <img :src="item.src" />
+            <img :src="`/media/${item.image}`" />
           </router-link>
         </div>
-        <div class="image" v-else><img :src="item.src" /></div>
+        <div class="image" v-else><img :src="`/media/${item.image}`" /></div>
         <div class="desc">{{ item.desc }}</div>
       </div>
     </vue-slick-carousel>
@@ -37,16 +39,16 @@ export default {
   methods: {
     getString,
     showNext() {
-      console.log(this.initIndex);
       this.$refs.carousel.goTo(this.initIndex);
     },
   },
-  mounted() {
-    if (!this.ifRoute) this.showNext();
-    console.log(this.group)
-  },
   components: {
     VueSlickCarousel,
+  },
+  mounted() {
+    for(var i of this.slides){
+      console.log("element", i.image)
+    }
   },
 };
 </script>

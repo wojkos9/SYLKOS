@@ -19,7 +19,7 @@
       </div>
       <div class="rightSection">
         <div style="width: 800px">
-          <Carousel :slides="group.image" :ifRoute="ifRoute" :group="group" :title="group.name"/>
+          <Carousel :slides="group.photos" :ifRoute="ifRoute" :group="group" :title="group.name"/>
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@ export default {
   },
   props: {
     id: {
-      type: Number,
+      
       required: true,
     },
   },

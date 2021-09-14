@@ -1,9 +1,11 @@
 <template>
+<v-app>
   <div id="app">
     <navbar-comp v-bind:setShowSideMenu="setShowSideMenu" />
     <router-view />
     <drawer v-bind:showSideMenu="showSideMenu" />
   </div>
+</v-app>
 </template>
 
 <script>

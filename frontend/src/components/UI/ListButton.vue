@@ -1,22 +1,19 @@
 <template>
   <md-list-item md-expand style="position:absolute;">
-        <md-icon>
-          manage_accounts
-        </md-icon>
-        <span class="md-list-item-text">{{
-          title
-        }}</span>
-
-        <md-list slot="md-expand">
-          <md-list-item class="md-inset" @click="settingsClicked">{{
-            getString("navbar", "settings")
-          }}</md-list-item>
-          <md-list-item class="md-inset" @click="userPanelClicked">{{
-            getString("navbar", "user")
-          }}</md-list-item>
-        </md-list>
-      </md-list-item>
-
+    <md-icon>
+      manage_accounts
+    </md-icon>
+    <span class="md-list-item-text">{{ title }}</span>
+    <md-list slot="md-expand">
+      <router-link
+        v-for="(option, index) in options"
+        :key="index"
+        :to="{ name: option.route }"
+      >
+        <md-list-item class="md-inset">{{ option.name }}</md-list-item>
+      </router-link>
+    </md-list>
+  </md-list-item>
 </template>
 
 <script>
@@ -34,7 +31,7 @@ export default {
   },
   watch: {
     sort: function(val) {
-      this.options[val][1]()
+      this.options[val][1]();
     },
   },
 };
@@ -45,7 +42,7 @@ export default {
   width: 200px;
   margin-right: 10px;
 }
-li.md-list-item{
-    list-style-type: none;
+li.md-list-item {
+  list-style-type: none;
 }
 </style>

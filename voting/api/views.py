@@ -194,3 +194,5 @@ class VotingTypeView(viewsets.ModelViewSet):
 class VotingView(viewsets.ModelViewSet):
     queryset = Voting.objects.all()
     serializer_class = VotingSerializer
+
+

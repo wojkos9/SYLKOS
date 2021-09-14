@@ -22,7 +22,7 @@ function apiService(endpoint, method, data) {
     }
     return fetch(endpoint, config)
         .then(handleResponse)
-        .catch(error => console.log(error))
+        .catch(error => {console.log(error); return 'error'; })
 }
 
 function imageUpload(formData){

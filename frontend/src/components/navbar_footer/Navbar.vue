@@ -26,8 +26,8 @@
       </div>
 
     </div>
-    <div class="d-flex justify-flex-end  align-self-start menu " style="position:relative; width: 200px; ">
-      <list-button :title="role" :options="accountOptions"/>
+    <div class="d-flex justify-flex-end  align-self-start menu " style="position:relative; width: 200px; " >
+      <list-button :title="role" :options="menuOptions" />
     </div>
     
   </nav>
@@ -53,11 +53,10 @@ export default {
       mainPageRoute: 'main',
       addProjectRoute: 'registerProject',
       show: false,
-      accountOptions: [ 
-        [this.getString('commentSorting', 'ratingASC'), this.accountClicked],
-        [this.getString('commentSorting', 'ratingDESC'), this.accountClicked],
-        [this.getString('commentSorting', 'newest'), this.accountClicked],
-        [this.getString('commentSorting', 'oldest'), this.accountClicked]],
+      menuOptions: [ 
+        {name: this.getString("navbar", "settings"), route: "groupNew"},
+        {name: this.getString("navbar", "user"), route: "projects"},
+        ]
     };
   },
   methods: {
@@ -73,8 +72,14 @@ export default {
       const data = await apiService("/api/user/");
       const requestUser = data["username"];
       window.localStorage.setItem("username", requestUser);
-      this.role = window.localStorage.getItem("username")
+      this.role = window.localStorage.getItem("username");
+      if(this.role == "admin"){
+        this.menuOptions.push({name:this.getString("navbar", "admin"), route: "admin" })
+      }
     },
+    getToAdminSite(){
+      
+    }
   },
   created(){
     this.setUserInfo()

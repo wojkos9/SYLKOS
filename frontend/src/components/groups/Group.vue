@@ -18,8 +18,8 @@
       </div>
       <div class="col center">
         <div class="center">
-          <div v-show="!loading && image">
-              <img  :src="image" class="image" />
+          <div v-if="group.photos.length > 0">
+              <img  :src="`/media/${group.photos[0].image}`" class="image" />
           </div>
           
           <router-link :to="{ name: 'group', params:{id:id}}"><div :style="button">Dowiedz się więcej</div></router-link>
