@@ -1,19 +1,20 @@
+from django.db.models.query import InstanceCheckMeta
 from rest_framework import serializers
 from users.models import CustomUser, PersonalKey
 from rest_framework.exceptions import ValidationError
-
+from voting.models import Group
 
 class UserDisplaySerializer(serializers.ModelSerializer):
 
-    #user_groups = serializers.SerializerMethodField()
+    groups = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ["username", "groups"]
-        # fields="__all__"
+        fields = "__all__"
 
-    #def get_user_groups(self, instance):
-
+    def get_groups(self, instance):
+        user_groups = Group.objects.filter(members=instance.pk).values()
+        return user_groups
 
 class CustomUserSerializer(serializers.ModelSerializer):
     key_value = serializers.IntegerField()
