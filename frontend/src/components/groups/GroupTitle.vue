@@ -61,7 +61,7 @@ export default {
 .title {
   align-self: center;
   font-family: "Playfair Display";
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: 500;
   margin-bottom: 15px;
   text-align: center;
@@ -91,19 +91,19 @@ export default {
 
 @media only screen and (max-width: 1000px) {
   .title {
-    font-size: 27px;
+    font-size: 1.875rem;
   }
 }
 
 @media only screen and (max-width: 900px) {
   .title {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 }
 
 @media only screen and (max-width: 800px) {
   .title {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
   .allTitle {
     margin-bottom: 60px;

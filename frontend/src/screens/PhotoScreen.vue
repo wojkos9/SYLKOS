@@ -3,6 +3,9 @@
      <div  @click="$router.go(-1)"><md-icon class="goBack" @click="$router.go(-1)">clear</md-icon></div>
     <div class="photoPage">
       <Carousel :slides="slides" :ifRoute="ifRoute"  :group="group" :title="title"/>
+      <!-- <div v-for="item in slides" :key="item.id">
+        {{item.image}}
+      </div> -->
     </div>
    
   </div>
@@ -24,6 +27,12 @@ export default {
   },
   methods: {
    
+  },
+  mounted() {
+    for(var i of this.slides){
+      console.log("element", i)
+    }
+    // console.log("cc", this.slides)
   },
 };
 </script>

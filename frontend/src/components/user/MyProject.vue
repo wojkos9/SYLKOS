@@ -50,7 +50,7 @@ export default {
 }
 .desc {
   font-family: "Playfair Display", serif;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
 }
 
@@ -99,10 +99,10 @@ export default {
   }
 
   .title {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
   .desc {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 } 
  

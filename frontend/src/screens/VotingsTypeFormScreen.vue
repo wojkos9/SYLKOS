@@ -9,14 +9,14 @@
   
     <v-form
       v-model="valid"
-      ref="newGroupForm"
-      id="newGroupForm"
+      ref="newVotingTypeForm"
+      id="newVotingTypeForm"
       class="d-flex justify-content-center p-3 groupForm"
       enctype="multipart/form-data"
     >
     
       <v-container>
-        <div class="groupName">{{ getString("groupForm", "newGroup") }}</div>
+        <div class="groupName">{{ getString("votingTypeForm", "title") }}</div>
        
         <v-text-field class="p-2 m-3"
         dense
@@ -25,31 +25,20 @@
             :label="name.label"
             required
           ></v-text-field>
-          <v-text-field class="p-2 m-3"
-            v-model="subname.value"
-            :rules="subname.rule"
-            :label="subname.label"
-            required
-          ></v-text-field>
+         
           <v-text-field class="p-2 m-3"
             v-model="desc.value"
             :rules="desc.rule"
             :label="desc.label"
             required
           ></v-text-field>
-      <v-file-input
-      class="p-2 m-3"
-        :label="photo.label"
-        v-model="selectedFile"
-        append-icon="mdi-camera"
-        prepend-icon=""
-      ></v-file-input>
+      
         <div class="d-flex justify-content-end p-4 buttons">
           <v-btn class="mr-4 p-2" @click="submit">
-            {{ getString("groupForm", "submit") }}
+            {{ getString("votingTypeForm", "submit") }}
           </v-btn>
           <v-btn @click="clear">
-            {{ getString("groupForm", "clearData") }}
+            {{ getString("votingTypeForm", "clearData") }}
           </v-btn>
         </div>
       </v-container>
@@ -67,40 +56,26 @@
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-import { apiService, imageUpload} from "@/common/api.service.js";
+import { apiService } from "@/common/api.service.js";
 
 
 export default {
-  name: "groupScreen",
+  name: "votingTypeScreen",
   components: {},
   data() {
     return {
       valid: false,
-      newName: 'costam',
       name:
         {
-          label: getString("groupForm", "groupNameLabel"),
-          rule: [(v) => !!v || getString("groupForm", "groupNameError")],
-          value: "",
-        },
-        subname: {
-          label: getString("groupForm", "groupSubNameLabel"),
-          rule: [],
+          label: getString("votingTypeForm", "nameLabel"),
+          rule: [(v) => !!v || getString("votingTypeForm", "nameError")],
           value: "",
         },
         desc: {
-          label: getString("groupForm", "groupDescLabel"),
-          rule: [(v) => !!v || getString("groupForm", "groupDescError")],
+          label: getString("votingTypeForm", "descLabel"),
+          rule: [(v) => !!v || getString("votingTypeForm", "descError")],
           value: "",
         },
-  
-      photo: {
-          label: getString("groupForm", "groupPhotoLabel"),
-          rule: [],
-          value: {},
-        },
-
-        selectedFile: null,
     };
   },
   methods: {
@@ -111,52 +86,32 @@ export default {
     },
     clear() {
       this.name.value = "";
-      this.subname.value = "";
       this.desc.value = "";
-      this.members = [];
-      this.image = "";
       this.reset();
     },
     reset() {
-      this.$refs.newGroupForm.reset();
+      this.$refs.newVotingTypeForm.reset();
     },
     validate() {
-      this.$refs.newGroupForm.validate();
+      this.$refs.newVotingTypeForm.validate();
     },
-    onFileSelected(event){
-      this.selectedFile = event.target.files[0]
-      
-    },
+
     async submit() {
       this.validate();
-      console.log(this.photo.value)
+     
       if (this.valid) {
-        let formData = new FormData();
-        formData.append("image", this.selectedFile);
-       
-      var photoId
 
-
-    await imageUpload(formData).then((data) => {photoId = data.data.id, console.log(photoId)})
-
-    await apiService("/api/groups/", "POST", {
-          name: this.name.value,
-          subname: this.subname.value,
-          description: this.desc.value,
-          members: [],
-          image: photoId
-        }).then(data => {
-            this.$router.push({
-                name:'group',
-                params:{id: data.id}
-            })
-        })
-    }
+      await apiService("/api/voting_type/", "POST", {
+            name: this.name.value,
+            description: this.desc.value,
+          }).then(data => {
+              console.log(data)
+          })
+      }
     },
-    
   },
   created(){
-    document.title = this.getString("groupForm", "title")
+    document.title = this.getString("votingForm", "title")
   }
 };
 </script>
@@ -165,7 +120,6 @@ export default {
 .groupForm {
   border:solid;
   background-color: white;
-  /* display: inline-block; */
   vertical-align: middle;
   margin: 20px;
   width: 90%;

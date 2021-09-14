@@ -4,21 +4,24 @@
       <div class="col-lg-12 col-xl-9">
         <div>
           <div>
-            <div class="groupTitle">{{ name }}</div>
+            <div class="groupTitle">{{ group.name }}</div>
             <md-icon>person_add</md-icon><span v-if="isUserMember">członek</span><span v-else>dołącz</span>
           </div>
           
           <div class="desc">
-            {{ desc }}
+            {{ group.description }}
           </div>
           <div class="membersNumber desc">
-            {{ getString("groups", "membersNumber") }} {{ members }}
+            {{ getString("groups", "membersNumber") }} {{ group.count_user }}
           </div>
         </div>
       </div>
       <div class="col center">
         <div class="center">
-          <img :src="picture" class="image" />
+          <div v-if="group.photos.length > 0">
+              <img  :src="`/media/${group.photos[0].image}`" class="image" />
+          </div>
+          
           <router-link :to="{ name: 'group', params:{id:id}}"><div :style="button">Dowiedz się więcej</div></router-link>
         </div>
       </div>
@@ -29,10 +32,18 @@
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
+import { apiService } from "@/common/api.service.js";
 
 export default {
   name: "Group",
-  props: ["name", "desc", "members", "picture", "id", "requestUser", "allMembers"],
+  props: ["group", "name", "desc", "members", "picture", "id", "requestUser", "allMembers"],
+  data() {
+    return {
+      loading: true,
+      image: "",
+    }
+  },
+
   methods: {
     getString,
     getColor,
@@ -55,6 +66,14 @@ export default {
     }
   },
   components: {},
+  async created(){
+    if(this.group.image)
+      await apiService(`/api/photo/${this.group.image}/`).then((data) => {
+          this.image = data.image;
+          this.loading = false
+        });
+  }
+
 };
 </script>
 
@@ -71,7 +90,7 @@ export default {
 .groupTitle {
   font-family: "Playfair Display", serif;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 1.5rem;
   margin-bottom: 40px;
   margin-top: 20px;
   text-align: center;
@@ -79,7 +98,7 @@ export default {
 
 .desc {
   font-family: "Playfair Display", serif;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
   margin-bottom: 10px;
   text-align: justify;
@@ -124,10 +143,10 @@ export default {
     width: auto;
   }
   .desc {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .title {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
   .myButton {
     width: 300px;

@@ -15,49 +15,19 @@
 
     <div class="allGroups">
       <div v-for="group in groups" :key="group.id">
-        <Group
+      <Group
+        v-bind:group="group"
         v-show="check(group.name)"
         v-bind:name="group.name"
         v-bind:desc="group.description"
         v-bind:members="group.count_user"
-        v-bind:picture="image"
+        v-bind:picture="group.image"
         v-bind:id="group.id"
         v-bind:allMembers="group.members"
         v-bind:requestUser="requestUser"
       />
       </div>
-      <!-- <Group
-        v-show="check(this.title)"
-        v-bind:name="title"
-        v-bind:desc="desc"
-        v-bind:members="members"
-        v-bind:picture="image"
-        v-bind:id="id"
-      />
-      <Group
-        v-show="check(this.title)"
-        v-bind:name="title"
-        v-bind:desc="desc"
-        v-bind:members="members"
-        v-bind:picture="image"
-        v-bind:id="id"
-      />
-      <Group
-        v-show="check(this.name)"
-        v-bind:name="name"
-        v-bind:desc="desc"
-        v-bind:members="members"
-        v-bind:picture="image"
-        v-bind:id="id"
-      />
-      <Group
-        v-show="check(this.title)"
-        v-bind:name="title"
-        v-bind:desc="desc"
-        v-bind:members="members"
-        v-bind:picture="image"
-        v-bind:id="id"
-      /> -->
+      <div v-show="ifNext" @click="moreGroups">wiecej</div>
     </div>
   </div>
 </template>
@@ -97,18 +67,38 @@ export default {
         [getString("groups", "membersNumberSort"), this.sortByMembers],
       ],
       id: 4,
+      next:"",
+      ifNext:false,
+      endpoint: "/api/groups/",
     };
   },
   methods: {
     getString,
     getColor,
     async getAllGroups() {
-      const data = await apiService("/api/groups/");
-      this.allGroups = data["count"]
+      var data
+      if(!this.ifNext){
+         data = await apiService(this.endpoint)
+        this.allGroups = data["count"]
+      }
+      else{
+          data = await apiService(this.next);
+      }
+      
       for(var group of data["results"]){
-        console.log(group)
         this.groups.push(group)
       }
+
+      if(data["next"] != null){
+        this.next = data["next"].substr(data["next"].indexOf("/api"))
+        console.log(this.next)
+        this.ifNext = true
+      }else{
+        this.ifNext = false
+      }
+    },
+    moreGroups(){
+      this.getAllGroups()
     },
     makeSth(str) {
       this.searchName = str;
