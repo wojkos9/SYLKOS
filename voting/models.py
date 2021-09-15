@@ -69,6 +69,7 @@ class Project(models.Model):
     finish_date = models.DateTimeField()
     album = models.OneToOneField(
         ImageAlbum, related_name='model', on_delete=models.CASCADE)
+    document = models.FileField(upload_to='documents/')
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     voting = models.ForeignKey(Voting, on_delete=models.CASCADE)
 
