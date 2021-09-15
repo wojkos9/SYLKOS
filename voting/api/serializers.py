@@ -22,15 +22,17 @@ class GroupSerializer(serializers.ModelSerializer):
         return instance.members.count()
 
     def get_photos(self, instance):
-        pattern = re.compile(r"[0-9]+")
-        res = pattern.findall(str(instance.image))
+        images_data = []
 
-        if len(res) > 0:
-            res_i = int(res[0])
-            images = Photo.objects.filter(id=res_i).values()
-            return images
+        images = Photo.objects.all().values()
+        images_inner = instance.photos.all().values()
+        for i in images:
+            for i_i in images_inner:
+                if i['id'] == i_i['id']:
+                    print(i)
+                    images_data.append(i)
 
-        return []
+        return images_data
 
 
 class PhotoSerializer(serializers.ModelSerializer):
