@@ -47,6 +47,46 @@
     </div>
      <div class="d-none d-sm-block col-md-2 col-lg-3"/>
   </div>
+
+  <Dialog 
+  :title="getString('votingTypeForm', 'success')"
+  :desc="getString('votingTypeForm', 'desc')"
+  :nextAction="nextFunction"
+  :backAction="backFunction"
+  :dialog="dialog"
+  :object="votingType" />
+   <!-- <v-dialog
+      v-model="dialog"
+      width="600px"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">{{ getString("votingTypeForm", "success") }}</span>
+        </v-card-title>
+        <v-card-text>
+          {{getString("votingTypeForm", "desc")}}<br> 
+          {{getString("votingTypeForm", "votingName")}} {{votingType.name}} <br> 
+          {{getString("votingTypeForm", "votingDesc")}} {{votingType.description}}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="nextFunction"
+          >
+             {{getString("votingTypeForm", "next")}}
+          </v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="backFunction"
+          >
+             {{getString("votingTypeForm", "back")}}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog> -->
     </div>
       
 </div>
@@ -57,14 +97,26 @@
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 import { apiService } from "@/common/api.service.js";
+import Dialog from '../components/UI/Dialog.vue';
 
 
 export default {
   name: "votingTypeScreen",
-  components: {},
+  components: {Dialog},
   data() {
     return {
       valid: false,
+      dialog: false,
+      votingType: {
+         name:{
+           label: getString("votingTypeForm", "votingName"),
+           value: '',
+         },
+        description:{
+          label: getString("votingTypeForm", "votingDesc"),
+          value: '',
+        },
+      },
       name:
         {
           label: getString("votingTypeForm", "nameLabel"),
@@ -106,9 +158,22 @@ export default {
             description: this.desc.value,
           }).then(data => {
               console.log(data)
+              if(data != "wrong data"){
+              this.votingType.name.value = data.name;
+              this.votingType.description.value = data.description;
+              this.dialog = true
+            }
           })
       }
     },
+    nextFunction(){
+      this.dialog = false
+      this.$router.push({name:"admin"})
+    },
+    backFunction(){
+      this.dialog = false
+      // this.$router.push({name:"votingTypeNew"})
+    }
   },
   created(){
     document.title = this.getString("votingForm", "title")

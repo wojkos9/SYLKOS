@@ -137,7 +137,14 @@
         <div class="d-none d-sm-block col-md-2 col-lg-3" />
       </div>
     </div>
-  </div>
+    <Dialog 
+    :title="getString('votingTypeForm', 'success')"
+    :desc="getString('votingTypeForm', 'desc')"
+    :nextAction="nextFunction"
+    :backAction="backFunction"
+    :dialog="dialog"
+    :object="voting" />
+    </div>
 </template>
 
 <script>
@@ -153,6 +160,20 @@ export default {
       valid: false,
       lang: "pl-PL",
       dialog: false,
+      voting:{
+        startDate:{
+          label: getString("votingForm", "startDateLabel"),
+          value: ""
+        },
+        endDate: {
+        label: getString("votingForm", "endDateLabel"),
+        value: "",
+      },
+      votingType: {
+        label: getString("votingForm", "votingTypeLabel"),
+        value: "",
+      },
+      },
       menu1: false,
       modal: false,
       menu2: false,
@@ -212,7 +233,14 @@ export default {
           if(data == "success")
           this.check = true;
           console.log(data)
+          if(data != "wrong data"){
+            this.voting.startDate.value = data.start_date
+            this.voting.endDate.value = data.end_date
+            this.voting.votingType.value = data.voting_type
+            this.dialog = true
+            }
         })
+        
       }
     },
   },

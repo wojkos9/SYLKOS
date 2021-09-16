@@ -59,6 +59,37 @@
      <div class="d-none d-sm-block col-md-2 col-lg-3"/>
   </div>
     </div>
+
+       <v-dialog
+      v-model="dialog"
+      width="600px"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">tytul</span>
+        </v-card-title>
+        <v-card-text>
+          cos tam
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            Disagree
+          </v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            Agree
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
       
 </div>
 
@@ -101,6 +132,7 @@ export default {
         },
 
         selectedFile: null,
+        dialog: false,
     };
   },
   methods: {
@@ -125,7 +157,6 @@ export default {
     },
     onFileSelected(event){
       this.selectedFile = event.target.files[0]
-      
     },
     async submit() {
       this.validate();
@@ -146,10 +177,11 @@ export default {
           members: [],
           image: photoId
         }).then(data => {
-            this.$router.push({
-                name:'group',
-                params:{id: data.id}
-            })
+            console.log("komunikat: ", data)
+            if(data != "wrong data"){
+              this.dialog = true
+            }
+            
         })
     }
     },

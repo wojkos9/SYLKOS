@@ -1,57 +1,53 @@
 <template>
-  <v-row justify="center">
     <v-dialog
       v-model="dialog"
-      persistent
-      max-width="290"
+      width="600px"
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Open Dialog
-        </v-btn>
-      </template>
       <v-card>
-        <v-card-title class="text-h5">
-          Use Google's location service?
+        <v-card-title>
+          <span class="text-h4">{{ title }}!!</span>
         </v-card-title>
-        <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+        <v-card-text>
+          <span style="font-size: 20px">{{desc}}</span><br> <br>
+           <div v-for="(obj, index) in object" :key="index">
+             <b>{{obj.label}}</b> {{obj.value}}
+           </div>
+          
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
             color="green darken-1"
             text
-            @click="dialog = false"
+            @click="nextAction"
           >
-            Disagree
+             {{getString("votingTypeForm", "next")}}
           </v-btn>
           <v-btn
             color="green darken-1"
             text
-            @click="dialog = false"
+            @click="backAction"
           >
-            Agree
+             {{getString("votingTypeForm", "back")}}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-row>
 </template>
 
 <script>
-
+import { getString } from "@/language/string.js";
 export default ({
     name: "dialog",
-    props: ["dialog"],
+    props: ["title", "desc", "object", "nextAction", "backAction", "dialog"],
     data() {
         return {
-             dialog: false,
+             
         }
     },
+    methods: {
+      getString
+    },  
 })
 </script>
 

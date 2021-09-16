@@ -135,6 +135,11 @@ export const pl = {
     descError: 'Opis jest wymagany',
     submit: "Dodaj typ głosowania",
     clearData: "Wyczyść formularz",
-   
+    success: "sukces",
+    desc: "Udało się poprawnie dodać nowy typ głosowania!",
+    next: "zarządzanie",
+    back: "powrót do formularza",
+    votingName: 'Nazwa: ',
+    votingDesc: 'Opis: '
   }
 };
