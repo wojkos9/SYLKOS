@@ -5,6 +5,7 @@
         :style="button"
         elevation="2"
         rounded
+        color="secondary "
       >{{ title.toUpperCase() }}</v-btn>
     </router-link>
   </div>

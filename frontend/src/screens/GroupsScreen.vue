@@ -55,7 +55,7 @@ export default {
         "miejscu obecnego kamienistego placu przy ulicy MajaBoisko do " +
         "siatkówki plażowej w miejscu obecnego kamienistego placu przy ulicy " +
         "3 Maja",
-      allGroups: 34,
+      allGroups: '',
       groups : [],
       image:
         "https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg",

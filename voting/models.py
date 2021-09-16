@@ -13,8 +13,8 @@ class Group(models.Model):
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="members", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    image = models.ForeignKey(
-        Photo, on_delete=models.CASCADE, null=True, blank=True,  related_name="photo")
+    image = models.ManyToManyField(
+        Photo, null=True, blank=True,  related_name="photo")
 
     def __str__(self):
         return self.name

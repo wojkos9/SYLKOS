@@ -1,5 +1,61 @@
 <template>
-  <nav class="cos d-flex justify-content-between p-4">
+
+<v-row>
+    <v-col
+      cols="12"
+
+    >
+      <v-card color="primary darken-1">
+        <v-card-title >
+          <div class="d-flex justify-content-between leftSection"  >
+      <router-link :to="{ name: mainPageRoute }">
+        <img src="@/assets/logo3.png" class="logo" />
+      </router-link>
+     <v-btn
+      class="mx-2 showBurger"
+      fab
+      dark
+      color="primary darken-1"
+      @click="clicked"
+    >
+      <v-icon dark>
+        mdi-format-list-bulleted-square
+      </v-icon>
+    </v-btn>
+
+      <div class="menu d-flex justify-content-between align-self-center " id="navbarSupportedContent">
+         <Button v-bind:title="getString('navbar', 'groups')"
+                v-bind:route="groupsRoute"/>
+        <Button v-bind:title="getString('navbar', 'projects')"
+                v-bind:route="projectsRoute"/>
+        <Button v-bind:title="getString('navbar', 'addProject')"
+                v-bind:route="addProjectRoute"/>
+      </div></div>
+
+          <v-spacer></v-spacer>
+
+        
+           
+              <div class="d-flex justify-flex-end  align-self-start menu " style="position:relative; width: 200px; " >
+      <list-button :title="role" :options="menuOptions" />
+    </div>
+            
+
+           
+        </v-card-title>
+
+      </v-card>
+    </v-col>
+  </v-row>
+
+
+  <!-- <v-card style="width: 100%" color="primary">
+     <v-app-bar
+     class="d-flex justify-content-between p-4" 
+      color="primary darken-2"
+      dark
+      prominent
+    >
     <div class="d-flex justify-content-between leftSection"  >
       <router-link :to="{ name: mainPageRoute }">
         <img src="@/assets/logo3.png" class="logo" />
@@ -16,7 +72,7 @@
       </v-icon>
     </v-btn>
 
-      <div class="d-flex justify-content-between align-self-center menu" id="navbarSupportedContent">
+      <div class="menu d-flex justify-content-between align-self-center " id="navbarSupportedContent">
         <Button v-bind:title="getString('navbar', 'projects')"
                 v-bind:route="projectsRoute"/>
         <Button v-bind:title="getString('navbar', 'groups')"
@@ -24,13 +80,16 @@
         <Button v-bind:title="getString('navbar', 'addProject')"
                 v-bind:route="addProjectRoute"/>
       </div>
-
+ <v-spacer></v-spacer>
+ <v-spacer></v-spacer>
+ <v-spacer></v-spacer>
+ <v-spacer></v-spacer>
     </div>
     <div class="d-flex justify-flex-end  align-self-start menu " style="position:relative; width: 200px; " >
       <list-button :title="role" :options="menuOptions" />
     </div>
-    
-  </nav>
+     </v-app-bar>
+  </v-card> -->
 </template>
 
 <script>
@@ -116,9 +175,9 @@ export default {
   font-weight: 300;
 }
 
-.cos { 
+/* .cos { 
   background-color: #c0cfe6 !important;
-}
+} */
 
 @media only screen and (max-width: 1400px) {
   nav {

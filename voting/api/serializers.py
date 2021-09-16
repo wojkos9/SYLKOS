@@ -22,12 +22,14 @@ class GroupSerializer(serializers.ModelSerializer):
         return instance.members.count()
 
     def get_photos(self, instance):
+        print(type(instance.image))
         pattern = re.compile(r"[0-9]+")
         res = pattern.findall(str(instance.image))
 
         if len(res) > 0:
             res_i = int(res[0])
             images = Photo.objects.filter(id=res_i).values()
+            
             return images
 
         return []
@@ -100,17 +102,10 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class VotingTypeSerializer(serializers.ModelSerializer):
-    voted_projects = serializers.SerializerMethodField(read_only=True)
-
     class Meta:
         model = VotingType
         fields = "__all__"
 
-
-    def get_voted_projects(self, instance):
-        projects = Project.objects.filter(voting=instance.pk).values()
-
-        return projects
 
 class VotingSerializer(serializers.ModelSerializer):
     class Meta:

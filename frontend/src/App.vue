@@ -1,5 +1,5 @@
 <template>
-<v-app>
+<v-app :style="{background: $vuetify.theme.themes[theme].background}">
   <div id="app">
     <navbar-comp v-bind:setShowSideMenu="setShowSideMenu" />
     <router-view />
@@ -38,6 +38,11 @@ export default {
   created() {
     this.setUserInfo();
   },
+   computed:{
+    theme(){
+      return (this.$vuetify.theme.dark) ? 'dark' : 'light'
+    }
+  }
 };
 </script>
 
@@ -47,7 +52,8 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons");
 
 html,
-body {
+body,
+v-app {
   font-family: "playfair display";
   font-weight: 500;
   /* font-size: 16px; */

@@ -43,6 +43,7 @@
                 </template>
 
                 <v-date-picker
+                color="accent"
                   v-model="startDate.value"
                   @input="menu1 = false"
                   :first-day-of-week="0"
@@ -71,29 +72,23 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
+                  color="accent"
                   :first-day-of-week="0"
                   :locale="lang"
                   v-model="endDate.value"
+                  
                   @input="menu2 = false"
                 ></v-date-picker>
               </v-menu>
-              <div class="search">
-                <div class="md-layout-item">
-                  <md-field >
-                    <label for="sortGroups">{{ votingType.label }}</label>
-                    <md-select v-model="votingType.value" v-validate="'required'">
-                      <md-option
-                        v-for="(option, index) in votingTypes"
-                        :key="index"
-                        
-                        :value="option.name"
-                        class="sortGroups"
-                        >{{ option.name }}</md-option
-                      >
-                    </md-select>
-                  </md-field>
-                </div>
-              </div>
+             
+                <v-combobox 
+                  v-model="votingType.value"
+                  :items="votingTypes"
+                  :rules="votingType.rule"
+                  :label="votingType.label"
+                  item-text="name"
+                ></v-combobox>
+     
 
               <div class="d-flex justify-content-end p-4 buttons">
                 <v-dialog v-model="dialog" persistent max-width="500">
@@ -211,7 +206,8 @@ export default {
         await apiService("/api/voting/", "POST", {
           start_date: this.startDate.value + "T00:00:00Z",
           end_date: this.endDate.value + "T00:00:00Z",
-          voting_type: this.votingType.value,
+
+          voting_type: this.votingType.value.name,
         }).then((data) => {
           if(data == "success")
           this.check = true;
