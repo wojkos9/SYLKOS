@@ -15,6 +15,12 @@ class GroupListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = GroupSerializer
     permission_classes = [IsAuthenticated]
 
+    # def create_photo(self, request):
+    #     files = request.FILES.getlist('file_content')
+    #     print("::::::::::::::::", files)
+    #     Response(files, status=status.HTTP_201_CREATED)
+
+
 
 class GroupDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Group.objects.all()

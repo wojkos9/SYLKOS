@@ -14,6 +14,7 @@ class GroupSerializer(serializers.ModelSerializer):
     members = serializers.StringRelatedField(many=True)
     photos = serializers.SerializerMethodField()
 
+
     class Meta:
         model = Group
         fields = "__all__"
@@ -29,7 +30,6 @@ class GroupSerializer(serializers.ModelSerializer):
         for i in images:
             for i_i in images_inner:
                 if i['id'] == i_i['id']:
-                    print(i)
                     images_data.append(i)
 
         return images_data
