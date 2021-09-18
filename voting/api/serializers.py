@@ -5,14 +5,14 @@ from django.db.models import fields, manager
 from django.forms.models import model_to_dict
 from statistics import mean
 import re
-from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image, Photo
+from voting.models import Group, Project, Comment, Voting, VotingType, Photo
 
 
 class GroupSerializer(serializers.ModelSerializer):
 
     count_user = serializers.SerializerMethodField()
     members = serializers.StringRelatedField(many=True)
-    photos = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField(read_only=True)
 
 
     class Meta:
@@ -22,17 +22,9 @@ class GroupSerializer(serializers.ModelSerializer):
     def get_count_user(self, instance):
         return instance.members.count()
 
-    def get_photos(self, instance):
-        images_data = []
-
-        images = Photo.objects.all().values()
-        images_inner = instance.photos.all().values()
-        for i in images:
-            for i_i in images_inner:
-                if i['id'] == i_i['id']:
-                    images_data.append(i)
-
-        return images_data
+    def get_images(self, instance):
+        group_images = Photo.objects.filter(product=instance.pk).values()
+        return group_images
 
 
 class PhotoSerializer(serializers.ModelSerializer):
@@ -62,19 +54,6 @@ class ProjectSerializer(serializers.ModelSerializer):
         return ''
 
 
-class ImageAlbumSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = ImageAlbum
-        fields = "__all__"
-
-
-class ImageSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Image
-        fields = "__all__"
-
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
@@ -102,7 +81,10 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class VotingTypeSerializer(serializers.ModelSerializer):
+<<<<<<< HEAD
 
+=======
+>>>>>>> b14bc65ac5a9c210205273949014f28315da87ee
     class Meta:
         model = VotingType
         fields = "__all__"

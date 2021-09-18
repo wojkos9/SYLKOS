@@ -1,7 +1,7 @@
 from rest_framework import generics
-from voting.models import Group, ImageAlbum, Project, Comment, VotingType, Voting, Image, Photo
+from voting.models import Group, Project, Comment, VotingType, Voting, Photo
 from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
-from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, ImageAlbumSerializer, ImageSerializer, PhotoSerializer
+from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, PhotoSerializer
 from rest_framework import generics, status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -37,18 +37,6 @@ class PhotoListCreateAPIView(generics.ListCreateAPIView):
 class PhotoDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-    permission_classes = [IsAuthenticated]
-
-
-class ImageListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Image.objects.all().order_by("id")
-    serializer_class = ImageSerializer
-    permission_classes = [IsAuthenticated]
-
-
-class ImageAlbumListCreateAPIView(generics.ListCreateAPIView):
-    queryset = ImageAlbum.objects.all().order_by("id")
-    serializer_class = ImageAlbumSerializer
     permission_classes = [IsAuthenticated]
 
 

@@ -1,10 +1,12 @@
 <template>
-<v-app>
+<v-app :style="{background: $vuetify.theme.themes[theme].background}">
   <div id="app">
     <navbar-comp v-bind:setShowSideMenu="setShowSideMenu" />
     <router-view />
     <drawer v-bind:showSideMenu="showSideMenu" />
+      <Footer/>
   </div>
+
 </v-app>
 </template>
 
@@ -12,12 +14,14 @@
 import NavbarComp from "@/components/navbar_footer/Navbar.vue";
 import { apiService } from "@/common/api.service.js";
 import Drawer from "./components/navbar_footer/Drawer.vue";
+import Footer from './components/navbar_footer/Footer.vue';
 
 export default {
   name: "App",
   components: {
     NavbarComp,
     Drawer,
+    Footer,
   },
   data() {
     return {
@@ -38,6 +42,11 @@ export default {
   created() {
     this.setUserInfo();
   },
+   computed:{
+    theme(){
+      return (this.$vuetify.theme.dark) ? 'dark' : 'light'
+    }
+  }
 };
 </script>
 
@@ -47,7 +56,8 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons");
 
 html,
-body {
+body,
+v-app {
   font-family: "playfair display";
   font-weight: 500;
   /* font-size: 16px; */

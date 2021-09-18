@@ -1,7 +1,15 @@
 <template>
-  <div class="area">
-<div class="oneOption" style="position:relative"  @click="hidden = !hidden; $emit('change')">
-      <div  class="title" >
+
+  <v-card >
+        <div
+      class="oneOption"
+      style="position:relative"
+      @click="
+        hidden = !hidden;
+        $emit('change');
+      "
+    >
+      <div class="title">
         {{ title }}
       </div>
 
@@ -14,7 +22,7 @@
           style=" position: absolute; top: 50px; left: 400px; width: 50px; "
         >
           <v-fab-transition>
-            <v-btn v-show="!hidden" color="pink" dark absolute top right fab>
+            <v-btn v-show="!hidden" color="accent" dark absolute top right fab>
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </v-fab-transition>
@@ -51,7 +59,8 @@
         </v-card-text>
       </router-link>
     </div>
-  </div>
+  </v-card>
+
 </template>
 
 <script>
@@ -114,7 +123,7 @@ export default {
   align-items: center;
 }
 
-.oneOption:hover{
+.oneOption:hover {
   cursor: pointer;
   background-color: #f2f6fa;
 }
