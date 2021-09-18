@@ -111,6 +111,10 @@ export const pl = {
     newGroup: "Utwórz nową grupę",
     submit: "Dodaj grupę",
     clearData: "Wyczyść formularz",
+    stay: 'Pozostań na stronie',
+    goToGroup: 'Przejdź do grupy',
+    success: "sukces",
+    desc: "Udało się poprawnie dodać nową grupę!",
   },
   votingForm:{
     title: "Nowe głosowanie",
@@ -141,5 +145,9 @@ export const pl = {
     back: "powrót do formularza",
     votingName: 'Nazwa: ',
     votingDesc: 'Opis: '
+  },
+  footer:{
+    rules: 'Regulamin',
+    rulesDocumnet: ''
   }
 };

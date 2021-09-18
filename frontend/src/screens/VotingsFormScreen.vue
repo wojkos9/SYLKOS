@@ -43,7 +43,7 @@
                 </template>
 
                 <v-date-picker
-                color="accent"
+                  color="accent"
                   v-model="startDate.value"
                   @input="menu1 = false"
                   :first-day-of-week="0"
@@ -76,19 +76,17 @@
                   :first-day-of-week="0"
                   :locale="lang"
                   v-model="endDate.value"
-                  
                   @input="menu2 = false"
                 ></v-date-picker>
               </v-menu>
-             
-                <v-combobox 
-                  v-model="votingType.value"
-                  :items="votingTypes"
-                  :rules="votingType.rule"
-                  :label="votingType.label"
-                  item-text="name"
-                ></v-combobox>
-     
+
+              <v-combobox
+                v-model="votingType.value"
+                :items="votingTypes"
+                :rules="votingType.rule"
+                :label="votingType.label"
+                item-text="name"
+              ></v-combobox>
 
               <div class="d-flex justify-content-end p-4 buttons">
                 <v-dialog v-model="dialog" persistent max-width="500">
@@ -103,11 +101,11 @@
                     </v-btn>
                   </template>
                   <v-card>
-               
-                    <v-card-text style="text-align: center; padding: 20px; font-size: 1.5rem"
-                      > {{ getString("votingForm", "success") }}
-                      </v-card-text
+                    <v-card-text
+                      style="text-align: center; padding: 20px; font-size: 1.5rem"
                     >
+                      {{ getString("votingForm", "success") }}
+                    </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn
@@ -137,42 +135,44 @@
         <div class="d-none d-sm-block col-md-2 col-lg-3" />
       </div>
     </div>
-    <Dialog 
-    :title="getString('votingTypeForm', 'success')"
-    :desc="getString('votingTypeForm', 'desc')"
-    :nextAction="nextFunction"
-    :backAction="backFunction"
-    :dialog="dialog"
-    :object="voting" />
-    </div>
+    <DialogWithUser
+      :title="getString('votingTypeForm', 'success')"
+      :desc="getString('votingTypeForm', 'desc')"
+      :nextAction="nextFunction"
+      :backAction="backFunction"
+      :dialog="dialog"
+      :object="voting"
+    />
+  </div>
 </template>
 
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 import { apiService } from "@/common/api.service.js";
+import DialogWithUser from '../components/UI/DialogWithUser.vue';
 
 export default {
   name: "groupScreen",
-  components: {},
+  components: {DialogWithUser},
   data() {
     return {
       valid: false,
       lang: "pl-PL",
       dialog: false,
-      voting:{
-        startDate:{
+      voting: {
+        startDate: {
           label: getString("votingForm", "startDateLabel"),
-          value: ""
+          value: "",
         },
         endDate: {
-        label: getString("votingForm", "endDateLabel"),
-        value: "",
-      },
-      votingType: {
-        label: getString("votingForm", "votingTypeLabel"),
-        value: "",
-      },
+          label: getString("votingForm", "endDateLabel"),
+          value: "",
+        },
+        votingType: {
+          label: getString("votingForm", "votingTypeLabel"),
+          value: "",
+        },
       },
       menu1: false,
       modal: false,
@@ -230,29 +230,53 @@ export default {
 
           voting_type: this.votingType.value.name,
         }).then((data) => {
-          if(data == "success")
-          this.check = true;
-          console.log(data)
-          if(data != "wrong data"){
-            this.voting.startDate.value = data.start_date
-            this.voting.endDate.value = data.end_date
-            this.voting.votingType.value = data.voting_type
-            this.dialog = true
-            }
-        })
-        
+          if (data == "success") this.check = true;
+          console.log(data);
+          if (data != "wrong data") {
+            this.voting.startDate.value = data.start_date;
+            this.voting.endDate.value = data.end_date;
+            this.voting.votingType.value = data.voting_type;
+            console.log(this.voting)
+            this.dialog = true;
+          }
+        });
       }
     },
+    async getTypes(endpoint) {
+      await apiService(endpoint).then((data) => {
+        return data;
+      });
+      return null;
+    },
+    nextFunction(){
+      this.dialog = false
+      this.$router.push({name:"admin"})
+    },
+    backFunction(){
+      this.dialog = false
+      // this.$router.push({name:"votingTypeNew"})
+    }
   },
   created() {
     document.title = this.getString("votingForm", "title");
   },
   async beforeRouteEnter(to, from, next) {
     let endpoint = `api/voting_type/`;
-    let data = await apiService(endpoint);
+    let types = [];
+    while (endpoint) {
+      await apiService(endpoint).then((data) => {
+        console.log(data.results);
+        for (let type of data.results) {
+          types.push(type);
+        }
+        endpoint = data.next;
+      });
+    }
+
     return next((vm) => {
-      console.log(data);
-      vm.votingTypes = data.results;
+      console.log(types);
+
+      vm.votingTypes = types;
     });
   },
 };

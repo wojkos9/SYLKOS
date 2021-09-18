@@ -38,7 +38,7 @@
 <script>
 import { getString } from "@/language/string.js";
 export default ({
-    name: "dialog",
+    name: "DialogWithUser",
     props: ["title", "desc", "object", "nextAction", "backAction", "dialog"],
     data() {
         return {
@@ -47,7 +47,10 @@ export default ({
     },
     methods: {
       getString
-    },  
+    }, 
+    computed(){
+      console.log(this.object)
+    } 
 })
 </script>
 

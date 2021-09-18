@@ -48,7 +48,7 @@
      <div class="d-none d-sm-block col-md-2 col-lg-3"/>
   </div>
 
-  <Dialog 
+  <DialogWithUser 
   :title="getString('votingTypeForm', 'success')"
   :desc="getString('votingTypeForm', 'desc')"
   :nextAction="nextFunction"
@@ -97,12 +97,12 @@
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 import { apiService } from "@/common/api.service.js";
-import Dialog from '../components/UI/Dialog.vue';
+import DialogWithUser from '../components/UI/DialogWithUser.vue';
 
 
 export default {
   name: "votingTypeScreen",
-  components: {Dialog},
+  components: {DialogWithUser},
   data() {
     return {
       valid: false,

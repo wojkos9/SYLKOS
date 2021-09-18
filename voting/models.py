@@ -2,10 +2,6 @@ from django.db import models
 from django.conf import settings
 
 
-class Photo(models.Model):
-    image = models.ImageField(upload_to='images/')
-
-
 class Group(models.Model):
     name = models.CharField(max_length=50)
     subname = models.CharField(max_length=150, blank=True, default='')
@@ -13,12 +9,17 @@ class Group(models.Model):
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="members", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    image = models.ManyToManyField(
-        Photo, null=True, blank=True,  related_name="photo")
 
     def __str__(self):
         return self.name
 
+class Photo(models.Model):
+    image = models.ImageField(upload_to='images/')
+    description = models.CharField(max_length=150, blank=True, default='')
+    product = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.image.url
 
 class VotingType(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
@@ -52,13 +53,13 @@ class ImageAlbum(models.Model):
         return self.images.filter(width__lt=100, length_lt=100)
 
 
-class Image(models.Model):
-    name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='images/')
-    width = models.FloatField(default=100)
-    length = models.FloatField(default=100)
-    album = models.ForeignKey(
-        ImageAlbum, related_name='images', on_delete=models.CASCADE)
+# class Image(models.Model):
+#     name = models.CharField(max_length=255)
+#     image = models.ImageField(upload_to='images/')
+#     width = models.FloatField(default=100)
+#     length = models.FloatField(default=100)
+#     album = models.ForeignKey(
+#         ImageAlbum, related_name='images', on_delete=models.CASCADE)
 
 
 class Project(models.Model):

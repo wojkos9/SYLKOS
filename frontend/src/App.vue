@@ -4,7 +4,9 @@
     <navbar-comp v-bind:setShowSideMenu="setShowSideMenu" />
     <router-view />
     <drawer v-bind:showSideMenu="showSideMenu" />
+      <Footer/>
   </div>
+
 </v-app>
 </template>
 
@@ -12,12 +14,14 @@
 import NavbarComp from "@/components/navbar_footer/Navbar.vue";
 import { apiService } from "@/common/api.service.js";
 import Drawer from "./components/navbar_footer/Drawer.vue";
+import Footer from './components/navbar_footer/Footer.vue';
 
 export default {
   name: "App",
   components: {
     NavbarComp,
     Drawer,
+    Footer,
   },
   data() {
     return {

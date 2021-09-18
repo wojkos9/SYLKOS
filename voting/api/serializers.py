@@ -5,14 +5,14 @@ from django.db.models import fields, manager
 from django.forms.models import model_to_dict
 from statistics import mean
 import re
-from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image, Photo
+from voting.models import Group, Project, Comment, Voting, VotingType, Photo
 
 
 class GroupSerializer(serializers.ModelSerializer):
 
     count_user = serializers.SerializerMethodField()
     members = serializers.StringRelatedField(many=True)
-    photos = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Group
@@ -21,18 +21,9 @@ class GroupSerializer(serializers.ModelSerializer):
     def get_count_user(self, instance):
         return instance.members.count()
 
-    def get_photos(self, instance):
-        print(type(instance.image))
-        pattern = re.compile(r"[0-9]+")
-        res = pattern.findall(str(instance.image))
-
-        if len(res) > 0:
-            res_i = int(res[0])
-            images = Photo.objects.filter(id=res_i).values()
-            
-            return images
-
-        return []
+    def get_images(self, instance):
+        group_images = Photo.objects.filter(product=instance.pk).values()
+        return group_images
 
 
 class PhotoSerializer(serializers.ModelSerializer):
@@ -61,19 +52,6 @@ class ProjectSerializer(serializers.ModelSerializer):
             return round(((float)(sum / len(comments))), 2)
         return ''
 
-
-class ImageAlbumSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = ImageAlbum
-        fields = "__all__"
-
-
-class ImageSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Image
-        fields = "__all__"
 
 
 class CommentSerializer(serializers.ModelSerializer):

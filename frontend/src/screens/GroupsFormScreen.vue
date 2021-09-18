@@ -40,9 +40,10 @@
       <v-file-input
       class="p-2 m-3"
         :label="photo.label"
-        v-model="selectedFile"
+        v-model="selectedFiles"
         append-icon="mdi-camera"
         prepend-icon=""
+        multiple
       ></v-file-input>
         <div class="d-flex justify-content-end p-4 buttons">
           <v-btn class="mr-4 p-2" @click="submit">
@@ -50,6 +51,9 @@
           </v-btn>
           <v-btn @click="clear">
             {{ getString("groupForm", "clearData") }}
+          </v-btn>
+          <v-btn @click="proba">
+            proba
           </v-btn>
         </div>
       </v-container>
@@ -60,36 +64,14 @@
   </div>
     </div>
 
-       <v-dialog
-      v-model="dialog"
-      width="600px"
-    >
-      <v-card>
-        <v-card-title>
-          <span class="text-h5">tytul</span>
-        </v-card-title>
-        <v-card-text>
-          cos tam
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialog = false"
-          >
-            Disagree
-          </v-btn>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialog = false"
-          >
-            Agree
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <DialogWithUser
+      :title="getString('groupForm', 'success')"
+      :desc="getString('groupForm', 'desc')"
+      :nextAction="nextFunction"
+      :backAction="backFunction"
+      :dialog="dialog"
+      :object="group"
+    />
       
 </div>
 
@@ -99,15 +81,16 @@
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 import { apiService, imageUpload} from "@/common/api.service.js";
-
+import DialogWithUser from '../components/UI/DialogWithUser.vue';
 
 export default {
   name: "groupScreen",
-  components: {},
+  components: {DialogWithUser},
   data() {
     return {
       valid: false,
       newName: 'costam',
+      group: '',
       name:
         {
           label: getString("groupForm", "groupNameLabel"),
@@ -131,7 +114,7 @@ export default {
           value: {},
         },
 
-        selectedFile: null,
+        selectedFiles: [],
         dialog: false,
     };
   },
@@ -158,33 +141,59 @@ export default {
     onFileSelected(event){
       this.selectedFile = event.target.files[0]
     },
+    async proba(){
+      let formData = new FormData();
+      for (var file of this.selectedFiles){
+         formData.append("image", file);
+      formData.append("costam", "costam")
+      await imageUpload(formData).then((data) => {console.log("wynik proby " ,data)})
+      }
+     
+    },
     async submit() {
       this.validate();
       console.log(this.photo.value)
       if (this.valid) {
-        let formData = new FormData();
-        formData.append("image", this.selectedFile);
-       
-      var photoId
+        // let formData = new FormData();
+        // formData.append("image", this.selectedFile);
+        
+      // var photoId = []
+      
 
 
-    await imageUpload(formData).then((data) => {photoId = data.data.id, console.log(photoId)})
+    
 
     await apiService("/api/groups/", "POST", {
           name: this.name.value,
           subname: this.subname.value,
           description: this.desc.value,
           members: [],
-          image: photoId
-        }).then(data => {
+        }).then(async data => {
             console.log("komunikat: ", data)
             if(data != "wrong data"){
               this.dialog = true
+              let groupId = data.id
+                for (var file of this.selectedFiles){
+
+              let formData = new FormData();
+              formData.append("image", file);
+              formData.append("product", groupId);
+              formData.append("description", "opis zdjęcia");
+              await imageUpload(formData).then((data) => {console.log("phtoId" ,data)})
+                }
             }
             
         })
     }
     },
+    nextFunction(){
+      this.dialog = false
+      this.$router.push({name:"admin"})
+    },
+    backFunction(){
+      this.dialog = false
+      // this.$router.push({name:"votingTypeNew"})
+    }
     
   },
   created(){

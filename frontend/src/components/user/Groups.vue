@@ -2,6 +2,9 @@
   <div class="groups">
     <div class="title">{{ title }}</div>
     <div class="nextToGroupsScreen" style="z-index:-1">
+      <div v-for="(group, index) in groups" :key="index">
+        <group-project v-bind:title="group.name" v-bind:image="grupa1.image" />
+      </div>
       <group-project v-bind:title="grupa1.title" v-bind:image="grupa1.image" />
 
       <group-project v-bind:title="grupa1.title" v-bind:image="grupa1.image" />
@@ -18,7 +21,7 @@ import { getColor } from "@/colors.js";
 
 export default {
   name: "groups",
-  props: [],
+  props: ["groups"],
   data() {
     return {
       title: getString("userPanel", "myGroups"),
