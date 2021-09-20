@@ -6,6 +6,7 @@ from django.forms.models import model_to_dict
 from statistics import mean
 import re
 from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image, Photo
+from voting import voting_models
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -117,3 +118,42 @@ class VotingSerializer(serializers.ModelSerializer):
         projects = Project.objects.filter(voting=instance.pk).values()
 
         return projects
+
+class VoteSerializer(serializers.Serializer):
+    class InnerVotes(serializers.Serializer):
+        project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
+        points = serializers.IntegerField()
+
+    voting = serializers.PrimaryKeyRelatedField(queryset=Voting.objects.all())
+    choice = InnerVotes(many=True)
+
+    def validate(self, attrs):
+        attrs['user'] = self.context['request'].user
+
+        MAJORITY_VOTING_VAL = lambda d: [1, len(d)-1] == [len([x for x in d if x==v]) for v in (1, 0)]
+
+        choice = attrs['choice']
+
+        if any(e['project'].voting.id != attrs['voting'].id for e in choice):
+            raise Exception("Project not in voting")
+
+        if len(set([e['project'].id for e in choice])) != len(choice):
+            raise Exception("Duplicate projects")
+
+        data = [x['points'] for x in choice]
+
+        d = data
+        print([len([x for x in d if x==v]) for v in (1, 0)])
+
+        if MAJORITY_VOTING_VAL(data):
+            return attrs
+        else:
+            raise Exception("Forbidden vote")
+
+    def create(self, validated_data):
+        voting=validated_data['voting']
+        user = validated_data['user']
+        voting_models.Vote.objects.filter(voting=voting, user=user).delete()
+        votes = [voting_models.Vote.objects.create(voting=voting, user=user, **c)
+            for c in validated_data['choice']]
+        return votes

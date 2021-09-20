@@ -2,6 +2,7 @@ from voting.models import Voting
 from django.urls import path
 from voting.api.views import CommentRUDAPIView, GroupListCreateAPIView, GroupDetailAPIView, ProjectListCreateAPIView, ProjectDetailAPIView, JoinGroupAPIView, CommentCreateAPIView, CommentListAPIView, CommentLikeAPIView, CommentDislikeAPIView, VotingTypeView, VotingView, ImageAlbumListCreateAPIView, ImageListCreateAPIView, PhotoListCreateAPIView, PhotoDetailAPIView
 from rest_framework.routers import SimpleRouter
+from voting.api import views
 
 voting_router = SimpleRouter()
 voting_router.register('voting', VotingView)
@@ -22,5 +23,6 @@ urlpatterns = [
     path('images/', ImageListCreateAPIView.as_view(), name="images-list"),
     path('photo/', PhotoListCreateAPIView.as_view(), name="photo-list"),
     path('photo/<int:pk>/', PhotoDetailAPIView.as_view(), name="photo-detail"),
+    path('vote/', views.VoteView.as_view(), name="submit-vote"),
     *voting_router.urls
 ]
