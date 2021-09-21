@@ -115,6 +115,33 @@ export const pl = {
     goToGroup: 'Przejdź do grupy',
     success: "sukces",
     desc: "Udało się poprawnie dodać nową grupę!",
+    pictures: "Liczba dodanych zdjęć"
+  },
+  projectForm: {
+    title: "Nowy projekt",
+    projectNameError: "Nazwa jest wymagana",
+    projectNameLabel: "Nazwa grupy",
+    projectDescError: "Opis jest wymagany",
+    projectDescLabel: "Opis grupy",
+    projectBudgetError: "Budżet jest wymagany",
+    projectBudgetLabel: "Budżet",
+    projectStageError: "Status jest wymagany",
+    projectStageLabel: "Status",
+    projectFinishError: "Data zakończenia jest wymagana",
+    projectFinishLabel: "Data zakończenia",
+    projectGroupError: "Grupa jest wymagana",
+    projectGroupLabel: "Grupa",
+    projectVotingError: "Głosowanie jest wymagana",
+    projectVotingLabel: "Głosowanie",
+    projectPhotoLabel: "Dodaj zdjęcia",
+    newProject: "Utwórz nowy projekt",
+    submit: "Dodaj projekt",
+    clearData: "Wyczyść formularz",
+    stay: 'Pozostań na stronie',
+    goToGroup: 'Przejdź do projektu',
+    success: "sukces",
+    desc: "Udało się poprawnie dodać nowy projekt!",
+    pictures: "Liczba dodanych zdjęć"
   },
   votingForm:{
     title: "Nowe głosowanie",
@@ -149,5 +176,8 @@ export const pl = {
   footer:{
     rules: 'Regulamin',
     rulesDocumnet: ''
+  },
+  language:{
+    lang: "pl-PL",
   }
 };

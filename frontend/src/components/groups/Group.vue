@@ -18,8 +18,8 @@
       </div>
       <div class="col center">
         <div class="center">
-          <div v-if="group.photos.length > 0">
-              <img  :src="`/media/${group.photos[0].image}`" class="image" />
+          <div v-if="group.images.length > 0">
+              <img  :src="`/media/${group.images[0].image}`" class="image" />
           </div>
           
           <router-link :to="{ name: 'group', params:{id:id}}"><div :style="button">Dowiedz się więcej</div></router-link>
@@ -36,7 +36,7 @@ import { apiService } from "@/common/api.service.js";
 
 export default {
   name: "Group",
-  props: ["group", "name", "desc", "members", "picture", "id", "requestUser", "allMembers"],
+  props: ["group", "name", "requestUser"],
   data() {
     return {
       loading: true,
@@ -62,7 +62,7 @@ export default {
       };
     },
     isUserMember(){
-      return this.allMembers.includes(this.requestUser)
+      return this.group.members.includes(this.requestUser)
     }
   },
   components: {},
