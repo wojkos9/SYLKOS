@@ -6,6 +6,8 @@
             :group="group"
             />
         </div>
+        <div v-for="(project, index) in voting.projects" :key="index">{{project}}</div>
+
         <div class="projects">
             <voting-project
             :title="title"
@@ -51,6 +53,8 @@
     import VotingHeader from '../components/voting/VotingHeader.vue';
     import ButtonSubmitVote from '../components/voting/ButtonSubmitVote.vue';
     import VotingProject from '../components/voting/VotingProject.vue';
+    import { apiService } from "@/common/api.service.js";
+
     export default {
         name: "votingScreen",
         props: {
@@ -75,13 +79,19 @@
                 likes:"21",
                 dislikes:"37",
                 userVotedFor:"nothing",
+                voting: {},
             }
         },
         components: {
             VotingHeader,
             ButtonSubmitVote,
             VotingProject
-        }
+        },
+    async beforeRouteEnter(to, from, next){
+        let endpoint = `/api/voting/${to.params.vId}/`
+        let data = await apiService(endpoint)
+        return next(vm => vm.voting = data)
+    }
     }
 </script>
 
