@@ -52,9 +52,7 @@
           <v-btn @click="clear">
             {{ getString("groupForm", "clearData") }}
           </v-btn>
-          <v-btn @click="proba">
-            proba
-          </v-btn>
+
         </div>
       </v-container>
       
@@ -90,7 +88,24 @@ export default {
     return {
       valid: false,
       newName: 'costam',
-      group: '',
+      group: {
+        name: {
+          label: getString("groupForm", "groupNameLabel"),
+          value: ""
+        },
+        subname: {
+          label: getString("groupForm", "groupSubNameLabel"),
+          value: "",
+        },
+        desc: {
+          label: getString("groupForm", "groupDescLabel"),
+          value: "",
+        },
+        pictures: {
+          label: getString("groupForm", "pictures"),
+          value: 0,
+        }
+      },
       name:
         {
           label: getString("groupForm", "groupNameLabel"),
@@ -121,9 +136,6 @@ export default {
   methods: {
     getString,
     getColor,
-    selectImage(){
-      this.photo.value = this.$refs.file.files.item(0);
-    },
     clear() {
       this.name.value = "";
       this.subname.value = "";
@@ -138,30 +150,9 @@ export default {
     validate() {
       this.$refs.newGroupForm.validate();
     },
-    onFileSelected(event){
-      this.selectedFile = event.target.files[0]
-    },
-    async proba(){
-      let formData = new FormData();
-      for (var file of this.selectedFiles){
-         formData.append("image", file);
-      formData.append("costam", "costam")
-      await imageUpload(formData).then((data) => {console.log("wynik proby " ,data)})
-      }
-     
-    },
     async submit() {
       this.validate();
-      console.log(this.photo.value)
       if (this.valid) {
-        // let formData = new FormData();
-        // formData.append("image", this.selectedFile);
-        
-      // var photoId = []
-      
-
-
-    
 
     await apiService("/api/groups/", "POST", {
           name: this.name.value,
@@ -173,13 +164,17 @@ export default {
             if(data != "wrong data"){
               this.dialog = true
               let groupId = data.id
+              console.log(data)
+              this.group.name.value = data.name;
+              this.group.subname.value = data.subname;
+              this.group.desc.value = data.description;
                 for (var file of this.selectedFiles){
-
+              
               let formData = new FormData();
               formData.append("image", file);
-              formData.append("product", groupId);
+              formData.append("group", groupId);
               formData.append("description", "opis zdjęcia");
-              await imageUpload(formData).then((data) => {console.log("phtoId" ,data)})
+              await imageUpload(formData).then((data) => {this.group.pictures.value++; console.log("phtoId" ,data)})
                 }
             }
             

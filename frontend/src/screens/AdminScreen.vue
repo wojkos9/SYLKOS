@@ -68,9 +68,9 @@ export default {
       project: {
         id: 1,
         title: this.getString("admin", "projects"),
-        newAction: "groupNew",
-        editAction: "groupNew",
-        deleteAction: "groupNew",
+        newAction: "projectNew",
+        editAction: "projectNew",
+        deleteAction: "projectNew",
         key: 2,
       },
       voting: {

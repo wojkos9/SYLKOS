@@ -23,7 +23,7 @@ class GroupSerializer(serializers.ModelSerializer):
         return instance.members.count()
 
     def get_images(self, instance):
-        group_images = Photo.objects.filter(product=instance.pk).values()
+        group_images = Photo.objects.filter(group=instance.pk).values()
         return group_images
 
 
@@ -37,6 +37,7 @@ class PhotoSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
 
     rating_avg = serializers.SerializerMethodField(read_only=True)
+    images = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Project
@@ -52,6 +53,10 @@ class ProjectSerializer(serializers.ModelSerializer):
         if len(comments) > 0:
             return round(((float)(sum / len(comments))), 2)
         return ''
+
+    def get_images(self, instance):
+        project_images = Photo.objects.filter(project=instance.pk).values()
+        return project_images
 
 
 
@@ -91,13 +96,23 @@ class VotingTypeSerializer(serializers.ModelSerializer):
 
 
 class VotingSerializer(serializers.ModelSerializer):
+<<<<<<< HEAD
     voted_projects = serializers.SerializerMethodField(read_only=True)
 
+=======
+    projects = serializers.SerializerMethodField(read_only=True)
+>>>>>>> e43b7490a86a45bcfb1db04dd3db5716819cf6eb
     class Meta:
         model = Voting
         fields = "__all__"
 
+<<<<<<< HEAD
     def get_voted_projects(self, instance):
         projects = Project.objects.filter(voting=instance.pk).values()
 
         return projects
+=======
+    def get_projects(self, instance):
+            voting_projects = Project.objects.filter(voting=instance.pk).values()
+            return voting_projects
+>>>>>>> e43b7490a86a45bcfb1db04dd3db5716819cf6eb

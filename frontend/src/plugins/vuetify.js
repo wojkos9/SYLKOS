@@ -10,8 +10,8 @@ export default new Vuetify({
           light: {
             primary: "#78909c",
 
-            secondary: "#3f51b5",
-            accent: "#3f51b5",
+            secondary: "#00bfa5",
+            accent: "#00bfa5",
             error: colors.red,
             background: '#eceff1'
           },

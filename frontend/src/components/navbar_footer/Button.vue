@@ -5,7 +5,8 @@
         :style="button"
         elevation="2"
         rounded
-        color="secondary "
+        class="p-2"
+        color="secondary"
       >{{ title.toUpperCase() }}</v-btn>
     </router-link>
   </div>
@@ -24,13 +25,11 @@ export default {
   computed: {
     button() {
       return {
-        backgroundColor: this.getColor("backgroundcolor"),
-        alignSelf: "center",
-        borderRadius: "35px",
         marginLeft: "10px",
-        padding: "9px",
         width: "150px",
+        height: '40px',
         textAlign: "center",
+        color: "black"
       };
     },
   },

@@ -12,6 +12,7 @@ import GroupsFormScreen from '../screens/GroupsFormScreen'
 import VotingsFormScreen from '../screens/VotingsFormScreen' 
 import VotingsTypeFormScreen from '../screens/VotingsTypeFormScreen' 
 import AdminScreen from '../screens/AdminScreen'
+import ProjectFormScreen from '../screens/ProjectFormScreen'
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export const routes = [{
         path:"/newgroup",
         name:"groupNew",
         component:GroupsFormScreen,
+    },
+    {
+        path:"/newproject",
+        name:"projectNew",
+        component:ProjectFormScreen,
     },
     {
         path:"/newvoting",

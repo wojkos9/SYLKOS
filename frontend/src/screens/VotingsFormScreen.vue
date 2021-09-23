@@ -158,7 +158,7 @@ export default {
   data() {
     return {
       valid: false,
-      lang: "pl-PL",
+      lang: getString("language", "lang"),
       dialog: false,
       voting: {
         startDate: {
