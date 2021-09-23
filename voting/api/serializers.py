@@ -5,8 +5,7 @@ from django.db.models import fields, manager
 from django.forms.models import model_to_dict
 from statistics import mean
 import re
-from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image, Photo
-from voting import voting_models
+from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image, Photo, Vote
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -119,6 +118,7 @@ class VotingSerializer(serializers.ModelSerializer):
 
         return projects
 
+
 class VoteSerializer(serializers.Serializer):
     class InnerVotes(serializers.Serializer):
         project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
@@ -153,7 +153,7 @@ class VoteSerializer(serializers.Serializer):
     def create(self, validated_data):
         voting=validated_data['voting']
         user = validated_data['user']
-        voting_models.Vote.objects.filter(voting=voting, user=user).delete()
-        votes = [voting_models.Vote.objects.create(voting=voting, user=user, **c)
+        Vote.objects.filter(voting=voting, user=user).delete()
+        votes = [Vote.objects.create(voting=voting, user=user, **c)
             for c in validated_data['choice']]
         return votes

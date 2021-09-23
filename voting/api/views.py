@@ -73,7 +73,7 @@ class JoinGroupAPIView(APIView):
         group.members.remove(user)
         group.save()
 
-        user.groups.remove(group)
+        user.user_groups.remove(group)
         user.save()
 
         serializer_context = {"request": request}
@@ -88,7 +88,7 @@ class JoinGroupAPIView(APIView):
         group.members.add(user)
         group.save()
 
-        user.groups.add(group)
+        user.user_groups.add(group)
         user.save()
 
         serializer_context = {"request": request}
