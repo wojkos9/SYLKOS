@@ -1,3 +1,4 @@
+from django.db.models.expressions import Value
 from rest_framework import serializers
 from django.http import request
 from django.db import models
@@ -5,6 +6,7 @@ from django.db.models import fields, manager
 from django.forms.models import model_to_dict
 from statistics import mean
 import re
+from django.db.models import CharField, Value, Count, Avg, Sum
 from voting.models import Group, Project, Comment, Voting, VotingType, Photo
 
 
@@ -13,7 +15,6 @@ class GroupSerializer(serializers.ModelSerializer):
     count_user = serializers.SerializerMethodField()
     members = serializers.StringRelatedField(many=True)
     images = serializers.SerializerMethodField(read_only=True)
-
 
     class Meta:
         model = Group
@@ -52,12 +53,11 @@ class ProjectSerializer(serializers.ModelSerializer):
 
         if len(comments) > 0:
             return round(((float)(sum / len(comments))), 2)
-        return ''
+        return 0.0
 
     def get_images(self, instance):
         project_images = Photo.objects.filter(project=instance.pk).values()
         return project_images
-
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -86,33 +86,37 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class VotingTypeSerializer(serializers.ModelSerializer):
-<<<<<<< HEAD
-
-=======
->>>>>>> b14bc65ac5a9c210205273949014f28315da87ee
     class Meta:
         model = VotingType
         fields = "__all__"
 
 
 class VotingSerializer(serializers.ModelSerializer):
-<<<<<<< HEAD
-    voted_projects = serializers.SerializerMethodField(read_only=True)
-
-=======
     projects = serializers.SerializerMethodField(read_only=True)
->>>>>>> e43b7490a86a45bcfb1db04dd3db5716819cf6eb
+
     class Meta:
         model = Voting
         fields = "__all__"
 
-<<<<<<< HEAD
-    def get_voted_projects(self, instance):
-        projects = Project.objects.filter(voting=instance.pk).values()
-
-        return projects
-=======
     def get_projects(self, instance):
-            voting_projects = Project.objects.filter(voting=instance.pk).values()
-            return voting_projects
->>>>>>> e43b7490a86a45bcfb1db04dd3db5716819cf6eb
+        voting_projects = Project.objects.filter(voting=instance.pk).annotate(
+            rating_avg=Value('0.0', output_field=CharField())).values()
+        voting_projects = voting_projects.annotate(
+            images=Value('', output_field=CharField()))
+
+        for idx, proj in enumerate(voting_projects):
+            sum = 0.0
+            avg = 0.0
+            comments = Comment.objects.filter(project=proj['id'])
+            project_images = Photo.objects.filter(project=proj['id']).values()
+
+            for comment in comments:
+                sum += comment.rating
+
+            if len(comments) > 0:
+                avg = round(((float)(sum / len(comments))), 2)
+
+            voting_projects[idx]['rating_avg'] = avg
+            voting_projects[idx]['images'] = project_images
+
+        return voting_projects
