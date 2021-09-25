@@ -17,7 +17,7 @@
             enctype="multipart/form-data"
           >
             <v-container>
-              <div class="groupName">
+              <div class="projectName">
                 {{ getString("projectForm", "newProject") }}
               </div>
 
@@ -305,11 +305,10 @@ export default {
   margin-top: 150px;
   /* position: relative; */
 }
-.groupName {
+.projectName {
   font-size: 2rem;
   padding-bottom: 2rem;
   padding-top: 1.5rem;
-  font-family: "playfair display";
   text-align: center;
 }
 .formButtons {

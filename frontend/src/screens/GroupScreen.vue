@@ -110,7 +110,6 @@ export default {
 }
 .groupName {
   display: flex;
-  font-family: "playfair display";
   font-size: 2rem;
   justify-content: center;
   margin: 50px;
@@ -138,7 +137,6 @@ export default {
 
 .galleryTitle {
   display: flex;
-  font-family: "playfair display";
   font-size: 25px;
   justify-content: center;
   margin: 20px;

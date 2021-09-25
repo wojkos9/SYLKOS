@@ -15,27 +15,27 @@
 
     <div class="allGroups">
       <div v-for="group in groups" :key="group.id">
-      <Group
-        v-bind:group="group"
-        v-show="check(group.name)"
-        v-bind:requestUser="requestUser"
-      />
+        <Group
+          v-bind:group="group"
+          v-show="check(group.name)"
+          v-bind:requestUser="requestUser"
+        />
       </div>
       <div class="text-center">
-    <v-container>
-      <v-row justify="center">
-        <v-col cols="8">
-          <v-container class="max-width">
-            <v-pagination
-              v-model="page"
-              class="my-4"
-              :length="Math.ceil(allGroups/4)"
-            ></v-pagination>
-          </v-container>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+        <v-container>
+          <v-row justify="center">
+            <v-col cols="8">
+              <v-container class="max-width">
+                <v-pagination
+                  v-model="page"
+                  class="my-4"
+                  :length="Math.ceil(allGroups / 4)"
+                ></v-pagination>
+              </v-container>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
     </div>
   </div>
 </template>
@@ -56,10 +56,10 @@ export default {
     return {
       page: 1,
       allGroups: null,
-      groups : [],
+      groups: [],
       sideDrawer: false,
       searchName: "",
-      requestUser:"",
+      requestUser: "",
       sortOptions: [
         [getString("groups", "name"), this.sortByName],
         [getString("groups", "membersNumberSort"), this.sortByMembers],
@@ -70,24 +70,24 @@ export default {
     getString,
     getColor,
     async getAllGroups() {
-      let endpoint = "api/groups/"
-      let data = await apiService(endpoint)
-      this.allGroups = data["count"]
-      
-      for(var group of data["results"]){
-        this.groups.push(group)
+      let endpoint = "api/groups/";
+      let data = await apiService(endpoint);
+      this.allGroups = data["count"];
+
+      for (var group of data["results"]) {
+        this.groups.push(group);
       }
     },
-    async getOnePageGroups(){
-      let endpoint = `api/groups/?page=${this.page}`
+    async getOnePageGroups() {
+      let endpoint = `api/groups/?page=${this.page}`;
       let data = await apiService(endpoint);
       this.groups = [];
-       for(var group of data["results"]){
-        this.groups.push(group)
+      for (var group of data["results"]) {
+        this.groups.push(group);
       }
     },
-    moreGroups(){
-      this.getAllGroups()
+    moreGroups() {
+      this.getAllGroups();
     },
     makeSth(str) {
       this.searchName = str;
@@ -100,22 +100,22 @@ export default {
     },
     sortByMembers() {
       console.log("sortByMembers");
-      this.groups = this.groups.sort((a, b) => a.count_user - b.count_user)
+      this.groups = this.groups.sort((a, b) => a.count_user - b.count_user);
     },
-    setRequestUser(){
-      this.requestUser = window.localStorage.getItem("username")
+    setRequestUser() {
+      this.requestUser = window.localStorage.getItem("username");
     },
   },
-  
-  created(){
-    this.getAllGroups()
-    this.setRequestUser()
+
+  created() {
+    this.getAllGroups();
+    this.setRequestUser();
   },
   watch: {
     page: function() {
       this.getOnePageGroups();
     },
-  }
+  },
 };
 </script>
 
@@ -133,7 +133,7 @@ export default {
   margin-top: -280px;
 }
 
-.allGroups{
+.allGroups {
   margin-top: 87px;
   margin-bottom: 50px;
 }

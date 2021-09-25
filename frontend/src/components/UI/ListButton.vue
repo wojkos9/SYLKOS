@@ -1,19 +1,5 @@
 <template>
-  <!-- <md-list-item md-expand style="position:absolute;">
-    <md-icon>
-      manage_accounts
-    </md-icon>
-    <span class="md-list-item-text">{{ title }}</span>
-    <md-list slot="md-expand">
-      <router-link
-        v-for="(option, index) in options"
-        :key="index"
-        :to="{ name: option.route }"
-      >
-        <md-list-item class="md-inset">{{ option.name }}</md-list-item>
-      </router-link>
-    </md-list>
-  </md-list-item> -->
+
   <v-container fluid >
     <v-row>
       <v-col cols="12">

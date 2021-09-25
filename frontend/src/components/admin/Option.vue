@@ -22,7 +22,7 @@
           style=" position: absolute; top: 50px; left: 400px; width: 50px; "
         >
           <v-fab-transition>
-            <v-btn v-show="!hidden" color="accent" dark absolute top right fab>
+            <v-btn v-show="!hidden" color="secondary" dark absolute top right fab>
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </v-fab-transition>
@@ -37,7 +37,7 @@
           style=" position: absolute; top: 100px; left: 440px; width: 50px; "
         >
           <v-fab-transition>
-            <v-btn v-show="!hidden" color="pink" dark absolute top right fab>
+            <v-btn v-show="!hidden" color="secondary" dark absolute top right fab>
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </v-fab-transition>
@@ -52,7 +52,7 @@
           style=" position: absolute; top: 150px; left: 400px; width: 50px; "
         >
           <v-fab-transition>
-            <v-btn v-show="!hidden" color="pink" dark absolute top right fab>
+            <v-btn v-show="!hidden" color="secondary" dark absolute top right fab>
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           </v-fab-transition>
@@ -95,7 +95,6 @@ export default {
 }
 .title {
   display: flex;
-  font-family: "playfair display";
   font-size: 2rem;
   justify-content: center;
   margin: 50px;

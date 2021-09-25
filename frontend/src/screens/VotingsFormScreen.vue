@@ -311,7 +311,6 @@ export default {
   font-size: 2rem;
   padding-bottom: 2rem;
   padding-top: 1.5rem;
-  font-family: "playfair display";
   text-align: center;
 }
 .formButtons {

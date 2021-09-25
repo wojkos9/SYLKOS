@@ -16,47 +16,27 @@
       <div v-for="project in projects" :key="project.id">
         <Project
           v-show="check(project.name)"
-          v-bind:name="project.name"
-          v-bind:desc="project.description"
-          v-bind:price="project.budget"
-          v-bind:picture="image"
-          v-bind:id="project.id"  
+          v-bind:project="project" 
         />
       </div>
+      <v-container>
+      <v-row justify="center">
+        <v-col cols="8">
+          <v-container class="max-width">
+            <v-pagination
+              v-model="page"
+              class="my-4"
+              :length="Math.ceil(allProjects/4)"
+            ></v-pagination>
+          </v-container>
+        </v-col>
+      </v-row>
+    </v-container>
+
     </div>
 
-   <!-- <Project
-    v-show="check(this.title)"
-    v-bind:name="title"
-    v-bind:desc="desc"
-    v-bind:members="members"
-    v-bind:picture="image"
-    v-bind:id="id"
-    />
-    <Project
-    v-show="check(this.title)"
-    v-bind:name="title"
-    v-bind:desc="desc"
-    v-bind:members="members"
-    v-bind:picture="image"
-    v-bind:id="id"
-    />
-    <Project
-    v-show="check(this.name)"
-    v-bind:name="name"
-    v-bind:desc="desc"
-    v-bind:members="members"
-    v-bind:picture="image"
-    v-bind:id="id"
-    />
-    <Project
-    v-show="check(this.title)"
-    v-bind:name="title"
-    v-bind:desc="desc"
-    v-bind:members="members"
-    v-bind:picture="image"
-    v-bind:id="id"
-    /> -->
+    
+
   </div>
 </template>
 
@@ -75,14 +55,6 @@ export default {
   components: {ProjectsTitle, Project, Sort, Search},
   data() {
     return {
-      name:"Zatorze",
-      title: "Osiedle Kwiatowe",
-      desc: "Boisko do siatkówki plażowej w miejscu obecnego kamienistego placu " +
-            "przy ulicy MajaBoisko do siatkówki plażowej w miejscu obecnego " +
-            "kamienistego placu przy ulicy MajaBoisko do siatkówki plażowej w " +
-            "miejscu obecnego kamienistego placu przy ulicy MajaBoisko do " +
-            "siatkówki plażowej w miejscu obecnego kamienistego placu przy ulicy " +
-            "Maja",
       projects : [],
       image:
         "https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg",
@@ -92,7 +64,8 @@ export default {
       allProjects: 34,
       searchName: "",
       sortOptions: [ [getString("groups", "name"), this.sortByName],  [getString("groups", "membersNumberSort"), this.sortByMembers]],
-      id: 1
+      id: 1,
+      page: 1,
     };
   },
   methods: {
@@ -102,7 +75,14 @@ export default {
       const data = await apiService("/api/projects/");
       this.allProjects = data["count"]
       for(var project of data["results"]){
-        console.log(project)
+        this.projects.push(project)
+      }
+    },
+    async getOnePageProjects(){
+      let endpoint = `api/projects/?page=${this.page}`
+      let data = await apiService(endpoint);
+      this.projects = [];
+       for(var project of data["results"]){
         this.projects.push(project)
       }
     },
@@ -126,6 +106,11 @@ export default {
   created(){
     this.getAllProjects()
     this.setRequestUser()
+  },
+  watch: {
+    page: function() {
+      this.getOnePageProjects();
+    },
   }
 };
 </script>

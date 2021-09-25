@@ -29,7 +29,6 @@ export default {
 
 <style scoped>
 .title {
-  font-family: "Playfair Display";
   align-self: center;
   font-size: 32px;
   font-weight: 500;

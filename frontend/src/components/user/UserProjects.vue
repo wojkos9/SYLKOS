@@ -47,7 +47,6 @@ export default {
   height: 280px;
 }
 .title {
-  font-family: "Playfair Display";
   font-size: 26px;
   font-weight: lighter;
   align-self: center;

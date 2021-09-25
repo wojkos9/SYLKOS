@@ -3,19 +3,21 @@
     <div class="row area">
       <div class="col-lg-12 col-xl-9">
         <div>
-          <div class="projectTitle">{{ name }}</div>
+          <div class="projectTitle">{{ project.name }}</div>
           <div class="desc">
-            {{ desc }}
+            {{ project.description }}
           </div>
           <div class="price desc">
-            {{ getString("projects", "price") }}: {{ price }} zł
+            {{ getString("projects", "price") }}: {{ project.budget }} zł
           </div>
         </div>
       </div>
       <div class="col center">
         <div class="center">
-          <img :src="picture" class="image" />
-           <router-link :to="{ name: 'project', params:{id:id}}"><div :style="button">{{ getString('userPanel', 'details') }}</div></router-link>
+         <div v-if="project.images.length > 0">
+              <img  :src="`/media/${project.images[0].image}`" class="image" />
+          </div>
+           <router-link :to="{ name: 'project', params:{id:project.id}}"><div :style="button">{{ getString('userPanel', 'details') }}</div></router-link>
         </div>
       </div>
     </div>
@@ -28,7 +30,7 @@ import { getColor } from "@/colors.js";
 
 export default {
   name: "project",
-  props: ["id", "name", "desc", "price", "picture"],
+  props: ["project"],
   methods: {
     getString,
     getColor,
@@ -41,7 +43,6 @@ export default {
         marginTop: "5px",
         borderRadius: "5px",
         textAlign: "center",
-        fontFamily: "Playfair Display",
         padding: "3px",
         fontWeight: "500",
       };
@@ -52,7 +53,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 .area {
   padding: 10px;
   background-color: white;
@@ -66,12 +66,10 @@ export default {
   font-size: 24px;
   margin-bottom: 40px;
   margin-top: 20px;
-  font-family: "Playfair Display", serif;
   text-align: center;
 }
 
 .desc {
-  font-family: "Playfair Display", serif;
   font-size: 1rem;
   font-weight: 400;
   margin-bottom: 10px;

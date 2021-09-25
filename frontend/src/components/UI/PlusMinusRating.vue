@@ -43,7 +43,6 @@
     .likes {
         /* border: solid 1px black; */
         display: flex;  
-        font-family: "playfair display";
         font-size: 25px;
     }
     .plus {

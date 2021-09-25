@@ -38,7 +38,6 @@ export default {
     object-fit: cover;
   }
   .titleIn{
-    font-family: 'Playfair Display';
     font-size: 16px;
     font-weight: 400;
     margin-top: 10px;

@@ -76,7 +76,6 @@ import PlusMinusRating from '../UI/PlusMinusRating.vue'
     .likes {
         /* border: solid 1px black; */
         display: flex;  
-        font-family: "playfair display";
         font-size: 25px;
         justify-content: flex-end;
         margin-bottom: 10px;

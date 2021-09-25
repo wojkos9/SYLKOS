@@ -1,7 +1,7 @@
 <template>
   <div class="allTitle">
     <div class="nextToGroups">
-      <div class="title">
+      <div class="projectsTitle">
         {{ getString("projects", "title").toUpperCase() }} ({{
           numberOfAllProjects
         }})
@@ -59,11 +59,9 @@ export default {
 </script>
 
 <style scoped>
-.title {
-  font-family: "Playfair Display";
+.projectsTitle {
   align-self: center;
-  font-size: 32px;
-  font-weight: 500;
+  font-size: 2rem;
   margin-bottom: 15px;
   text-align: center;
 }

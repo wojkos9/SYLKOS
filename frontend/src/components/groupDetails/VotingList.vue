@@ -70,7 +70,6 @@ export default {
 <style scoped>
 
   .votingsListTitle{
-    font-family: "playfair display";
     font-weight: 700;
     margin-bottom: 40px;
     margin-top: 30px;

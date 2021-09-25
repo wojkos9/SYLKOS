@@ -42,14 +42,12 @@ export default {
 }
 .date {
   display: flex;
-  font-family: "playfair display";
   font-size: 50px;
   margin-bottom: 30px;
   margin-top: 20px;
 }
 .group {
   display: flex;
-  font-family: "playfair display";
   font-size: 30px;
   margin-bottom: 20px;
 }
