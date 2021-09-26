@@ -12,13 +12,6 @@
         </div>
     </div>
     <div class="rightSection">
-      <div class="likes">
-        <plus-minus-rating
-            :likes="likes"
-            :dislikes="dislikes"
-            :userVotedFor="userVotedFor"
-        />
-      </div>
       <div class="gallery">
             <div class="leftArrow">
                 <v-mdi  name="mdiChevronLeft"></v-mdi>
@@ -34,10 +27,8 @@
           <router-link :to="{ name: 'project', params:{id:1}}"> {{ getString('votingProject', 'seeDiscussion') }}</router-link> 
       </div>
       <div class="voteForProject">
-          <label>
-              <b>{{ getString('votingProject', 'voteForThisProject') }}</b>
-              <input type="radio" style="margin-left: 5px">
-          </label>
+            <button :id="id" style="font-weight: 500;
+        padding: 5px 10px; background-color: red" @click="buttonClicked"> {{ getString('votingProject', 'voteForThisProject') }} </button>
       </div>
     </div>
   </div>
@@ -45,19 +36,23 @@
 
 <script>
     import { getString } from "@/language/string.js";
-import plusMinusRating from '../UI/PlusMinusRating.vue';
     export default {
-  components: { plusMinusRating },
         name: "votingProject",
-        props: ['title', 'description', 'price','likes', 'dislikes', 'userVotedFor'],
+        props: ['id', 'title', 'description', 'price','likes', 'dislikes'],
         data(){
             return {
-                
+                clicked: false
             }
         },
         methods:{
-            getString
-        }
+            getString,
+            buttonClicked(){
+                this.clicked = !this.clicked
+                this.$emit('change', this.$props.id)
+            }
+        },
+        
+        
     }
 </script>
 
@@ -68,7 +63,6 @@ import plusMinusRating from '../UI/PlusMinusRating.vue';
         display: flex;
         margin: 40px;
         padding: 20px;
-        width: 700px;
     }
     .title {
         font-size: 20px;
@@ -81,7 +75,6 @@ import plusMinusRating from '../UI/PlusMinusRating.vue';
         margin-bottom: 20px;
     }
     .likes {
-        /* border: solid 1px black; */
         display: flex;  
         font-family: "playfair display";
         font-size: 25px;
@@ -91,6 +84,7 @@ import plusMinusRating from '../UI/PlusMinusRating.vue';
     .gallery {
         display: flex;
         margin-bottom: 10px;
+        margin-left: 50px;
     }
     .leftArrow, .rightArrow {
         align-items: center;
@@ -100,11 +94,25 @@ import plusMinusRating from '../UI/PlusMinusRating.vue';
     .galleryImage {
         width: 300px;
     }   
-    .commentSectionRedirectButton, .voteForProject {
+    .commentSectionRedirectButton, .voteForProject{
         display: flex;
         justify-content: flex-end;
         margin-bottom: 10px;
         margin-right: 10px;
+    }
+    .button {
+        font-weight: 500;
+        padding: 5px 10px;
+    }
+    .red {
+        /* background-color: red; */
+        font-weight: 500;
+        padding: 5px 10px;
+    }
+    .green {
+        background-color: green;
+        font-weight: 500;
+        padding: 5px 10px;
     }
     @media only screen and (max-width: 1300px) {
         .galleryImage{

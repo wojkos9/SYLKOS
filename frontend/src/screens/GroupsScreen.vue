@@ -18,16 +18,24 @@
       <Group
         v-bind:group="group"
         v-show="check(group.name)"
-        v-bind:name="group.name"
-        v-bind:desc="group.description"
-        v-bind:members="group.count_user"
-        v-bind:picture="group.image"
-        v-bind:id="group.id"
-        v-bind:allMembers="group.members"
         v-bind:requestUser="requestUser"
       />
       </div>
-      <div v-show="ifNext" @click="moreGroups">wiecej</div>
+      <div class="text-center">
+    <v-container>
+      <v-row justify="center">
+        <v-col cols="8">
+          <v-container class="max-width">
+            <v-pagination
+              v-model="page"
+              class="my-4"
+              :length="Math.ceil(allGroups/4)"
+            ></v-pagination>
+          </v-container>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
     </div>
   </div>
 </template>
@@ -40,25 +48,14 @@ import Group from "../components/groups/Group.vue";
 import Sort from "../components/UI/Sort.vue";
 import Search from "../components/UI/Search.vue";
 import { apiService } from "@/common/api.service.js";
-
 export default {
   name: "groupsScreen",
   components: { GroupTitle, Group, Sort, Search },
   data() {
     return {
-      name: "Zatorze",
-      title: "Osiedle Kwiatowe",
-      desc:
-        "Boisko do siatkówki plażowej w miejscu obecnego kamienistego placu " +
-        "przy ulicy 3 Maja. Boisko do siatkówki plażowej w miejscu obecnego " +
-        "kamienistego placu przy ulicy MajaBoisko do siatkówki plażowej w " +
-        "miejscu obecnego kamienistego placu przy ulicy MajaBoisko do " +
-        "siatkówki plażowej w miejscu obecnego kamienistego placu przy ulicy " +
-        "3 Maja",
-      allGroups: '',
+      page: 1,
+      allGroups: null,
       groups : [],
-      image:
-        "https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg",
       sideDrawer: false,
       searchName: "",
       requestUser:"",
@@ -66,35 +63,26 @@ export default {
         [getString("groups", "name"), this.sortByName],
         [getString("groups", "membersNumberSort"), this.sortByMembers],
       ],
-      id: 4,
-      next:"",
-      ifNext:false,
-      endpoint: "/api/groups/",
     };
   },
   methods: {
     getString,
     getColor,
     async getAllGroups() {
-      var data
-      if(!this.ifNext){
-         data = await apiService(this.endpoint)
-        this.allGroups = data["count"]
-      }
-      else{
-          data = await apiService(this.next);
-      }
+      let endpoint = "api/groups/"
+      let data = await apiService(endpoint)
+      this.allGroups = data["count"]
       
       for(var group of data["results"]){
         this.groups.push(group)
       }
-
-      if(data["next"] != null){
-        this.next = data["next"].substr(data["next"].indexOf("/api"))
-        console.log(this.next)
-        this.ifNext = true
-      }else{
-        this.ifNext = false
+    },
+    async getOnePageGroups(){
+      let endpoint = `api/groups/?page=${this.page}`
+      let data = await apiService(endpoint);
+      this.groups = [];
+       for(var group of data["results"]){
+        this.groups.push(group)
       }
     },
     moreGroups(){
@@ -121,6 +109,12 @@ export default {
   created(){
     this.getAllGroups()
     this.setRequestUser()
+    document.title = this.getString("groups", "pageTitle")
+  },
+  watch: {
+    page: function() {
+      this.getOnePageGroups();
+    },
   }
 };
 </script>
@@ -131,19 +125,16 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-
 .options {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   margin-top: -280px;
 }
-
 .allGroups{
   margin-top: 87px;
   margin-bottom: 50px;
 }
-
 @media only screen and (max-width: 1100px) {
   .options {
     justify-content: center;
