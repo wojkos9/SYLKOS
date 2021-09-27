@@ -143,7 +143,7 @@ LOGOUT_REDIRECT_URL = "/"
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'assets',
-    BASE_DIR / 'frontend'/ 'dist' 
+    BASE_DIR / 'frontend'/ 'dist'
 ]
 
 # STATIC_ROOT = ""
@@ -166,14 +166,15 @@ SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_EMAIL_REQUIRED = (True)
 
-MEDIA_URL = '/media/' 
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # "uploads"
 
 #django_rest_framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES' : (
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication'
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication'  # TODO: Delete, only for testing purposes
     ),
 
     'DEFAULT_PERMISSION_CLASSES' : (
