@@ -72,6 +72,7 @@ class Project(models.Model):
         ImageAlbum, related_name='model', on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     voting = models.ForeignKey(Voting, on_delete=models.CASCADE)
+    votes = models.BigIntegerField(default=0)
 
     def __str__(self):
         return self.name

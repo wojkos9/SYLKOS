@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from rest_framework import serializers
 from django.http import request
 from django.db import models
@@ -118,7 +119,7 @@ class VotingSerializer(serializers.ModelSerializer):
 
         return projects
 
-
+from django.db.models import F
 class VoteSerializer(serializers.Serializer):
     class InnerVotes(serializers.Serializer):
         project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
@@ -143,7 +144,6 @@ class VoteSerializer(serializers.Serializer):
         data = [x['points'] for x in choice]
 
         d = data
-        print([len([x for x in d if x==v]) for v in (1, 0)])
 
         if MAJORITY_VOTING_VAL(data):
             return attrs
@@ -151,9 +151,32 @@ class VoteSerializer(serializers.Serializer):
             raise Exception("Forbidden vote")
 
     def create(self, validated_data):
-        voting=validated_data['voting']
+        voting = validated_data['voting']
         user = validated_data['user']
-        Vote.objects.filter(voting=voting, user=user).delete()
-        votes = [Vote.objects.create(voting=voting, user=user, **c)
-            for c in validated_data['choice']]
+        choice = validated_data['choice']
+
+        old_votes: QuerySet[Vote] = Vote.objects.filter(voting=voting, user=user)
+
+        votes_f = F('votes')
+
+        pj = dict()
+        for vp in old_votes.select_related('project'):
+            p: Project = vp.project
+            p.votes = votes_f - vp.points
+            pj[p.pk] = p
+
+        for c in choice:
+            p: Project = c['project']
+            pts = c['points']
+            pk = p.pk
+            if pk not in pj:
+                p.votes = votes_f + pts
+                pj[pk] = p
+            else:
+                pj[pk].votes += pts
+
+        old_votes.delete()
+        Project.objects.bulk_update(pj.values(), ['votes'])
+
+        votes = [Vote.objects.create(voting=voting, user=user, **c) for c in choice]
         return votes
