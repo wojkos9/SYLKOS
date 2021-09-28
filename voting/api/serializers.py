@@ -93,16 +93,40 @@ class VotingTypeSerializer(serializers.ModelSerializer):
 
 
 class VotingSerializer(serializers.ModelSerializer):
-    voted_projects = serializers.SerializerMethodField(read_only=True)
+    # voted_projects = serializers.SerializerMethodField(read_only=True)
+    projects = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Voting
         fields = "__all__"
 
-    def get_voted_projects(self, instance):
-        projects = Project.objects.filter(voting=instance.pk).values()
+    # def get_voted_projects(self, instance):
+    #     projects = Project.objects.filter(voting=instance.pk).values()
 
-        return projects
+    #     return projects
+
+    def get_projects(self, instance):
+        voting_projects = Project.objects.filter(voting=instance.pk).annotate(
+            rating_avg=Value('0.0', output_field=CharField())).values()
+        voting_projects = voting_projects.annotate(
+            images=Value('', output_field=CharField()))
+
+        for idx, proj in enumerate(voting_projects):
+            sum = 0.0
+            avg = 0.0
+            comments = Comment.objects.filter(project=proj['id'])
+            project_images = Photo.objects.filter(project=proj['id']).values()
+
+            for comment in comments:
+                sum += comment.rating
+
+            if len(comments) > 0:
+                avg = round(((float)(sum / len(comments))), 2)
+
+            voting_projects[idx]['rating_avg'] = avg
+            voting_projects[idx]['images'] = project_images
+
+        return voting_projects
 
 from django.db.models import F
 class VoteSerializer(serializers.Serializer):
