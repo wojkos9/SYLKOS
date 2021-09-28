@@ -1,57 +1,7 @@
 <template>
-<<<<<<< HEAD
-    <div >
-        <div>
-            <voting-header 
-            :date="date"
-            :group="group"
-            />
-        </div>
-        <div v-for="(project, index) in voting.projects" :key="index">{{project}}</div>
-
-        <div class="projects">
-            <voting-project
-            :title="title"
-            :description="description"
-            :price="price"
-            :likes="likes"
-            :dislikes="dislikes"
-            :userVotedFor="userVotedFor"
-            />
-            <voting-project
-            :title="title"
-            :description="description"
-            :price="price"
-            :likes="likes"
-            :dislikes="dislikes"
-            :userVotedFor="userVotedFor"
-            />
-            <voting-project
-            :title="title"
-            :description="description"
-            :price="price"
-            :likes="likes"
-            :dislikes="dislikes"
-            :userVotedFor="userVotedFor"
-            />
-            <voting-project
-            :title="title"
-            :description="description"
-            :price="price"
-            :likes="likes"
-            :dislikes="dislikes"
-            :userVotedFor="userVotedFor"
-            />
-            
-        </div>
-        <div class="submitButton">
-            <button-submit-vote/>
-        </div>
-=======
   <div>
     <div>
       <voting-header :date="date" :group="group" />
->>>>>>> tmpBranch
     </div>
     <div class="projects">
       <div v-for="(project, index) in voting.projects" :key="index">
