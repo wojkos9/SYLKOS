@@ -48,7 +48,6 @@ import Group from "../components/groups/Group.vue";
 import Sort from "../components/UI/Sort.vue";
 import Search from "../components/UI/Search.vue";
 import { apiService } from "@/common/api.service.js";
-
 export default {
   name: "groupsScreen",
   components: { GroupTitle, Group, Sort, Search },
@@ -110,6 +109,7 @@ export default {
   created() {
     this.getAllGroups();
     this.setRequestUser();
+    document.title = this.getString("groups", "pageTitle")
   },
   watch: {
     page: function() {
@@ -125,7 +125,6 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-
 .options {
   display: flex;
   flex-direction: row;
@@ -137,7 +136,6 @@ export default {
   margin-top: 87px;
   margin-bottom: 50px;
 }
-
 @media only screen and (max-width: 1100px) {
   .options {
     justify-content: center;

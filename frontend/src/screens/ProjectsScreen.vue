@@ -61,7 +61,7 @@ export default {
       mainTitle: "Grupy, do kórych należysz",
       projectsTitle: "Projekty, na które głosowałes",
       sideDrawer: false,
-      allProjects: 34,
+      allProjects: '',
       searchName: "",
       sortOptions: [ [getString("groups", "name"), this.sortByName],  [getString("groups", "membersNumberSort"), this.sortByMembers]],
       id: 1,
@@ -106,11 +106,13 @@ export default {
   created(){
     this.getAllProjects()
     this.setRequestUser()
+    document.title = this.getString("projects", "pageTitle")
   },
   watch: {
     page: function() {
       this.getOnePageProjects();
     },
+    
   }
 };
 </script>

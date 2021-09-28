@@ -86,6 +86,9 @@ export default {
     getString,
     getColor,
   },
+  created(){
+    document.title = this.groupName;
+  },
   async beforeRouteEnter(to, from, next){
         if(to.params.id !== undefined){
             let endpoint = `api/groups/${to.params.id}/`

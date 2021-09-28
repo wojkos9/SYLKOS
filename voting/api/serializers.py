@@ -95,7 +95,7 @@ class VotingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Voting
         fields = "__all__"
-
+        
     def get_projects(self, instance):
-            voting_projects = Project.objects.filter(voting=instance.pk).values()
-            return voting_projects
+        voting_projects = Project.objects.filter(voting=instance.pk).values()
+        return voting_projects    
