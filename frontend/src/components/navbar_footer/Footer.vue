@@ -1,11 +1,12 @@
 <template>
-  <v-card color="primary darken-1">
+
+  <v-card color="primary darken-1"  v-bind="localAttrs">
     <div
       cols="12"
       class="p-3 d-flex justify-content-end"
       style="border:solid; height: 100px "
     >
-      <v-btn color="primary" class="ma-2 p-3" dark @click="footer = true">
+      <v-btn color="secondary" class="ma-2 p-3" dark @click="footer = true" style="color:black">
         {{ getString("footer", "rules") }}
       </v-btn>
     </div>
@@ -98,6 +99,17 @@ export default {
       this.footer = false;
     },
   },
+  computed: {
+      localAttrs () {
+        const attrs = {}
+
+
+          attrs.absolute = true
+
+
+        return attrs
+      }
+    },
 };
 </script>
 

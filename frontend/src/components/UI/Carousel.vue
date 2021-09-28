@@ -74,7 +74,6 @@ export default {
   margin-top: 40px;
 }
 .groupName{
-  font-family: "playfair display";
   font-size: 2rem;
   text-align: center;
 }

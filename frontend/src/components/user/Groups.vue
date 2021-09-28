@@ -55,7 +55,6 @@ export default {
   justify-content: center;
 }
 .title {
-  font-family: "Playfair Display";
   align-self: center;
   text-align: center;
   font-size: 26px;

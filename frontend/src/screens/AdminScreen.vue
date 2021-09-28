@@ -120,7 +120,6 @@ export default {
 }
 .title {
   display: flex;
-  font-family: "playfair display";
   font-size: 4rem;
   justify-content: center;
   margin: 50px;

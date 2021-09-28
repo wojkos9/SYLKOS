@@ -86,6 +86,9 @@ export default {
     getString,
     getColor,
   },
+  created(){
+    document.title = this.groupName;
+  },
   async beforeRouteEnter(to, from, next){
         if(to.params.id !== undefined){
             let endpoint = `api/groups/${to.params.id}/`
@@ -110,7 +113,6 @@ export default {
 }
 .groupName {
   display: flex;
-  font-family: "playfair display";
   font-size: 2rem;
   justify-content: center;
   margin: 50px;
@@ -138,7 +140,6 @@ export default {
 
 .galleryTitle {
   display: flex;
-  font-family: "playfair display";
   font-size: 25px;
   justify-content: center;
   margin: 20px;

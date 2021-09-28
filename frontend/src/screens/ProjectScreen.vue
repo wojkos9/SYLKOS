@@ -194,16 +194,13 @@ export default {
 }
 
 .projectTitle {
-  font-family: "playfair display";
   font-size: 40px;
 }
 
 .groupName{
-  font-family: "playfair display";
   font-size: 30px;
 }
 .projectDescription {
-  font-family: "playfair display";
   font-size: 20px;
   padding-left: 100px;
   padding-right: 100px;
@@ -215,7 +212,6 @@ export default {
 .projectInfo {
   align-items: center;
   display: flex;
-  font-family: "playfair display";
   font-size: 30px;
   justify-content: center;
 }
