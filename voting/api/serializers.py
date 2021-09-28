@@ -1,4 +1,5 @@
 from django.db.models.expressions import Value
+from django.db.models.query import QuerySet
 from rest_framework import serializers
 from django.http import request
 from django.db import models
@@ -7,7 +8,7 @@ from django.forms.models import model_to_dict
 from statistics import mean
 import re
 from django.db.models import CharField, Value, Count, Avg, Sum
-from voting.models import Group, Project, Comment, Voting, VotingType, Photo
+from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image, Photo, Vote
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -119,4 +120,66 @@ class VotingSerializer(serializers.ModelSerializer):
             voting_projects[idx]['rating_avg'] = avg
             voting_projects[idx]['images'] = project_images
 
-        return voting_projects
+        return projects
+
+from django.db.models import F
+class VoteSerializer(serializers.Serializer):
+    class InnerVotes(serializers.Serializer):
+        project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
+        points = serializers.IntegerField()
+
+    voting = serializers.PrimaryKeyRelatedField(queryset=Voting.objects.all())
+    choice = InnerVotes(many=True)
+
+    def validate(self, attrs):
+        attrs['user'] = self.context['request'].user
+
+        MAJORITY_VOTING_VAL = lambda d: [1, len(d)-1] == [len([x for x in d if x==v]) for v in (1, 0)]
+
+        choice = attrs['choice']
+
+        if any(e['project'].voting.id != attrs['voting'].id for e in choice):
+            raise Exception("Project not in voting")
+
+        if len(set([e['project'].id for e in choice])) != len(choice):
+            raise Exception("Duplicate projects")
+
+        data = [x['points'] for x in choice]
+
+        d = data
+
+        if MAJORITY_VOTING_VAL(data):
+            return attrs
+        else:
+            raise Exception("Forbidden vote")
+
+    def create(self, validated_data):
+        voting = validated_data['voting']
+        user = validated_data['user']
+        choice = validated_data['choice']
+
+        old_votes: QuerySet[Vote] = Vote.objects.filter(voting=voting, user=user)
+
+        votes_f = F('votes')
+
+        pj = dict()
+        for vp in old_votes.select_related('project'):
+            p: Project = vp.project
+            p.votes = votes_f - vp.points
+            pj[p.pk] = p
+
+        for c in choice:
+            p: Project = c['project']
+            pts = c['points']
+            pk = p.pk
+            if pk not in pj:
+                p.votes = votes_f + pts
+                pj[pk] = p
+            else:
+                pj[pk].votes += pts
+
+        old_votes.delete()
+        Project.objects.bulk_update(pj.values(), ['votes'])
+
+        votes = [Vote.objects.create(voting=voting, user=user, **c) for c in choice]
+        return votes

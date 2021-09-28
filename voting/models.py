@@ -1,3 +1,4 @@
+from users.models import BasicUser
 from django.db import models
 from django.conf import settings
 
@@ -42,6 +43,7 @@ class Project(models.Model):
     finish_date = models.DateTimeField()
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     voting = models.ForeignKey(Voting, on_delete=models.CASCADE)
+    votes = models.BigIntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -72,3 +74,13 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.author.username}: {self.content[:10]}..."
+
+
+class Vote(models.Model):
+    voting = models.ForeignKey(Voting, on_delete=models.CASCADE)
+    user = models.ForeignKey(BasicUser, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    points = models.IntegerField()
+
+    def __str__(self):
+        return f"v:{self.voting} u:{self.user} p:{self.project} x:{self.points}"

@@ -1,13 +1,17 @@
 from rest_framework import generics
 from voting.models import Group, Project, Comment, VotingType, Voting, Photo
 from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
-from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, PhotoSerializer
-from rest_framework import generics, status, viewsets
+from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, ImageAlbumSerializer, ImageSerializer, PhotoSerializer
+from rest_framework import generics, status, viewsets, request
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import get_object_or_404
+from rest_framework.generics import get_object_or_404, CreateAPIView, ListCreateAPIView
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import JSONParser
+from voting.api import serializers
+from django.http.response import HttpResponse, HttpResponseBadRequest, HttpResponseServerError
+from django.views.decorators.csrf import csrf_exempt
 
 
 class GroupListCreateAPIView(generics.ListCreateAPIView):
@@ -57,7 +61,7 @@ class JoinGroupAPIView(APIView):
         group.members.remove(user)
         group.save()
 
-        user.groups.remove(group)
+        user.user_groups.remove(group)
         user.save()
 
         serializer_context = {"request": request}
@@ -72,7 +76,7 @@ class JoinGroupAPIView(APIView):
         group.members.add(user)
         group.save()
 
-        user.groups.add(group)
+        user.user_groups.add(group)
         user.save()
 
         serializer_context = {"request": request}
@@ -179,3 +183,18 @@ class VotingTypeView(viewsets.ModelViewSet):
 class VotingView(viewsets.ModelViewSet):
     queryset = Voting.objects.all()
     serializer_class = VotingSerializer
+
+
+class VoteView(ListCreateAPIView):
+    parser_classes = [JSONParser]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, q: request.Request):
+        s = serializers.VoteSerializer(data=q.data, context={"request": q})
+        try:
+            if s.is_valid(raise_exception=True):
+                votes = s.save()
+                return HttpResponse(", ".join([str(x) for x in votes]))
+            return HttpResponseBadRequest("Invalid request")
+        except Exception as e:
+            return HttpResponseServerError(e)
