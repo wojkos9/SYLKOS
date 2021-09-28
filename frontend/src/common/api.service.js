@@ -6,7 +6,11 @@ function handleResponse(response) {
         return ''
     } else if (response.status === 404) {
         return null
-    } else {
+    } else if (response.status === 400){
+        console.log(response.json())
+        return "wrong data"
+    }
+    else{
         return response.json()
     }
 }
@@ -22,7 +26,7 @@ function apiService(endpoint, method, data) {
     }
     return fetch(endpoint, config)
         .then(handleResponse)
-        .catch(error => {console.log(error); return 'error'; })
+        .catch(error => {console.log(error)})
 }
 
 function imageUpload(formData){

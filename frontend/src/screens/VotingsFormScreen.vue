@@ -43,6 +43,7 @@
                 </template>
 
                 <v-date-picker
+                  color="accent"
                   v-model="startDate.value"
                   @input="menu1 = false"
                   :first-day-of-week="0"
@@ -71,29 +72,21 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
+                  color="accent"
                   :first-day-of-week="0"
                   :locale="lang"
                   v-model="endDate.value"
                   @input="menu2 = false"
                 ></v-date-picker>
               </v-menu>
-              <div class="search">
-                <div class="md-layout-item">
-                  <md-field >
-                    <label for="sortGroups">{{ votingType.label }}</label>
-                    <md-select v-model="votingType.value" v-validate="'required'">
-                      <md-option
-                        v-for="(option, index) in votingTypes"
-                        :key="index"
-                        
-                        :value="option.name"
-                        class="sortGroups"
-                        >{{ option.name }}</md-option
-                      >
-                    </md-select>
-                  </md-field>
-                </div>
-              </div>
+
+              <v-combobox
+                v-model="votingType.value"
+                :items="votingTypes"
+                :rules="votingType.rule"
+                :label="votingType.label"
+                item-text="name"
+              ></v-combobox>
 
               <div class="d-flex justify-content-end p-4 buttons">
                 <v-dialog v-model="dialog" persistent max-width="500">
@@ -108,11 +101,11 @@
                     </v-btn>
                   </template>
                   <v-card>
-               
-                    <v-card-text style="text-align: center; padding: 20px; font-size: 1.5rem"
-                      > {{ getString("votingForm", "success") }}
-                      </v-card-text
+                    <v-card-text
+                      style="text-align: center; padding: 20px; font-size: 1.5rem"
                     >
+                      {{ getString("votingForm", "success") }}
+                    </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn
@@ -142,6 +135,14 @@
         <div class="d-none d-sm-block col-md-2 col-lg-3" />
       </div>
     </div>
+    <DialogWithUser
+      :title="getString('votingTypeForm', 'success')"
+      :desc="getString('votingTypeForm', 'desc')"
+      :nextAction="nextFunction"
+      :backAction="backFunction"
+      :dialog="dialog"
+      :object="voting"
+    />
   </div>
 </template>
 
@@ -149,15 +150,30 @@
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 import { apiService } from "@/common/api.service.js";
+import DialogWithUser from '../components/UI/DialogWithUser.vue';
 
 export default {
   name: "groupScreen",
-  components: {},
+  components: {DialogWithUser},
   data() {
     return {
       valid: false,
-      lang: "pl-PL",
+      lang: getString("language", "lang"),
       dialog: false,
+      voting: {
+        startDate: {
+          label: getString("votingForm", "startDateLabel"),
+          value: "",
+        },
+        endDate: {
+          label: getString("votingForm", "endDateLabel"),
+          value: "",
+        },
+        votingType: {
+          label: getString("votingForm", "votingTypeLabel"),
+          value: "",
+        },
+      },
       menu1: false,
       modal: false,
       menu2: false,
@@ -211,24 +227,56 @@ export default {
         await apiService("/api/voting/", "POST", {
           start_date: this.startDate.value + "T00:00:00Z",
           end_date: this.endDate.value + "T00:00:00Z",
-          voting_type: this.votingType.value,
+
+          voting_type: this.votingType.value.name,
         }).then((data) => {
-          if(data == "success")
-          this.check = true;
-          console.log(data)
-        })
+          if (data == "success") this.check = true;
+          console.log(data);
+          if (data != "wrong data") {
+            this.voting.startDate.value = data.start_date;
+            this.voting.endDate.value = data.end_date;
+            this.voting.votingType.value = data.voting_type;
+            console.log(this.voting)
+            this.dialog = true;
+          }
+        });
       }
     },
+    async getTypes(endpoint) {
+      await apiService(endpoint).then((data) => {
+        return data;
+      });
+      return null;
+    },
+    nextFunction(){
+      this.dialog = false
+      this.$router.push({name:"admin"})
+    },
+    backFunction(){
+      this.dialog = false
+      // this.$router.push({name:"votingTypeNew"})
+    }
   },
   created() {
     document.title = this.getString("votingForm", "title");
   },
   async beforeRouteEnter(to, from, next) {
     let endpoint = `api/voting_type/`;
-    let data = await apiService(endpoint);
+    let types = [];
+    while (endpoint) {
+      await apiService(endpoint).then((data) => {
+        console.log(data.results);
+        for (let type of data.results) {
+          types.push(type);
+        }
+        endpoint = data.next;
+      });
+    }
+
     return next((vm) => {
-      console.log(data);
-      vm.votingTypes = data.results;
+      console.log(types);
+
+      vm.votingTypes = types;
     });
   },
 };

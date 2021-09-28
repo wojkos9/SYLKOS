@@ -40,9 +40,10 @@
       <v-file-input
       class="p-2 m-3"
         :label="photo.label"
-        v-model="selectedFile"
+        v-model="selectedFiles"
         append-icon="mdi-camera"
         prepend-icon=""
+        multiple
       ></v-file-input>
         <div class="d-flex justify-content-end p-4 buttons">
           <v-btn class="mr-4 p-2" @click="submit">
@@ -51,6 +52,7 @@
           <v-btn @click="clear">
             {{ getString("groupForm", "clearData") }}
           </v-btn>
+
         </div>
       </v-container>
       
@@ -59,6 +61,15 @@
      <div class="d-none d-sm-block col-md-2 col-lg-3"/>
   </div>
     </div>
+
+    <DialogWithUser
+      :title="getString('groupForm', 'success')"
+      :desc="getString('groupForm', 'desc')"
+      :nextAction="nextFunction"
+      :backAction="backFunction"
+      :dialog="dialog"
+      :object="group"
+    />
       
 </div>
 
@@ -68,15 +79,33 @@
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 import { apiService, imageUpload} from "@/common/api.service.js";
-
+import DialogWithUser from '../components/UI/DialogWithUser.vue';
 
 export default {
   name: "groupScreen",
-  components: {},
+  components: {DialogWithUser},
   data() {
     return {
       valid: false,
       newName: 'costam',
+      group: {
+        name: {
+          label: getString("groupForm", "groupNameLabel"),
+          value: ""
+        },
+        subname: {
+          label: getString("groupForm", "groupSubNameLabel"),
+          value: "",
+        },
+        desc: {
+          label: getString("groupForm", "groupDescLabel"),
+          value: "",
+        },
+        pictures: {
+          label: getString("groupForm", "pictures"),
+          value: 0,
+        }
+      },
       name:
         {
           label: getString("groupForm", "groupNameLabel"),
@@ -100,15 +129,13 @@ export default {
           value: {},
         },
 
-        selectedFile: null,
+        selectedFiles: [],
+        dialog: false,
     };
   },
   methods: {
     getString,
     getColor,
-    selectImage(){
-      this.photo.value = this.$refs.file.files.item(0);
-    },
     clear() {
       this.name.value = "";
       this.subname.value = "";
@@ -123,36 +150,45 @@ export default {
     validate() {
       this.$refs.newGroupForm.validate();
     },
-    onFileSelected(event){
-      this.selectedFile = event.target.files[0]
-      
-    },
     async submit() {
       this.validate();
-      console.log(this.photo.value)
       if (this.valid) {
-        let formData = new FormData();
-        formData.append("image", this.selectedFile);
-       
-      var photoId
-
-
-    await imageUpload(formData).then((data) => {photoId = data.data.id, console.log(photoId)})
 
     await apiService("/api/groups/", "POST", {
           name: this.name.value,
           subname: this.subname.value,
           description: this.desc.value,
           members: [],
-          image: photoId
-        }).then(data => {
-            this.$router.push({
-                name:'group',
-                params:{id: data.id}
-            })
+        }).then(async data => {
+            console.log("komunikat: ", data)
+            if(data != "wrong data"){
+              this.dialog = true
+              let groupId = data.id
+              console.log(data)
+              this.group.name.value = data.name;
+              this.group.subname.value = data.subname;
+              this.group.desc.value = data.description;
+                for (var file of this.selectedFiles){
+              
+              let formData = new FormData();
+              formData.append("image", file);
+              formData.append("group", groupId);
+              formData.append("description", "opis zdjęcia");
+              await imageUpload(formData).then((data) => {this.group.pictures.value++; console.log("phtoId" ,data)})
+                }
+            }
+            
         })
     }
     },
+    nextFunction(){
+      this.dialog = false
+      this.$router.push({name:"admin"})
+    },
+    backFunction(){
+      this.dialog = false
+      // this.$router.push({name:"votingTypeNew"})
+    }
     
   },
   created(){

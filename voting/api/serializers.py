@@ -1,3 +1,4 @@
+from django.db.models.expressions import Value
 from rest_framework import serializers
 from django.http import request
 from django.db import models
@@ -5,14 +6,15 @@ from django.db.models import fields, manager
 from django.forms.models import model_to_dict
 from statistics import mean
 import re
-from voting.models import Group, Project, Comment, Voting, VotingType, ImageAlbum, Image, Photo
+from django.db.models import CharField, Value, Count, Avg, Sum
+from voting.models import Group, Project, Comment, Voting, VotingType, Photo
 
 
 class GroupSerializer(serializers.ModelSerializer):
 
     count_user = serializers.SerializerMethodField()
     members = serializers.StringRelatedField(many=True)
-    photos = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Group
@@ -21,16 +23,9 @@ class GroupSerializer(serializers.ModelSerializer):
     def get_count_user(self, instance):
         return instance.members.count()
 
-    def get_photos(self, instance):
-        pattern = re.compile(r"[0-9]+")
-        res = pattern.findall(str(instance.image))
-
-        if len(res) > 0:
-            res_i = int(res[0])
-            images = Photo.objects.filter(id=res_i).values()
-            return images
-
-        return []
+    def get_images(self, instance):
+        group_images = Photo.objects.filter(group=instance.pk).values()
+        return group_images
 
 
 class PhotoSerializer(serializers.ModelSerializer):
@@ -43,6 +38,7 @@ class PhotoSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
 
     rating_avg = serializers.SerializerMethodField(read_only=True)
+    images = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Project
@@ -57,21 +53,11 @@ class ProjectSerializer(serializers.ModelSerializer):
 
         if len(comments) > 0:
             return round(((float)(sum / len(comments))), 2)
-        return ''
+        return 0.0
 
-
-class ImageAlbumSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = ImageAlbum
-        fields = "__all__"
-
-
-class ImageSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Image
-        fields = "__all__"
+    def get_images(self, instance):
+        project_images = Photo.objects.filter(project=instance.pk).values()
+        return project_images
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -100,20 +86,37 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class VotingTypeSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = VotingType
         fields = "__all__"
 
 
 class VotingSerializer(serializers.ModelSerializer):
-    voted_projects = serializers.SerializerMethodField(read_only=True)
+    projects = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Voting
         fields = "__all__"
 
-    def get_voted_projects(self, instance):
-        projects = Project.objects.filter(voting=instance.pk).values()
+    def get_projects(self, instance):
+        voting_projects = Project.objects.filter(voting=instance.pk).annotate(
+            rating_avg=Value('0.0', output_field=CharField())).values()
+        voting_projects = voting_projects.annotate(
+            images=Value('', output_field=CharField()))
 
-        return projects
+        for idx, proj in enumerate(voting_projects):
+            sum = 0.0
+            avg = 0.0
+            comments = Comment.objects.filter(project=proj['id'])
+            project_images = Photo.objects.filter(project=proj['id']).values()
+
+            for comment in comments:
+                sum += comment.rating
+
+            if len(comments) > 0:
+                avg = round(((float)(sum / len(comments))), 2)
+
+            voting_projects[idx]['rating_avg'] = avg
+            voting_projects[idx]['images'] = project_images
+
+        return voting_projects

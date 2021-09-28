@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-12 col-xl-6 ">
       <div class="container">
-        <Groups />
+        <Groups :groups="myGroups" />
         <div style="margin-top: 20px;">
           <Projects />
         </div>
@@ -24,6 +24,7 @@ import Projects from "../components/user/Projects.vue";
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 import UserProjects from "../components/user/UserProjects.vue";
+import { apiService } from "@/common/api.service.js";
 
 export default {
   name: "mainScreen",
@@ -41,11 +42,17 @@ export default {
       mainTitle: "Grupy, do kórych należysz",
       projectsTitle: "Projekty, na które głosowałes",
       sideDrawer: false,
+      myGroups: [],
     };
   },
   methods: {
     getString,
     getColor,
+  },
+  async beforeRouteEnter(to, from, next) {
+    let endpoint = `api/user/`;
+    let data = await apiService(endpoint)
+    return next((vm) => vm.myGroups = data.groups);
   },
 };
 </script>

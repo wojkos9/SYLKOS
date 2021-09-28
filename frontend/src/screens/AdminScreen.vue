@@ -4,7 +4,7 @@
       {{ title }}
     </div>
 
-    <div class="options">
+    <div class="options" style="background-color: primary">
       <div>
         <Option
           :title="group.title"
@@ -68,9 +68,9 @@ export default {
       project: {
         id: 1,
         title: this.getString("admin", "projects"),
-        newAction: "groupNew",
-        editAction: "groupNew",
-        deleteAction: "groupNew",
+        newAction: "projectNew",
+        editAction: "projectNew",
+        deleteAction: "projectNew",
         key: 2,
       },
       voting: {
@@ -103,6 +103,10 @@ export default {
   },
   created() {
     document.title = this.getString("admin", "title");
+    var role = window.localStorage.getItem("username");
+      if(role != "admin"){
+        this.$router.push({name:"home", })
+      }
   },
 };
 </script>
