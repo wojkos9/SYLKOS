@@ -1,7 +1,7 @@
 from rest_framework import generics
 from voting.models import Group, Project, Comment, VotingType, Voting, Photo
 from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
-from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, ImageAlbumSerializer, ImageSerializer, PhotoSerializer
+from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, PhotoSerializer
 from rest_framework import generics, status, viewsets, request
 from rest_framework.views import APIView
 from rest_framework.response import Response
