@@ -27,8 +27,7 @@ class Voting(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     voting_type = models.ForeignKey(VotingType, on_delete=models.CASCADE)
-    # group = models.ForeignKey(Group, on_delete=models.CASCADE)
-
+    
     def __str__(self):
         projects_included = Project.objects.filter(voting=self)
         return f"Voting {self.pk} ({', '.join([str(x) for x in projects_included])})"

@@ -26,7 +26,7 @@
           <v-toolbar-title>{{ getString("footer", "rules") }}</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
-        <v-card-text class="m-5">
+        <v-card-text class="p-5">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. In leo orci,
           maximus tristique vestibulum id, viverra ac mi. Integer consectetur,
           ligula at euismod consectetur, orci tellus laoreet ipsum, ac tempor mi
@@ -113,4 +113,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+v-dialog{
+  width: 100%;
+}
+</style>

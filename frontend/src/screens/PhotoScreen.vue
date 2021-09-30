@@ -3,9 +3,6 @@
      <div  @click="$router.go(-1)"><md-icon class="goBack" @click="$router.go(-1)">clear</md-icon></div>
     <div class="photoPage">
       <Carousel :slides="slides" :ifRoute="ifRoute"  :group="group" :title="title"/>
-      <!-- <div v-for="item in slides" :key="item.id">
-        {{item.image}}
-      </div> -->
     </div>
    
   </div>
@@ -42,7 +39,7 @@ export default {
 margin-top: -100px;
 width: 100%;
 background-color: #f2f6fa;
-position: absolute;
+/* position: absolute; */
 height: 100%;
 }
 .photoPage {
