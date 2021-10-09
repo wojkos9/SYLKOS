@@ -13,6 +13,7 @@ import VotingsFormScreen from '../screens/VotingsFormScreen'
 import VotingsTypeFormScreen from '../screens/VotingsTypeFormScreen' 
 import AdminScreen from '../screens/AdminScreen'
 import ProjectFormScreen from '../screens/ProjectFormScreen'
+import GroupsEditListScreen from '../screens/editForms/GroupsEditListScreen'
 
 Vue.use(Router)
 
@@ -57,6 +58,11 @@ export const routes = [{
         name:"voting",
         component:VotingScreen,
         props: true
+    },
+    {
+        path:"/groups_edit_list",
+        name:"groupsEditList",
+        component:GroupsEditListScreen,
     },
     {
         path:"/admin",

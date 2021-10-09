@@ -219,7 +219,6 @@ export default {
     async submit() {
       this.validate();
       if (this.valid) {
-        console.log(this.project.group.value)
         await apiService("/api/projects/", "POST", {
           name: this.project.name.value,
           description: this.project.description.value,
@@ -229,7 +228,7 @@ export default {
           group: this.project.group.value.id,
           voting: 1,
         }).then(async (data) => {
-          console.log("komunikat: ", data);
+
           if (data != "wrong data") {
             
             let projectId = data.id;
@@ -242,16 +241,15 @@ export default {
             this.project.group.value = this.project.group.value.name;
             this.project.voting.value = data.voting;
 
-            console.log(this.selectedFiles)
+
             for (var file of this.selectedFiles) {
-              console.log(file)
               let formData = new FormData();
               formData.append("image", file);
               formData.append("project", projectId);
               formData.append("description", "opis zdjęcia");
-              await imageUpload(formData).then((data) => {
+              await imageUpload(formData).then(() => {
                 this.project.images.value++;
-                console.log("photoId", data);
+              
               });
             }
 
@@ -266,7 +264,6 @@ export default {
     },
     backFunction() {
       this.dialog = false;
-      // this.$router.push({name:"votingTypeNew"})
     },
   },
   created() {

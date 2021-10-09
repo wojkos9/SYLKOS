@@ -27,8 +27,8 @@
           <router-link :to="{ name: 'project', params:{id:1}}"> {{ getString('votingProject', 'seeDiscussion') }}</router-link> 
       </div>
       <div class="voteForProject">
-            <button :id="id" style="font-weight: 500;
-        padding: 5px 10px; background-color: red" @click="buttonClicked"> {{ getString('votingProject', 'voteForThisProject') }} </button>
+          <div class="bigCircle"  @click="buttonClicked"><div class="smallCircle"  :id="id" ></div></div>
+            <button @click="buttonClicked" class="voteForThisProject"> {{ getString('votingProject', 'voteForThisProject') }} </button>
       </div>
     </div>
   </div>
@@ -38,10 +38,10 @@
     import { getString } from "@/language/string.js";
     export default {
         name: "votingProject",
-        props: ['id', 'title', 'description', 'price','likes', 'dislikes'],
+        props: ['id', 'title', 'description', 'price','likes', 'dislikes', 'clicked'],
         data(){
             return {
-                clicked: false
+                // clicked: false
             }
         },
         methods:{
@@ -70,6 +70,31 @@
         margin-bottom: 20px;
         margin-top: 20px;
         
+    }
+    .bigCircle{
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        position: relative;
+        background-color: rgb(64, 59, 82); 
+        margin-right: 10px;
+    }
+    .bigCircle:hover{
+        cursor: pointer;
+    }
+    .smallCircle{
+        width: 16px;
+        height: 16px;
+        border-radius: 8px;
+        background-color: rgb(217, 208, 250); 
+        position: absolute;
+        left: 50%;
+        margin-left: -8px;
+        top: 50%;
+        margin-top: -8px;
+    }
+    .activeCircle{
+        background-color: rgb(22, 187, 50); 
     }
     .description {
         margin-bottom: 20px;
@@ -109,7 +134,12 @@
         padding: 5px 10px;
     }
     .green {
-        background-color: green;
+        background-color: rgb(217, 208, 250);
+        font-weight: 500;
+        padding: 5px 10px;
+    }
+    .voteForThisProject{
+        background-color: rgb(217, 208, 250);
         font-weight: 500;
         padding: 5px 10px;
     }

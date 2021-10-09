@@ -23,7 +23,7 @@
           <v-btn icon dark @click="footer = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>{{ getString("footer", "rules") }}</v-toolbar-title>
+          <v-toolbar-title>{{ title }}</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-card-text class="m-5">

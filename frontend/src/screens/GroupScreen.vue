@@ -14,7 +14,7 @@
           :yearCosts="yearCosts"
         />
         <div class="voting">
-          <voting-list :id="id" />
+          <voting-list :id="id" :group="group" />
         </div>
       </div>
       <div class="rightSection">
@@ -58,23 +58,6 @@ export default {
       loading: true,
       totalImages: 35,
       group:true,
-      slides: [
-        {
-          src:
-            "https://martyloose.files.wordpress.com/2019/02/sunrise-wallpapers-28064-5395027.jpg",
-          desc: "zdj",
-        },
-        {
-          src:
-            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-          desc: "dd",
-        },
-        {
-          src:
-            "https://images.unsplash.com/photo-1612151855475-877969f4a6cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGQlMjBpbWFnZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-          desc: "rodzinne okolice",
-        },
-      ],
       ifRoute: true,
     };
   },
@@ -126,7 +109,7 @@ export default {
   padding: 20px;
   font-size: 20px;
   /* margin-left: -100px; */
-  width: 1000px;
+  /* width: 1000px; */
 }
 
 .rightSection {

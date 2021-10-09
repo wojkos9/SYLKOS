@@ -46,6 +46,15 @@ export const pl = {
     projects: 'Projekty',
     votings: 'Głosowania',
     votingTypes: 'Typy głosowań',
+    joinGroup: 'Podaj kod dostępu do grupy',
+    accessCode: 'Kod dostępu',
+    accessCodeRequired: 'Kod dostępu jest wymagany',
+    accessCodeLength: 'Kod dostępu musi mieć 4 znaki',
+    leaveGroup: 'odejdź z grupy',
+    leaveGroupQuestion: 'Czy na pewno chcesz opuścić tę grupę',
+    cancel: 'Anuluj',
+    confirm: 'dołącz',
+    leave: 'opuść',
   },
   projects:{
     title: 'Projekty',
@@ -193,5 +202,8 @@ export const pl = {
   },
   language:{
     lang: "pl-PL",
+  },
+  groupsEdit:{
+    title: 'Lista grup - tryb edycji'
   }
 };

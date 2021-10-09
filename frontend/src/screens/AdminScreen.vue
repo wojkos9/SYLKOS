@@ -61,7 +61,7 @@ export default {
         id: 0,
         title: this.getString("admin", "groups"),
         newAction: "groupNew",
-        editAction: "groupNew",
+        editAction: "groupsEditList",
         deleteAction: "groupNew",
         key: 0,
       },
