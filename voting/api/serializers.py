@@ -157,7 +157,7 @@ class VoteSerializer(serializers.Serializer):
         data = [x['points'] for x in choice]
         total = Project.objects.filter(voting=voting).count()
 
-        vtype = voting.voting_type.name
+        vtype = voting.voting_type.name.lower()
         voting_validator = self.VOTING_VALS[vtype if vtype in self.VOTING_VALS else "majority"]  # TODO: Maybe some warning instead of fallback to majority
 
         if voting_validator(data, total):
