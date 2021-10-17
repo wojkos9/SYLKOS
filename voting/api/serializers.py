@@ -64,7 +64,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     created_at = serializers.SerializerMethodField()
-    user_has_commented = serializers.SerializerMethodField()
+    user_has_liked = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField()
     dislikes_count = serializers.SerializerMethodField()
 
@@ -75,7 +75,7 @@ class CommentSerializer(serializers.ModelSerializer):
     def get_created_at(self, instance):
         return instance.created_at.strftime("%d.%m.%Y %H:%M")
 
-    def get_user_has_commented(self, instance):
+    def get_user_has_liked(self, instance):
         request = self.context.get("request")
         return instance.voters_like.filter(pk=request.user.pk).exists()
 

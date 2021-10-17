@@ -43,7 +43,7 @@ class Project(models.Model):
     finish_date = models.DateTimeField()
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     voting = models.ForeignKey(Voting, on_delete=models.CASCADE)
-    votes = models.BigIntegerField(default=0)
+    votes = models.BigIntegerField(default=0, blank=True, null=True)
 
     def __str__(self):
         return self.name
