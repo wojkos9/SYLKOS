@@ -24,7 +24,7 @@
             </div>
       </div>
       <div class="commentSectionRedirectButton">
-          <router-link :to="{ name: 'project', params:{id:1}}"> {{ getString('votingProject', 'seeDiscussion') }}</router-link> 
+          <router-link :to="{ name: 'project', params:{id:id}}"> {{ getString('votingProject', 'seeDiscussion') }}</router-link> 
       </div>
       <div class="voteForProject">
             <button :id="id" style="font-weight: 500;

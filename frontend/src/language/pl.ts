@@ -62,6 +62,10 @@ export const pl = {
     newest: "data dodania malejąco",
     oldest: "data dodania rosnąco",
   },
+  addComment: {
+    commentText: "Treść komentarza",
+    commentTextError: 'Treść komentarza jest wymagana',
+  },
   gallery: {
     group: "Galeria grupy",
     project: "Galeria projektu",

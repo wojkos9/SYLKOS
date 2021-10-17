@@ -16,7 +16,7 @@
       <div v-for="project in projects" :key="project.id">
         <Project
           v-show="check(project.name)"
-          v-bind:project="project" 
+          v-bind:project="project"
         />
       </div>
       <v-container>

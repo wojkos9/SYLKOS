@@ -1,23 +1,40 @@
 <template>
-  <div class="starsRow">
-    <div v-for="i in 5" :key="i"><star v-bind:stars="stars" v-bind:number="i" /></div>
+  <div class="text-center mt-12">
+    <v-rating
+      v-model="rating"
+      @input="ratingChange($event)"
+      color="yellow darken-3"
+      background-color="grey darken-1"
+      empty-icon="$ratingFull"
+      half-icon="mdi-star-half"
+      half-increments
+      hover
+      large
+    ></v-rating>
   </div>
 </template>
 
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-import Star from './Star.vue';
 
 export default {
   name: "stars",
-  props: ["stars"],
+  props: ["rating"],
+  data(){
+    return{
+      ratingValue: 0
+    }
+  },
   methods: {
     getString,
     getColor,
+    ratingChange(newValue){
+      this.ratingValue = newValue;
+      this.$emit('ratingChanged', this.ratingValue);
+    }
   },
   computed: {},
-  components: {Star},
 };
 </script>
 
@@ -31,7 +48,4 @@ export default {
   flex-wrap: wrap;
   justify-content: space-around;
 }
-
-
-
 </style>

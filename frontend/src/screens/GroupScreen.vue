@@ -123,19 +123,17 @@ export default {
   justify-content: space-around;
 }
 .leftSection {
-  padding: 20px;
-  font-size: 20px;
-  /* margin-left: -100px; */
-  width: 1000px;
+  padding: 100px;
+  font-size: 2rem;
+  max-width: 1000px;
 }
 
 .rightSection {
   padding: 20px;
   font-size: 20px;
-  /* width: 1000px; */
   margin-left: 100px;
-  max-width: 800px;
-}
+  width: 50%;
+} 
 
 .galleryTitle {
   display: flex;
@@ -147,9 +145,10 @@ export default {
   display: flex;
 }
 .image {
+  border: 1px solid black;
   width: 600px;
   margin: 20px;
-}
+} 
 .leftArrow,
 .rightArrow {
   align-items: center;
@@ -177,13 +176,19 @@ export default {
     margin-top: 70px;
   }
 
+  .leftSection{
+    justify-content: center;
+    max-width: 80%;
+    padding: 20px;
+    font-size: 1.25rem;
+  }
   .rightSection{
     margin-left: 0px;
   }
 }
 @media only screen and (max-width: 750px) {
 
-  .rightSection{
+  .leftSection{
     max-width: 100%;
   }
 }
