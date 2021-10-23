@@ -3,21 +3,20 @@
     <div class="allTitle">
       <div class="nextToGroups">
         <div class="groupsTitle">
-          {{ getString("groupsEdit", "title").toUpperCase() }}
+          {{ getString("votingTypesEdit", "title").toUpperCase() }}
         </div>
       </div>
     </div>
 
     <div class="allGroups">
       <div
-        v-for="group in groups"
-        :key="group.id"
+        v-for="votingType in votingTypes"
+        :key="votingType.name"
         class="d-flex justify-content-center"
       >
-        
-          <div class="singleGroup">{{ group.name }} <router-link
+          <div class="singleGroup">{{ votingType.name }} <router-link
         :to="{
-          name: editAction, params: {groupdData: group, id:group.id}
+          name: editAction, params: {nameId:votingType.name}
         }"
       >
         <v-card-text
@@ -33,7 +32,7 @@
 
         <v-card-text
           style=" position: absolute; top: 45px; right: 80px; width: 20px;"
-          @click="deleteGroup(group.id)"
+          @click="deleteVotingType(votingType.name)"
         >
           <v-fab-transition>
             <v-btn color="secondary" dark absolute top right fab>
@@ -52,7 +51,7 @@
                 <v-pagination
                   v-model="page"
                   class="my-4"
-                  :length="Math.ceil(allGroups / 4)"
+                  :length="Math.ceil(allVotingTypes / 4)"
                 ></v-pagination>
               </v-container>
             </v-col>
@@ -60,20 +59,20 @@
         </v-container>
       </div>
       <DialogWithUser
-      :desc="getString('groupsEdit', 'delete')"
+      :desc="getString('votingEdit', 'delete')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
-      :yes="getString('groupsEdit', 'accept')"
-      :no="getString('groupsEdit', 'cancel')"
+      :yes="getString('votingEdit', 'accept')"
+      :no="getString('votingEdit', 'cancel')"
     />
 
     <DialogWithUser
-      :desc="getString('groupsEdit', 'success')"
+      :desc="getString('votingEdit', 'success')"
       :nextAction="nextFunction2"
       :backAction="backFunction2"
       :dialog="dialog2"
-      :no="getString('groupsEdit', 'back')"
+      :no="getString('votingEdit', 'back')"
     />
 
     </div>
@@ -91,7 +90,7 @@ import { apiService } from "@/common/api.service.js";
 import DialogWithUser from '../../components/UI/DialogWithUser.vue';
 
 export default {
-  name: "groupsEditListScreen",
+  name: "votingTypesEditListScreen",
   components:{
     DialogWithUser
   },
@@ -100,58 +99,61 @@ export default {
       page: 1,
       dialog: false,
       dialog2: false,
-      deleteGroupId: null,
-      allGroups: null,
-      groups: [],
+      deleteVotingTypeId: null,
+      allVotingTypes: null,
+      votingTypes: [],
       sideDrawer: false,
       searchName: "",
-      editAction: "groupEdit",
+      editAction: "votingTypeEdit",
       requestUser: "",
-      sortOptions: [
-        [getString("groups", "name"), this.sortByName],
-        [getString("groups", "membersNumberSort"), this.sortByMembers],
-      ],
+      // sortOptions: [
+      //   [getString("groups", "name"), this.sortByName],
+      //   [getString("groups", "membersNumberSort"), this.sortByMembers],
+      // ],
     };
   },
   methods: {
     getString,
     getColor,
-  
-    async getOnePageGroups() {
-      let endpoint = `api/groups/?page=${this.page}`;
+    async getOnePageVotingTypes() {
+      let endpoint = `api/voting_type/?page=${this.page}`;
       let data = await apiService(endpoint);
-      this.groups = [];
-      for (var group of data["results"]) {
-        this.groups.push(group);
+      this.allVotingTypes = data["count"]
+      this.votingTypes = [];
+      for (var votingType of data["results"]) {
+        this.votingTypes.push(votingType);
       }
     },
-    async deleteGroup(id){
-      this.deleteGroupId = id;
+    async deleteVotingType(name){
+      this.deleteVotingTypeId = name;
       this.dialog = true;
+    },
+    moreGroups() {
+      this.getAllVotings();
     },
     makeSth(str) {
       this.searchName = str;
     },
-    check(str) {
-      return str.toLowerCase().includes(this.searchName.toLowerCase());
-    },
-    sortByName() {
-      console.log("sortByName");
-    },
-    sortByMembers() {
-      this.groups = this.groups.sort((a, b) => a.count_user - b.count_user);
-    },
+    // check(str) {
+    //   return str.toLowerCase().includes(this.searchName.toLowerCase());
+    // },
+    // sortByName() {
+    //   console.log("sortByName");
+    // },
+    // sortByMembers() {
+    //   this.groups = this.groups.sort((a, b) => a.count_user - b.count_user);
+    // },
     setRequestUser() {
       this.requestUser = window.localStorage.getItem("username");
     },
     async nextFunction(){
       this.dialog = false
-      let endpoint = `api/groups/${this.deleteGroupId}/`;
+      let endpoint = `api/voting_type/${this.deleteVotingTypeId}/`;
       await apiService(endpoint, 'DELETE')
       .then(data => {
         console.log(data);
         this.page = 1;
-        this.getOnePageGroups()
+        this.getOnePageVotingTypes();
         this.dialog2 = true;
       })
       // this.$router.push({name:"admin"})
@@ -169,13 +171,13 @@ export default {
   },
 
   created() {
-    this.getOnePageGroups();
+    this.getOnePageVotingTypes();
     this.setRequestUser();
-    document.title = this.getString("groups", "pageTitle");
+    document.title = this.getString("votingTypesEdit", "pageTitle");
   },
   watch: {
     page: function() {
-      this.getOnePageGroups();
+      this.getOnePageVotingTypes();
     },
   },
 };

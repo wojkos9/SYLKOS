@@ -1,20 +1,25 @@
 <template>
   <div>
-    <GroupTitle
-      v-bind:numberOfAllGroups="allGroups"
-      v-on:changeSearchName="makeSth($event)"
-    />
+    <div class="allTitle">
+      <div class="nextToGroups">
+        <div class="groupsTitle">
+          {{ getString("groups", "groups").toUpperCase() }} ({{
+            allGroups
+          }})
+        </div>
+      </div>
+    </div>
 
-    <div class="options">
+    <!-- <div class="options">
       <Search
         v-on:changeSearchName="makeSth($event)"
         :title="getString('groups', 'name')"
       />
       <Sort :options="sortOptions" />
-    </div>
+    </div> -->
 
     <div class="allGroups">
-      <div v-for="group in groups" :key="group.id">
+     <div v-for="group in groups" :key="group.id">
         <Group
           v-bind:group="group"
           v-show="check(group.name)"
@@ -43,20 +48,18 @@
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-import GroupTitle from "../components/groups/GroupTitle.vue";
-import Group from "../components/groups/Group.vue";
-import Sort from "../components/UI/Sort.vue";
-import Search from "../components/UI/Search.vue";
+// import Sort from "../../components/UI/Sort.vue";
+// import Search from "../../components/UI/Search.vue";
 import { apiService } from "@/common/api.service.js";
+import Group from "../components/groups/Group.vue";
 export default {
   name: "groupsScreen",
-  components: { GroupTitle, Group, Sort, Search },
+  components: { Group },
   data() {
     return {
       page: 1,
       allGroups: null,
       groups: [],
-      sideDrawer: false,
       searchName: "",
       requestUser: "",
       sortOptions: [
@@ -98,7 +101,6 @@ export default {
       console.log("sortByName");
     },
     sortByMembers() {
-      console.log("sortByMembers");
       this.groups = this.groups.sort((a, b) => a.count_user - b.count_user);
     },
     setRequestUser() {
@@ -109,7 +111,7 @@ export default {
   created() {
     this.getAllGroups();
     this.setRequestUser();
-    document.title = this.getString("groups", "pageTitle")
+    document.title = this.getString("groups", "pageTitle");
   },
   watch: {
     page: function() {
@@ -120,6 +122,32 @@ export default {
 </script>
 
 <style>
+.singleGroup {
+  padding: 30px;
+  font-size: 1.5rem;
+  width: 800px;
+  margin-bottom: 15px;
+  border: solid;
+  position: relative
+}
+.groupsTitle {
+  align-self: center;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.nextToGroups {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.allTitle {
+  margin-bottom: 50px;
+  margin-top: 50px;
+  width: 100%;
+}
+
 .center {
   display: flex;
   flex-direction: column;

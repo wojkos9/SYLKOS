@@ -5,7 +5,7 @@
     >
       <v-card>
         <v-card-title>
-          <span class="text-h4">{{ title }}!!</span>
+          <span class="text-h4">{{ title }}<span v-show="title">!!</span></span>
         </v-card-title>
         <v-card-text>
           <span style="font-size: 20px">{{desc}}</span><br> <br>
@@ -21,14 +21,14 @@
             text
             @click="nextAction"
           >
-             {{getString("votingTypeForm", "next")}}
+             <span v-if="yes">{{yes}}</span><span v-else>{{getString("votingTypeForm", "next")}}</span>
           </v-btn>
           <v-btn
             color="green darken-1"
             text
             @click="backAction"
           >
-             {{getString("votingTypeForm", "back")}}
+              <span v-if="no">{{no}}</span><span v-else>{{getString("votingTypeForm", "back")}}</span>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -39,7 +39,7 @@
 import { getString } from "@/language/string.js";
 export default ({
     name: "DialogWithUser",
-    props: ["title", "desc", "object", "nextAction", "backAction", "dialog"],
+    props: ["title", "desc", "object", "nextAction", "backAction", "dialog", "yes", "no"],
     data() {
         return {
              

@@ -9,7 +9,7 @@
           >
             <div class="d-flex align-items-center">
               <router-link :to="{ name: mainPageRoute }">
-                <img src="@/assets/logo3.png" class="logo" />
+                <img src="@/assets/logo.png" class="logo" />
               </router-link>
 
               <div class="menu">

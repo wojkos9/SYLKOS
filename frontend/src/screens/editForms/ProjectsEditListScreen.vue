@@ -3,21 +3,21 @@
     <div class="allTitle">
       <div class="nextToGroups">
         <div class="groupsTitle">
-          {{ getString("groupsEdit", "title").toUpperCase() }}
+          {{ getString("projectsEdit", "title").toUpperCase() }}
         </div>
       </div>
     </div>
 
     <div class="allGroups">
       <div
-        v-for="group in groups"
-        :key="group.id"
+        v-for="project in projects"
+        :key="project.id"
         class="d-flex justify-content-center"
       >
         
-          <div class="singleGroup">{{ group.name }} <router-link
+          <div class="singleGroup">{{ project.name }} <router-link
         :to="{
-          name: editAction, params: {groupdData: group, id:group.id}
+          name: editAction, params: { id:project.id}
         }"
       >
         <v-card-text
@@ -33,7 +33,7 @@
 
         <v-card-text
           style=" position: absolute; top: 45px; right: 80px; width: 20px;"
-          @click="deleteGroup(group.id)"
+          @click="deleteProject(project.id)"
         >
           <v-fab-transition>
             <v-btn color="secondary" dark absolute top right fab>
@@ -52,7 +52,7 @@
                 <v-pagination
                   v-model="page"
                   class="my-4"
-                  :length="Math.ceil(allGroups / 4)"
+                  :length="Math.ceil(allProjects / 4)"
                 ></v-pagination>
               </v-container>
             </v-col>
@@ -60,20 +60,20 @@
         </v-container>
       </div>
       <DialogWithUser
-      :desc="getString('groupsEdit', 'delete')"
+      :desc="getString('projectsEdit', 'delete')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
-      :yes="getString('groupsEdit', 'accept')"
-      :no="getString('groupsEdit', 'cancel')"
+      :yes="getString('projectsEdit', 'accept')"
+      :no="getString('projectsEdit', 'cancel')"
     />
 
     <DialogWithUser
-      :desc="getString('groupsEdit', 'success')"
+      :desc="getString('projectsEdit', 'success')"
       :nextAction="nextFunction2"
       :backAction="backFunction2"
       :dialog="dialog2"
-      :no="getString('groupsEdit', 'back')"
+      :no="getString('projectsEdit', 'back')"
     />
 
     </div>
@@ -91,7 +91,7 @@ import { apiService } from "@/common/api.service.js";
 import DialogWithUser from '../../components/UI/DialogWithUser.vue';
 
 export default {
-  name: "groupsEditListScreen",
+  name: "projectsEditListScreen",
   components:{
     DialogWithUser
   },
@@ -100,34 +100,46 @@ export default {
       page: 1,
       dialog: false,
       dialog2: false,
-      deleteGroupId: null,
-      allGroups: null,
-      groups: [],
+      deleteProjectId: null,
+      allProjects: null,
+      projects: [],
       sideDrawer: false,
       searchName: "",
-      editAction: "groupEdit",
+      editAction: "projectEdit",
       requestUser: "",
       sortOptions: [
-        [getString("groups", "name"), this.sortByName],
-        [getString("groups", "membersNumberSort"), this.sortByMembers],
+        [getString("projects", "name"), this.sortByName],
+        [getString("projects", "membersNumberSort"), this.sortByMembers],
       ],
     };
   },
   methods: {
     getString,
     getColor,
-  
-    async getOnePageGroups() {
-      let endpoint = `api/groups/?page=${this.page}`;
+    async getAllProjects() {
+      this.projects = [];
+      let endpoint = "api/projects/";
       let data = await apiService(endpoint);
-      this.groups = [];
-      for (var group of data["results"]) {
-        this.groups.push(group);
+      this.allProjects = data["count"];
+
+      for (var project of data["results"]) {
+        this.projects.push(project);
       }
     },
-    async deleteGroup(id){
-      this.deleteGroupId = id;
+    async getOnePageGroups() {
+      let endpoint = `api/projects/?page=${this.page}`;
+      let data = await apiService(endpoint);
+      this.projects = [];
+      for (var project of data["results"]) {
+        this.projects.push(project);
+      }
+    },
+    async deleteProject(id){
+      this.deleteProjectId = id;
       this.dialog = true;
+    },
+    moreGroups() {
+      this.getAllGroups();
     },
     makeSth(str) {
       this.searchName = str;
@@ -139,19 +151,19 @@ export default {
       console.log("sortByName");
     },
     sortByMembers() {
-      this.groups = this.groups.sort((a, b) => a.count_user - b.count_user);
+      this.projects = this.projects.sort((a, b) => a.count_user - b.count_user);
     },
     setRequestUser() {
       this.requestUser = window.localStorage.getItem("username");
     },
     async nextFunction(){
       this.dialog = false
-      let endpoint = `api/groups/${this.deleteGroupId}/`;
+      let endpoint = `api/projects/${this.deleteProjectId}/`;
       await apiService(endpoint, 'DELETE')
       .then(data => {
         console.log(data);
         this.page = 1;
-        this.getOnePageGroups()
+        this.getAllProjects();
         this.dialog2 = true;
       })
       // this.$router.push({name:"admin"})
@@ -169,13 +181,13 @@ export default {
   },
 
   created() {
-    this.getOnePageGroups();
+    this.getAllProjects();
     this.setRequestUser();
-    document.title = this.getString("groups", "pageTitle");
+    document.title = this.getString("projects", "pageTitle");
   },
   watch: {
     page: function() {
-      this.getOnePageGroups();
+      this.getOnePageProjects();
     },
   },
 };

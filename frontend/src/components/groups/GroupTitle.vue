@@ -3,7 +3,7 @@
     <div class="nextToGroups">
       <div class="groupsTitle">
         {{ getString("groups", "groups").toUpperCase() }} ({{
-          numberOfAllGroups
+          group.members
         }})
       </div>
     </div>
@@ -84,7 +84,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin-top: -55px;
+  /* margin-top: -55px; */
 }
 
 @media only screen and (max-width: 1000px) {
