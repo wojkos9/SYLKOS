@@ -3,28 +3,46 @@
     <div class="allTitle">
       <div class="nextToGroups">
         <div class="groupsTitle">
-          {{ getString("groups", "groups").toUpperCase() }} ({{
-            allGroups
-          }})
+          {{ getString("groupsEdit", "title").toUpperCase() }}
         </div>
       </div>
     </div>
 
-    <!-- <div class="options">
-      <Search
-        v-on:changeSearchName="makeSth($event)"
-        :title="getString('groups', 'name')"
-      />
-      <Sort :options="sortOptions" />
-    </div> -->
-
     <div class="allGroups">
-     <div v-for="group in groups" :key="group.id">
-        <Group
-          v-bind:group="group"
-          v-show="check(group.name)"
-          v-bind:requestUser="requestUser"
-        />
+      <div
+        v-for="group in groups"
+        :key="group.id"
+        class="d-flex justify-content-center"
+      >
+        
+          <div class="singleGroup">{{ group.name }} <router-link
+        :to="{
+          name: editAction, params: {groupdData: group, id:group.id}
+        }"
+      >
+        <v-card-text
+          style=" position: absolute; top: 45px; right: 10px; width: 30px; "
+        >
+          <v-fab-transition>
+            <v-btn color="secondary" dark absolute top right fab>
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </v-card-text>
+      </router-link>
+
+        <v-card-text
+          style=" position: absolute; top: 45px; right: 80px; width: 20px;"
+          @click="deleteGroup(group.id)"
+        >
+          <v-fab-transition>
+            <v-btn color="secondary" dark absolute top right fab>
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </v-card-text>
+    </div>
+      
       </div>
       <div class="text-center">
         <v-container>
@@ -41,26 +59,53 @@
           </v-row>
         </v-container>
       </div>
+      <DialogWithUser
+      :desc="getString('groupsEdit', 'delete')"
+      :nextAction="nextFunction"
+      :backAction="backFunction"
+      :dialog="dialog"
+      :yes="getString('groupsEdit', 'accept')"
+      :no="getString('groupsEdit', 'cancel')"
+    />
+
+    <DialogWithUser
+      :desc="getString('groupsEdit', 'success')"
+      :nextAction="nextFunction2"
+      :backAction="backFunction2"
+      :dialog="dialog2"
+      :no="getString('groupsEdit', 'back')"
+    />
+
     </div>
+
+    
+
+
   </div>
 </template>
 
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-// import Sort from "../../components/UI/Sort.vue";
-// import Search from "../../components/UI/Search.vue";
 import { apiService } from "@/common/api.service.js";
-import Group from "../components/groups/Group.vue";
+import DialogWithUser from '../../components/UI/DialogWithUser.vue';
+
 export default {
-  name: "groupsScreen",
-  components: { Group },
+  name: "groupsEditListScreen",
+  components:{
+    DialogWithUser
+  },
   data() {
     return {
       page: 1,
+      dialog: false,
+      dialog2: false,
+      deleteGroupId: null,
       allGroups: null,
       groups: [],
+      sideDrawer: false,
       searchName: "",
+      editAction: "groupEdit",
       requestUser: "",
       sortOptions: [
         [getString("groups", "name"), this.sortByName],
@@ -71,15 +116,7 @@ export default {
   methods: {
     getString,
     getColor,
-    async getAllGroups() {
-      let endpoint = "api/groups/";
-      let data = await apiService(endpoint);
-      this.allGroups = data["count"];
-
-      for (var group of data["results"]) {
-        this.groups.push(group);
-      }
-    },
+  
     async getOnePageGroups() {
       let endpoint = `api/groups/?page=${this.page}`;
       let data = await apiService(endpoint);
@@ -88,8 +125,9 @@ export default {
         this.groups.push(group);
       }
     },
-    moreGroups() {
-      this.getAllGroups();
+    async deleteGroup(id){
+      this.deleteGroupId = id;
+      this.dialog = true;
     },
     makeSth(str) {
       this.searchName = str;
@@ -106,10 +144,32 @@ export default {
     setRequestUser() {
       this.requestUser = window.localStorage.getItem("username");
     },
+    async nextFunction(){
+      this.dialog = false
+      let endpoint = `api/groups/${this.deleteGroupId}/`;
+      await apiService(endpoint, 'DELETE')
+      .then(data => {
+        console.log(data);
+        this.page = 1;
+        this.getOnePageGroups()
+        this.dialog2 = true;
+      })
+      // this.$router.push({name:"admin"})
+    },
+    backFunction(){
+      this.dialog = false
+    },
+    nextFunction2(){
+      this.dialog2 = false
+      this.$router.push({name:"admin"})
+    },
+    backFunction2(){
+      this.dialog2 = false
+    }
   },
 
   created() {
-    this.getAllGroups();
+    this.getOnePageGroups();
     this.setRequestUser();
     document.title = this.getString("groups", "pageTitle");
   },

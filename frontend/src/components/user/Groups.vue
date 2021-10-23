@@ -53,6 +53,7 @@ export default {
   flex-wrap: wrap;
   align-self: center;
   justify-content: center;
+  max-width: 100%;
 }
 .title {
   align-self: center;

@@ -1,18 +1,16 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="d-none d-sm-block col-md-2 col-lg-3" />
-      <div
-        class="col-sm-12 col-md-8 col-lg-6  d-flex justify-content-center flex-column"
-      >
-        <div
-          id="backgroundGroupForm"
-          class="background d-flex justify-content-center "
-        >
-          <v-form
+<div class="container">
+  <div class="row" >
+    <div class="d-none d-sm-block col-md-2 col-lg-3" />
+    <div class="col-sm-12 col-md-8 col-lg-6  d-flex justify-content-center flex-column">
+
+    <div id="backgroundGroupForm" class="background d-flex justify-content-center ">
+
+     
+    <v-form
             v-model="valid"
-            ref="newGroupForm"
-            id="newGroupForm"
+            ref="editVotingForm"
+            id="editVotingForm"
             class="d-flex justify-content-center p-3 groupForm"
             enctype="multipart/form-data"
           >
@@ -32,9 +30,9 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="startDate.value"
-                    :label="startDate.label"
-                    :rules="startDate.rule"
+                    v-model="voting.startDate.value"
+                    :label="voting.startDate.label"
+                    :rules="voting.startDate.rule"
                     prepend-icon="mdi-calendar"
                     readonly
                     v-bind="attrs"
@@ -44,7 +42,7 @@
 
                 <v-date-picker
                   color="accent"
-                  v-model="startDate.value"
+                  v-model="voting.startDate.value"
                   @input="menu1 = false"
                   :first-day-of-week="0"
                   :locale="lang"
@@ -62,9 +60,9 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="endDate.value"
-                    :label="endDate.label"
-                    :rules="endDate.rule"
+                    v-model="voting.endDate.value"
+                    :label="voting.endDate.label"
+                    :rules="voting.endDate.rule"
                     prepend-icon="mdi-calendar"
                     readonly
                     v-bind="attrs"
@@ -75,16 +73,16 @@
                   color="accent"
                   :first-day-of-week="0"
                   :locale="lang"
-                  v-model="endDate.value"
+                  v-model="voting.endDate.value"
                   @input="menu2 = false"
                 ></v-date-picker>
               </v-menu>
 
               <v-combobox
-                v-model="votingType.value"
+                v-model="voting.votingType.value"
                 :items="votingTypes"
-                :rules="votingType.rule"
-                :label="votingType.label"
+                :rules="voting.votingType.rule"
+                :label="voting.votingType.label"
                 item-text="name"
               ></v-combobox>
 
@@ -97,7 +95,7 @@
                       v-on="check && on"
                       v-bind="attrs"
                     >
-                      {{ getString("votingForm", "submit") }}
+                      {{ getString("votingEditForm", "submit") }}
                     </v-btn>
                   </template>
                   <v-card>
@@ -126,40 +124,51 @@
                   </v-card>
                 </v-dialog>
                 <v-btn @click="clear">
-                  {{ getString("votingForm", "clearData") }}
+                  {{ getString("votingEditForm", "cancel") }}
                 </v-btn>
               </div>
             </v-container>
           </v-form>
-        </div>
-        <div class="d-none d-sm-block col-md-2 col-lg-3" />
-      </div>
     </div>
+     <div class="d-none d-sm-block col-md-2 col-lg-3"/>
+  </div>
+    </div>
+
     <DialogWithUser
-      :title="getString('votingTypeForm', 'success')"
-      :desc="getString('votingTypeForm', 'desc')"
+      :title="getString('groupForm', 'success')"
+      :desc="getString('groupForm', 'desc')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
       :object="voting"
     />
-  </div>
+      
+</div>
+
 </template>
 
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-import { apiService } from "@/common/api.service.js";
-import DialogWithUser from '../components/UI/DialogWithUser.vue';
+import { apiService} from "@/common/api.service.js";
+import DialogWithUser from '../../components/UI/DialogWithUser.vue';
 
 export default {
-  name: "groupScreen",
+  name: "votingEditFormScreen",
+  props: ["id",],
   components: {DialogWithUser},
   data() {
     return {
       valid: false,
-      lang: getString("language", "lang"),
-      dialog: false,
+      menu1: false,
+      modal: false,
+      menu2: false,
+      check: false,
+      select: { name: "", description: "" },
+      newName: 'costam',
+      groupId: '',
+      votingTypes:{},
+      oldVoting: [],
       voting: {
         startDate: {
           label: getString("votingForm", "startDateLabel"),
@@ -174,75 +183,45 @@ export default {
           value: "",
         },
       },
-      menu1: false,
-      modal: false,
-      menu2: false,
-      check: false,
-      select: { name: "", description: "" },
-      startDate: {
-        label: getString("votingForm", "startDateLabel"),
-        rule: [(v) => !!v || getString("votingForm", "startDateError")],
-        value: "",
-      },
-      endDate: {
-        label: getString("votingForm", "endDateLabel"),
-        rule: [(v) => !!v || getString("votingForm", "endDateError")],
-        value: "",
-      },
-      votingType: {
-        label: getString("votingForm", "votingTypeLabel"),
-        rule: [(v) => !!v || getString("votingForm", "votingTypeError")],
-        value: "",
-      },
-      votingTypes2: ["nowy typ glosowania", "cosinnego"],
-      votingTypes: {},
-
+      dialog: false,
     };
   },
   methods: {
     getString,
     getColor,
-    selectImage() {
-      this.photo.value = this.$refs.file.files.item(0);
-    },
     clear() {
-      this.startDate.value = "";
-      this.endDate.value = "";
-      this.votingType.value = "";
-      this.reset();
+     this.voting.startDate.value = this.oldVoting.startDate
+      this.voting.endDate.value = this.oldVoting.endDate
+      this.voting.votingType.value = this.oldVoting.votingType
     },
     reset() {
-      this.$refs.newGroupForm.reset();
+      this.$refs.editVotingForm.reset();
     },
     validate() {
-      this.$refs.newGroupForm.validate();
+      this.$refs.editVotingForm.validate();
+    },
+    cancel(){
+        this.$router.push({name: 'votingsEditList'})
     },
     async submit() {
       this.validate();
       if (this.valid) {
-        await apiService("/api/voting/", "POST", {
-          start_date: this.startDate.value + "T00:00:00Z",
-          end_date: this.endDate.value + "T00:00:00Z",
 
-          voting_type: this.votingType.value.name,
-        }).then((data) => {
-          if (data == "success") this.check = true;
-          console.log(data);
-          if (data != "wrong data") {
-            this.voting.startDate.value = data.start_date;
-            this.voting.endDate.value = data.end_date;
-            this.voting.votingType.value = data.voting_type;
-            console.log(this.voting)
-            this.dialog = true;
-          }
-        });
-      }
-    },
-    async getTypes(endpoint) {
-      await apiService(endpoint).then((data) => {
-        return data;
-      });
-      return null;
+    await apiService(`/api/voting/${this.votingId}/`, "PUT", {
+          start_date: this.voting.startDate.value + "T00:00:00Z",
+          end_date: this.voting.endDate.value + "T00:00:00Z",
+          voting_type: this.voting.votingType.value,
+        }).then(async data => {
+            console.log("komunikat: ", data)
+            if(data != "wrong data"){
+              this.dialog = true
+              this.voting.startDate.value = data.start_date.slice(0, data.start_date.indexOf("T00"))
+              this.voting.endDate.value = data.end_date.slice(0, data.end_date.indexOf("T00"))
+              this.voting.votingType.value = data.voting_type
+            }
+            
+        })
+    }
     },
     nextFunction(){
       this.dialog = false
@@ -250,37 +229,49 @@ export default {
     },
     backFunction(){
       this.dialog = false
-      // this.$router.push({name:"votingTypeNew"})
     }
+    
   },
-  created() {
-    document.title = this.getString("votingForm", "title");
+  created(){
+    document.title = this.getString("votingEditForm", "title")
   },
-  async beforeRouteEnter(to, from, next) {
-    let endpoint = `api/voting_type/`;
-    let types = [];
-    while (endpoint) {
-      await apiService(endpoint).then((data) => {
-        console.log(data.results);
-        for (let type of data.results) {
-          types.push(type);
+  async beforeRouteEnter(to, from, next){
+        if(to.params.id !== undefined){
+            let endpoint = `api/voting/${to.params.id}/`
+            let data = await apiService(endpoint)
+
+            endpoint = `api/voting_type/`;
+            let types = [];
+            while (endpoint) {
+              await apiService(endpoint).then((data2) => {
+                console.log(data2.results);
+                for (let type of data2.results) {
+                  types.push(type);
+                }
+                endpoint = data.next;
+              });
+            }
+
+            return next(vm => {
+              console.log(data)
+              vm.votingTypes = types;
+              vm.oldVoting = data
+              vm.votingId = data.id
+              vm.voting.startDate.value = data.start_date.slice(0, data.start_date.indexOf("T00"))
+              vm.voting.endDate.value = data.end_date.slice(0, data.end_date.indexOf("T00"))
+              vm.voting.votingType.value = data.voting_type
+        });
+        }else{
+            return next()
         }
-        endpoint = data.next;
-      });
-    }
-
-    return next((vm) => {
-      console.log(types);
-
-      vm.votingTypes = types;
-    });
-  },
+       
+    },
 };
 </script>
 
 <style scoped>
 .groupForm {
-  border: solid;
+  border:solid;
   background-color: white;
   vertical-align: middle;
   margin: 20px;
@@ -292,16 +283,10 @@ export default {
   border-radius: 20px;
   padding-bottom: 50px;
 }
-.background {
+.background{
   width: 100%;
-  background-color: #c0cfe6;
+  background-color: #C0CFE6;
   margin-top: 150px;
-}
-.dates {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 .groupName {
   font-size: 2rem;
@@ -313,19 +298,20 @@ export default {
   margin-top: 20px;
 }
 
-@media only screen and (max-width: 758px) {
-  .background {
-    margin-top: 10px;
-  }
-  .buttons {
-    flex-direction: column;
-  }
-  button {
-    width: 100%;
-    margin-top: 20px;
-  }
-  .v-btn.v-size--default {
-    font-size: 0.7rem;
-  }
+@media only screen and (max-width: 758px){
+  .background{
+  margin-top: 10px;
+}
+.buttons{
+  flex-direction: column;
+}
+button{
+  width: 100%;
+  margin-top: 20px;
+ 
+}
+.v-btn.v-size--default{
+ font-size: 0.7rem
+}
 }
 </style>

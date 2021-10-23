@@ -16,7 +16,7 @@
             <router-link :to="{ name: routes.mainPage }">
               <v-list-item>
                 <v-list-item-title>
-                  <img src="@/assets/logo3.png" class="logo" />
+                  <svg  src="@/assets/logo.png" class="logo" />
                 </v-list-item-title>
               </v-list-item>
             </router-link>

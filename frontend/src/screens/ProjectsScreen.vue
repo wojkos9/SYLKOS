@@ -1,58 +1,59 @@
 <template>
-  <div >
-   <ProjectsTitle 
-    v-bind:numberOfAllProjects="allProjects" 
-    v-on:changeSearchName="makeSth($event)"
-    />
-
-   <div class="options">
-     <Sort :options="sortOptions"/>
-     <div class="searchOptions"> <Search v-on:changeSearchName="makeSth($event)" :title="getString('projects', 'group')"/>
-      <Search v-on:changeSearchName="makeSth($event)" :title="getString('projects', 'name')"/>
+  <div>
+    <div class="allTitle">
+      <div class="nextToGroups">
+        <div class="groupsTitle">
+          {{ getString("projects", "title").toUpperCase() }} ({{
+            allProjects
+          }})
+        </div>
       </div>
     </div>
 
-    <div class="allProjects">
-      <div v-for="project in projects" :key="project.id">
+    <!-- <div class="options">
+      <Search
+        v-on:changeSearchName="makeSth($event)"
+        :title="getString('groups', 'name')"
+      />
+      <Sort :options="sortOptions" />
+    </div> -->
+
+    <div class="allGroups">
+     <div v-for="project in projects" :key="project.id">
         <Project
           v-show="check(project.name)"
           v-bind:project="project" 
         />
       </div>
-      <v-container>
-      <v-row justify="center">
-        <v-col cols="8">
-          <v-container class="max-width">
-            <v-pagination
-              v-model="page"
-              class="my-4"
-              :length="Math.ceil(allProjects/4)"
-            ></v-pagination>
-          </v-container>
-        </v-col>
-      </v-row>
-    </v-container>
-
+      <div class="text-center">
+        <v-container>
+          <v-row justify="center">
+            <v-col cols="8">
+              <v-container class="max-width">
+                <v-pagination
+                  v-model="page"
+                  class="my-4"
+                  :length="Math.ceil(allProjects / 4)"
+                ></v-pagination>
+              </v-container>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
     </div>
-
-    
-
   </div>
 </template>
 
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-import ProjectsTitle from '../components/projects/ProjectsTitle.vue';
-import Project from '../components/projects/Project.vue';
-import Sort from '../components/UI/Sort.vue';
-import Search from '../components/UI/Search.vue';
+// import Sort from "../../components/UI/Sort.vue";
+// import Search from "../../components/UI/Search.vue";
 import { apiService } from "@/common/api.service.js";
-
-
+import Project from "../components/projects/Project.vue";
 export default {
-  name: "projectsScreen",
-  components: {ProjectsTitle, Project, Sort, Search},
+  name: "groupsScreen",
+  components: { Project },
   data() {
     return {
       projects : [],
@@ -103,7 +104,7 @@ export default {
     },
   },
 
-  created(){
+  created() {
     this.getAllProjects()
     this.setRequestUser()
     document.title = this.getString("projects", "pageTitle")
@@ -112,44 +113,60 @@ export default {
     page: function() {
       this.getOnePageProjects();
     },
-    
-  }
+  },
 };
 </script>
 
 <style>
-.allProjects{
-  margin-top: 87px;
-  margin-bottom: 50px;
+.singleGroup {
+  padding: 30px;
+  font-size: 1.5rem;
+  width: 800px;
+  margin-bottom: 15px;
+  border: solid;
+  position: relative
+}
+.groupsTitle {
+  align-self: center;
+  font-size: 2rem;
+  text-align: center;
 }
 
-.center{
+.nextToGroups {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.allTitle {
+  margin-bottom: 50px;
+  margin-top: 50px;
+  width: 100%;
+}
+
+.center {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
-.options{
+.options {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin-top: -110px;
-  margin-bottom: -30px;
+  margin-top: -280px;
 }
 
-.searchOptions{
-  display: flex;
-  flex-direction: column;
+.allGroups {
+  margin-top: 87px;
+  margin-bottom: 50px;
 }
-@media only screen and (max-width: 1600px) {
-
-.options{
-    margin-top: 15px;
+@media only screen and (max-width: 1100px) {
+  .options {
     justify-content: center;
-    margin-bottom:0px
   }
-  .searchOptions{
-    flex-direction: row;
+  .search {
+    margin-right: 50px;
+    margin-left: 50px;
   }
 }
 </style>

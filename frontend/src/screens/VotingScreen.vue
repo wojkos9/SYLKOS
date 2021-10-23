@@ -42,6 +42,7 @@ export default {
   // props: ['date', 'group', 'title', 'description', 'price', 'likes', 'dislikes', 'userVotedFor'],
   data() {
     return {
+      active: true,
       date: "24 listopada 2021",
       group: "Osiedle Kwiatowe",
       title: "Łąka przy osiedlowym strumyku",
@@ -61,8 +62,8 @@ export default {
       if(this.previousUserVote == 0) this.previousUserVote = projectId;
       else this.previousUserVote = this.userVotedFor;
       this.userVotedFor = projectId
-      document.getElementById(this.previousUserVote).style.backgroundColor = "red"
-      document.getElementById(projectId).style.backgroundColor = "green"
+      document.getElementById(this.previousUserVote).style.backgroundColor = "rgb(217, 208, 250)"
+      document.getElementById(projectId).style.backgroundColor = "rgb(22, 187, 50)"
     },
   },
   components: {

@@ -4,6 +4,7 @@
       <v-btn
         :style="button"
         elevation="2"
+        @click="$emit('reset')"
         rounded
         class="p-2"
         color="secondary"

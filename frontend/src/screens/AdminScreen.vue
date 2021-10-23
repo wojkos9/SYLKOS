@@ -8,7 +8,6 @@
       <div>
         <Option
           :title="group.title"
-          :deleteAction="group.deleteAction"
           :editAction="group.editAction"
           :newAction="group.newAction"
           v-on:change="resetAnother(group.id)"
@@ -16,7 +15,6 @@
         />
         <Option
           :title="project.title"
-          :deleteAction="project.deleteAction"
           :editAction="project.editAction"
           :newAction="project.newAction"
           v-on:change="resetAnother(project.id)"
@@ -26,7 +24,6 @@
       <div>
         <Option
           :title="voting.title"
-          :deleteAction="voting.deleteAction"
           :editAction="voting.editAction"
           :newAction="voting.newAction"
           v-on:change="resetAnother(voting.id)"
@@ -34,7 +31,6 @@
         />
         <Option
           :title="votingType.title"
-          :deleteAction="votingType.deleteAction"
           :editAction="votingType.editAction"
           :newAction="votingType.newAction"
           v-on:change="resetAnother(votingType.id)"
@@ -55,38 +51,39 @@ export default {
   components: { Option },
   data() {
     return {
+      rating: 4.5,
       title: "admin",
       hidden: true,
       group: {
         id: 0,
         title: this.getString("admin", "groups"),
         newAction: "groupNew",
-        editAction: "groupNew",
-        deleteAction: "groupNew",
+        editAction: "groupsEditList",
+        // deleteAction: "groupNew",
         key: 0,
       },
       project: {
         id: 1,
         title: this.getString("admin", "projects"),
         newAction: "projectNew",
-        editAction: "projectNew",
-        deleteAction: "projectNew",
+        editAction: "projectsEditList",
+        // deleteAction: "projectNew",
         key: 2,
       },
       voting: {
         id:2,
         title: this.getString("admin", "votings"),
         newAction: "votingNew",
-        editAction: "votingNew",
-        deleteAction: "votingNew",
+        editAction: "votingsEditList",
+        // deleteAction: "votingNew",
         key: 4,
       },
       votingType: {
         id: 3,
         title: this.getString("admin", "votingTypes"),
         newAction: "votingTypeNew",
-        editAction: "votingTypeNew",
-        deleteAction: "votingTypeNew",
+        editAction: "votingTypeEditList",
+        // deleteAction: "votingTypeNew",
         key: 6,
       },
     };

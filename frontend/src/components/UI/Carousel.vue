@@ -1,24 +1,56 @@
 <template>
   <div>
-      <div  v-show="!ifRoute" class="groupName">
+    <div v-show="!ifRoute" class="groupName">
       <span v-if="group">{{ getString("gallery", "group") }}</span>
       <span v-else-if="!group">{{ getString("gallery", "project") }}</span>
-      <div class="galleryTitle">{{title}}</div>
-      </div>
-    
+      <div class="galleryTitle">{{ title }}</div>
+    </div>
+
     <vue-slick-carousel :arrows="true" :dots="true" :fade="true" ref="carousel">
-      
       <div v-for="(item, index) in slides" v-bind:key="index">
-        
         <div class="image" v-if="ifRoute">
-          <router-link :to="{ name: 'photo', params: { slides: slides, title: title, group:group } }">
-            <img :src="`/media/${item.image}`" />
-          </router-link>
+          <!-- <router-link :to="{ name: 'photo', params: { slides: slides, title: title, group:group } }"> -->
+          <img :src="`/media/${item.image}`" @click="photoDialog=true"/>
+          <!-- </router-link> -->
         </div>
         <div class="image" v-else><img :src="`/media/${item.image}`" /></div>
         <div class="desc">{{ item.desc }}</div>
       </div>
     </vue-slick-carousel>
+
+    <v-dialog
+      v-model="photoDialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+      scrollable
+    >
+      <v-card tile>
+        <v-toolbar flat dark color="primary">
+          <v-btn icon dark @click="photoDialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title><span v-if="group">{{ getString("gallery", "group") }}</span>
+      <span v-else-if="!group">{{ getString("gallery", "project") }}</span> <span class="galleryTitle">{{ title }}</span></v-toolbar-title>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+        <v-card-text >
+          <VueSlickCarousel 
+            v-bind="settings"
+          >
+            <div v-for="(item, index) in slides" v-bind:key="index">
+              <div class="image" v-if="ifRoute">
+                <img :src="`/media/${item.image}`" />
+              </div>
+              <div class="image2" v-else>
+                <img :src="`/media/${item.image}`" />
+              </div>
+              <div class="desc">{{ item.desc }}</div>
+            </div>
+          </VueSlickCarousel>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -34,6 +66,16 @@ export default {
   data() {
     return {
       focusOnSelect: true,
+      photoDialog: false,
+      settings:{
+      "dots": true,
+      "dotsClass": "slick-dots custom-dot-class",
+      "edgeFriction": 0.35,
+      "infinite": false,
+      "speed": 500,
+      "slidesToShow": 1,
+      "slidesToScroll": 1
+      }
     };
   },
   methods: {
@@ -46,8 +88,8 @@ export default {
     VueSlickCarousel,
   },
   mounted() {
-    for(var i of this.slides){
-      console.log("element", i.image)
+    for (var i of this.slides) {
+      console.log("element", i.image);
     }
   },
 };
@@ -73,12 +115,28 @@ export default {
   justify-content: center;
   margin-top: 40px;
 }
-.groupName{
+.groupName {
   font-size: 2rem;
   text-align: center;
 }
-.galleryTitle{
+.galleryTitle {
   font-weight: 600;
   margin-top: 40px;
+}
+
+img{
+  max-width: 90%;
+}
+
+v-dialog{
+  width: 100%;
+}
+.slick-prev:before {
+  color: red !important;
+  background-color: #eee;
+}
+.slick-next:before {
+  color: red !important;
+  background-color: #eee;
 }
 </style>

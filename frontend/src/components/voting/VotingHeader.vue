@@ -30,8 +30,6 @@ export default {
 <style scoped>
 .area {
   align-items: center;
-  background-color: yellow;
-  border: solid 1px black;
   border-radius: 25px;
   display: flex;
   flex-direction: column;

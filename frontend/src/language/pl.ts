@@ -46,6 +46,15 @@ export const pl = {
     projects: 'Projekty',
     votings: 'Głosowania',
     votingTypes: 'Typy głosowań',
+    joinGroup: 'Podaj kod dostępu do grupy',
+    accessCode: 'Kod dostępu',
+    accessCodeRequired: 'Kod dostępu jest wymagany',
+    accessCodeLength: 'Kod dostępu musi mieć 4 znaki',
+    leaveGroup: 'odejdź z grupy',
+    leaveGroupQuestion: 'Czy na pewno chcesz opuścić tę grupę',
+    cancel: 'Anuluj',
+    confirm: 'dołącz',
+    leave: 'opuść',
   },
   projects:{
     title: 'Projekty',
@@ -134,9 +143,9 @@ export const pl = {
   projectForm: {
     title: "Nowy projekt",
     projectNameError: "Nazwa jest wymagana",
-    projectNameLabel: "Nazwa grupy",
+    projectNameLabel: "Nazwa projektu",
     projectDescError: "Opis jest wymagany",
-    projectDescLabel: "Opis grupy",
+    projectDescLabel: "Opis projektu",
     projectBudgetError: "Budżet jest wymagany",
     projectBudgetLabel: "Budżet",
     projectStageError: "Status jest wymagany",
@@ -193,5 +202,72 @@ export const pl = {
   },
   language:{
     lang: "pl-PL",
-  }
+  },
+  groupsEdit:{
+    title: 'Lista grup - tryb edycji',
+    delete: 'Czy na pewno chcesz usunąć tę grupę?',
+    accept: 'Tak, usuwam',
+    cancel: 'Anuluj',
+    success: 'Udało się usunąć grupę!',
+    back: 'powrót'
+  },
+  groupsEditForm:{
+    title: 'Edytuj grupę',
+    submit: 'zapisz',
+    cancel: 'anuluj'
+  },
+  votingTypeEdit:{
+    title: 'Rodzaje głosowania - tryb edycji',
+    delete: 'Czy na pewno chcesz usunąć ten rodzaj głosowania?',
+    accept: 'Tak, usuwam',
+    cancel: 'Anuluj',
+    success: 'Udało się usunąć rodzaj głosowania!',
+    back: 'powrót'
+  },
+  votingTypesEditForm:{
+    title: 'Edytuj rodzaj głosowania',
+    submit: 'zapisz',
+    cancel: 'anuluj'
+  },
+  projectsEdit:{
+    title: 'Lista projektów - tryb edycji',
+    delete: 'Czy na pewno chcesz usunąć ten projekt?',
+    accept: 'Tak, usuwam',
+    cancel: 'Anuluj',
+    success: 'Udało się usunąć projekt!',
+    back: 'powrót'
+  },
+  projectEditForm:{
+    title: 'Edytuj projekt',
+    submit: 'zapisz zmiany',
+    cancel: 'anuluj zmiany'
+  },
+  votingEdit:{
+    title: 'Lista głosowań - tryb edycji',
+    delete: 'Czy na pewno chcesz usunąć to głosowanie?',
+    accept: 'Tak, usuwam',
+    cancel: 'Anuluj',
+    success: 'Udało się usunąć głosowanie!',
+    back: 'powrót',
+    pageTitle: 'Głosowania'
+  },
+  votingEditForm:{
+    title: 'Edytuj głosowanie',
+    submit: 'zapisz zmiany',
+    cancel: 'anuluj zmiany'
+  },
+  votingTypesEdit:{
+    title: 'Lista typów głosowań - tryb edycji',
+    delete: 'Czy na pewno chcesz usunąć to głosowanie?',
+    accept: 'Tak, usuwam',
+    cancel: 'Anuluj',
+    success: 'Udało się usunąć głosowanie!',
+    back: 'powrót',
+    pageTitle: 'Typy głosowań'
+  },
+  votingTypeEditForm:{
+    title: 'Edytuj typ głosowania:',
+    submit: 'zapisz zmiany',
+    cancel: 'anuluj zmiany'
+  },
 };

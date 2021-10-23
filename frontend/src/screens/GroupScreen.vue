@@ -14,12 +14,12 @@
           :yearCosts="yearCosts"
         />
         <div class="voting">
-          <voting-list :id="id" />
+          <voting-list :id="id" :group="group" />
         </div>
       </div>
       <div class="rightSection">
-        <div style="width: 800px">
-          <Carousel :slides="group.photos" :ifRoute="ifRoute" :group="group" :title="group.name"/>
+        <div>
+          <Carousel :slides="group.images" :ifRoute="ifRoute" :group="group" :title="group.name"/>{{group.photos}}
         </div>
       </div>
     </div>
@@ -49,36 +49,15 @@ export default {
   },
   data() {
     return {
-      groupName: "Osiedle Kwiatowe",
       region: "Wilda",
       areaType: "osiedle",
       usersNumber: 46,
       activeVotings: 3,
       registeredProjects: 12,
       yearCosts: "34 000 zł",
-      imageDescription: "Ulica Leśna 34",
-      imageId: 3,
-      image: [],
       loading: true,
       totalImages: 35,
       group:true,
-      slides: [
-        {
-          src:
-            "https://martyloose.files.wordpress.com/2019/02/sunrise-wallpapers-28064-5395027.jpg",
-          desc: "zdj",
-        },
-        {
-          src:
-            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-          desc: "dd",
-        },
-        {
-          src:
-            "https://images.unsplash.com/photo-1612151855475-877969f4a6cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGQlMjBpbWFnZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-          desc: "rodzinne okolice",
-        },
-      ],
       ifRoute: true,
     };
   },
@@ -93,8 +72,10 @@ export default {
         if(to.params.id !== undefined){
             let endpoint = `api/groups/${to.params.id}/`
             let data = await apiService(endpoint)
+            console.log(data)
             return next(vm => {
               vm.group = data
+
         });
         }else{
             return next()
@@ -128,7 +109,7 @@ export default {
   padding: 20px;
   font-size: 20px;
   /* margin-left: -100px; */
-  width: 1000px;
+  /* width: 1000px; */
 }
 
 .rightSection {
@@ -136,6 +117,7 @@ export default {
   font-size: 20px;
   /* width: 1000px; */
   margin-left: 100px;
+  max-width: 800px;
 }
 
 .galleryTitle {
@@ -180,6 +162,12 @@ export default {
 
   .rightSection{
     margin-left: 0px;
+  }
+}
+@media only screen and (max-width: 750px) {
+
+  .rightSection{
+    max-width: 100%;
   }
 }
 </style>

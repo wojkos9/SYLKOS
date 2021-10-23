@@ -2,7 +2,7 @@
   <md-drawer :md-active.sync="showSideMenu" class="drawer">
     <md-toolbar class="md-transparent" md-elevation="0"
       ><router-link :to="{ name: routes.mainPage }">
-        <img src="@/assets/logo3.png" class="logo"
+        <svg  src="@/assets/logo.png" class="logo"
       /></router-link>
     </md-toolbar>
 

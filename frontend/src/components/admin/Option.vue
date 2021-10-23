@@ -34,7 +34,7 @@
         }"
       >
         <v-card-text
-          style=" position: absolute; top: 100px; left: 440px; width: 50px; "
+          style=" position: absolute; top: 140px; left: 400px; width: 50px; "
         >
           <v-fab-transition>
             <v-btn v-show="!hidden" color="secondary" dark absolute top right fab>
@@ -43,7 +43,7 @@
           </v-fab-transition>
         </v-card-text>
       </router-link>
-      <router-link
+      <!-- <router-link
         :to="{
           name: deleteAction,
         }"
@@ -57,7 +57,7 @@
             </v-btn>
           </v-fab-transition>
         </v-card-text>
-      </router-link>
+      </router-link> -->
     </div>
   </v-card>
 
