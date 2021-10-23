@@ -128,8 +128,13 @@ class VotingSerializer(serializers.ModelSerializer):
 
         return voting_projects
 
+
 from django.db.models import F
 class VoteSerializer(serializers.Serializer):
+    MAJORITY_VAL = lambda d, _: [len([x for x in d if x==v]) for v in (1, 0)] == [1, len(d)-1]
+    APPROVAL_VAL = lambda d, _: all(x in (0,1) for x in d)
+    BORDA_VAL = lambda d, t: all(i in d for i in range(t))
+    VOTING_VALS = {"majority": MAJORITY_VAL, "approval": APPROVAL_VAL, "borda": BORDA_VAL}
     class InnerVotes(serializers.Serializer):
         project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
         points = serializers.IntegerField()
@@ -140,21 +145,22 @@ class VoteSerializer(serializers.Serializer):
     def validate(self, attrs):
         attrs['user'] = self.context['request'].user
 
-        MAJORITY_VOTING_VAL = lambda d: [1, len(d)-1] == [len([x for x in d if x==v]) for v in (1, 0)]
-
         choice = attrs['choice']
+        voting: Voting = attrs['voting']
 
-        if any(e['project'].voting.id != attrs['voting'].id for e in choice):
+        if any(e['project'].voting.id != voting.id for e in choice):
             raise Exception("Project not in voting")
 
         if len(set([e['project'].id for e in choice])) != len(choice):
             raise Exception("Duplicate projects")
 
         data = [x['points'] for x in choice]
+        total = Project.objects.filter(voting=voting).count()
 
-        d = data
+        vtype = voting.voting_type.name.lower()
+        voting_validator = self.VOTING_VALS[vtype if vtype in self.VOTING_VALS else "majority"]  # TODO: Maybe some warning instead of fallback to majority
 
-        if MAJORITY_VOTING_VAL(data):
+        if voting_validator(data, total):
             return attrs
         else:
             raise Exception("Forbidden vote")
