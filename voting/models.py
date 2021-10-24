@@ -6,7 +6,7 @@ from django.conf import settings
 class Group(models.Model):
     name = models.CharField(max_length=50)
     subname = models.CharField(max_length=150, blank=True, default='')
-    description = models.TextField()
+    description = models.TextField(max_length=1500)
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="members", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
