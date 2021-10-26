@@ -7,6 +7,7 @@ from django.db.models import fields, manager
 from django.forms.models import model_to_dict
 from statistics import mean
 import re
+from rest_framework.generics import get_object_or_404
 from django.db.models import CharField, Value, Count, Avg, Sum
 from voting.models import Group, Project, Comment, Voting, VotingType, Photo, Vote
 
@@ -40,6 +41,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     rating_avg = serializers.SerializerMethodField(read_only=True)
     images = serializers.SerializerMethodField(read_only=True)
+    user_has_commented = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
@@ -59,6 +61,11 @@ class ProjectSerializer(serializers.ModelSerializer):
     def get_images(self, instance):
         project_images = Photo.objects.filter(project=instance.pk).values()
         return project_images
+
+    def get_user_has_commented(self, instance):
+        request = self.context.get("request")
+        project = get_object_or_404(Project, pk=request.user.pk)
+        return project.comment.filter(author=request.user).exists()
 
 
 class CommentSerializer(serializers.ModelSerializer):
