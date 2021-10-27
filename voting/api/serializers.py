@@ -64,8 +64,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_user_has_commented(self, instance):
         request = self.context.get("request")
-        project = get_object_or_404(Project, pk=request.user.pk)
-        return project.comment.filter(author=request.user).exists()
+        return instance.comment.filter(author=request.user).exists()
 
 
 class CommentSerializer(serializers.ModelSerializer):
