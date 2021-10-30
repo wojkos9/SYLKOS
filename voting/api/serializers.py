@@ -42,6 +42,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     rating_avg = serializers.SerializerMethodField(read_only=True)
     images = serializers.SerializerMethodField(read_only=True)
     user_has_commented = serializers.SerializerMethodField()
+    user_comment = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
@@ -64,8 +65,13 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_user_has_commented(self, instance):
         request = self.context.get("request")
-        project = get_object_or_404(Project, pk=request.user.pk)
-        return project.comment.filter(author=request.user).exists()
+        return instance.comment.filter(author=request.user).exists()
+    
+    def get_user_comment(self, instance):
+        request = self.context.get("request")
+        comment = Comment.objects.filter(project=instance.pk, author=request.user).values()
+
+        return comment
 
 
 class CommentSerializer(serializers.ModelSerializer):

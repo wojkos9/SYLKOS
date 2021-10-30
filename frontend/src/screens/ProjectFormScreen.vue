@@ -154,6 +154,7 @@ export default {
       dialog: false,
       groups: [],
       votings: [],
+      myComment: {},
       project: {
         name: {
           label: getString("projectForm", "projectNameLabel"),
@@ -226,7 +227,8 @@ export default {
           stage: this.project.stage.value,
           finish_date: this.project.finish_date.value + "T00:00:00Z",
           group: this.project.group.value.id,
-          voting: 1,
+          voting: 3,
+          votes: 0,
         }).then(async (data) => {
 
           if (data != "wrong data") {
@@ -240,7 +242,6 @@ export default {
             this.project.finish_date.value = data.finish_date;
             this.project.group.value = this.project.group.value.name;
             this.project.voting.value = data.voting;
-
 
             for (var file of this.selectedFiles) {
               let formData = new FormData();

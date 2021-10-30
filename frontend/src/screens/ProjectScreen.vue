@@ -1,234 +1,207 @@
 <template>
- <div class="area">
-    <div class="projectDetails"> 
-      <div class="row">
-        <div class="col-sm-5" />
-        <div class="col-sm-4">
-          <div class="projectTitle">
-            {{ projectName }}
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="groupName">
-            ({{ groupName }})
-          </div>
-        </div>
+  <div class="area">
+    <div class="projectDetails">
+      <div class="projectTitle">
+        {{ project.name }} ({{ project.rating_avg }})
+      </div>
 
-    
-     </div>
+      <div class="groupName">grupa: {{ project.group }}</div>
+
       <div class="projectDescription">
-        {{ projectDescription }}
+        {{ project.description }}
       </div>
       <div class="projectInfoAndGallery">
         <div class="projectInfo">
-          <project-info
-          :price="price"
-          :votingEndDate="votingEndDate"
-          :projectUploadDate="projectUploadDate"
-          />
+          <div class="singleInfo">
+            <span class="text-bold"
+              >{{ getString("projectInfo", "price") }}:</span
+            >
+            {{ project.budget }} zł
+          </div>
+          <div class="singleInfo">
+            <span class="text-bold"
+              >{{ getString("projectInfo", "votingEndDate") }}:</span
+            >
+            {{ votingFinish.slice(0, votingFinish.indexOf("T")) }}
+          </div>
+          <div class="singleInfo">
+            <span class="text-bold"
+              >{{ getString("projectInfo", "projectUploadDate") }}:</span
+            >
+            {{ project.finish_date.slice(0, project.finish_date.indexOf("T")) }}
+          </div>
         </div>
         <div class="gallery">
-          <Carousel :slides="slides" :ifRoute="ifRoute" :group="group" :title="groupName"/>
+          <Carousel
+            :slides="slides"
+            :ifRoute="ifRoute"
+            :group="group"
+            :title="groupName"
+          />
         </div>
       </div>
 
-    <div class="commentSection">
-       <discussion-title />
-      <div class="options">
-        <Sort :options="sortOptions" />
-      </div>
-      <div class="comments">
-        <add-comment />
-        <comment
-          :userName="userName"
-          :rating="rating"
-          :postingDate="postingDate"
-          :commentText="commentText"
-          :likes="likes"
-          :dislikes="dislikes"
-          :userVotedFor="userVotedFor"
-        />
-        <comment
-          :userName="userName"
-          :rating="rating"
-          :postingDate="postingDate"
-          :commentText="commentText"
-          :likes="likes"
-          :dislikes="dislikes"
-          :userVotedFor="userVotedFor"
-        />
-        <comment
-          :userName="userName"
-          :rating="rating"
-          :postingDate="postingDate"
-          :commentText="commentText"
-          :likes="likes"
-          :dislikes="dislikes"
-          :userVotedFor="userVotedFor"
-        />
-        <comment
-          :userName="userName"
-          :rating="rating"
-          :postingDate="postingDate"
-          :commentText="commentText"
-          :likes="likes"
-          :dislikes="dislikes"
-          :userVotedFor="userVotedFor"
-        />
-        <comment
-          :userName="userName"
-          :rating="rating"
-          :postingDate="postingDate"
-          :commentText="commentText"
-          :likes="likes"
-          :dislikes="dislikes"
-          :userVotedFor="userVotedFor"
-        />
-        <comment
-          :userName="userName"
-          :rating="rating"
-          :postingDate="postingDate"
-          :commentText="commentText"
-          :likes="likes"
-          :dislikes="dislikes"
-          :userVotedFor="userVotedFor"
-        />
+      <div class="commentSection">
+        <div class="discussionTitle">
+          {{ getString("projects", "discussion") }}
+        </div>
+
+        <div class="comments">
+          <div v-if="!project.user_has_commented">
+            <AddComment
+              :projectId="project.id"
+              v-on:addedComment="updateComments"
+            />
+          </div>
+         
+          <div v-else>
+              <Comment
+                v-bind:comment="myComment[0]" 
+                v-bind:author="username"
+              />
+          </div>
+          <div v-for="comment in comments" :key="comment.id">
+            <div v-show="comment.author != username">
+              <Comment
+                v-bind:comment="comment"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
- </div>
- 
 </template>
 
 <script>
 import { getString } from "@/language/string.js";
-import Sort from '../components/UI/Sort.vue'
 import Comment from "../components/project/Comment.vue";
-import addComment from "../components/project/AddComment.vue";
-import DiscussionTitle from '../components/project/DiscussionTitle.vue';
-import projectInfo from '../components/projects/ProjectInfo.vue';
+import AddComment from "../components/project/AddComment.vue";
 import Carousel from "../components/UI/Carousel.vue";
+import { apiService } from "@/common/api.service.js";
 
 export default {
   name: "projectOptions",
-  //   props: ['userName', 'rating', 'postingDate', 'commentText', 'likes', 'dislikes', 'userVotedFor'],
-  props:{
+  props: {
     id: {
-            type: Number,
-            required: true,
-            },
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
-      userName: "Mateusz Kluba",
-      rating: "3.5",
-      postingDate: "13.09.2021",
-      commentText:
-        "Świetny pomysł! Sam nieraz widzę potrzebę lepszego oświetlenia naszych alejek. Chciałbym jednak znać więcej szczegółów",
-      likes: "0",
-      dislikes: "0",
-      userVotedFor: "nothing",
-      sortOptions: [ 
-        [this.getString('commentSorting', 'ratingASC'), this.sortByNameDesc],
-        [this.getString('commentSorting', 'ratingDESC'), this.sortByMembersDesc],
-        [this.getString('commentSorting', 'newest'), this.sortByMembers],
-        [this.getString('commentSorting', 'oldest'), this.sortByMembers]],
-         price: "20 000zł",
-      votingEndDate: "23.09.2022",
-      projectUploadDate: "21.08.2022",
-      groupName: "Osiedle Kwiatowe",
-      group:true,
-      slides: [
-        {
-          src:
-            "https://martyloose.files.wordpress.com/2019/02/sunrise-wallpapers-28064-5395027.jpg",
-          desc: "zdj",
-        },
-        {
-          src:
-            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-          desc: "dd",
-        },
-        {
-          src:
-            "https://images.unsplash.com/photo-1612151855475-877969f4a6cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGQlMjBpbWFnZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-          desc: "rodzinne okolice",
-        },
-      ],
+      project: {},
+      comments: [],
+      votingFinish: "",
+      group: false,
+      myComment: {},
+      slides: [],
       ifRoute: true,
-      projectName: "Oświetlenie uliczek",
-      projectDescription: "Ulice naszego osiedla są bardzo ciemne. Nocą w drodze do domu nie da się przejść przez żadną w żadną z nich w pełni oświetloną. Dlatego nasza propozycja to oświetlenie ulic. Zadbajmy o to, aby każdy mieszkaniec osiedla mógł czuć się bezpiecznie!", 
-  }
+      username: window.localStorage.getItem("username")
+    };
   },
   components: {
-    Sort,
     Comment,
-    addComment,
-    DiscussionTitle,
-    projectInfo,
-    Carousel
+    AddComment,
+    Carousel,
   },
   methods: {
     getString,
-    sortByName(){
-      console.log("sortByName")
+    async updateComments() {
+      let projectEndpoint = `api/projects/${this.project.id}/`;
+      let projectData = await apiService(projectEndpoint);
+      this.project.user_has_commented = projectData.user_has_commented;
+
+      let commentsEndpoint = `api/projects/${this.project.id}/comments/`;
+      let commentsData = await apiService(commentsEndpoint);
+      this.comments = commentsData.results;
     },
-    sortByMembers(){
-      console.log("sortByMembers")
+    sortByName() {
+      console.log("sortByName");
     },
-    sortByNameDesc(){
-      console.log("sortByNameDesc")
+    sortByMembers() {
+      console.log("sortByMembers");
     },
-    sortByMembersDesc(){
-      console.log("sortByMembersDesc")
-    }
+    sortByNameDesc() {
+      console.log("sortByNameDesc");
+    },
+    sortByMembersDesc() {
+      console.log("sortByMembersDesc");
+    },
+  },
+  async beforeRouteEnter(to, from, next) {
+    console.log(to.params.id);
+    let projectEndpoint = `api/projects/${to.params.id}/`;
+    let commentsEndpoint = `api/projects/${to.params.id}/comments/`;
+
+    let projectData = await apiService(projectEndpoint);
+    let commentsData = await apiService(commentsEndpoint);
+
+    let votingEdnpoint = `api/voting/${projectData.voting}/`;
+    let votingData = await apiService(votingEdnpoint);
+
+    return next((vm) => {
+      vm.project = projectData;
+      vm.myComment = projectData.user_comment;
+      vm.comments = commentsData.results;
+      vm.votingFinish = votingData.end_date;
+    });
   },
 };
 </script>
 
 <style scoped>
-
 .row {
   margin-bottom: 50px;
   margin-top: 50px;
 }
 
 .projectTitle {
+  padding-top: 50px;
   font-size: 40px;
+  width: 100%;
+  text-align: center;
 }
-
-.groupName{
+.text-bold {
+  font-weight: 600;
+}
+.groupName {
   font-size: 30px;
+  width: 100%;
+  text-align: center;
 }
 .projectDescription {
   font-size: 20px;
-  padding-left: 100px;
-  padding-right: 100px;
+  padding: 50px 100px;
+  max-width: 50%;
 }
 .projectInfoAndGallery {
-  display: flex;
-  justify-content: space-around;
+  padding-left: 100px;
+  max-width: 50%;
+  text-align: left;
+  font-size: 20px;
 }
-.projectInfo {
-  align-items: center;
-  display: flex;
-  font-size: 30px;
-  justify-content: center;
-}
-.gallery{
+.gallery {
   width: 800px;
 }
 .comments {
   display: flex;
   flex-direction: row;
-   flex-wrap: wrap;
+  flex-wrap: wrap;
   justify-content: center;
   margin-top: 50px;
 }
 
+.discussionTitle {
+  margin: 0 auto;
+  text-align: center;
+  font-size: 28px;
+  text-transform: uppercase;
+  /* width: 100%; */
+  /* border:solid; */
+}
 @media only screen and (max-width: 1100px) {
-
-.projectOptions{
+  .projectOptions {
     margin-top: 15px;
     justify-content: center;
   }

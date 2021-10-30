@@ -34,7 +34,7 @@ export const pl = {
     votedProjects: 'Projekty, na które głosowałeś',
     myProjects:'Zgłoszone projekty',
     more: 'więcej',
-    discussion: 'Dyskusja',
+    
   },
   groups:{
     pageTitle: 'Grupy',
@@ -62,7 +62,10 @@ export const pl = {
     sortBy: 'sortuj po...',
     group: 'grupa',
     name: 'nazwa projektu',
-    price: 'koszt'
+    price: 'koszt',
+    discussion: 'dyskusja',
+    writeComment: 'Napisz komentarz...',
+    writeCommentError: 'Nie możesz dodać pustego komentarza'
   },
   commentSorting: {
     sort: "sortuj",
