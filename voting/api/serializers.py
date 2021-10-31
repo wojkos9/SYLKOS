@@ -6,11 +6,9 @@ from django.db import models
 from django.db.models import fields, manager
 from django.forms.models import model_to_dict
 from statistics import mean
-import re
 from rest_framework.generics import get_object_or_404
 from django.db.models import CharField, Value, Count, Avg, Sum
 from voting.models import Group, Project, Comment, Voting, VotingType, Photo, Vote
-
 
 class GroupSerializer(serializers.ModelSerializer):
 
@@ -66,13 +64,11 @@ class ProjectSerializer(serializers.ModelSerializer):
     def get_user_has_commented(self, instance):
         request = self.context.get("request")
         return instance.comment.filter(author=request.user).exists()
-    
+
     def get_user_comment(self, instance):
         request = self.context.get("request")
-        comment = Comment.objects.filter(project=instance.pk, author=request.user).values()
-
-        return comment
-
+        comment = Comment.objects.filter(project=instance.pk, author=request.user).first()
+        return [CommentSerializer(comment, context=self.context).data]
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
