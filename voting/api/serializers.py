@@ -6,11 +6,9 @@ from django.db import models
 from django.db.models import fields, manager
 from django.forms.models import model_to_dict
 from statistics import mean
-import re
 from rest_framework.generics import get_object_or_404
 from django.db.models import CharField, Value, Count, Avg, Sum
 from voting.models import Group, Project, Comment, Voting, VotingType, Photo, Vote
-
 
 class GroupSerializer(serializers.ModelSerializer):
 
@@ -66,18 +64,17 @@ class ProjectSerializer(serializers.ModelSerializer):
     def get_user_has_commented(self, instance):
         request = self.context.get("request")
         return instance.comment.filter(author=request.user).exists()
-    
+
     def get_user_comment(self, instance):
         request = self.context.get("request")
-        comment = Comment.objects.filter(project=instance.pk, author=request.user).values()
-
-        return comment
-
+        comment = Comment.objects.filter(project=instance.pk, author=request.user).first()
+        return [CommentSerializer(comment, context=self.context).data]
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     created_at = serializers.SerializerMethodField()
     user_has_liked = serializers.SerializerMethodField()
+    user_has_disliked = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField()
     dislikes_count = serializers.SerializerMethodField()
 
@@ -91,6 +88,10 @@ class CommentSerializer(serializers.ModelSerializer):
     def get_user_has_liked(self, instance):
         request = self.context.get("request")
         return instance.voters_like.filter(pk=request.user.pk).exists()
+
+    def get_user_has_disliked(self, instance):
+        request = self.context.get("request")
+        return instance.voters_dislike.filter(pk=request.user.pk).exists()
 
     def get_likes_count(self, instance):
         return instance.voters_like.count()
@@ -106,17 +107,23 @@ class VotingTypeSerializer(serializers.ModelSerializer):
 
 
 class VotingSerializer(serializers.ModelSerializer):
-    # voted_projects = serializers.SerializerMethodField(read_only=True)
     projects = serializers.SerializerMethodField(read_only=True)
+    users_votes = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Voting
         fields = "__all__"
 
-    # def get_voted_projects(self, instance):
-    #     projects = Project.objects.filter(voting=instance.pk).values()
+    class Vote(serializers.ModelSerializer):
+        class Meta:
+            model = Vote
+            fields = ("project", "points")
 
-    #     return projects
+    def get_users_votes(self, instance):
+        q = self.context.get('request')
+        votes = Vote.objects.filter(voting=instance.pk, user=q.user)
+
+        return [VotingSerializer.Vote(v).data for v in votes]
 
     def get_projects(self, instance):
         voting_projects = Project.objects.filter(voting=instance.pk).annotate(
