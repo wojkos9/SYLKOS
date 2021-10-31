@@ -1,5 +1,5 @@
 from rest_framework import generics
-from voting.models import Group, Project, Comment, VotingType, Voting, Photo
+from voting.models import Group, Project, Comment, Vote, VotingType, Voting, Photo
 from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
 from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, PhotoSerializer
 from rest_framework import generics, status, viewsets, request
@@ -10,7 +10,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import JSONParser
 from voting.api import serializers
-from django.http.response import HttpResponse, HttpResponseBadRequest, HttpResponseServerError
+from django.http.response import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -198,3 +198,14 @@ class VoteView(ListCreateAPIView):
             return HttpResponseBadRequest("Invalid request")
         except Exception as e:
             return HttpResponseServerError(e)
+
+class DeleteVoteView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        votes = Vote.objects.filter(user=request.user, voting=pk)
+        if votes:
+            votes.delete()
+            return HttpResponse("OK")
+        else:
+            return HttpResponseNotFound()
