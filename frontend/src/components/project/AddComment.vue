@@ -40,6 +40,32 @@
       </div>
        
     </div></v-form>
+
+     <v-dialog v-model="dialog3" width="500">
+      <v-card>
+        <v-card-title
+          class="text-h4 grey lighten-2 p-4 d-flex justify-content-center"
+        >
+          <!-- {{ group.name }} -->
+        </v-card-title>
+
+        <v-card-text class="text-h6  lighten-2 p-4 ">
+          <span class="d-flex justify-content-center">
+            {{ getString("projects", "successAdd") }}</span
+          >
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="dialog3 = false">
+            {{ getString("projects", "ok") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </div>
 </template>
 
@@ -55,6 +81,7 @@ export default {
       valid: false,
       user: window.localStorage.getItem("username"),
       rating: 5,
+      dialog3: false,
       comment: {
           label: getString('projects', 'writeComment'),
           rule: [(v) => !!v || getString("projects", "writeCommentError")],
@@ -76,7 +103,7 @@ export default {
           project: this.projectId,
         }).then(async (data) => {
           if (data != "wrong data") {
-            console.log("udało się");
+            this.dialog3= true;
             this.$emit("addedComment");
           }
         });
@@ -116,6 +143,7 @@ export default {
 }
 .submitCommentIcon {
   margin-left: 5px;
+  cursor: pointer;
 }
 .postComment {
   width: 40px;

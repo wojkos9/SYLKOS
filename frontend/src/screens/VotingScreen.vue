@@ -1,81 +1,124 @@
 <template>
   <div>
     <div>
-      <voting-header :date="date" :group="group" />
+      <voting-header :date="voting.start_date "/>
     </div>
-    <div class="projects">
-      <div v-for="(project, index) in voting.projects" :key="index">
+
+    <draggable
+      v-model="voting.projects"
+      group="votings"
+      @start="drag = true"
+      @end="drag = false"
+    >
+      <div v-for="project in voting.projects" :key="project.id">
         <voting-project
-          v-bind:title="project.name"
-          v-bind:description="project.description"
-          v-bind:price="project.budget"
-          v-bind:likes="likes"
-          v-bind:dislikes="dislikes"
-          v-bind:id="project.id"
+          v-bind:project="project"
           v-on:change="setUserVotedFor($event)"
         />
       </div>
-    </div>
-    <div class="submitButton">
-      <button-submit-vote />
-    </div>
+    </draggable>
+
+    <!-- <div class="submitButton" @click="submitVote">
+      <div :style="button">
+        <div>
+          {{ getString("buttonSubmitVote", "submitMyVote").toUpperCase() }}
+        </div>
+      </div>
+    </div> -->
+  <div class="buttonSubmit">
+     <v-btn color="secondary darken-1" class="p-3" dark style="color:black" @click="submitVote">
+        {{ getString("buttonSubmitVote", "submitMyVote").toUpperCase() }}
+      </v-btn>
+  </div>
   </div>
 </template>
 
 <script>
 import VotingHeader from "../components/voting/VotingHeader.vue";
-import ButtonSubmitVote from "../components/voting/ButtonSubmitVote.vue";
+import { getString } from "@/language/string.js";
 import VotingProject from "../components/voting/VotingProject.vue";
 import { apiService } from "@/common/api.service.js";
+import { getColor } from "@/colors.js";
+import draggable from "vuedraggable";
+
 export default {
   name: "votingScreen",
   props: {
     id: {
-      type: Number,
+    
       required: true,
     },
     vId: {
-      type: Number,
+  
       required: true,
     },
   },
-  // props: ['date', 'group', 'title', 'description', 'price', 'likes', 'dislikes', 'userVotedFor'],
+
   data() {
     return {
       active: true,
-      date: "24 listopada 2021",
-      group: "Osiedle Kwiatowe",
-      title: "Łąka przy osiedlowym strumyku",
-      description:
-        "Miejsce do relaksu dla mieszkańców osiedla. Obok strumyka przepływającego " +
-        "przez osiedle planujemy zasadzić drzewa i kwiaty, postawić ławki i dać możliwość odpoczynku z naturą.",
-      price: "10 000",
-      likes: "21",
-      dislikes: "37",
       previousUserVote: 0,
       userVotedFor: 0,
       voting: {},
     };
   },
   methods: {
-    setUserVotedFor(projectId){
-      if(this.previousUserVote == 0) this.previousUserVote = projectId;
+    getString,
+    async submitVote() {
+      console.log(this.voting);
+      var choice = [];
+      var points = this.voting.projects.length - 1;
+      for (var project of this.voting.projects) {
+        choice.push({ project: project.id, points: points });
+        points -= 1;
+      }
+      await apiService("/api/vote/", "POST", {
+        voting: this.voting.id,
+        choice: choice,
+      }).then((data) => {
+        console.log(data);
+        if (data != "wrong data") {
+          console.log("chyba sie udalo");
+        }
+      });
+    },
+    setUserVotedFor(projectId) {
+      if (this.previousUserVote == 0) this.previousUserVote = projectId;
       else this.previousUserVote = this.userVotedFor;
-      this.userVotedFor = projectId
-      document.getElementById(this.previousUserVote).style.backgroundColor = "rgb(217, 208, 250)"
-      document.getElementById(projectId).style.backgroundColor = "rgb(22, 187, 50)"
+      this.userVotedFor = projectId;
+      document.getElementById(this.previousUserVote).style.backgroundColor =
+        "rgb(217, 208, 250)";
+      document.getElementById(projectId).style.backgroundColor =
+        "rgb(22, 187, 50)";
+    },
+  },
+  computed: {
+    button() {
+      return {
+        alignItems: "center",
+        backgroundColor: getColor("green"),
+        borderRadius: "5px",
+        color: getColor("white"),
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        padding: "20px",
+        fontWeight: "700",
+      };
     },
   },
   components: {
     VotingHeader,
-    ButtonSubmitVote,
     VotingProject,
+    draggable,
   },
   async beforeRouteEnter(to, from, next) {
     let endpoint = `/api/voting/${to.params.vId}/`;
     let data = await apiService(endpoint);
     console.log(data);
-    return next((vm) => (vm.voting = data));
+    return next((vm) => {
+      vm.voting = data;
+    });
   },
 };
 </script>
@@ -87,10 +130,11 @@ export default {
   flex-wrap: wrap;
   justify-content: space-around;
 }
-.submitButton {
+
+.buttonSubmit{
   display: flex;
   justify-content: flex-end;
-  margin-right: 120px;
-  margin-bottom: 40px;
+  margin-right: 5%;
+  margin-bottom: 20px;
 }
 </style>

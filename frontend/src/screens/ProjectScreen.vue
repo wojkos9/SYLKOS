@@ -36,7 +36,6 @@
             :slides="slides"
             :ifRoute="ifRoute"
             :group="group"
-            :title="groupName"
           />
         </div>
       </div>
@@ -55,9 +54,10 @@
           </div>
          
           <div v-else>
-              <Comment
+              <Comment 
                 v-bind:comment="myComment[0]" 
                 v-bind:author="username"
+                v-on:deleteUpdate="updateComments"
               />
           </div>
           <div v-for="comment in comments" :key="comment.id">
@@ -91,6 +91,7 @@ export default {
   data() {
     return {
       project: {},
+      zm: false,
       comments: [],
       votingFinish: "",
       group: false,
@@ -108,13 +109,22 @@ export default {
   methods: {
     getString,
     async updateComments() {
+      console.log("odswiezam")
+      
       let projectEndpoint = `api/projects/${this.project.id}/`;
       let projectData = await apiService(projectEndpoint);
-      this.project.user_has_commented = projectData.user_has_commented;
+      
+      // let commentsEndpoint = `api/projects/${this.project.id}/comments/`;
+      // let commentsData = await apiService(commentsEndpoint);
+      // this.comments = commentsData.results;
+  
+      if(projectData.user_has_commented)
+        this.myComment = projectData.user_comment;
+      else
+        this.myComment = {}
 
-      let commentsEndpoint = `api/projects/${this.project.id}/comments/`;
-      let commentsData = await apiService(commentsEndpoint);
-      this.comments = commentsData.results;
+      this.project.user_has_commented = projectData.user_has_commented;
+      // console.log(this.comments)
     },
     sortByName() {
       console.log("sortByName");

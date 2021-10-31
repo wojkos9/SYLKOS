@@ -14,11 +14,13 @@
     "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-axios": "^3.3.6",
+    "vue-draggable-nested-tree": "^3.0.0-beta2",
     "vue-material": "^1.0.0-beta-15",
     "vue-material-design-icons": "^4.12.1",
     "vue-mdijs": "^0.4.3",
     "vue-router": "^3.5.2",
     "vue-slick-carousel": "^1.0.6",
+    "vuedraggable": "^2.24.3",
     "vuetify": "^2.4.0"
   },
   "devDependencies": {

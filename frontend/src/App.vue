@@ -150,6 +150,10 @@ export default {
   background-color: #f2f6fa;
 }
 
+.v-btn{
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 758px) {
   .v-application {
     font-size: 18px;

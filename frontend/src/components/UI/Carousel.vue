@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div v-show="!ifRoute" class="groupName">
+    <!-- <div v-show="!ifRoute" class="groupName">
       <span v-if="group">{{ getString("gallery", "group") }}</span>
       <span v-else-if="!group">{{ getString("gallery", "project") }}</span>
       <div class="galleryTitle">{{ title }}</div>
-    </div>
+    </div> -->
 
     <vue-slick-carousel :arrows="true" :dots="true" :fade="true" ref="carousel">
       <div v-for="(item, index) in slides" v-bind:key="index">
         <div class="image" v-if="ifRoute">
           <!-- <router-link :to="{ name: 'photo', params: { slides: slides, title: title, group:group } }"> -->
-          <img :src="`/media/${item.image}`" @click="photoDialog=true"/>
+          <img class="dopasowane" :src="`/media/${item.image}`" @click="photoDialog=true"/>
           <!-- </router-link> -->
         </div>
         <div class="image" v-else><img :src="`/media/${item.image}`" /></div>
@@ -95,15 +95,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.slick-prev:before {
-  color: black !important;
-  background-color: rgba(255, 255, 255, 0);
-}
-.slick-next:before {
-  color: black !important;
-  background-color: rgba(255, 255, 255, 0);
-}
+<style >
+
 .desc {
   text-align: center;
   margin-top: 25px;
@@ -113,7 +106,8 @@ export default {
   justify-self: center;
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  margin: 0 0 0 0;
+
 }
 .groupName {
   font-size: 2rem;
@@ -128,15 +122,20 @@ img{
   max-width: 90%;
 }
 
+.dopasowane{
+  max-width: 500px;
+  max-height: 500px;
+}
+
 v-dialog{
   width: 100%;
 }
 .slick-prev:before {
-  color: red !important;
-  background-color: #eee;
+  color: #000 !important;
+  background-color: #f2f6fa;
 }
 .slick-next:before {
-  color: red !important;
-  background-color: #eee;
+  color: #000 !important;
+  background-color: #f2f6fa;
 }
 </style>

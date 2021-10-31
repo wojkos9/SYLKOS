@@ -65,7 +65,18 @@ export const pl = {
     price: 'koszt',
     discussion: 'dyskusja',
     writeComment: 'Napisz komentarz...',
-    writeCommentError: 'Nie możesz dodać pustego komentarza'
+    writeCommentError: 'Nie możesz dodać pustego komentarza',
+    deleteCommnet: 'Czy na pewno chcesz usunąć swój komentarz?',
+    submit: 'usuń',
+    cancel: 'anuluj',
+    success: 'Usunięto komentarz',
+    successAdd: 'Dodano komentarz',
+    ok: "OK",
+    edit: "Edycja komentarza",
+    editOk: "Zapisz zmiany",
+    editCancel: "Anuluj",
+    editComment: "Edytuj komentarz...",
+    editCommentError: "Treść komentarza nie może być pusta"
   },
   commentSorting: {
     sort: "sortuj",
@@ -99,9 +110,11 @@ export const pl = {
     projectUploadDate: "Data wstawienia projektu",
   },
   votingProject: {
-    seeDiscussion: "Zobacz dyskusję",
+    seeDiscussion: "Strona projektu",
     price: "Koszt",
     voteForThisProject: "głosuję na ten projekt",
+    showGallery: "Pokaż galerię",
+    hideGallery: "Ukryj galerię"
   },
   votingsList: {
     expirationDate: "Termin głosowania",
