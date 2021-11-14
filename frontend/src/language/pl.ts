@@ -72,6 +72,7 @@ export const pl = {
     success: 'Usunięto komentarz',
     successAdd: 'Dodano komentarz',
     ok: "OK",
+    close: 'zamknij',
     edit: "Edycja komentarza",
     editOk: "Zapisz zmiany",
     editCancel: "Anuluj",
@@ -110,7 +111,7 @@ export const pl = {
     projectUploadDate: "Data wstawienia projektu",
   },
   votingProject: {
-    seeDiscussion: "Strona projektu",
+    seeDiscussion: "Szczegóły projektu",
     price: "Koszt",
     voteForThisProject: "głosuję na ten projekt",
     showGallery: "Pokaż galerię",

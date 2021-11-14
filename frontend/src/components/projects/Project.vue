@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row area">
-      <div class="col-lg-12 col-xl-9">
+      <div class="col-xs-12 col-xl-9">
         <div>
           <div class="projectTitle">{{ project.name }}</div>
           <div class="desc">
@@ -14,10 +14,12 @@
       </div>
       <div class="col center">
         <div class="center">
-         <div v-if="project.images.length > 0">
-              <img  :src="`/media/${project.images[0].image}`" class="image" />
+          <div v-if="project.images.length > 0">
+            <img :src="`/media/${project.images[0].image}`" class="image" />
           </div>
-           <router-link :to="{ name: 'project', params:{id:project.id}}"><div :style="button">{{ getString('userPanel', 'details') }}</div></router-link>
+          <div class="text-center">
+          <ProjectWindow :project="project"/>
+          </div>
         </div>
       </div>
     </div>
@@ -26,29 +28,19 @@
 
 <script>
 import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
+import ProjectWindow from "@/components/project/ProjectWindow.vue";
 
 export default {
   name: "project",
   props: ["project"],
+  data() {
+    return {
+    };
+  },
   methods: {
     getString,
-    getColor,
   },
-  computed: {
-    button() {
-      return {
-        backgroundColor: getColor("navbar"),
-        width: "160px",
-        marginTop: "5px",
-        borderRadius: "5px",
-        textAlign: "center",
-        padding: "3px",
-        fontWeight: "500",
-      };
-    },
-  },
-  components: {},
+  components: {  ProjectWindow },
 };
 </script>
 
@@ -60,6 +52,7 @@ export default {
   margin-top: 10px;
   margin-bottom: 30px;
 }
+
 
 .projectTitle {
   font-weight: 700;
@@ -76,15 +69,6 @@ export default {
   text-align: justify;
 }
 
-.membersNumber {
-  margin-top: 30px;
-}
-
-.myButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .image {
   width: 160px;
@@ -99,6 +83,13 @@ export default {
   justify-items: center;
   align-items: center;
   align-content: center;
+  /* border:solid; */
+}
+.center img {
+  height: calc(30vh - 30px);
+  width: auto;
+  object-fit: contain;
+  /* width: 100%; */
 }
 
 @media only screen and (max-width: 1200px) {
@@ -115,12 +106,6 @@ export default {
   }
   .desc {
     font-size: 0.875rem;
-  }
-  .title {
-    font-size: 1.125rem;
-  }
-  .myButton {
-    width: 300px;
   }
 }
 </style>

@@ -19,7 +19,7 @@
         }"
       >
         <v-card-text
-          style=" position: absolute; top: 50px; left: 400px; width: 50px; "
+          style=" position: absolute; top: 20px; left: 400px; width: 50px; "
         >
           <v-fab-transition>
             <v-btn v-show="!hidden" color="secondary" dark absolute top right fab>
@@ -34,7 +34,7 @@
         }"
       >
         <v-card-text
-          style=" position: absolute; top: 140px; left: 400px; width: 50px; "
+          style=" position: absolute; top: 100px; left: 400px; width: 50px; "
         >
           <v-fab-transition>
             <v-btn v-show="!hidden" color="secondary" dark absolute top right fab>
@@ -98,8 +98,8 @@ export default {
   font-size: 2rem;
   justify-content: center;
   margin: 50px;
-  padding-bottom: 30px;
-  padding-top: 50px;
+  /* padding-bottom: 30px;
+  padding-top: 50px; */
 }
 .oneOption {
   display: flex;

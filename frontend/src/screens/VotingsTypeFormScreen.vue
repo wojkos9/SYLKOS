@@ -108,10 +108,10 @@ export default {
       valid: false,
       dialog: false,
       votingType: {
-         name:{
-           label: getString("votingTypeForm", "votingName"),
-           value: '',
-         },
+        name:{
+          label: getString("votingTypeForm", "votingName"),
+          value: '',
+        },
         description:{
           label: getString("votingTypeForm", "votingDesc"),
           value: '',

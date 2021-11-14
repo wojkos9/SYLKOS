@@ -1,24 +1,30 @@
 <template>
-  <div>
+  <div class="content">
     <!-- <div v-show="!ifRoute" class="groupName">
       <span v-if="group">{{ getString("gallery", "group") }}</span>
       <span v-else-if="!group">{{ getString("gallery", "project") }}</span>
       <div class="galleryTitle">{{ title }}</div>
     </div> -->
 
-    <vue-slick-carousel :arrows="true" :dots="true" :fade="true" ref="carousel">
+    <!-- <div class="carousel-wrapper"> -->
+
+    <VueSlickCarousel :arrows="true" :dots="true" :fade="true" ref="carousel" :centerMode="true">
       <div v-for="(item, index) in slides" v-bind:key="index">
         <div class="image" v-if="ifRoute">
+          <div>
           <!-- <router-link :to="{ name: 'photo', params: { slides: slides, title: title, group:group } }"> -->
-          <img class="dopasowane" :src="`/media/${item.image}`" @click="photoDialog=true"/>
+          <img :src="`/media/${item.image}`" @click="photoDialog=true"/>
+          </div>
           <!-- </router-link> -->
         </div>
         <div class="image" v-else><img :src="`/media/${item.image}`" /></div>
         <div class="desc">{{ item.desc }}</div>
       </div>
-    </vue-slick-carousel>
+    </VueSlickCarousel>
 
-    <v-dialog
+    <!-- </div> -->
+
+    <!-- <v-dialog
       v-model="photoDialog"
       fullscreen
       hide-overlay
@@ -36,21 +42,19 @@
         </v-toolbar>
         <v-card-text >
           <VueSlickCarousel 
-            v-bind="settings"
-          >
+          class="dialogGallery"
+           :arrows="true" :dots="true" :fade="true" ref="carousel" :centerMode="true">
             <div v-for="(item, index) in slides" v-bind:key="index">
-              <div class="image" v-if="ifRoute">
+              <div class="image2" v-if="ifRoute">
                 <img :src="`/media/${item.image}`" />
               </div>
-              <div class="image2" v-else>
-                <img :src="`/media/${item.image}`" />
-              </div>
+
               <div class="desc">{{ item.desc }}</div>
             </div>
           </VueSlickCarousel>
         </v-card-text>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
   </div>
 </template>
 
@@ -68,13 +72,14 @@ export default {
       focusOnSelect: true,
       photoDialog: false,
       settings:{
-      "dots": true,
-      "dotsClass": "slick-dots custom-dot-class",
+      dots: true,
+      dotsClass: "slick-dots custom-dot-class",
       "edgeFriction": 0.35,
       "infinite": false,
       "speed": 500,
       "slidesToShow": 1,
-      "slidesToScroll": 1
+      "slidesToScroll": 1,
+      // "centerMode": true,
       }
     };
   },
@@ -100,15 +105,51 @@ export default {
 .desc {
   text-align: center;
   margin-top: 25px;
-  margin-bottom: 25px;
 }
-.image {
-  justify-self: center;
-  display: flex;
-  justify-content: center;
-  margin: 0 0 0 0;
+
+.content{
+  margin: auto;
+  padding: 20px;
 
 }
+.image{
+
+  max-width: 90%;
+  display: flex;
+  justify-content: center;
+}
+.carousel-wrapper {
+  padding: 40px;
+}
+.image img{
+  width: auto;
+  margin: 0 0; 
+}
+.v-card__text{
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+.dialogGallery{
+
+  display: flex; 
+  justify-content: center;
+  max-width: 70%;
+  justify-self: center;
+}
+
+.image2{
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.image2 img{
+  height: calc(80vh - 100px);
+  width: auto;
+  margin: 0 auto; 
+
+}
+
 .groupName {
   font-size: 2rem;
   text-align: center;
@@ -118,24 +159,49 @@ export default {
   margin-top: 40px;
 }
 
-img{
-  max-width: 90%;
-}
-
-.dopasowane{
-  max-width: 500px;
-  max-height: 500px;
-}
 
 v-dialog{
   width: 100%;
 }
-.slick-prev:before {
+.slick-prev:before{
   color: #000 !important;
-  background-color: #f2f6fa;
+  font-size: 40px;
+  background-color: none;
+  opacity: 1;
+  z-index: 9999;
+
 }
-.slick-next:before {
+
+.slick-next:before{
   color: #000 !important;
-  background-color: #f2f6fa;
+  font-size: 40px;
+  background-color: none;
+  opacity: 1;
+  z-index: 9999;
+
 }
+
+.slick-prev:before:hover{
+  color: #000 !important;
+  font-size: 40px;
+}
+
+.slick-next:before:hover{
+  color: #000 !important;
+  font-size: 40px;
+}
+
+.slick-prev {
+    margin-left: 40px;
+  }
+
+  .slick-next {
+    margin-right: 40px;
+  }
+
+  .slick-slider {
+    position: relative;
+}
+
+
 </style>

@@ -3,19 +3,21 @@
     <div class="title">{{ title }}</div>
     <div class="nextToGroupsScreen" style="z-index:-1">
       <div v-for="(group, index) in groups" :key="index">
-        <group-project v-bind:title="group.name" v-bind:image="grupa1.image" />
+        <div class="content">
+          <div v-if="group.images.length > 0">
+            <img :src="`/media/${group.images[0].image}`" class="image" />
+          </div>
+          <div class="titleIn">
+            <div class="text">{{ group.name }}</div>
+          </div>
+          <div class="desc">{{ group.desc }}</div>
+        </div>
       </div>
-      <group-project v-bind:title="grupa1.title" v-bind:image="grupa1.image" />
-
-      <group-project v-bind:title="grupa1.title" v-bind:image="grupa1.image" />
-
-      <group-project v-bind:title="grupa1.title" v-bind:image="grupa1.image" />
-    </div>
+    </div> 
   </div>
 </template>
 
 <script>
-import GroupProject from "./GroupProject.vue";
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
 
@@ -25,27 +27,19 @@ export default {
   data() {
     return {
       title: getString("userPanel", "myGroups"),
-      grupa1: {
-        title: "Osiedle Kwiatowe",
-        image:
-          "https://www.gos.pawlowice.pl/fileadmin/repozytorium/GOS/Galeria/boisko_plaza.jpg",
-      },
     };
   },
   methods: {
     getString,
     getColor,
   },
-  components: {
-    GroupProject,
-  },
+  components: {},
 };
 </script>
 
 <style scoped>
 .groups {
   margin-top: 50px;
-
 }
 .nextToGroupsScreen {
   display: flex;
@@ -67,6 +61,15 @@ export default {
   display: flex;
   flex-direction: column;
   /* width: 50%; */
+}
+
+.image {
+  align-self: center;
+  border-radius: 5px;
+  height: 160px;
+  justify-self: center;
+  object-fit: cover;
+  width: 160px;
 }
 
 @media only screen and (max-width: 1200px) {

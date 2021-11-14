@@ -76,6 +76,11 @@ export default {
       const data = await apiService("/api/projects/");
       this.allProjects = data["count"]
       for(var project of data["results"]){
+        if (project.images.length == 0){
+        console.log("tak  ")
+        project.images=[{image : "images/no_picture.png"}]
+
+      }
         this.projects.push(project)
       }
     },
@@ -84,7 +89,11 @@ export default {
       let data = await apiService(endpoint);
       this.projects = [];
        for(var project of data["results"]){
+        // if (project.images.length == 0){
+        // console.log("tak  ")
+        // project.images=[{image : "images/no_picture.png"}]
         this.projects.push(project)
+      // }
       }
     },
     makeSth(str){
@@ -118,14 +127,14 @@ export default {
 </script>
 
 <style>
-.singleGroup {
+/* .singleGroup {
   padding: 30px;
   font-size: 1.5rem;
   width: 800px;
   margin-bottom: 15px;
   border: solid;
   position: relative
-}
+} */
 .groupsTitle {
   align-self: center;
   font-size: 2rem;
@@ -136,6 +145,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: nowrap;
 }
 
 .allTitle {

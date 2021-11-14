@@ -3,6 +3,9 @@
     <div class="groupName">
       {{ group.name }}
     </div>
+
+     <Carousel style="width: 1000px" :slides="group.images" :ifRoute="ifRoute" :group="group" :title="group.name"/>
+
     <div class="sectionsContainer">
       <div class="leftSection">
         <group-info
@@ -19,7 +22,7 @@
       </div>
       <div class="rightSection">
         <div>
-          <Carousel :slides="group.images" :ifRoute="ifRoute" :group="group" :title="group.name"/>{{group.photos}}
+          <Carousel :slides="group.images" :ifRoute="ifRoute" :group="group" :title="group.name"/>
         </div>
       </div>
     </div>
@@ -85,7 +88,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .area {
   background-color: white;
   margin: 30px;
@@ -113,12 +116,9 @@ export default {
 }
 
 .rightSection {
-  padding: 20px;
-  font-size: 20px;
-  /* width: 1000px; */
-  margin-left: 100px;
-  max-width: 800px;
-}
+    width: 80%;
+    margin: 0 auto;
+  }
 
 .galleryTitle {
   display: flex;

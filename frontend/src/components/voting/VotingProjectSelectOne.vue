@@ -6,18 +6,30 @@
       <div class="title">
         {{ project.name }}
       </div>
+      
+      <div class="description">
+        {{ getString("votingProject", "desc") }} {{ project.description }}
+      </div>
+
       <div class="price">
         {{ getString("votingProject", "price") }} : {{ project.budget }} zł
       </div>
     </div>
 
     <div class="rightSectionVOting">
-      <div class="commentSectionRedirectButton">
-      </div>
 
-      <div class="commentSectionRedirectButton">
+      <div v-if="project.images.length > 0">
+            <img :src="`/media/${project.images[0].image}`" class="image" />
+          </div>
+        <div class="commentSectionRedirectButton">
         <ProjectWindow :project="project"/>
       </div>
+    </div>
+    <div class="votingSection">
+        <div class="bigCircle">
+          <div class="smallCircle"></div>
+          <div class="tooltiptext">Głosuję na ten projekt</div>
+        </div>
     </div>
   </div>
 </template>
@@ -81,6 +93,13 @@ export default {
   font-size: 20px;
   margin: auto;
 }
+.votingSection{
+  width: 10%;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  justify-content: center;
+}
 
 .votingProjectarea {
   border-radius: 25px;
@@ -91,6 +110,7 @@ export default {
 -moz-box-shadow: 0px 0px 35px -14px rgba(46, 46, 57, 1);
 box-shadow: 0px 0px 35px -14px rgba(46, 46, 57, 1);
 } 
+
 .title {
   font-size: 20px;
   font-weight: 600;
@@ -103,9 +123,59 @@ box-shadow: 0px 0px 35px -14px rgba(46, 46, 57, 1);
   position: relative;
   background-color: rgb(64, 59, 82);
   margin-right: 10px;
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
 }
-.bigCircle:hover {
+
+/* .bigCircle .tooltip{
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+} */
+
+
+.tooltiptext {
+  /* display: flex; 
+  flex-direction: column; 
+  justify-content: flex-start; 
+  background-color: #0366d6;
+  padding: 18px; 
+  border-radius: 5px; 
+  color: white; 
+  line-height: 15px;
+  transition: 1s;
+  width: 200px; */
+  position: absolute; 
+  opacity: 0; 
+  z-index: 1;
+  /* left: 50%; */
+  top: -60px;
+  left: 30px;
+  width: 200px;
+  padding: 20px;
+  border-radius: 143px 150px 150px 0px;
+  background-color: rgb(230, 230, 230);
+  /* border:solid; */
+  /* transform: translateX(-50%); */
+-webkit-box-shadow: 8px 8px 20px 3px rgb(92, 76, 76);
+-moz-box-shadow: 8px 8px 20px 3px  rgb(92, 76, 76);
+box-shadow: 8px 8px 20px 3px  rgb(92, 76, 76);
+}
+
+.bigCircle:hover{
   cursor: pointer;
+}
+.bigCircle:hover .tooltiptext {
+  opacity: 1; 
+  transition: 0.5s;
+  transition-delay: 0.1s;
 }
 .smallCircle {
   width: 16px;

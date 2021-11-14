@@ -1,22 +1,38 @@
 <template>
   <div>
-    <div>
+    <!-- <div>
       <voting-header :date="voting.start_date "/>
-    </div>
+    </div> -->
+      <div class="votingTitle">
+          {{ getString("votingHeader", "voting") }} ({{ voting.start_date
+            
+          }})
+        </div>
 
-    <draggable
+        <!--borda-->
+    <!-- <draggable
       v-model="voting.projects"
       group="votings"
       @start="drag = true"
       @end="drag = false"
     >
       <div v-for="project in voting.projects" :key="project.id">
-        <voting-project
+        <VotingProject
           v-bind:project="project"
           v-on:change="setUserVotedFor($event)"
         />
       </div>
-    </draggable>
+    </draggable> -->
+
+      <div v-for="project in voting.projects" :key="project.id">
+        <VotingProjectSelectOne
+          v-bind:project="project"
+          v-on:change="setUserVotedFor($event)"
+          :clicked="userVotedFor"
+        />
+      </div>
+
+    <!--jeden wybor-->
 
     <!-- <div class="submitButton" @click="submitVote">
       <div :style="button">
@@ -34,12 +50,12 @@
 </template>
 
 <script>
-import VotingHeader from "../components/voting/VotingHeader.vue";
+// import VotingHeader from "../components/voting/VotingHeader.vue";
 import { getString } from "@/language/string.js";
-import VotingProject from "../components/voting/VotingProject.vue";
+// import VotingProject from "../components/voting/VotingProject.vue";
+import VotingProjectSelectOne from "../components/voting/VotingProjectSelectOne.vue";
 import { apiService } from "@/common/api.service.js";
-import { getColor } from "@/colors.js";
-import draggable from "vuedraggable";
+// import draggable from "vuedraggable";
 
 export default {
   name: "votingScreen",
@@ -65,13 +81,21 @@ export default {
   methods: {
     getString,
     async submitVote() {
-      console.log(this.voting);
+      // console.log(this.voting);
+
+      //tutaj jest głosowanie borda
       var choice = [];
-      var points = this.voting.projects.length - 1;
+      var points = this.voting.projects.length -1;
       for (var project of this.voting.projects) {
         choice.push({ project: project.id, points: points });
         points -= 1;
       }
+
+      //glosowanie na jeden projekt
+
+
+      console.log(this.voting.id)
+      console.log(choice)
       await apiService("/api/vote/", "POST", {
         voting: this.voting.id,
         choice: choice,
@@ -92,25 +116,10 @@ export default {
         "rgb(22, 187, 50)";
     },
   },
-  computed: {
-    button() {
-      return {
-        alignItems: "center",
-        backgroundColor: getColor("green"),
-        borderRadius: "5px",
-        color: getColor("white"),
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        padding: "20px",
-        fontWeight: "700",
-      };
-    },
-  },
   components: {
-    VotingHeader,
-    VotingProject,
-    draggable,
+    VotingProjectSelectOne,
+    // VotingProject,
+    // draggable,
   },
   async beforeRouteEnter(to, from, next) {
     let endpoint = `/api/voting/${to.params.vId}/`;
@@ -131,6 +140,12 @@ export default {
   justify-content: space-around;
 }
 
+.votingTitle{
+  margin-top: 50px;
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 30px;
+}
 .buttonSubmit{
   display: flex;
   justify-content: flex-end;

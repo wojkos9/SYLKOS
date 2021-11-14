@@ -20,7 +20,7 @@
         }"
       >
         <v-card-text
-          style=" position: absolute; top: 45px; right: 10px; width: 30px; "
+          style=" position: absolute; top: 20px; right: 10px; width: 30px; "
         >
           <v-fab-transition>
             <v-btn color="secondary" dark absolute top right fab>
@@ -31,7 +31,7 @@
       </router-link>
 
         <v-card-text
-          style=" position: absolute; top: 45px; right: 80px; width: 20px;"
+          style=" position: absolute; top: 20px; right: 80px; width: 20px;"
           @click="deleteVotingType(votingType.name)"
         >
           <v-fab-transition>
@@ -183,13 +183,17 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .singleGroup {
   padding: 30px;
   font-size: 1.5rem;
   width: 800px;
   margin-bottom: 15px;
-  border: solid;
+  /* background: red;; */
+  border:none;
+  -webkit-box-shadow: -10px 10px 34px -21px rgba(120, 144, 156, 1);
+-moz-box-shadow: -10px 10px 34px -21px rgba(120, 144, 156, 1);
+box-shadow: -10px 10px 34px -21px rgba(120, 144, 156, 1);
   position: relative
 }
 .groupsTitle {

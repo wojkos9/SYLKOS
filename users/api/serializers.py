@@ -2,7 +2,7 @@ from django.db.models.query import InstanceCheckMeta
 from rest_framework import serializers
 from users.models import CustomUser, PersonalKey
 from rest_framework.exceptions import ValidationError
-from voting.models import Group
+from voting.models import Group, Photo
 
 class UserDisplaySerializer(serializers.ModelSerializer):
 
@@ -14,6 +14,13 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 
     def get_groups(self, instance):
         user_groups = Group.objects.filter(members=instance.pk).values()
+       
+        for idx, group in enumerate(user_groups):
+            group_images = Photo.objects.filter(group=group['id']).values()
+            if len(group_images) == 0:
+                group_images = [{"image" : "images/no_picture.png"}]
+            user_groups[idx]['images'] = group_images
+
         return user_groups
 
 class CustomUserSerializer(serializers.ModelSerializer):
