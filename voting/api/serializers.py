@@ -8,7 +8,7 @@ from django.forms.models import model_to_dict
 from statistics import mean
 from rest_framework.generics import get_object_or_404
 from django.db.models import CharField, Value, Count, Avg, Sum
-from voting.models import Group, Project, Comment, Voting, VotingType, Photo, Vote
+from voting.models import Group, GroupKey, Project, Comment, Voting, VotingType, Photo, Vote
 
 class GroupSerializer(serializers.ModelSerializer):
 
@@ -29,6 +29,10 @@ class GroupSerializer(serializers.ModelSerializer):
             group_images = [{"image" : "images/no_picture.png"}]
         return group_images
 
+class GroupKeySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GroupKey
+        fields = "__all__"
 
 class PhotoSerializer(serializers.ModelSerializer):
 

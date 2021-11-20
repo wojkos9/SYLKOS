@@ -1,6 +1,6 @@
 from voting.models import Voting
 from django.urls import path
-from voting.api.views import CommentRUDAPIView, GroupListCreateAPIView, GroupDetailAPIView, ProjectListCreateAPIView, ProjectDetailAPIView, JoinGroupAPIView, CommentCreateAPIView, CommentListAPIView, CommentLikeAPIView, CommentDislikeAPIView, VotingTypeView, VotingView, PhotoListCreateAPIView, PhotoDetailAPIView
+from voting.api.views import CommentRUDAPIView, GroupListCreateAPIView, GroupDetailAPIView, ListGroupKeys, ProjectListCreateAPIView, ProjectDetailAPIView, JoinGroupAPIView, CommentCreateAPIView, CommentListAPIView, CommentLikeAPIView, CommentDislikeAPIView, VotingTypeView, VotingView, PhotoListCreateAPIView, PhotoDetailAPIView
 from rest_framework.routers import SimpleRouter
 from voting.api import views
 
@@ -12,6 +12,8 @@ urlpatterns = [
     path('groups/', GroupListCreateAPIView.as_view(), name="group-list"),
     path('groups/<int:pk>/', GroupDetailAPIView.as_view(), name="group-detail"),
     path('groups/<int:pk>/member/', JoinGroupAPIView.as_view(), name="group-join"),
+    path('groups/<int:pk>/genkeys', views.group_gen_keys, name="group-genkeys"),
+    path('groups/<int:pk>/keys', ListGroupKeys.as_view(), name="group-keys"),
     path('projects/', ProjectListCreateAPIView.as_view(), name="project-list"),
     path('projects/<int:pk>/', ProjectDetailAPIView.as_view(), name="project-detail"),
     path('projects/<int:pk>/comment/', CommentCreateAPIView.as_view(), name="comment-add"),

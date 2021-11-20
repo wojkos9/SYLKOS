@@ -1,17 +1,19 @@
 from rest_framework import generics
-from voting.models import Group, Project, Comment, VotingType, Voting, Photo
+from voting.models import Group, Project, Comment, VotingType, Voting, Photo, GroupKey
 from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
-from voting.api.serializers import CommentSerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, PhotoSerializer
+from voting.api.serializers import CommentSerializer, GroupKeySerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, PhotoSerializer
 from rest_framework import generics, status, viewsets, request
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import get_object_or_404, CreateAPIView, ListCreateAPIView
+from rest_framework.generics import get_object_or_404, ListCreateAPIView
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.parsers import JSONParser
 from voting.api import serializers
-from django.http.response import HttpResponse, HttpResponseBadRequest, HttpResponseServerError
-from django.views.decorators.csrf import csrf_exempt
+from django.http.response import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError, JsonResponse
+from rest_framework.decorators import api_view, permission_classes
+from django.db import transaction
+import random
 
 
 class GroupListCreateAPIView(generics.ListCreateAPIView):
@@ -69,9 +71,22 @@ class JoinGroupAPIView(APIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request, pk):
+    @transaction.atomic
+    def post(self, request: request.Request, pk):
         group = get_object_or_404(Group, pk=pk)
         user = request.user
+
+        try:
+            key = request.data["key"]
+        except KeyError:
+            return HttpResponseForbidden("Key not supplied")
+
+        stored_key: GroupKey = GroupKey.objects.filter(group=group, value=key).first()
+
+        if stored_key:
+            stored_key.delete()
+        else:
+            return HttpResponseForbidden("Invalid key")
 
         group.members.add(user)
         group.save()
@@ -84,6 +99,27 @@ class JoinGroupAPIView(APIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+KEY_CHARSET = "0123456789"
+KEY_LEN = 8
+@api_view(["GET"])
+def group_gen_keys(request: request.Request, pk: int):
+    LIMIT = 999
+    count = request.query_params.get("count") or 1
+    count = int(count)
+    if count > LIMIT:
+        return HttpResponseBadRequest(f"count > {LIMIT}")
+
+    group = get_object_or_404(Group.objects.all(), pk=pk)
+    keys = ["".join(random.choices(KEY_CHARSET, k=KEY_LEN)) for _ in range(count)]
+    for k in keys:
+        GroupKey(group=group, value=k, handed_over=True).save()
+    return JsonResponse(keys, safe=False)
+
+class ListGroupKeys(generics.ListAPIView):
+    permission_classes=(IsAdminUser,)
+    serializer_class=GroupKeySerializer
+    def get_queryset(self):
+        return GroupKey.objects.filter(group=Group.objects.get(pk=self.kwargs['pk']))
 
 class CommentCreateAPIView(generics.CreateAPIView):
     queryset = Comment.objects.all()
