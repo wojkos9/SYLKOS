@@ -17,7 +17,6 @@
             half-icon="mdi-star-half"
             half-increments
             hover
-            large
           ></v-rating>
         </div>
       </div>
@@ -25,8 +24,10 @@
         {{ moment(new Date()).format("DD.MM.YYYY") }}
       </div>
     </div>
-    <div class="bottomSection">
+ 
+    <div class="bottomSection" id="addComment">
       <v-textarea
+        class="addComment"
         background-color="grey lighten-2"
         color="primary"
         :label="comment.label"
@@ -114,10 +115,7 @@ export default {
 </script>
 
 <style
-  link
-  rel="stylesheet"
-  href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons"
-  scope
+  
 >
 .commentContainer {
   border: solid 1px black;
@@ -125,7 +123,8 @@ export default {
   /* height: 400px; */
   margin: 20px;
   padding: 20px;
-  width: 400px;
+  max-width: 400px;
+  width: 400px
 }
 .topSection {
   display: flex;
@@ -141,17 +140,80 @@ export default {
   align-items: center;
   display: flex;
 }
+textarea{
+  width: 250px !important;
+}
 .submitCommentIcon {
   margin-left: 5px;
   cursor: pointer;
 }
+
 .postComment {
   width: 40px;
 }
+.v-input{
+  width: 100%
+}
+
 textarea {
-  background-color: #e8e8e8;
+  background-color: var(--v-primary-lighten4);
   height: 50px;
   padding: 6px 10px;
+}
+
+.v-input textarea{
+  padding: 10px
+}
+.userName{
+  max-width: 300px;
+}
+
+@media only screen and (max-width: 500px) {
+#addComment textarea{
+  width: 200px !important;
+}
+.commentContainer {
+  width: 300px;
+}
+}
+
+@media only screen and (max-width: 400px) {
+
+.bottomSection {
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.userName{
+  text-align: center;
+  order: 1;
+}
+.rightTopSection{
+  text-align: center;
+  order:2;
   width: 100%;
+}
+.rating{
+  order:3;
+}
+
+.commentContainer {
+  border: solid 1px black;
+  border-radius: 25px;
+  /* height: 400px; */
+  margin: 10px;
+  padding: 20px;
+  max-width: 250px;
+  z-index: 10000000;
+}
+
+ #addComment textarea{
+  width: 200px !important;
+}
+
+.topSection {
+ flex-wrap: wrap;
+}
 }
 </style>

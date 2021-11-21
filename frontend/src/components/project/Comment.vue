@@ -99,19 +99,19 @@
       </v-card>
     </v-dialog>
 
-     <v-dialog v-model="dialog3" width="500">
+     <v-dialog v-model="dialog3" width="500" id="editCommentDialog">
       <v-card>
         <v-card-title
-          class="text-h4 grey lighten-2 p-4 d-flex justify-content-center"
+          class="p1 d-flex justify-content-center"
         >
          <span class="d-flex justify-content-center">
             {{ getString("projects", "edit") }}</span
           >
         </v-card-title>
 
-        <v-card-text class="text-h6  lighten-2 p-4 ">
+        <v-card-text >
             <v-form>
-               <v-rating
+               <v-rating  
             v-model="rating"
             color="yellow darken-3"
             background-color="grey darken-1"
@@ -121,12 +121,12 @@
             hover
             large
           ></v-rating>
-           <v-textarea
-        background-color="grey lighten-2"
+           <v-textarea style=" width: 100%"
         color="primary"
         :label="myComment.label"
         :rules="myComment.rule"
         v-model="myComment.value"
+
       >
       </v-textarea>
 
@@ -139,11 +139,11 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-         <v-btn color="primary" text @click="dialog3 = false">
+         <v-btn  text @click="dialog3 = false">
             {{ getString("projects", "editCancel") }}
           </v-btn>
-          <v-btn color="primary" text @click="editComment">
-            {{ getString("projects", "editOK") }}
+          <v-btn  text @click="editPutComment">
+            {{ getString("projects", "editOk") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -168,6 +168,7 @@ export default {
       dialog: false,
       dialog2: false,
       dialog3: false,
+      rating: 5,
       icons: {
         mdiDelete,
       },
@@ -188,10 +189,24 @@ export default {
     async setUserInfo() {
       this.loggedUser = window.localStorage.getItem("username");
     },
-    editComment(){
+    async editPutComment(){
+      var endpoint  = `api/comments/${this.comment.id}/`;
+      console.log("edycja")
+      await apiService(endpoint, "PUT", {
+          content:  this.myComment.value,
+          rating: this.rating,
+          project: this.comment.project,
+      }).then(() => {
+        this.dialog3 = false;
+        this.$emit("deleteUpdate");
+      });
+    },
+    async editComment(){
       this.myComment.value = this.comment.content;
       this.rating = this.comment.rating;
+     
       this.dialog3 = true;
+
     },
     async deleteComment() {
       this.dialog = false;
@@ -212,16 +227,24 @@ export default {
 </script>
 
 <style
-  link
-  rel="stylesheet"
-  href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons"
   scoped
 >
+.commentContainer{
+  background-color: var(--v-primary-lighten3);
+}
 .comment-row-1 {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
+}
+
+ textarea{
+  /* width: 100% */
+  width: 400px;
+}
+.v-text-field{
+      width: 400px;
 }
 .comment-author {
   font-weight: 700;
@@ -239,12 +262,39 @@ export default {
   margin-left: 20px;
 }
 .comment-content{
-  background: linear-gradient(#e2d9d9, #e4e4eb);
+  background: linear-gradient(var(--v-primary-lighten4),var(--v-secondary-lighten2));
   padding: 10px;
   border-radius: 40px;
 }
+
 .comment-stars{
   margin: 10px 0;
 }
+
+#editCommentDialog textarea{
+  justify-self: center;
+}
+@media only screen and (max-width: 500px) {
+ .comment-stars{
+  flex-direction: column;
+}
+.comment-row-1{
+  flex-direction: column;
+}
+#editCommentDialog textarea{
+ width: 350px !important;
+}
+.commentContainer {
+  width: 300px;
+}
+}
+@media only screen and (max-width: 400px) {
+
+#editCommentDialog textarea{
+ width: 350px !important;
+}
+
+}
+
 
 </style>

@@ -1,12 +1,12 @@
 <template>
 
-  <v-card color="primary darken-1"  v-bind="localAttrs">
+  <v-card color="primary darken-1"  v-bind="localAttrs" class="footer-gradient">
+    <div class="footer-gradient-transparent"></div> 
     <div
-      cols="12"
       class="p-3 d-flex justify-content-end"
-      style="border:solid; height: 100px "
+      style="height: 100px "
     >
-      <v-btn color="secondary" class="ma-2 p-3" dark @click="footer = true" style="color:black">
+      <v-btn color="accent" class="ma-2 p-3" dark @click="footer = true" style="color:black" >
         {{ getString("footer", "rules") }}
       </v-btn>
     </div>
@@ -116,5 +116,89 @@ export default {
 <style scoped>
 v-dialog{
   width: 100%;
+}
+
+.footer-gradient-transparent {
+  width: 100%;
+  z-index: 0;
+  content: "";
+  display: block;
+  position: absolute;
+  opacity: 0.9;
+  top: 0;
+  left: 0;
+  background: linear-gradient(
+    to right,
+    rgba(26, 23, 23, 0) 0%,
+    var(--v-primary-base) 50%,
+    var(--v-primary-base) 100%
+  );
+  height: 100%;
+}
+
+.footer-gradient::before {
+  width: 100%;
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+
+  left: 0;
+  z-index: 0;
+  height: 100%;
+  background-color: #78909c;
+  opacity: 0.5;
+  background-image: linear-gradient(
+      30deg,
+      #00bfa5 12%,
+      transparent 12.5%,
+      transparent 87%,
+      #00bfa5 87.5%,
+      #00bfa5
+    ),
+    linear-gradient(
+      150deg,
+      #00bfa5 12%,
+      transparent 12.5%,
+      transparent 87%,
+      #00bfa5 87.5%,
+      #00bfa5
+    ),
+    linear-gradient(
+      30deg,
+      #00bfa5 12%,
+      transparent 12.5%,
+      transparent 87%,
+      #00bfa5 87.5%,
+      #00bfa5
+    ),
+    linear-gradient(
+      150deg,
+      #00bfa5 12%,
+      transparent 12.5%,
+      transparent 87%,
+      #00bfa5 87.5%,
+      #00bfa5
+    ),
+    linear-gradient(
+      60deg,
+      var(--v-secondary-darken2) 25%,
+      transparent 25.5%,
+      transparent 75%,
+      var(--v-secondary-darken2) 75%,
+      var(--v-secondary-darken2)
+    ),
+    linear-gradient(
+      60deg,
+      var(--v-secondary-darken2) 25%,
+      transparent 25.5%,
+      transparent 75%,
+      var(--v-secondary-darken2) 75%,
+      var(--v-secondary-darken2)
+    );
+
+  background-size: 26px 46px;
+  background-position: 0 0, 0 0, 10px 18px, 10px 18px, 0 0, 10px 18px;
+  background-repeat: repeat;
 }
 </style>

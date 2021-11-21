@@ -407,9 +407,10 @@ export default {
 }
 
 .area {
+  background-color: var(--v-background-lighten2);
 
   $stl: 20px;
-  background-color: white;
+  /* background-color: white; */
   border: solid 1px black;
   margin-bottom: 30px;
   margin-top: 10px;

@@ -134,12 +134,16 @@ class VotingSerializer(serializers.ModelSerializer):
             rating_avg=Value('0.0', output_field=CharField())).values()
         voting_projects = voting_projects.annotate(
             images=Value('', output_field=CharField()))
+        request = self.context.get("request")
 
         for idx, proj in enumerate(voting_projects):
             sum = 0.0
             avg = 0.0
             comments = Comment.objects.filter(project=proj['id'])
             project_images = Photo.objects.filter(project=proj['id']).values()
+            user_has_commented = Comment.objects.filter(author=request.user, project=proj['id']).exists()
+            tmp_user_comment  = Comment.objects.filter(project=instance.pk, author=request.user).first()
+            user_comment = [CommentSerializer(tmp_user_comment, context=self.context).data]
             if len(project_images) == 0:
                 project_images = [{"image" : "images/no_picture.png"}]
 
@@ -151,6 +155,8 @@ class VotingSerializer(serializers.ModelSerializer):
 
             voting_projects[idx]['rating_avg'] = avg
             voting_projects[idx]['images'] = project_images
+            voting_projects[idx]['user_has_commented'] = user_has_commented
+            voting_projects[idx]['user_comment'] = user_comment
 
         return voting_projects
 

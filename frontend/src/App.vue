@@ -1,83 +1,108 @@
 <template>
   <v-app
     class="font"
-    :style="{ background: $vuetify.theme.themes[theme].background }"
+    
   >
     <div id="app">
-      <navbar-comp v-bind:setShowSideMenu="navigationDrawer" />
-      <router-view />
+      <div class="wrapper" :style="{ background: $vuetify.theme.themes[theme].background }">
+        <navbar-comp v-bind:setShowSideMenu="navigationDrawer" />
+        <router-view />
 
-      <v-navigation-drawer v-model="showSideMenu" absolute temporary>
-        <v-list nav dense>
-          <v-list-item-group
-            v-model="group"
-            active-class="secondary text--accent-4"
-          >
-            <router-link :to="{ name: routes.mainPage }">
-              <v-list-item>
-                <v-list-item-title>
-                  <svg  src="@/assets/logo.png" class="logo" />
-                </v-list-item-title>
-              </v-list-item>
-            </router-link>
+        <v-navigation-drawer v-model="showSideMenu" absolute temporary>
+          <v-list nav dense>
+            <v-list-item-group
+              v-model="group"
+              active-class="secondary text--accent-4"
+            >
+              <router-link :to="{ name: routes.mainPage }">
+                <v-list-item>
+                  <v-list-item-title>
+                    <svg src="@/assets/logo.png" class="logo" />
+                  </v-list-item-title>
+                </v-list-item>
+              </router-link>
 
-            <router-link :to="{ name: routes.projects }">
-              <v-list-item>
-                <v-list-item-title>
-                  <v-icon>grid_view</v-icon>
-                  {{ getString("navbar", "projects") }}
-                </v-list-item-title>
-              </v-list-item>
-            </router-link>
+              <router-link :to="{ name: routes.projects }">
+                <v-list-item>
+                  <v-list-item-title>
+                    <v-icon>grid_view</v-icon>
+                    {{ getString("navbar", "projects") }}
+                  </v-list-item-title>
+                </v-list-item>
+              </router-link>
 
-            <router-link :to="{ name: routes.groups }">
-              <v-list-item>
-                <v-list-item-title>
-                  <v-icon>groups</v-icon>
-                  {{ getString("navbar", "groups") }}
-                </v-list-item-title>
-              </v-list-item>
-            </router-link>
+              <router-link :to="{ name: routes.groups }">
+                <v-list-item>
+                  <v-list-item-title>
+                    <v-icon>groups</v-icon>
+                    {{ getString("navbar", "groups") }}
+                  </v-list-item-title>
+                </v-list-item>
+              </router-link>
 
-            <router-link :to="{ name: routes.addProject }">
-              <v-list-item>
-                <v-list-item-title>
-                  <v-icon>add</v-icon>
-                  {{ getString("navbar", "addProject") }}
-                </v-list-item-title>
-              </v-list-item>
-            </router-link>
+              <router-link :to="{ name: routes.addProject }">
+                <v-list-item>
+                  <v-list-item-title>
+                    <v-icon>add</v-icon>
+                    {{ getString("navbar", "addProject") }}
+                  </v-list-item-title>
+                </v-list-item>
+              </router-link>
 
-            <router-link :to="{ name: routes.settings }">
-              <v-list-item>
-                <v-list-item-title>
-                  <v-icon>settings</v-icon>
-                  {{ getString("navbar", "settings") }}
-                </v-list-item-title>
-              </v-list-item>
-            </router-link>
+              <router-link :to="{ name: routes.settings }">
+                <v-list-item>
+                  <v-list-item-title>
+                    <v-icon>settings</v-icon>
+                    {{ getString("navbar", "settings") }}
+                  </v-list-item-title>
+                </v-list-item>
+              </router-link>
 
-            <router-link :to="{ name: routes.user }">
-              <v-list-item>
-                <v-list-item-title>
-                  <v-icon>person</v-icon>
-                  {{ getString("navbar", "user") }}
-                </v-list-item-title>
-              </v-list-item>
-            </router-link>
+              <router-link :to="{ name: routes.user }">
+                <v-list-item>
+                  <v-list-item-title>
+                    <v-icon>person</v-icon>
+                    {{ getString("navbar", "user") }}
+                  </v-list-item-title>
+                </v-list-item>
+              </router-link>
 
-            <router-link :to="{ name: routes.admin }">
-              <v-list-item>
-                <v-list-item-title>
-                  <v-icon>rules</v-icon>
-                  {{ getString("navbar", "admin") }}
-                </v-list-item-title>
-              </v-list-item>
-            </router-link>
-          </v-list-item-group>
-        </v-list>
-      </v-navigation-drawer>
-      <Footer />
+              <router-link :to="{ name: routes.admin }">
+                <v-list-item>
+                  <v-list-item-title>
+                    <v-icon>rules</v-icon>
+                    {{ getString("navbar", "admin") }}
+                  </v-list-item-title>
+                </v-list-item>
+              </router-link>
+     </v-list-item-group>
+
+             <div>
+      <v-tooltip v-if="!$vuetify.theme.dark" bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" color="info" small fab @click="darkMode">
+            <v-icon class="mr-1">mdi-moon-waxing-crescent</v-icon>
+          </v-btn>
+        </template>
+        <span>Dark Mode On</span>
+      </v-tooltip>
+
+      <v-tooltip v-else bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" color="info" small fab @click="darkMode">
+            <v-icon color="yellow">mdi-white-balance-sunny</v-icon>
+          </v-btn>
+        </template>
+        <span>Dark Mode Off</span>
+      </v-tooltip>
+    </div>
+
+          </v-list>
+        </v-navigation-drawer>
+        <div class="push"></div>
+      </div>
+      <div class="footer"> <Footer /></div>
+     
     </div>
   </v-app>
 </template>
@@ -98,6 +123,7 @@ export default {
     return {
       showSideMenu: false,
       group: "",
+      themeChange: true,
       routes: {
         addProject: "projectNew",
         projects: "projects",
@@ -110,11 +136,15 @@ export default {
     };
   },
   methods: {
+    darkMode() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
     getString,
     async setUserInfo() {
       const data = await apiService("/api/user/");
       const requestUser = data["username"];
       window.localStorage.setItem("username", requestUser);
+      this.$vuetify.theme.dark = true;
     },
     setShowSideMenu() {
       this.showSideMenu = false;
@@ -147,20 +177,57 @@ export default {
 .v-application {
   font-family: "playfair display";
   font-weight: 500;
-  background-color: #f2f6fa;
+  /* background-color: #f2f6fa; */
+  color: #fff;
+  
+  /* border:solid white; */
+  display: flex;
+  height: 100vh;
+  margin: 0;
+  flex-direction: column;
 }
 
-.v-btn{
+body{
+  height: 100vh;
+}
+
+#app{
+  
+/* display: flex; */
+  /* flex-direction: column; */
+  
+  border: white;
+}
+.v-btn {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 758px) {
-  .v-application {
-    font-size: 18px;
-  }
+.wrapper {
+  min-height: 100vh;
+  margin-bottom: -100px;
+  /* border:solid white; */
 }
 
-@media only screen and (max-width: 460px) {
+
+.footer, .push{
+  height: 50px;
+  margin-top: auto;
+}
+
+.v-card__title {
+  background-color: var(--v-primary-lighten1) !important;
+}
+.v-sheet.v-card {
+  background-color: var(--v-primary-lighten2) !important;
+}
+.v-data-table {
+  background-color: var(--v-primary-lighten3) !important;
+}
+tr:hover {
+  background-color: var(--v-primary-lighten1) !important;
+}
+
+@media only screen and (max-width: 800px) {
   .v-application {
     font-size: 16px;
   }

@@ -23,14 +23,34 @@
         />
       </div>
     </draggable> -->
-
+    <div v-if="voting.voting_type == 'borda'">
+       <draggable
+      v-model="voting.projects"
+      group="votings"
+      @start="drag = true"
+      @end="drag = false"
+    >
       <div v-for="project in voting.projects" :key="project.id">
+        <VotingProject
+          v-bind:project="project"
+          v-on:change="setUserVotedFor($event)"
+        />
+      </div>
+    </draggable>
+    </div>
+    <div v-else-if="voting.voting_type=='majority'">
+        <div v-for="project in voting.projects" :key="project.id">
         <VotingProjectSelectOne
           v-bind:project="project"
           v-on:change="setUserVotedFor($event)"
           :clicked="userVotedFor"
         />
       </div>
+    </div>
+  <div v-else>
+    jeszcze nie obsłużony typ głosowania {{voting}}
+  </div>
+    
 
     <!--jeden wybor-->
 
@@ -52,10 +72,10 @@
 <script>
 // import VotingHeader from "../components/voting/VotingHeader.vue";
 import { getString } from "@/language/string.js";
-// import VotingProject from "../components/voting/VotingProject.vue";
+import VotingProject from "../components/voting/VotingProject.vue";
 import VotingProjectSelectOne from "../components/voting/VotingProjectSelectOne.vue";
 import { apiService } from "@/common/api.service.js";
-// import draggable from "vuedraggable";
+import draggable from "vuedraggable";
 
 export default {
   name: "votingScreen",
@@ -118,8 +138,8 @@ export default {
   },
   components: {
     VotingProjectSelectOne,
-    // VotingProject,
-    // draggable,
+    VotingProject,
+    draggable,
   },
   async beforeRouteEnter(to, from, next) {
     let endpoint = `/api/voting/${to.params.vId}/`;

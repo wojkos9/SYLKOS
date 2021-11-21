@@ -16,7 +16,7 @@
       </div>
 
       <div class="commentSectionRedirectButton">
-        <ProjectWindow :project="project"/>
+        <ProjectWindow :project="project" />
       </div>
     </div>
   </div>
@@ -45,6 +45,7 @@ export default {
       this.clicked = !this.clicked;
       this.$emit("change", this.$props.id);
     },
+
   },
 };
 </script>
@@ -87,10 +88,10 @@ export default {
   display: flex;
   margin: 40px auto 0 auto;
   max-width: 800px;
-  -webkit-box-shadow: 0px 0px 35px -14px rgba(46, 46, 57, 1);
--moz-box-shadow: 0px 0px 35px -14px rgba(46, 46, 57, 1);
-box-shadow: 0px 0px 35px -14px rgba(46, 46, 57, 1);
-} 
+  -webkit-box-shadow: 0px 0px 35px -14px #00bfa5 ;
+-moz-box-shadow: 0px 0px 35px -14px #00bfa5 ;
+box-shadow: 0px 0px 35px -14px #00bfa5 ;
+}
 .title {
   font-size: 20px;
   font-weight: 600;

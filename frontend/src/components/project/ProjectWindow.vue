@@ -1,74 +1,75 @@
 <template>
-     <v-dialog v-model="dialog" width="unset">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn color="primary" dark v-bind="attrs" v-on="on">
-                  {{ getString("userPanel", "details") }}
-                </v-btn>
-              </template>
+  <v-dialog v-model="dialog" width="unset">
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn color="primary" dark v-bind="attrs" v-on="on">
+        {{ getString("userPanel", "details") }}
+      </v-btn>
+    </template>
 
-              <v-card>
-                <v-card-title class="text-h5 grey lighten-2">
-                  {{ project.name }}
-                </v-card-title>
+    <v-card>
+      <!-- <v-system-bar color="background"> -->
+        <v-card-title >
+          {{ project.name }}
+        </v-card-title>
+      <!-- </v-system-bar> -->
+      <v-card-text>
+        <div>
+          <div class="projectDesc">
+            {{ project.description }}
+          </div>
+          <v-data-table
+            :headers="headers"
+            :items="desserts"
+            hide-default-header
+            hide-default-footer
+            class="elevation-1"
+          ></v-data-table>
+        </div>
+      </v-card-text>
 
-                <v-card-text>
-                  <div>
-                    <div class="projectDesc">
-                      {{ project.description }}
-                    </div>
-                    <v-data-table
-                      :headers="headers"
-                      :items="desserts"
-                      hide-default-header
-                      hide-default-footer
-                      class="elevation-1"
-                    ></v-data-table>
-                  </div>
-                </v-card-text>
+      <v-divider></v-divider>
 
-                <v-divider></v-divider>
+      <div
+        class="animation"
+        v-show="project.images[0].image != 'images/no_picture.png'"
+      >
+        <div>
+          <Carousel
+            :slides="project.images"
+            :ifRoute="ifRoute"
+            :group="group"
+          />
+        </div>
+      </div>
+      <div class="comments">
+        <div v-if="!project.user_has_commented">
+          <AddComment
+            :projectId="project.id"
+            v-on:addedComment="updateComments"
+          />
+        </div>
 
-                <div
-                  class="animation"
-                  v-show="project.images[0].image != 'images/no_picture.png'"
-                >
-                  <div>
-                    <Carousel
-                      :slides="project.images"
-                      :ifRoute="ifRoute"
-                      :group="group"
-                    />
-                  </div>
-                </div>
-                <div class="comments">
-                  <div v-if="!project.user_has_commented">
-                    <AddComment
-                      :projectId="project.id"
-                      v-on:addedComment="updateComments"
-                    />
-                  </div>
-
-                  <div v-else>
-                    <Comment
-                      v-bind:comment="myComment[0]"
-                      v-bind:author="username"
-                      v-on:deleteUpdate="updateComments"
-                    />
-                  </div>
-                  <div v-for="comment in comments" :key="comment.id">
-                    <div v-show="comment.author != username">
-                      <Comment v-bind:comment="comment" />
-                    </div>
-                  </div>
-                </div>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" text @click="dialog = false">
-                    {{ getString("userPanel", "close") }}
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+        <div v-else>
+          <Comment
+            v-bind:comment="myComment[0]"
+            v-bind:author="username"
+            v-on:deleteUpdate="updateComments"
+          />
+        </div>
+        <div v-for="comment in comments" :key="comment.id">
+          <div v-show="comment.author != username">
+            <Comment v-bind:comment="comment" />
+          </div>
+        </div>
+      </div>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" text @click="dialog = false">
+          {{ getString("userPanel", "close") }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 import { getString } from "@/language/string.js";
@@ -86,6 +87,8 @@ export default {
       showGallery: false,
       comments: [],
       myComment: {},
+      group: false,
+      ifRoute: false, 
       username: window.localStorage.getItem("username"),
       headers: [
         {
@@ -102,7 +105,9 @@ export default {
   methods: {
     getString,
     async getVotingData() {
-      let tmp = this.project.voting ? this.project.voting : this.project.voting_id;
+      let tmp = this.project.voting
+        ? this.project.voting
+        : this.project.voting_id;
       let votingEdnpoint = `api/voting/${tmp}/`;
       let votingData = await apiService(votingEdnpoint);
 
@@ -110,7 +115,7 @@ export default {
       let commentsData = await apiService(commentsEndpoint);
       this.myComment = this.project.user_comment;
       this.comments = commentsData.results;
-      console.log(votingData)
+      console.log(votingData);
       this.desserts = [
         {
           name: this.getString("projectInfo", "price"),
@@ -143,7 +148,7 @@ export default {
       this.project.user_has_commented = projectData.user_has_commented;
     },
   },
-   created() {
+  created() {
     this.getVotingData();
   },
   components: { Carousel, AddComment, Comment },
@@ -151,11 +156,12 @@ export default {
 </script>
 
 <style scoped>
+
 .projectDesc {
   font-size: 1.2rem;
   max-width: 500px;
   margin: 20px auto 50px auto;
-  color: #000;
+  /* color: #000; */
 }
 .comments {
   margin: 0 auto;
@@ -168,13 +174,16 @@ export default {
   padding-bottom: 40px;
   max-width: 600px;
   display: inherit !important;
-  margin: 0 auto;
+  margin: 40px 24px;
   -webkit-box-shadow: 5px 13px 13px 3px rgba(63, 63, 74, 0.26);
   -moz-box-shadow: 5px 13px 13px 3px rgba(63, 63, 74, 0.26);
   box-shadow: 5px 13px 13px 3px rgba(63, 63, 74, 0.26);
   transition: all 2s ease;
-  margin: 40px;
+  /* padding: 24px; */
+  background-color: var(--v-primary-lighten3);
+  border-radius: 8px;
 }
+
 .animation[style*="display: none;"] {
   max-height: 0;
   opacity: 0;
@@ -182,5 +191,4 @@ export default {
   pointer-events: none; /* disable user interaction */
   user-select: none; /* disable user selection */
 }
-
 </style>

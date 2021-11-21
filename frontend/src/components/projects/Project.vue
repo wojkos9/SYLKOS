@@ -47,12 +47,11 @@ export default {
 <style scoped>
 .area {
   padding: 10px;
-  background-color: white;
+  background-color: var(--v-background-lighten2);
   border: solid 1px black;
   margin-top: 10px;
   margin-bottom: 30px;
 }
-
 
 .projectTitle {
   font-weight: 700;
@@ -62,13 +61,12 @@ export default {
   text-align: center;
 }
 
-.desc {
+.project-desc {
   font-size: 1rem;
   font-weight: 400;
   margin-bottom: 10px;
   text-align: justify;
 }
-
 
 .image {
   width: 160px;
@@ -83,7 +81,6 @@ export default {
   justify-items: center;
   align-items: center;
   align-content: center;
-  /* border:solid; */
 }
 .center img {
   height: calc(30vh - 30px);

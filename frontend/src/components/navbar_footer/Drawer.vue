@@ -51,6 +51,14 @@
           }}</md-list-item>
         </md-list>
       </md-list-item>
+
+
+      <v-switch
+      v-model="theme"
+      inset
+      :label="`Switch 1: ${switch1.toString()}`"
+    ></v-switch>
+
     </md-list>
   </md-drawer>
 </template>
@@ -62,6 +70,8 @@ import { getColor } from "@/colors.js";
 export default {
   name: "App",
   props: ["showSideMenu"],
+  theme: false,
+  themeLabel: this.$vuetify.theme,
   data() {
     return {
       projects: false,
@@ -111,6 +121,15 @@ export default {
       };
     },
   },
+   watch: {
+      theme(){
+        //called whenever switch1 changes
+        if (this.$vuetify.theme.dark)
+          this.$vuetify.theme.dark = true;
+        else
+          this.$vuetify.theme.dark = false;
+      }
+    }
 };
 </script>
 
