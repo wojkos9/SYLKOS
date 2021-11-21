@@ -1,3 +1,4 @@
+from django.db.models.deletion import CASCADE
 from users.models import BasicUser
 from django.db import models
 from django.conf import settings
@@ -14,6 +15,11 @@ class Group(models.Model):
     def __str__(self):
         return self.name
 
+class GroupKey(models.Model):
+    group = models.ForeignKey(Group, on_delete=CASCADE)
+    value = models.CharField(max_length=20, primary_key=True)
+    created = models.DateTimeField(auto_now_add=True)
+    handed_over = models.BooleanField(default=False)
 
 class VotingType(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
@@ -26,8 +32,8 @@ class VotingType(models.Model):
 class Voting(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    voting_type = models.ForeignKey(VotingType, on_delete=models.CASCADE)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    voting_type = models.ForeignKey(VotingType, on_delete=CASCADE)
+    group = models.ForeignKey(Group, on_delete=CASCADE)
 
     def __str__(self):
         projects_included = Project.objects.filter(voting=self)
@@ -41,8 +47,8 @@ class Project(models.Model):
     document = models.FileField(upload_to='documents/', blank=True, null=True)
     stage = models.CharField(max_length=50)
     finish_date = models.DateTimeField()
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    voting = models.ForeignKey(Voting, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=CASCADE)
+    voting = models.ForeignKey(Voting, on_delete=CASCADE)
     votes = models.BigIntegerField(default=0, blank=True, null=True)
 
     def __str__(self):
@@ -52,8 +58,8 @@ class Project(models.Model):
 class Photo(models.Model):
     image = models.ImageField(upload_to='images/')
     description = models.CharField(max_length=150, blank=True, default='')
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
+    group = models.ForeignKey(Group, on_delete=CASCADE, null=True)
+    project = models.ForeignKey(Project, on_delete=CASCADE, null=True)
 
     def __str__(self):
         return self.image.url
@@ -63,23 +69,23 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="comments")
+        settings.AUTH_USER_MODEL, on_delete=CASCADE, related_name="comments")
     rating = models.FloatField(blank=True)
     voters_like = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="voters_like")
     voters_dislike = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="voters_dislike")
     project = models.ForeignKey(
-        Project, on_delete=models.CASCADE, related_name="comment")
+        Project, on_delete=CASCADE, related_name="comment")
 
     def __str__(self):
         return f"{self.author.username}: {self.content[:10]}..."
 
 
 class Vote(models.Model):
-    voting = models.ForeignKey(Voting, on_delete=models.CASCADE)
-    user = models.ForeignKey(BasicUser, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    voting = models.ForeignKey(Voting, on_delete=CASCADE)
+    user = models.ForeignKey(BasicUser, on_delete=CASCADE)
+    project = models.ForeignKey(Project, on_delete=CASCADE)
     points = models.IntegerField()
 
     def __str__(self):
