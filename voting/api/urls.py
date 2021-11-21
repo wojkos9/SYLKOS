@@ -25,5 +25,6 @@ urlpatterns = [
     path('photo/<int:pk>/', PhotoDetailAPIView.as_view(), name="photo-detail"),
     path('vote/', views.VoteView.as_view(), name="submit-vote"),
     path('vote/<int:pk>/', views.DeleteVoteView.as_view(), name="delete-vote"),
+    path('voting/<int:pk>/timeplot', views.voting_stats, name='voting_timeplot'),
     *voting_router.urls
 ]

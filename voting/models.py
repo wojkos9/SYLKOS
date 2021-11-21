@@ -2,7 +2,7 @@ from django.db.models.deletion import CASCADE
 from users.models import BasicUser
 from django.db import models
 from django.conf import settings
-
+from django.utils import timezone
 
 class Group(models.Model):
     name = models.CharField(max_length=50)
@@ -83,10 +83,11 @@ class Comment(models.Model):
 
 
 class Vote(models.Model):
-    voting = models.ForeignKey(Voting, on_delete=CASCADE)
+    voting = models.ForeignKey(Voting, on_delete=CASCADE, db_index=True)
     user = models.ForeignKey(BasicUser, on_delete=CASCADE)
     project = models.ForeignKey(Project, on_delete=CASCADE)
     points = models.IntegerField()
+    date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"v:{self.voting} u:{self.user} p:{self.project} x:{self.points}"
