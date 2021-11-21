@@ -1,3 +1,4 @@
+#media/.gitignore
 *
 !.gitignore
 !no_picture.png
