@@ -26,7 +26,7 @@ class GroupSerializer(serializers.ModelSerializer):
     def get_images(self, instance):
         group_images = Photo.objects.filter(group=instance.pk).values()
         if len(group_images) == 0:
-            group_images = [{"image" : "images/no_picture.png"}]
+            group_images = [{"image" : "no_images/no_picture.png"}]
         return group_images
 
 class GroupKeySerializer(serializers.ModelSerializer):
@@ -66,7 +66,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     def get_images(self, instance):
         project_images = Photo.objects.filter(project=instance.pk).values()
         if len(project_images) == 0:
-            project_images = [{"image" : "images/no_picture.png"}]
+            project_images = [{"image" : "no_images/no_picture.png"}]
         return project_images
 
     def get_user_has_commented(self, instance):
@@ -149,7 +149,7 @@ class VotingSerializer(serializers.ModelSerializer):
             tmp_user_comment  = Comment.objects.filter(project=instance.pk, author=request.user).first()
             user_comment = [CommentSerializer(tmp_user_comment, context=self.context).data]
             if len(project_images) == 0:
-                project_images = [{"image" : "images/no_picture.png"}]
+                project_images = [{"image" : "no_images/no_picture.png"}]
 
             for comment in comments:
                 sum += comment.rating
