@@ -29,6 +29,14 @@ class GroupSerializer(serializers.ModelSerializer):
             group_images = [{"image" : "images/no_picture.png"}]
         return group_images
 
+class GroupDetailsSerializer(GroupSerializer):
+    votings = serializers.SerializerMethodField()
+
+    def get_votings(self, instance):
+        votings = Voting.objects.filter(group=instance)
+        x = VotingSerializer(votings, many=True, context=self.context)
+        return x.data
+
 class GroupKeySerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupKey

@@ -1,7 +1,7 @@
 from rest_framework import generics
 from voting.models import Group, Project, Comment, VotingType, Voting, Photo, GroupKey, Vote
 from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
-from voting.api.serializers import CommentSerializer, GroupKeySerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, PhotoSerializer
+from voting.api.serializers import CommentSerializer, GroupDetailsSerializer, GroupKeySerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, PhotoSerializer
 from rest_framework import generics, status, viewsets, request
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -25,8 +25,9 @@ class GroupListCreateAPIView(generics.ListCreateAPIView):
 
 class GroupDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Group.objects.all()
-    serializer_class = GroupSerializer
     permission_classes = [IsAuthenticated]
+    def get_serializer_class(self):
+        return GroupDetailsSerializer if self.request.query_params.get('details') == '1' else GroupSerializer
 
 
 class PhotoListCreateAPIView(generics.ListCreateAPIView):
