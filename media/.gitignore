@@ -1,4 +1,4 @@
 #media/.gitignore
 *
 !.gitignore
-!images/no_picture.png
+!no_picture.png
