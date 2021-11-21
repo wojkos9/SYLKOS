@@ -1,9 +1,5 @@
 from rest_framework import generics
-<<<<<<< HEAD
-from voting.models import Group, Project, Comment, VotingType, Voting, Photo, GroupKey
-=======
-from voting.models import Group, Project, Comment, Vote, VotingType, Voting, Photo
->>>>>>> origin/f-improvements
+from voting.models import Group, Project, Comment, VotingType, Voting, Photo, GroupKey, Vote
 from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
 from voting.api.serializers import CommentSerializer, GroupKeySerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, PhotoSerializer
 from rest_framework import generics, status, viewsets, request
@@ -14,15 +10,11 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.parsers import JSONParser
 from voting.api import serializers
-<<<<<<< HEAD
-from django.http.response import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError, JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from django.db import transaction
 import random
-=======
-from django.http.response import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseServerError
+from django.http.response import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseServerError, HttpResponseForbidden, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
->>>>>>> origin/f-improvements
 
 
 class GroupListCreateAPIView(generics.ListCreateAPIView):
