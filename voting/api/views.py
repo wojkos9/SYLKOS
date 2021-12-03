@@ -1,3 +1,5 @@
+from django.db.models.query import QuerySet
+from matplotlib.figure import Figure
 from rest_framework import generics
 from voting.models import Group, Project, Comment, VotingType, Voting, Photo, GroupKey, Vote
 from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
@@ -221,6 +223,54 @@ class VotingTypeView(viewsets.ModelViewSet):
 class VotingView(viewsets.ModelViewSet):
     queryset = Voting.objects.all()
     serializer_class = VotingSerializer
+
+import matplotlib.pyplot as plt
+from matplotlib.dates import DateFormatter
+from io import BytesIO
+from datetime import datetime
+
+import matplotlib
+matplotlib.use('Agg')
+
+@api_view(['GET'])
+def voting_stats(request, **kwargs):
+    voting: Voting = get_object_or_404(Voting, pk=kwargs.get('pk'))
+    projects: QuerySet[Project] = Project.objects.filter(voting=voting)
+    votes: list[tuple[int, int, datetime]] = Vote.objects.filter(voting=voting) \
+        .order_by("date") \
+        .values_list("project", "points", "date")
+
+    plot_data = {p.pk: (p.name, [(voting.start_date, 0)]) for p in projects}
+
+    for pid, value, date in votes:
+        if not value: continue
+        date_points  = plot_data[pid][1]
+        last_date, last_value = date_points[-1]
+        new_point = (date, last_value + value)
+
+        # Aggregate by day:
+        if date.date() == last_date.date():
+            date_points.pop()
+
+        date_points.append(new_point)
+
+    fig, ax = plt.subplots()
+    max_points = 0
+    for name, date_points in plot_data.values():
+        dates, points = zip(*date_points)
+        print(name, dates, points)
+        ax.plot(dates, points, 'o-', label=name)
+        max_points = max(points[-1], max_points)
+
+    ax.tick_params('x', rotation=90)
+    ax.xaxis.set_major_formatter(DateFormatter('%d/%m'))
+    ax.set_yticks(range(0, max_points+1))
+
+    buf: BytesIO = BytesIO()
+    fig.legend()
+    fig.savefig(buf, format='svg')
+
+    return HttpResponse(buf.getvalue().decode('utf-8'))
 
 
 class VoteView(ListCreateAPIView):
