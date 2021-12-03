@@ -10,14 +10,6 @@
       </div>
     </div>
 
-    <!-- <div class="options">
-      <Search
-        v-on:changeSearchName="makeSth($event)"
-        :title="getString('groups', 'name')"
-      />
-      <Sort :options="sortOptions" />
-    </div> -->
-
     <div class="allGroups">
      <div v-for="group in groups" :key="group.id">
         <Group

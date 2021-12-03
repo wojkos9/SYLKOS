@@ -139,12 +139,19 @@ export default {
     darkMode() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },
+    contrastMode(){
+      this.$vuetify.theme.contrast = true;
+      this.$vuetify.theme.dark = false;
+      this.$vuetify.theme.light = false;
+      
+
+    },
     getString,
     async setUserInfo() {
       const data = await apiService("/api/user/");
       const requestUser = data["username"];
       window.localStorage.setItem("username", requestUser);
-      this.$vuetify.theme.dark = true;
+      // this.$vuetify.theme.dark = true;
     },
     setShowSideMenu() {
       this.showSideMenu = false;
@@ -187,18 +194,16 @@ export default {
   flex-direction: column;
 }
 
+
 body{
   height: 100vh;
 }
 
 #app{
-  
-/* display: flex; */
-  /* flex-direction: column; */
-  
   border: white;
 }
-.v-btn {
+
+.v-icon:hover {
   cursor: pointer;
 }
 

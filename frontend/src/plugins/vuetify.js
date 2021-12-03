@@ -19,9 +19,19 @@ export default new Vuetify({
             link: '#000'
           },
           dark: {
-            primary: '#49190d',
+            // 263238 49190d
+            primary: '#101026',
             secondary: '#56531b',
-            background: "#49190d",
+            background: "#101026",
+            accent:'#ddcc46',
+            error: '#dd1e00',
+            link: '#fff',
+          },
+          contrast: {
+            // 263238 49190d
+            primary: '#000',
+            secondary: '#56531b',
+            background: "#000",
             accent:'#ddcc46',
             error: '#dd1e00',
             link: '#fff',

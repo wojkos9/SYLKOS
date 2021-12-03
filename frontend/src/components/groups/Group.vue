@@ -38,8 +38,9 @@
                     v-if="isMember"
                     :title="getString('groups', 'leaveGroup')"
                     @click="leaveGroup"
+                    class="icon"
                     ><md-icon>person_remove</md-icon> </span
-                  ><span v-else @click="joinGroup"
+                  ><span v-else @click="joinGroup" class="icon"
                     ><md-icon>person_add</md-icon></span
                   >
                 </v-card-title>
@@ -51,10 +52,6 @@
                     </div>
                   </div>
                 </v-card-text>
-
-                <!-- <div class="aboutGroupShort">
-                  {{ getString("groupInfo", "region") }}:{{group.}}
-                </div> -->
 
                 <v-divider></v-divider>
 
@@ -402,8 +399,11 @@ export default {
   margin-left: 50px;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   justify-content: center;
+}
+
+.icon:hover{
+  cursor: pointer;
 }
 
 .area {
@@ -444,11 +444,6 @@ export default {
   margin-top: 30px;
 }
 
-.myButton {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
 
 .center img {
   height: calc(30vh - 30px);

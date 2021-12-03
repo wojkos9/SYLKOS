@@ -41,11 +41,6 @@ export default {
   },
   methods: {
     getString,
-    buttonClicked() {
-      this.clicked = !this.clicked;
-      this.$emit("change", this.$props.id);
-    },
-
   },
 };
 </script>

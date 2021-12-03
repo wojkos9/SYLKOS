@@ -22,7 +22,7 @@
             :items="desserts"
             hide-default-header
             hide-default-footer
-            class="elevation-1"
+            class="custom_table"
           ></v-data-table>
         </div>
       </v-card-text>
@@ -161,6 +161,8 @@ export default {
   font-size: 1.2rem;
   max-width: 500px;
   margin: 20px auto 50px auto;
+  text-align: center;
+  line-height: 1.2;
   /* color: #000; */
 }
 .comments {
@@ -169,6 +171,14 @@ export default {
   flex-direction: column;
   align-items: center;
 }
+
+.custom_table{
+  line-height: 1.3;
+  font-size: 2rem;
+  padding: .5em;
+}
+
+
 .animation {
   max-height: 900px;
   padding-bottom: 40px;

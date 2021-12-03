@@ -213,6 +213,9 @@ export const pl = {
     votingName: 'Nazwa: ',
     votingDesc: 'Opis: '
   },
+  voting:{
+    confirm: 'Głosuję',
+  },
   footer:{
     rules: 'Regulamin',
     rulesDocumnet: ''
