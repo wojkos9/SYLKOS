@@ -6,11 +6,11 @@ from django.utils import timezone
 
 class Group(models.Model):
     name = models.CharField(max_length=50)
-    subname = models.CharField(max_length=150, blank=True, default='')
     description = models.TextField(max_length=1500)
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="members", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    admin_users = models.ManyToManyField(BasicUser, blank=True)
 
     def __str__(self):
         return self.name
@@ -30,12 +30,15 @@ class VotingType(models.Model):
 
 
 class Voting(models.Model):
+    name = models.CharField(max_length=200, default='')
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     voting_type = models.ForeignKey(VotingType, on_delete=CASCADE)
     group = models.ForeignKey(Group, on_delete=CASCADE)
 
     def __str__(self):
+        if self.name:
+            return self.name
         projects_included = Project.objects.filter(voting=self)
         return f"Voting {self.pk} ({', '.join([str(x) for x in projects_included])})"
 
