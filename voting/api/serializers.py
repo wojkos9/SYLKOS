@@ -15,6 +15,7 @@ class GroupSerializer(serializers.ModelSerializer):
     count_user = serializers.SerializerMethodField()
     members = serializers.StringRelatedField(many=True)
     images = serializers.SerializerMethodField(read_only=True)
+    admin_users = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Group
