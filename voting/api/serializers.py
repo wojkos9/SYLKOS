@@ -20,6 +20,13 @@ class GroupSerializer(serializers.ModelSerializer):
         model = Group
         fields = "__all__"
 
+    def create(self, validated_data):
+        if not validated_data.get('admin_users'):
+            request = self.context.get('request')
+            return super().create({**validated_data, "admin_users": [request.user]})
+        else:
+            return super().create(validated_data)
+
     def get_count_user(self, instance):
         return instance.members.count()
 

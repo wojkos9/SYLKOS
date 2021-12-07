@@ -1,3 +1,4 @@
+from voting.models import Group
 from rest_framework import permissions
 
 
@@ -15,3 +16,13 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
             return True
 
         return obj.author == request.user
+
+class IsGroupAdmin(permissions.BasePermission):
+    def has_permission(self, request, view):
+        group: Group = Group.objects.filter(pk=view.kwargs.get('pk')).first()
+        if not group:
+            return False
+        return group.admin_users.all().filter(pk=request.user.pk).exists()
+
+    def has_object_permission(self, request, view, group: Group):
+        return group.admin_users.filter(pk=request.user.pk).exists()

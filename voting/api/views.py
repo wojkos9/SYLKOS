@@ -2,7 +2,7 @@ from django.db.models.query import QuerySet
 from matplotlib.figure import Figure
 from rest_framework import generics
 from voting.models import Group, Project, Comment, VotingType, Voting, Photo, GroupKey, Vote
-from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
+from voting.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly, IsGroupAdmin
 from voting.api.serializers import CommentSerializer, GroupDetailsSerializer, GroupKeySerializer, GroupSerializer, ProjectSerializer, ProjectSerializer, VotingTypeSerializer, VotingSerializer, PhotoSerializer
 from rest_framework import generics, status, viewsets, request
 from rest_framework.views import APIView
@@ -106,6 +106,7 @@ class JoinGroupAPIView(APIView):
 KEY_CHARSET = "0123456789"
 KEY_LEN = 8
 @api_view(["GET"])
+@permission_classes([IsGroupAdmin])
 def group_gen_keys(request: request.Request, pk: int):
     LIMIT = 999
     count = request.query_params.get("count") or 1
