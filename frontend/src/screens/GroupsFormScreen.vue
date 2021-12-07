@@ -25,12 +25,12 @@
             :label="name.label"
             required
           ></v-text-field>
-          <v-text-field class="p-2 m-3"
+          <!-- <v-text-field class="p-2 m-3"
             v-model="subname.value"
             :rules="subname.rule"
             :label="subname.label"
             required
-          ></v-text-field>
+          ></v-text-field> -->
           <v-text-field class="p-2 m-3"
             v-model="desc.value"
             :rules="desc.rule"
@@ -156,7 +156,7 @@ export default {
 
     await apiService("/api/groups/", "POST", {
           name: this.name.value,
-          subname: this.subname.value,
+          subname: "",
           description: this.desc.value,
           members: [],
         }).then(async data => {
@@ -229,6 +229,10 @@ export default {
   margin-top: 20px;
 }
 
+.v-input__control{
+  width: 100%;
+  max-width: none;;
+}
 @media only screen and (max-width: 758px){
   .background{
 

@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+
     <div class="row area">
       <div class="aboutGroup">
         
@@ -72,18 +73,18 @@
                   <div v-for="voting in votings" :key="voting.id">
                     <details>
                       <summary>
-                        {{ voting.title }}
+                        {{ voting.voting_type }} {{voting.start_date}}
                       </summary>
                       <div class="findLast" >
                         <div 
                           v-for="(project, index) in voting.projects"
                           :key="`project-${index}`"
                         >
-                          <p>{{ project }}</p>
+                          <p>{{ project.name }}</p>
                         </div>
 
                         <div class="single"> 
-                         <router-link :to="{ name: 'voting', params: { id: group.id, vId: 1 } }">
+                         <router-link :to="{ name: 'voting', params: { id: group.id, vId: voting.id } }">
                         <v-btn color="primary" @click="goToVoting">
                           {{ getString("votingsList", "goToVoting") }}
                         </v-btn>
@@ -253,36 +254,36 @@ export default {
       ],
       codeRule: [(v) => !!v],
       votings: [
-        {
-          id: 0,
-          title: "Inwestycje na rok 2022",
-          expirationDate: "21.12.2021",
-          projects: [
-            "remont placu zabaw",
-            "parking w miejsce łąki",
-            "siłownia na powietrzu",
-          ],
-        },
-        {
-          id: 1,
-          title: "Remonty 2021",
-          expirationDate: "21.11.2021",
-          projects: [
-            "remont placu zabaw",
-            "remont śmietnika",
-            "remont klatki schodowej",
-          ],
-        },
-        {
-          id: 2,
-          title: "Boisko 2021",
-          expirationDate: "21.10.2021",
-          projects: [
-            "boisko do siatkówki",
-            "boisko do piłki nożnej",
-            "boisko do koszykówki",
-          ],
-        },
+        // {
+        //   id: 0,
+        //   title: "Inwestycje na rok 2022",
+        //   expirationDate: "21.12.2021",
+        //   projects: [
+        //     "remont placu zabaw",
+        //     "parking w miejsce łąki",
+        //     "siłownia na powietrzu",
+        //   ],
+        // },
+        // {
+        //   id: 1,
+        //   title: "Remonty 2021",
+        //   expirationDate: "21.11.2021",
+        //   projects: [
+        //     "remont placu zabaw",
+        //     "remont śmietnika",
+        //     "remont klatki schodowej",
+        //   ],
+        // },
+        // {
+        //   id: 2,
+        //   title: "Boisko 2021",
+        //   expirationDate: "21.10.2021",
+        //   projects: [
+        //     "boisko do siatkówki",
+        //     "boisko do piłki nożnej",
+        //     "boisko do koszykówki",
+        //   ],
+        // },
       ],
     };
   },
@@ -363,6 +364,11 @@ export default {
     if (this.group.image)
       await apiService(`/api/photo/${this.group.image}/`).then((data) => {
         this.image = data.image;
+      });
+      console.log(this.group.id)
+     await apiService(`/api/groups/${this.group.id}/?details=1`).then((data) => {
+        this.votings = data.votings;
+        console.log(data)
         this.loading = false;
       });
     this.isUserMember(this.group);
@@ -395,7 +401,7 @@ export default {
 <style scoped lang="postcss">
 
 .aboutGroup{
-  max-width: 60%;
+  width: 60%;
   margin-left: 50px;
   display: flex;
   flex-direction: column;
@@ -448,6 +454,7 @@ export default {
 .center img {
   height: calc(30vh - 30px);
   width: auto;
+  max-height: 150px;
   object-fit: contain;
   /* width: 100%; */
 }

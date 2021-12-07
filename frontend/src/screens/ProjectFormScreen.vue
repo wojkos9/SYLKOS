@@ -283,6 +283,10 @@ export default {
 </script>
 
 <style scoped>
+.v-input__control{
+  padding-right: 20px;
+}
+
 .groupForm {
   border: solid;
   background-color: white;

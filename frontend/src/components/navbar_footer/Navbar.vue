@@ -9,15 +9,16 @@
       >
 
        <div class="logo-div">
+         
                  <router-link :to="{ name: mainPageRoute }" >
-                   <div v-if="$vuetify.theme.light">
+                   <!-- <div v-if="$vuetify.theme.light"> -->
                 <img src="@/assets/logo.png" class="logo" />
 
-                   </div>
-                   <div v-else>
-                <img src="@/assets/logo_white.png" class="logo" />
+                   <!-- </div> -->
+                   <!-- <div v-else> -->
+                <!-- <img src="@/assets/logo_white.png" class="logo" /> -->
 
-                   </div>
+                   <!-- </div> -->
               </router-link>
               </div>
 

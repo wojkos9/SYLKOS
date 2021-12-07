@@ -1,10 +1,10 @@
 <template>
-  <div class="area">
-    <div class="title">
+  <div class="areaAdmin">
+    <div class="titleAdmin">
       {{ title }}
     </div>
 
-    <div class="options" style="background-color: primary">
+    <div class="options" >
       <div>
         <Option
           :title="group.title"
@@ -12,6 +12,7 @@
           :newAction="group.newAction"
           v-on:change="resetAnother(group.id)"
           :key="group.key"
+          class="oneOption"
         />
         <Option
           :title="project.title"
@@ -19,6 +20,7 @@
           :newAction="project.newAction"
           v-on:change="resetAnother(project.id)"
           :key="project.key"
+          class="oneOption"
         />
       </div>
       <div>
@@ -28,6 +30,7 @@
           :newAction="voting.newAction"
           v-on:change="resetAnother(voting.id)"
           :key="voting.key"
+          class="oneOption"
         />
         <Option
           :title="votingType.title"
@@ -35,6 +38,7 @@
           :newAction="votingType.newAction"
           v-on:change="resetAnother(votingType.id)"
           :key="votingType.key"
+          class="oneOption"
         />
       </div>
     </div>
@@ -43,7 +47,6 @@
 
 <script>
 import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import Option from "../components/admin/Option.vue";
 
 export default {
@@ -52,7 +55,7 @@ export default {
   data() {
     return {
       rating: 4.5,
-      title: "admin",
+      title: "Panel administratora",
       hidden: true,
       group: {
         id: 0,
@@ -90,7 +93,6 @@ export default {
   },
   methods: {
     getString,
-    getColor,
     resetAnother(id){
       if(id != 0) this.group.key = this.group.key == 0 ? 1 : 0
       if(id != 1) this.project.key = this.project.key == 2 ? 3 : 2
@@ -109,19 +111,22 @@ export default {
 </script>
 
 <style scoped>
-.area {
-  background-color: white;
+.areaAdmin {
   margin: 30px;
+  background-color: none;
   border-radius: 20px;
   padding-bottom: 50px;
+  margin-bottom: 100px;
 }
-.title {
+.titleAdmin {
   display: flex;
-  font-size: 4rem;
+  font-size: 2rem;
+  font-family: "Petrona";
   justify-content: center;
-  margin: 50px;
-  padding-bottom: 30px;
-  padding-top: 50px;
+  /* margin: 20px auto 10px auto; */
+  /* padding-bottom: 30px; */
+  padding: 10px;
+  /* padding-top: 50px; */
 }
 .oneOption {
   display: flex;
@@ -129,9 +134,9 @@ export default {
   align-items: center;
   width: 500px;
   border-radius: 200px;
-  height: 200px;
+  /* height: 200px; */
   border: outset;
-  margin: 40px;
+  margin: 20px;
   font-size: 1.5rem;
   color: black;
 }

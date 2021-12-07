@@ -84,7 +84,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .commentContainer {
   border-radius: 25px;
   margin: 20px;

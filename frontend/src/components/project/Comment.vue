@@ -208,6 +208,8 @@ export default {
 <style scoped>
 .commentContainer {
   background-color: var(--v-primary-lighten3);
+  max-width: 450px;
+  padding: .5em 1.5em;
 }
 .comment-row-1 {
   display: flex;
@@ -225,7 +227,7 @@ textarea {
 }
 
 .comment-data{
-  font-size: 1rem;
+  font-size: 14px;
 }
 .comment-author {
   font-weight: 700;
@@ -245,10 +247,10 @@ textarea {
     var(--v-primary-lighten4),
     var(--v-secondary-lighten2)
   );
-  margin-top: 1em;
+  margin: 1em;
   padding: 20px;
   border-radius: 40px;
-  font-size: 1.3em;
+  font-size: 1em;
 }
 
 .comment-stars {

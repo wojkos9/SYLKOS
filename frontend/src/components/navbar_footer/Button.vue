@@ -46,9 +46,9 @@ export default {
     box-shadow: -5px 42px 30px -11px rgba(253, 251, 251, .6);
   }
 
-  .v-input__control{
+  /* .v-input__control{
     max-width: 110px;
-  }
+  } */
   .v-select__slot:hover{
     cursor: pointer;
    -webkit-box-shadow: -5px 42px 30px -11px rgba(253, 251, 251, 1);

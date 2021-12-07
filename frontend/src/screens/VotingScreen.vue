@@ -1,9 +1,22 @@
 <template>
   <div>
+    <div v-if="!response" >
+      <div class="votingTitle" style="text-transform:touppercase">
+            404 - NOT FOUND
+    </div>
+    </div>
+    <div v-else>
     <div class="votingTitle">
+      <div v-if="response">
       {{ getString("votingHeader", "voting") }} ({{ voting.start_date }})
+
+      </div>
+      <div v-else style="text-transform:touppercase">
+        404 - NOT FOUND
+      </div>
     </div>
 
+    {{response}}
     <div v-if="alreadyVoted" class="alreadyVotedSection">
 
       <div v-if="voting.voting_type == 'majority'">
@@ -119,14 +132,14 @@
           />
         </div>
       </div>
-      <div v-else>jeszcze nie obsłużony typ głosowania {{ voting.voting_type }}</div>
+      <div v-else-if="response">jeszcze nie obsłużony typ głosowania {{ voting.voting_type }}</div>
 
       <!--jeden wybor-->
 
       <!-- <div class="submitButton" @click="submitVote">
     
     </div> -->
-      <div class="buttonSubmit">
+      <div class="buttonSubmit" v-if="response">
         <v-btn
           color="accent"
           class="p-3"
@@ -164,6 +177,7 @@
     </v-dialog>
 
   </div>
+  </div>
 </template>
 
 <script>
@@ -198,7 +212,8 @@ export default {
       notMyApprovalChoice: [],
       dialogSubmitVote: false, 
       approval: [],
-      changeKey: true
+      changeKey: true,
+      response: {},
     };
   },
   methods: {
@@ -322,8 +337,14 @@ export default {
   async beforeRouteEnter(to, from, next) {
     let endpoint = `/api/voting/${to.params.vId}/`;
     let data = await apiService(endpoint);
+   
     console.log(data);
     return next((vm) => {
+      vm.response = data
+
+      if(data){
+
+      
       vm.voting = data;
 
       vm.alreadyVoted = data.users_votes.length > 0 ? true : false;
@@ -375,7 +396,7 @@ export default {
         }
       }
         vm.approval = new Array(data.projects.length).fill(false);
-
+  }
     });
   },
 };
