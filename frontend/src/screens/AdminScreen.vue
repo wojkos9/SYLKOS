@@ -123,22 +123,18 @@ export default {
   font-size: 2rem;
   font-family: "Petrona";
   justify-content: center;
-  /* margin: 20px auto 10px auto; */
-  /* padding-bottom: 30px; */
   padding: 10px;
-  /* padding-top: 50px; */
+  text-align: center;
 }
 .oneOption {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 500px;
+  /* max-width: 500px; */
   border-radius: 200px;
-  /* height: 200px; */
   border: outset;
   margin: 20px;
   font-size: 1.5rem;
-  color: black;
 }
 .options {
   display: flex;

@@ -5,7 +5,10 @@ function handleResponse(response) {
     if (response.status === 204) {
         return ''
     } else if (response.status === 404) {
-        return null
+        return "not found"
+    }
+    else if (response.status === 403) {
+        return "403"
     } else if (response.status === 400){
         console.log(response.json())
         return "wrong data"

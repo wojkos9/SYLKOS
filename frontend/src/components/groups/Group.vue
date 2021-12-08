@@ -35,15 +35,27 @@
                 <v-card-title class="text-h5 grey lighten-2">
                   <span>{{ group.name }}</span>
 
-                  <span
+                  <div class="d-flex align-items-center p-2">
+                    <div v-show="isAdmin">
+                       <span
+                    :title="getString('groups', 'generate')"
+                    @click="generateAccessCode"
+                    class="icon p-2"
+                    ><md-icon>add</md-icon> </span
+                  >
+                    
+                    </div>
+                       <span
                     v-if="isMember"
                     :title="getString('groups', 'leaveGroup')"
                     @click="leaveGroup"
-                    class="icon"
+                    class="icon p-2"
                     ><md-icon>person_remove</md-icon> </span
-                  ><span v-else @click="joinGroup" class="icon"
+                  ><span v-else @click="joinGroup" class="icon p-2"
                     ><md-icon>person_add</md-icon></span
                   >
+                  </div>
+                 
                 </v-card-title>
 
                 <v-card-text>
@@ -58,7 +70,6 @@
 
                 <div
                   class="animation"
-                  
                 >
                   <div>
                     <Carousel
@@ -130,50 +141,17 @@
           >
             <v-row class="d-flex justify-content-center" >
               <div
-                style="padding-left: 10px;  margin: 5px; padding-right:10px; border: solid; border-radius: 10px"
+                style="padding-left: 20px;  margin: 5px; padding-right:20px; border: solid; border-radius: 20px"
               >
                 <v-text-field
-                  style="width:25px; font-size: 36px"
-                  v-model="code1"
-                  :rules="codeRule"
+                  style="width:170px; font-size: 36px"
+                  v-model="myCode"
                   ref="code1"
                   autofocus
-                  maxlength="1"
+                  maxlength="8"
                 ></v-text-field>
               </div>
-              <div
-                style="padding-left: 10px; padding-right:10px;  margin: 5px; border: solid; border-radius: 10px"
-              >
-                <v-text-field
-                  style="width:25px; font-size: 36px"
-                  ref="code2"
-                  :rules="codeRule"
-                  v-model="code2"
-                  maxlength="1"
-                ></v-text-field>
-              </div>
-              <div
-                style="padding-left: 10px;  margin: 5px;  padding-right:10px; border: solid; border-radius: 10px"
-              >
-                <v-text-field
-                  style="width:25px; font-size: 36px"
-                  ref="code3"
-                  :rules="codeRule"
-                  maxlength="1"
-                  v-model="code3"
-                ></v-text-field>
-              </div>
-              <div
-                style="padding-left: 10px;  margin: 5px; padding-right:10px; border: solid; border-radius: 10px"
-              >
-                <v-text-field
-                  style="width:25px; font-size: 36px"
-                  ref="code4"
-                  :rules="codeRule"
-                  maxlength="1"
-                  v-model="code4"
-                ></v-text-field>
-              </div>
+        
             </v-row>
           </v-form>
         </v-card-text>
@@ -219,6 +197,58 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="dialogGenerateAccessCode" width="600">
+      <v-card>
+        <v-card-title
+          class="text-h4 grey lighten-2 p-4 d-flex justify-content-center"
+        >
+          GENERATOR KODÓW DOSTĘPU
+        </v-card-title>
+
+        <v-card-text class="text-h6  lighten-2 p-4 ">
+          <div >
+            ilość kodów do wygenerowania
+            <!-- {{ getString("groups", "joinGroup") }} -->
+            </div
+          >
+
+          <v-form
+            v-model="valid" 
+            ref="codeGenerator"
+            :key="codeKey"
+            style="margin-top: 30px"
+          >
+              <div
+                style="padding-left: 20px;  margin: 5px; padding-right:20px; border: solid; border-radius: 10px"
+              >
+                <v-text-field
+                  style="width:100px; font-size: 36px"
+                  v-model="count"
+                  type="number"
+                  min="1"
+                  max="999"
+                  ref="code1"
+                  autofocus
+                ></v-text-field>
+              </div>
+           
+          </v-form>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="clearDialog">
+            {{ getString("groups", "cancel") }}
+          </v-btn>
+          <v-btn color="primary" text @click="generateAccessCodes">
+            {{ getString("groups", "confirm") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -235,10 +265,11 @@ export default {
     return {
       valid: false,
       loading: true,
-      code1: "",
+      myCode: "",
       code2: "",
       code3: "",
       code4: "",
+      count: 1, 
       groupCarousel: true,
       image: "",
       codeKey: false,
@@ -246,45 +277,16 @@ export default {
       ifRoute: false,
       dialog2: false,
       dialogLeaveGroup: false,
+      dialogGenerateAccessCode: false,
       accessCode: "",
       isMember: false,
+      isAdmin: false, 
       accessCodeRules: [
         (v) => !!v || getString("groups", "accessCodeRequired"),
         (v) => v.length == 4 || getString("groups", "accessCodeLength"),
       ],
-      codeRule: [(v) => !!v],
-      votings: [
-        // {
-        //   id: 0,
-        //   title: "Inwestycje na rok 2022",
-        //   expirationDate: "21.12.2021",
-        //   projects: [
-        //     "remont placu zabaw",
-        //     "parking w miejsce łąki",
-        //     "siłownia na powietrzu",
-        //   ],
-        // },
-        // {
-        //   id: 1,
-        //   title: "Remonty 2021",
-        //   expirationDate: "21.11.2021",
-        //   projects: [
-        //     "remont placu zabaw",
-        //     "remont śmietnika",
-        //     "remont klatki schodowej",
-        //   ],
-        // },
-        // {
-        //   id: 2,
-        //   title: "Boisko 2021",
-        //   expirationDate: "21.10.2021",
-        //   projects: [
-        //     "boisko do siatkówki",
-        //     "boisko do piłki nożnej",
-        //     "boisko do koszykówki",
-        //   ],
-        // },
-      ],
+      // codeGenerateRule[]
+      votings: [],
     };
   },
 
@@ -296,6 +298,9 @@ export default {
     },
     joinGroup() {
       this.dialog = true;
+    },
+    generateAccessCode(){
+      this.dialogGenerateAccessCode = true;
     },
     leaveGroup() {
       this.dialogLeaveGroup = true;
@@ -309,9 +314,11 @@ export default {
       this.code2 = "";
       this.code3 = "";
       this.code4 = "";
+      this.count = 1;
       this.valid = true;
       this.$refs.code.reset();
       this.codeKey = !this.codeKey;
+      this.dialogGenerateAccessCode = false;
     },
     async leaveGroupWithConfirmation() {
       await apiService(`/api/groups/${this.group.id}/member/`, "DELETE").then(
@@ -321,12 +328,21 @@ export default {
         }
       );
     },
+     async generateAccessCodes() {
+      await apiService(`/api/groups/${this.group.id}/genkeys?count=${this.count}`, "GET").then(
+        (data) => {
+        console.log(data)
+        }
+      );
+    },
     async joinGroupWithAccessCode() {
       this.validate();
       if (this.valid) {
-        await apiService(`/api/groups/${this.group.id}/member/`, "POST").then(
+        await apiService(`/api/groups/${this.group.id}/member/`, "POST", {key:this.myCode}).then(
           (data) => {
+
             this.dialog = false;
+            this.myCode = "";
             this.isUserMember(data);
             console.log(data);
             this.code1 = "";
@@ -341,20 +357,7 @@ export default {
     },
     isUserMember(data) {
       this.isMember = data.members.includes(this.requestUser);
-    },
-  },
-
-  computed: {
-    button() {
-      return {
-        backgroundColor: getColor("navbar"),
-        width: "160px",
-        marginTop: "5px",
-        borderRadius: "5px",
-        textAlign: "center",
-        padding: "3px",
-        fontWeight: "500",
-      };
+      this.isAdmin = data.admin_users.includes(1);
     },
   },
   components: {
@@ -412,11 +415,16 @@ export default {
   cursor: pointer;
 }
 
+::v-deep input::-webkit-outer-spin-button,
+::v-deep input::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+
 .area {
   background-color: var(--v-background-lighten2);
 
   $stl: 20px;
-  /* background-color: white; */
   border: solid 1px black;
   margin-bottom: 30px;
   margin-top: 10px;

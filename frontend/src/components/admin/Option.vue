@@ -13,7 +13,7 @@
           <v-fab-transition>
             <v-btn
               v-show="!hidden"
-              color="secondary"
+              color="accent"
               dark
               absolute
               top
@@ -32,7 +32,7 @@
           <v-fab-transition>
             <v-btn
               v-show="!hidden"
-              color="secondary"
+              color="accent"
               dark
               absolute
               top
@@ -75,6 +75,7 @@ export default {
   font-size: 2rem;
   justify-content: center;
   margin: 50px;
+  text-align: center;
   font-family: "Petrona";
 
 }
@@ -90,11 +91,11 @@ export default {
   border: outset;
   /* margin: 40px; */
   font-size: 1.5rem;
-  color: black;
+  /* color: black; */
 }
 .oneOption:hover {
   cursor: pointer;
-  background-color: #f2f6fa;
+  background-color:  var(--v-background-lighten3);
 }
 .addAction {
   position: absolute;
@@ -108,5 +109,23 @@ export default {
   top: 100px;
   left: 400px;
   width: 50px;
+}
+
+@media only screen and (max-width:600px) {
+  .oneOption {
+    overflow: hidden;;
+    width: 250px;
+    height: auto;
+    border-radius: 20px;
+    text-align: left;
+
+  }
+  .title{
+    margin: 0
+  }
+.addAction, .editAction {
+  display: none;
+}
+
 }
 </style>
