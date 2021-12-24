@@ -1,3 +1,4 @@
+from users.models import BasicUser
 from django.db.models.expressions import Value
 from django.db.models.query import QuerySet
 from rest_framework import serializers
@@ -10,12 +11,22 @@ from rest_framework.generics import get_object_or_404
 from django.db.models import CharField, Value, Count, Avg, Sum
 from voting.models import Group, GroupKey, Project, Comment, Voting, VotingType, Photo, Vote
 
+class StringLookupField(serializers.StringRelatedField):
+    def __init__(self, model: models.Model, field: str, **kwargs):
+        super().__init__(**kwargs)
+        self.model = model
+        self.field = field
+
+    def to_internal_value(self, data):
+        obj = self.model.objects.filter(**{self.field: data}).first()
+        return obj.id
+
 class GroupSerializer(serializers.ModelSerializer):
 
     count_user = serializers.SerializerMethodField()
-    members = serializers.StringRelatedField(many=True)
+    members = StringLookupField(BasicUser, "username", many=True)
     images = serializers.SerializerMethodField(read_only=True)
-    admin_users = serializers.StringRelatedField(many=True)
+    admin_users = StringLookupField(BasicUser, "username", many=True)
 
     class Meta:
         model = Group
