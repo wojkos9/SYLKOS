@@ -224,6 +224,10 @@ export default {
   position: relative;
 }
 
+.gradient .v-card__title{
+  height: 120px !important; 
+}
+
 .logo-div{
   position: absolute;
   top: 0;

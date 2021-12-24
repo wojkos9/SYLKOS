@@ -55,7 +55,9 @@ export const pl = {
     cancel: 'Anuluj',
     confirm: 'dołącz',
     leave: 'opuść',
-    generate: 'wygeneruj kody dostępu do grupy'
+    generate: 'wygeneruj kody dostępu do grupy',
+    generateConfirm: 'generuj',
+    generateCancel: 'anuluj',
   },
   projects:{
     title: 'Projekty',

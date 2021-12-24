@@ -58,7 +58,7 @@ export default {
     },
     chooseThisProject() {
       if (this.ifUserCanVote) {
-        this.$emit("change");
+      this.$emit("change", this.project.id);
       }
     },
   },

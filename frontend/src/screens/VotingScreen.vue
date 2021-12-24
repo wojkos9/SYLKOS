@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    {{response}}
+    <!--{{response}}-->
     <div v-if="alreadyVoted" class="alreadyVotedSection">
 
       <div v-if="voting.voting_type == 'majority'">

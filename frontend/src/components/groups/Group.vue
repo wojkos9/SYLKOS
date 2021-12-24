@@ -1,27 +1,23 @@
 <template>
   <div class="container">
-
     <div class="row area">
       <div class="aboutGroup">
-        
-          <div>
-            <div class="groupTitle">{{ group.name }}</div>
-          </div>
+        <div>
+          <div class="groupTitle">{{ group.name }}</div>
+        </div>
 
-          <div class="desc">
-            {{ group.description }}
-          </div>
-          <div class="membersNumber desc">
-            {{ getString("groups", "membersNumber") }} {{ group.count_user }}
-          </div>
-      
+        <div class="desc">
+          {{ group.description }}
+        </div>
+        <div class="membersNumber desc">
+          {{ getString("groups", "membersNumber") }} {{ group.count_user }}
+        </div>
       </div>
       <div class="col center">
         <div class="center">
           <div v-if="group.images.length > 0">
             <img :src="`/media/${group.images[0].image}`" class="image" />
           </div>
-      
 
           <div class="text-center">
             <v-dialog v-model="dialog2" width="unset">
@@ -32,30 +28,20 @@
               </template>
 
               <v-card>
-                <v-card-title class="text-h5 grey lighten-2">
+                <v-card-title class="text-h5 ">
                   <span>{{ group.name }}</span>
 
-                  <div class="d-flex align-items-center p-2">
-                    <div v-show="isAdmin">
-                       <span
-                    :title="getString('groups', 'generate')"
-                    @click="generateAccessCode"
-                    class="icon p-2"
-                    ><md-icon>add</md-icon> </span
-                  >
-                    
-                    </div>
-                       <span
-                    v-if="isMember"
-                    :title="getString('groups', 'leaveGroup')"
-                    @click="leaveGroup"
-                    class="icon p-2"
-                    ><md-icon>person_remove</md-icon> </span
-                  ><span v-else @click="joinGroup" class="icon p-2"
-                    ><md-icon>person_add</md-icon></span
-                  >
-                  </div>
-                 
+                
+                    <span
+                      v-if="isMember"
+                      :title="getString('groups', 'leaveGroup')"
+                      @click="leaveGroup"
+                      class="icon p-2"
+                      ><md-icon>person_remove</md-icon> </span
+                    ><span v-else @click="joinGroup" class="icon p-2"
+                      ><md-icon>person_add</md-icon></span
+                    >
+        
                 </v-card-title>
 
                 <v-card-text>
@@ -68,9 +54,58 @@
 
                 <v-divider></v-divider>
 
-                <div
-                  class="animation"
-                >
+                <div v-show="isAdmin" class="icons-section">
+                  <div class="icons-3">
+                    <div class="single-icon">
+                      <router-link :to="({ name: 'group', params: { id: group.id, group2: group}})" class="icon-image">
+                        <v-btn class="mx-2" fab dark color="teal">
+                          <v-icon dark>
+                            mdi-format-list-bulleted-square
+                          </v-icon>
+                        </v-btn>
+                      </router-link>
+                      <div class="icon-desc">
+                        lista kodów
+                      </div>
+                    </div>
+
+                    <div class="single-icon">
+                      <div
+                        class="icon-image"
+                        :title="getString('groups', 'generate')"
+                        @click="generateAccessCode"
+                      >
+                        <v-btn class="mx-2" fab dark color="indigo">
+                          <v-icon dark>
+                            mdi-plus
+                          </v-icon>
+                        </v-btn>
+                      </div>
+                      <div class="icon-desc">
+                        generuj kody dostępu
+                      </div>
+                    </div>
+
+                    <div class="single-icon">
+                      <div
+                        class="icon-image"
+                        :title="getString('groups', 'generate')"
+                        @click="generateAccessCode"
+                      >
+                        <v-btn class="mx-2" fab dark color="red">
+                          <v-icon dark>
+                            mdi-minus
+                          </v-icon>
+                        </v-btn>
+                      </div>
+                      <div class="icon-desc">
+                        usuń użytkownika
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="animation">
                   <div>
                     <Carousel
                       :slides="group.images"
@@ -84,26 +119,29 @@
                   <div v-for="voting in votings" :key="voting.id">
                     <details>
                       <summary>
-                        {{ voting.voting_type }} {{voting.start_date}}
+                        {{ voting.voting_type }} {{ voting.start_date }}
                       </summary>
-                      <div class="findLast" >
-                        <div 
+                      <div class="findLast">
+                        <div
                           v-for="(project, index) in voting.projects"
                           :key="`project-${index}`"
                         >
                           <p>{{ project.name }}</p>
                         </div>
 
-                        <div class="single"> 
-                         <router-link :to="{ name: 'voting', params: { id: group.id, vId: voting.id } }">
-                        <v-btn color="primary" @click="goToVoting">
-                          {{ getString("votingsList", "goToVoting") }}
-                        </v-btn>
-                      </router-link>  
+                        <div class="single">
+                          <router-link
+                            :to="{
+                              name: 'voting',
+                              params: { id: group.id, vId: voting.id },
+                            }"
+                          >
+                            <v-btn color="primary" @click="goToVoting">
+                              {{ getString("votingsList", "goToVoting") }}
+                            </v-btn>
+                          </router-link>
+                        </div>
                       </div>
-                      </div> 
-                      
-                     
                     </details>
                   </div>
                 </div>
@@ -123,23 +161,23 @@
     <v-dialog v-model="dialog" width="600">
       <v-card>
         <v-card-title
-          class="text-h4 grey lighten-2 p-4 d-flex justify-content-center"
+          class="text-h4 g p-4 d-flex justify-content-center"
         >
           {{ group.name }}
         </v-card-title>
 
         <v-card-text class="text-h6  lighten-2 p-4 ">
-          <div >
-            {{ getString("groups", "joinGroup") }}</div
-          >
+          <div>
+            {{ getString("groups", "joinGroup") }}
+          </div>
 
           <v-form
-            v-model="valid" 
+            v-model="valid"
             ref="code"
             :key="codeKey"
             style="margin-top: 30px"
           >
-            <v-row class="d-flex justify-content-center" >
+            <v-row class="d-flex justify-content-center">
               <div
                 style="padding-left: 20px;  margin: 5px; padding-right:20px; border: solid; border-radius: 20px"
               >
@@ -151,7 +189,6 @@
                   maxlength="8"
                 ></v-text-field>
               </div>
-        
             </v-row>
           </v-form>
         </v-card-text>
@@ -173,7 +210,7 @@
     <v-dialog v-model="dialogLeaveGroup" width="500">
       <v-card>
         <v-card-title
-          class="text-h4 grey lighten-2 p-4 d-flex justify-content-center"
+          class="text-h4 p-4 d-flex justify-content-center"
         >
           {{ group.name }}
         </v-card-title>
@@ -201,38 +238,35 @@
     <v-dialog v-model="dialogGenerateAccessCode" width="600">
       <v-card>
         <v-card-title
-          class="text-h4 grey lighten-2 p-4 d-flex justify-content-center"
+          class="text-h4 p-2 d-flex justify-content-center"
         >
           GENERATOR KODÓW DOSTĘPU
         </v-card-title>
 
         <v-card-text class="text-h6  lighten-2 p-4 ">
-          <div >
+          <div>
             ilość kodów do wygenerowania
-            <!-- {{ getString("groups", "joinGroup") }} -->
-            </div
-          >
+          </div>
 
           <v-form
-            v-model="valid" 
+            v-model="valid"
             ref="codeGenerator"
             :key="codeKey"
             style="margin-top: 30px"
           >
-              <div
-                style="padding-left: 20px;  margin: 5px; padding-right:20px; border: solid; border-radius: 10px"
-              >
-                <v-text-field
-                  style="width:100px; font-size: 36px"
-                  v-model="count"
-                  type="number"
-                  min="1"
-                  max="999"
-                  ref="code1"
-                  autofocus
-                ></v-text-field>
-              </div>
-           
+            <div
+              style="padding-left: 20px;  margin: 5px; padding-right:20px; border: solid; border-radius: 10px"
+            >
+              <v-text-field
+                style="width:100px; font-size: 36px"
+                v-model="count"
+                type="number"
+                min="1"
+                max="999"
+                ref="code1"
+                autofocus
+              ></v-text-field>
+            </div>
           </v-form>
         </v-card-text>
 
@@ -240,11 +274,11 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="clearDialog">
-            {{ getString("groups", "cancel") }}
+          <v-btn  text @click="clearDialog">
+            {{ getString("groups", "generateCancel") }}
           </v-btn>
-          <v-btn color="primary" text @click="generateAccessCodes">
-            {{ getString("groups", "confirm") }}
+          <v-btn  text @click="generateAccessCodes">
+            {{ getString("groups", "generateConfirm") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -266,10 +300,7 @@ export default {
       valid: false,
       loading: true,
       myCode: "",
-      code2: "",
-      code3: "",
-      code4: "",
-      count: 1, 
+      count: 1,
       groupCarousel: true,
       image: "",
       codeKey: false,
@@ -280,7 +311,7 @@ export default {
       dialogGenerateAccessCode: false,
       accessCode: "",
       isMember: false,
-      isAdmin: false, 
+      isAdmin: false,
       accessCodeRules: [
         (v) => !!v || getString("groups", "accessCodeRequired"),
         (v) => v.length == 4 || getString("groups", "accessCodeLength"),
@@ -299,7 +330,7 @@ export default {
     joinGroup() {
       this.dialog = true;
     },
-    generateAccessCode(){
+    generateAccessCode() {
       this.dialogGenerateAccessCode = true;
     },
     leaveGroup() {
@@ -311,9 +342,6 @@ export default {
     clearDialog() {
       this.dialog = false;
       this.code1 = "";
-      this.code2 = "";
-      this.code3 = "";
-      this.code4 = "";
       this.count = 1;
       this.valid = true;
       this.$refs.code.reset();
@@ -328,36 +356,38 @@ export default {
         }
       );
     },
-     async generateAccessCodes() {
-      await apiService(`/api/groups/${this.group.id}/genkeys?count=${this.count}`, "GET").then(
-        (data) => {
-        console.log(data)
-        }
-      );
+    async generateAccessCodes() {
+      await apiService(
+        `/api/groups/${this.group.id}/genkeys?count=${this.count}`,
+        "GET"
+      ).then((data) => {
+        console.log(data);
+      });
     },
     async joinGroupWithAccessCode() {
       this.validate();
       if (this.valid) {
-        await apiService(`/api/groups/${this.group.id}/member/`, "POST", {key:this.myCode}).then(
-          (data) => {
-
-            this.dialog = false;
-            this.myCode = "";
-            this.isUserMember(data);
-            console.log(data);
-            this.code1 = "";
-            this.code2 = "";
-            this.code3 = "";
-            this.code4 = "";
-            this.valid = true;
-            this.$refs.code.reset();
-          }
-        );
+        await apiService(`/api/groups/${this.group.id}/member/`, "POST", {
+          key: this.myCode,
+        }).then((data) => {
+          this.dialog = false;
+          this.myCode = "";
+          this.isUserMember(data);
+          console.log(data);
+          this.code1 = "";
+          this.code2 = "";
+          this.code3 = "";
+          this.code4 = "";
+          this.valid = true;
+          this.$refs.code.reset();
+        });
       }
     },
     isUserMember(data) {
       this.isMember = data.members.includes(this.requestUser);
-      this.isAdmin = data.admin_users.includes(1);
+      this.isAdmin = data.admin_users.includes(this.requestUser);
+      console.log(data.admin_users);
+      // print(data)
     },
   },
   components: {
@@ -368,12 +398,12 @@ export default {
       await apiService(`/api/photo/${this.group.image}/`).then((data) => {
         this.image = data.image;
       });
-      console.log(this.group.id)
-     await apiService(`/api/groups/${this.group.id}/?details=1`).then((data) => {
-        this.votings = data.votings;
-        console.log(data)
-        this.loading = false;
-      });
+    console.log(this.group.id);
+    await apiService(`/api/groups/${this.group.id}/?details=1`).then((data) => {
+      this.votings = data.votings;
+      console.log(data);
+      this.loading = false;
+    });
     this.isUserMember(this.group);
   },
   watch: {
@@ -402,8 +432,7 @@ export default {
 </script>
 
 <style scoped lang="postcss">
-
-.aboutGroup{
+.aboutGroup {
   width: 60%;
   margin-left: 50px;
   display: flex;
@@ -411,14 +440,14 @@ export default {
   justify-content: center;
 }
 
-.icon:hover{
+.icon:hover {
   cursor: pointer;
 }
 
 ::v-deep input::-webkit-outer-spin-button,
 ::v-deep input::-webkit-inner-spin-button {
--webkit-appearance: none;
-margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .area {
@@ -435,9 +464,8 @@ margin: 0;
   font-size: 1.2rem;
   max-width: 500px;
   margin: 20px auto 50px auto;
-  color: #000;
+  /* color: #000; */
 }
-
 
 .groupTitle {
   font-weight: 700;
@@ -457,7 +485,6 @@ margin: 0;
 .membersNumber {
   margin-top: 30px;
 }
-
 
 .center img {
   height: calc(30vh - 30px);
@@ -514,8 +541,6 @@ details {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
- 
 }
 /* 
 details {
@@ -584,10 +609,9 @@ details p::before {
 details .findLast {
   margin-bottom: 20px;
   margin-top: 20px;
- 
 }
-.single{
-   display: flex;
+.single {
+  display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
@@ -595,11 +619,11 @@ details .findLast {
 }
 
 .v-card__title {
-  display: flex ;
-  justify-content: space-between ;
+  display: flex;
+  justify-content: space-between;
 }
 
-.v-card__text{
+.v-card__text {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -628,30 +652,74 @@ details .findLast {
     width: 300px;
   }
 }
+
+.icons-section{
+  background-image: linear-gradient(
+    200deg,
+    var(--v-secondary-lighten2) 5%,
+    var(--v-secondary-base) 80%,
+    var(--v-secondary-darken1) 100%
+  );
+  padding: 40px 10px 40px 10px;
+
+}
+.icons-3 {
+  display: flex;
+  justify-content: space-around;
+  padding: 40px 10px 40px 10px;
+  margin: 0 auto;
+  margin: 5px;
+  align-items: flex-start;
+  /* filter: blur(1px) */
+  /* border:solid black 3px; */
+  filter: contrast(200%);
+  filter: drop-shadow(3px 3px 10px var(--v-accent-base)) invert(5%);
+  background-color: rgba(255,255,255,0.2);
+
+}
+
+.icons-3 .single-icon {
+  flex-basis: 25%;
+  display: flex;
+
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.single-icon .icon-image {
+  max-width: 100px;
+  min-width: 60px;
+  margin: 0 auto;
+}
+
+.single-icon .icon-desc {
+  padding: 10px 5px 0px 5px;
+  text-align: center;
+  margin: 0 auto;
+}
+
 @media only screen and (max-width: 1000px) {
-  .aboutGroup{
-    margin:  0 auto;
+  .aboutGroup {
+    margin: 0 auto;
     padding: 10px;
   }
-  .groupTitle{
-    margin: 20px auto
+  .groupTitle {
+    margin: 20px auto;
   }
 }
 
 @media only screen and (max-width: 800px) {
-
-  .area{
+  .area {
     margin: 0 auto 50px auto;
   }
 
-  .image{
+  .image {
     margin: 0 auto;
   }
-  .aboutGroup{
+  .aboutGroup {
     max-width: 700px;
     padding: 30px;
   }
-
 }
-
 </style>
