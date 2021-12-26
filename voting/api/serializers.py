@@ -195,7 +195,7 @@ class VotingSerializer(serializers.ModelSerializer):
 from django.db.models import F
 class VoteSerializer(serializers.Serializer):
     MAJORITY_VAL = lambda d, _: [len([x for x in d if x==v]) for v in (1, 0)] == [1, len(d)-1]
-    APPROVAL_VAL = lambda d, _: all(x in (0,1) for x in d)
+    APPROVAL_VAL = lambda d, _: all(x in (0,1) for x in d) and any(x == 1 for x in d)
     BORDA_VAL = lambda d, t: all(i in d for i in range(t))
     VOTING_VALS = {"majority": MAJORITY_VAL, "approval": APPROVAL_VAL, "borda": BORDA_VAL}
     class InnerVotes(serializers.Serializer):
@@ -221,7 +221,11 @@ class VoteSerializer(serializers.Serializer):
         total = Project.objects.filter(voting=voting).count()
 
         vtype = voting.voting_type.name.lower()
-        voting_validator = self.VOTING_VALS[vtype if vtype in self.VOTING_VALS else "majority"]  # TODO: Maybe some warning instead of fallback to majority
+
+        voting_validator = self.VOTING_VALS.get(vtype)
+
+        if not voting_validator:
+            raise Exception(f"Unknown voting type {vtype}")
 
         if voting_validator(data, total):
             return attrs
