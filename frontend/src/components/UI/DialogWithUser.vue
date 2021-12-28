@@ -7,7 +7,7 @@
         <v-card-title>
           <span class="text-h4">{{ title }}<span v-show="title">!!</span></span>
         </v-card-title>
-        <v-card-text>
+        <v-card-text style="flex-direction: column">
           <span style="font-size: 20px">{{desc}}</span><br> <br>
            <div v-for="(obj, index) in object" :key="index">
              <b>{{obj.label}}</b> {{obj.value}}

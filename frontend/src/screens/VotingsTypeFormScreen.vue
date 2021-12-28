@@ -184,17 +184,12 @@ export default {
 <style scoped>
 .groupForm {
   border:solid;
-  background-color: white;
+  background-color: var(--v-background-lighten3);
   vertical-align: middle;
   margin: 20px;
   width: 90%;
 }
-.area {
-  border: solid;
-  margin: 30px;
-  border-radius: 20px;
-  padding-bottom: 50px;
-}
+
 .background{
   width: 100%;
   background-color: #C0CFE6;

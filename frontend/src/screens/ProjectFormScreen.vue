@@ -289,8 +289,7 @@ export default {
 
 .groupForm {
   border: solid;
-  background-color: white;
-  /* display: inline-block; */
+  background-color: var(--v-background-lighten3);
   vertical-align: middle;
   margin: 20px;
   width: 90%;

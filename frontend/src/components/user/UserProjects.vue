@@ -39,13 +39,7 @@ export default {
 </script>
 
 <style scoped>
-.nextTo {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-self: center;
-  height: 280px;
-}
+
 .title {
   font-size: 26px;
   font-weight: lighter;
@@ -57,11 +51,7 @@ export default {
   flex-direction: column;
   margin-top: 50px;
 }
-.button {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
+
 
 @media only screen and (max-width: 1200px) {
   .title {

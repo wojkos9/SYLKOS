@@ -119,7 +119,7 @@
                   <div v-for="voting in votings" :key="voting.id">
                     <details>
                       <summary>
-                        {{ voting.voting_type }} {{ voting.start_date }}
+                        {{ voting.name }} {{ voting.start_date }}
                       </summary>
                       <div class="findLast">
                         <div

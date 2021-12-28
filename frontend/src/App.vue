@@ -101,7 +101,7 @@
         </v-navigation-drawer>
         <div class="push"></div>
       </div>
-      <div class="footer"> <Footer /></div>
+      <!-- <div class="footer"> <Footer /></div> -->
      
     </div>
   </v-app>
@@ -110,14 +110,14 @@
 <script>
 import NavbarComp from "@/components/navbar_footer/Navbar.vue";
 import { apiService } from "@/common/api.service.js";
-import Footer from "./components/navbar_footer/Footer.vue";
+// import Footer from "./components/navbar_footer/Footer.vue";
 import { getString } from "@/language/string.js";
 
 export default {
   name: "App",
   components: {
     NavbarComp,
-    Footer,
+    // Footer,
   },
   data() {
     return {

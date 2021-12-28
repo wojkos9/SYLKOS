@@ -10,7 +10,13 @@
             {{ member }}
           </div>
           <div v-show="user != member" class="user-remove">
-            <v-btn fab color="teal" width="40px" height="40px" @click="removeUserFromGroup(member)">
+            <v-btn
+              fab
+              color="teal"
+              width="40px"
+              height="40px"
+              @click="removeUserFromGroup(member)"
+            >
               <v-icon dark>
                 mdi-minus
               </v-icon>
@@ -25,29 +31,35 @@
       <summary> lista głosowań </summary>
       <div class="add-voting">
         <div>dodaj glosowanie</div>
-       <router-link :to="{ name: newVotingLink }" class="customBtn"> 
-        <v-btn fab color="teal" width="40px" height="40px">
-          <v-icon dark>
-            mdi-plus
-          </v-icon>
-        </v-btn>
-     </router-link>
+        <router-link
+          :to="{ name: newVotingLink, params: { groupId: group.id } }"
+          class="customBtn"
+        >
+          <v-btn fab color="teal" width="40px" height="40px">
+            <v-icon dark>
+              mdi-plus
+            </v-icon>
+          </v-btn>
+        </router-link>
       </div>
-      
+
       <div class="exist-votings">istniejące głosowania:</div>
       <div
         v-for="(voting, index) in votings"
         :key="index"
         class="single-voting"
       >
-        {{ voting.name }}
+  
+        <span v-if="voting.name">{{ voting.name }}</span>
+        <span v-else>brak nazwy głosowania</span>
         <div
           v-for="(project, index2) in voting.projects"
           :key="index2"
           class="single-project"
         >
-          {{ project.name }}
-        </div>
+          {{ project.name }} ({{project.votes}})
+     
+      </div>
       </div>
       <div class="findLast"></div>
     </details>
@@ -118,7 +130,6 @@
       </v-card>
     </v-dialog>
 
-
     <v-dialog v-model="dialogShowNewCodes" width="600">
       <v-card>
         <v-card-title class="text-h4 p-2 d-flex justify-content-center">
@@ -129,9 +140,8 @@
           <div>
             wygenerowane kody:
           </div>
-      
         </v-card-text>
-          <div class="all-keys">
+        <div class="all-keys">
           <div v-for="(key, index) in newCodes" :key="index" class="single-key">
             {{ key }}
           </div>
@@ -140,36 +150,55 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="dialogShowNewCodes=false">
+          <v-btn text @click="dialogShowNewCodes = false">
             {{ getString("groups", "ok") }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-
     <v-dialog v-model="dialogRemoveUser" width="600">
       <v-card>
         <v-card-text class="text-h6  lighten-2 p-4 ">
           <div>
-          czy na pewno chcesz usunąć użytkownika {{userToRemove}} z grupy?
+            czy na pewno chcesz usunąć użytkownika {{ userToRemove }} z grupy?
           </div>
-      
         </v-card-text>
         <v-divider></v-divider>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="dialogRemoveUser=false">
-          nie
+          <v-btn text @click="dialogRemoveUser = false">
+            nie
           </v-btn>
-           <v-btn text @click="removeUserConfirmed()">
-          tak
+          <v-btn text @click="removeUserConfirmed()">
+            tak
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
+    <v-dialog v-model="dialogSuccess" width="600">
+      <v-card>
+        <v-card-text class="text-h6  lighten-2 p-4 ">
+          <div>udało się usunąć użytkownika {{ userToRemove }} z grupy</div>
+        </v-card-text>
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            @click="
+              dialogSuccess = false;
+              userToRemove = '';
+            "
+          >
+            ok
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <div id="print-section">
       <div v-for="(key, index) in keys" :key="index" class="print-key">
@@ -226,18 +255,20 @@ export default {
       valid: false,
       newVotingLink: "votingNew",
       user: window.localStorage.getItem("username"),
-      group:{},
+      group: {},
       keys: {},
       votings: {},
       count: 1,
-      userToRemove: '',
+      userToRemove: "",
       dialogGenerateAccessCode: false,
-      dialogRemoveUser: false, 
+      dialogRemoveUser: false,
+      dialogSuccess: false,
       showActiveKeys: false,
       codeKey: false,
       printMethod: false,
-      dialogShowNewCodes: false, 
+      dialogShowNewCodes: false,
       newCodes: [],
+      memberToRemove: "",
     };
   },
   methods: {
@@ -257,41 +288,33 @@ export default {
       print();
       this.printMethod = false;
     },
-    removeUserFromGroup(member){
-      console.log(member)
+    removeUserFromGroup(member) {
+      console.log(member);
       this.dialogRemoveUser = true;
       this.userToRemove = member;
     },
-    async removeUserConfirmed(){
+    async removeUserConfirmed() {
       this.dialogRemoveUser = false;
-      console.log(this.group)
+      console.log(this.group);
+      var newMembers = this.group.members.filter(
+        (member) => member != this.userToRemove
+      );
       let endpoint = `api/groups/${this.group.id}/`;
-           await apiService(endpoint, "PUT", {
-          // id: this.group.id,
-          // count_user: this.group.count_user,
-          members: this.group.members,
-          // images: this.group.images,
-          admin_users: this.group.admin_users,
-          name: this.group.name,
-          description: this.group.description,
-          // created_at: this.group.created_at,
-        }).then(async data => {
-            console.log("komunikat: ", data)
-            if(data != "wrong data"){
-              // this.dialog = true
-              console.log(data)
-              // this.group.name.value = data.name;
-              // this.group.subname.value = data.subname;
-              // this.group.desc.value = data.description;
-            }
-            
-        })
+      await apiService(endpoint, "PATCH", {
+        members: newMembers,
+      }).then(async (data) => {
+        console.log("komunikat: ", data);
+        if (data != "wrong data") {
+          console.log(data);
+          this.group.members = data.members;
+          this.dialogSuccess = true;
+        }
+      });
     },
-     generateAccessCode() {
+    generateAccessCode() {
       this.dialogGenerateAccessCode = true;
-      
     },
-       async refreshPage(){
+    async refreshPage() {
       let endpoint = `api/groups/${this.group.id}/keys`;
       let data = await apiService(endpoint);
       var keys = [];
@@ -321,7 +344,7 @@ export default {
         this.dialogShowNewCodes = true;
         console.log(data);
         this.newCodes = data;
-         this.refreshPage()
+        this.refreshPage();
       });
     },
   },
@@ -527,12 +550,12 @@ details[open] summary ~ * {
   animation: sweep 0.5s ease-in-out;
 }
 
-.customBtn{
-  transition: all .3s ease-in-out;
+.customBtn {
+  transition: all 0.3s ease-in-out;
   transform: scale(1);
 }
-.customBtn:hover{
-  transition: all .3s ease-in-out;
+.customBtn:hover {
+  transition: all 0.3s ease-in-out;
   transform: scale(1.1);
 }
 

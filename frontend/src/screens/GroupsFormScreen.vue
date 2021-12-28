@@ -205,17 +205,11 @@ export default {
   margin: 20px;
   width: 90%;
 }
-.area {
-  border: solid;
-  margin: 30px;
-  border-radius: 20px;
-  padding-bottom: 50px;
-}
+
 .background{
   width: 100%;
   background-color: #C0CFE6;
   margin-top: 150px;
-  /* position: relative; */
 
 }
 .groupName {
@@ -224,10 +218,6 @@ export default {
   padding-top: 1.5rem;
   text-align: center;
 }
-.formButtons {
-  margin-top: 20px;
-}
-
 .v-input__control{
   width: 100%;
   max-width: none;;

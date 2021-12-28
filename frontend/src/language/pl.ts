@@ -198,7 +198,10 @@ export const pl = {
     clearData: "Wyczyść formularz",
     goToVoting: 'Przejdź do głosowania',
     stay: 'Pozostań na stronie',
-    success: 'Głosowanie zostało poprawnie zarejestrowane'
+    desc: 'Głosowanie zostało poprawnie zarejestrowane',
+    success: "sukces",
+    votingNmaeError: 'Nazwa głosowania jest wymagana',
+    nameLabel: 'Nazwa głosowania'
 
   },
   votingTypeForm:{

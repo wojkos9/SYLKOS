@@ -12,7 +12,9 @@
         <div class="title">
           {{ project.name }}
         </div>
-
+        <div v-show="!ifUserCanVote" class="description">
+          uzyskane punkty: {{project.votes}}
+        </div>
         <div class="description">
           {{ getString("votingProject", "desc") }} {{ project.description }}
         </div>

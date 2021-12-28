@@ -62,7 +62,6 @@ export default {
         title: this.getString("admin", "groups"),
         newAction: "groupNew",
         editAction: "groupsEditList",
-        // deleteAction: "groupNew",
         key: 0,
       },
       project: {
@@ -70,7 +69,6 @@ export default {
         title: this.getString("admin", "projects"),
         newAction: "projectNew",
         editAction: "projectsEditList",
-        // deleteAction: "projectNew",
         key: 2,
       },
       voting: {
@@ -78,7 +76,6 @@ export default {
         title: this.getString("admin", "votings"),
         newAction: "votingNew",
         editAction: "votingsEditList",
-        // deleteAction: "votingNew",
         key: 4,
       },
       votingType: {

@@ -77,9 +77,11 @@ export const routes = [{
         component:ProjectFormScreen,
     },
     {
-        path:"/newvoting",
+        path:"/newvoting/:groupId",
         name:"votingNew",
         component:VotingsFormScreen,
+        props: true
+
     },
     {
         path:"/newvotingtype",

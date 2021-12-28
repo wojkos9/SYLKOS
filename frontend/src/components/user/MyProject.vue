@@ -36,7 +36,7 @@ export default {
 <style scoped>
 
 .area {
-  background-color: white;
+  background-color: var(--v-background-lighten3);
   border: 1px solid;
   margin-bottom: 20px;
 }
