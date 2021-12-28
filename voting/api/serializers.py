@@ -5,6 +5,7 @@ from rest_framework import serializers
 from django.http import request
 from django.db import models
 from django.db.models import fields, manager
+from django.utils import timezone
 from django.forms.models import model_to_dict
 from statistics import mean
 from rest_framework.generics import get_object_or_404
@@ -141,9 +142,11 @@ class VotingTypeSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+VOTING_STATUS = ("announced", "active", "finished")
 class VotingSerializer(serializers.ModelSerializer):
     projects = serializers.SerializerMethodField(read_only=True)
     users_votes = serializers.SerializerMethodField(read_only=True)
+    status = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Voting
@@ -190,6 +193,10 @@ class VotingSerializer(serializers.ModelSerializer):
             voting_projects[idx]['user_comment'] = user_comment
 
         return voting_projects
+
+    def get_status(self, instance: Voting):
+        now = timezone.now()
+        return VOTING_STATUS[(instance.start_date < now) + (instance.end_date < now)]
 
 
 from django.db.models import F
