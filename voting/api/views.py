@@ -9,25 +9,24 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404, ListCreateAPIView
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.parsers import JSONParser
 from voting.api import serializers
 from rest_framework.decorators import api_view, permission_classes
 from django.db import transaction
 import random
 from django.http.response import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseServerError, HttpResponseForbidden, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 
 class GroupListCreateAPIView(generics.ListCreateAPIView):
     queryset = Group.objects.all().order_by("id")
     serializer_class = GroupSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class GroupDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Group.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     def get_serializer_class(self):
         return GroupDetailsSerializer if self.request.query_params.get('details') == '1' else GroupSerializer
 
@@ -35,25 +34,25 @@ class GroupDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class PhotoListCreateAPIView(generics.ListCreateAPIView):
     queryset = Photo.objects.all().order_by("id")
     serializer_class = PhotoSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class PhotoDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class ProjectListCreateAPIView(generics.ListCreateAPIView):
     queryset = Project.objects.all().order_by("id")
     serializer_class = ProjectSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class ProjectDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class JoinGroupAPIView(APIView):
@@ -144,7 +143,7 @@ class CommentCreateAPIView(generics.CreateAPIView):
 
 class CommentListAPIView(generics.ListAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
     def get_queryset(self):
         pk = self.kwargs.get("pk")
@@ -154,7 +153,7 @@ class CommentListAPIView(generics.ListAPIView):
 class CommentRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
 
 
 class CommentLikeAPIView(APIView):
@@ -224,6 +223,7 @@ class VotingTypeView(viewsets.ModelViewSet):
 class VotingView(viewsets.ModelViewSet):
     queryset = Voting.objects.all()
     serializer_class = VotingSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter

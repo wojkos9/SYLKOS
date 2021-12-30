@@ -1,3 +1,4 @@
+from core.utils import not_authenticated_return
 from users.models import BasicUser
 from django.db.models.expressions import Value
 from django.db.models.query import QuerySet
@@ -97,10 +98,12 @@ class ProjectSerializer(serializers.ModelSerializer):
             project_images = [{"image" : "images/no_picture.png"}]
         return project_images
 
+    @not_authenticated_return(False)
     def get_user_has_commented(self, instance):
         request = self.context.get("request")
         return instance.comment.filter(author=request.user).exists()
 
+    @not_authenticated_return("")
     def get_user_comment(self, instance):
         request = self.context.get("request")
         comment = Comment.objects.filter(project=instance.pk, author=request.user).first()
@@ -121,10 +124,12 @@ class CommentSerializer(serializers.ModelSerializer):
     def get_created_at(self, instance):
         return instance.created_at.strftime("%d.%m.%Y %H:%M")
 
+    @not_authenticated_return(False)
     def get_user_has_liked(self, instance):
         request = self.context.get("request")
         return instance.voters_like.filter(pk=request.user.pk).exists()
 
+    @not_authenticated_return(False)
     def get_user_has_disliked(self, instance):
         request = self.context.get("request")
         return instance.voters_dislike.filter(pk=request.user.pk).exists()
@@ -157,6 +162,7 @@ class VotingSerializer(serializers.ModelSerializer):
             model = Vote
             fields = ("project", "points")
 
+    @not_authenticated_return([])
     def get_users_votes(self, instance):
         q = self.context.get('request')
         votes = Vote.objects.filter(voting=instance.pk, user=q.user)
@@ -175,9 +181,14 @@ class VotingSerializer(serializers.ModelSerializer):
             avg = 0.0
             comments = Comment.objects.filter(project=proj['id'])
             project_images = Photo.objects.filter(project=proj['id']).values()
-            user_has_commented = Comment.objects.filter(author=request.user, project=proj['id']).exists()
-            tmp_user_comment  = Comment.objects.filter(project=instance.pk, author=request.user).first()
-            user_comment = [CommentSerializer(tmp_user_comment, context=self.context).data]
+            if request.user.is_authenticated:
+                user_has_commented = Comment.objects.filter(author=request.user, project=proj['id']).exists()
+                tmp_user_comment  = Comment.objects.filter(project=instance.pk, author=request.user).first()
+                user_comment = [CommentSerializer(tmp_user_comment, context=self.context).data]
+            else:
+                user_has_commented = False
+                user_comment = ""
+
             if len(project_images) == 0:
                 project_images = [{"image" : "images/no_picture.png"}]
 
