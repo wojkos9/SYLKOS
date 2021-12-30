@@ -26,13 +26,12 @@ class StringLookupField(serializers.StringRelatedField):
 class GroupSerializer(serializers.ModelSerializer):
 
     count_user = serializers.SerializerMethodField()
-    members = StringLookupField(BasicUser, "username", many=True)
     images = serializers.SerializerMethodField(read_only=True)
     admin_users = StringLookupField(BasicUser, "username", many=True)
 
     class Meta:
         model = Group
-        fields = "__all__"
+        exclude = ("members",)
 
     def create(self, validated_data):
         if not validated_data.get('admin_users'):
@@ -51,6 +50,12 @@ class GroupSerializer(serializers.ModelSerializer):
         return group_images
 
 class GroupDetailsSerializer(GroupSerializer):
+
+    class Meta:
+        model = Group
+        fields = "__all__"
+
+    members = StringLookupField(BasicUser, "username", many=True)
     votings = serializers.SerializerMethodField()
 
     def get_votings(self, instance):
