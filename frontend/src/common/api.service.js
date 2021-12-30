@@ -10,7 +10,7 @@ function handleResponse(response) {
     else if (response.status === 403) {
         return "403"
     } else if (response.status === 400){
-        console.log(response.json())
+        // console.log(response.json())
         return "wrong data"
     }
     else{
@@ -19,9 +19,9 @@ function handleResponse(response) {
 }
 
 function apiService(endpoint, method, data) {
-    console.log("url: ", endpoint,
-        "\nmethod: ", method,
-        "\ndata:", data);
+    // console.log("url: ", endpoint,
+        // "\nmethod: ", method,
+        // "\ndata:", data);
     const config = {
         method: method || "GET",
         body: data != undefined ? JSON.stringify(data) : null,

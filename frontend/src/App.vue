@@ -70,11 +70,21 @@
               <router-link :to="{ name: routes.admin }">
                 <v-list-item>
                   <v-list-item-title>
-                    <v-icon>rules</v-icon>
+                    <v-icon>mdi-wrench</v-icon>
                     {{ getString("navbar", "admin") }}
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
+
+               <router-link :to="{ name: routes.admin }">
+                <v-list-item>
+                  <v-list-item-title>
+                    <v-icon>logout</v-icon>
+                    {{ getString("navbar", "logout") }}
+                  </v-list-item-title>
+                </v-list-item>
+              </router-link>
+
      </v-list-item-group>
 
              <div>
@@ -181,6 +191,9 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
+a{
+  text-decoration: none !important;
+}
 .v-application {
   font-family: 'Open Sans', sans-serif;
   font-weight: 500;
@@ -194,6 +207,69 @@ export default {
   flex-direction: column;
 }
 
+.paddingTop-s{
+  padding-top: 10px;
+}
+.paddingTop-m{
+  padding-top: 20px;
+}
+.paddingTop-l{
+  padding-top: 30px;
+}
+.paddingTop-xl{
+  padding-top: 40px;
+}
+
+.paddingBottom-s{
+  padding-bottom: 10px;
+}
+.paddingBottom-m{
+  padding-bottom: 20px;
+}
+.paddingBottom-l{
+  padding-bottom: 30px;
+}
+.paddingBottom-xl{
+  padding-bottom: 40px;
+}
+
+/* .clickable{
+  background-color: rgb(89, 89, 184);
+  color: #000;
+  transition: all .3s ease;
+  max-width: 150px;
+  border-radius: 8px;
+
+}
+.clickable:hover{
+  background-color: rgb(202, 202, 233);
+  transition: scale(1.1);
+  cursor: pointer
+} */
+
+.button{
+   background-color: var(--v-secondary-lighten1);
+  color: #000;
+  transition: all .3s ease;
+  max-width: 150px;
+  border-radius: 8px;
+  padding: 5px 8px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+v-dialog{
+  z-index: 10000 !important;
+}
+.button:hover{
+  background-color: var(--v-secondary-lighten2);
+  transform: scale(1.1);
+  cursor: pointer
+}
 
 body{
   height: 100vh;

@@ -49,7 +49,6 @@ export default ({
       getString
     }, 
     computed(){
-      console.log(this.object)
     } 
 })
 </script>

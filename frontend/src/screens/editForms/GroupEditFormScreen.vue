@@ -149,10 +149,8 @@ export default {
           description: this.group.desc.value,
           members: this.group.members.value,
         }).then(async data => {
-            console.log("komunikat: ", data)
             if(data != "wrong data"){
               this.dialog = true
-              console.log(data)
               this.group.name.value = data.name;
               this.group.subname.value = data.subname;
               this.group.desc.value = data.description;
@@ -197,7 +195,7 @@ export default {
 <style scoped>
 .groupForm {
   border:solid;
-  background-color: white;
+  background-color:  var(--v-background-lighten3);;
   /* display: inline-block; */
   vertical-align: middle;
   margin: 20px;

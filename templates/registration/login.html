@@ -1,13 +1,46 @@
 {% extends 'auth_layout.html' %} {% load crispy_forms_tags %} {% block auth %}
-<h1>QuestionTime</h1>
-<p class="lead text-muted">Share your knowledge</p>
-<div class="login-form-container">
-    <form method="POST">
-        {% csrf_token %} {{form | crispy}}
-        <br>
-        <button type="submit" class="btn btn-sm btn-outline-primary">Login</button>
-    </form>
-    <p class="mt-2">Or <a href="{% url 'django_registration_register' %}">Create an Account</a></p>
-</div>
+{% load static %}
 
+<div class="form-row-new">
+    <div class="row-column-form">
+        <h1>Sylkos</h1>
+        <p class="lead text-muted">Aktywny udział w życiu społeczności!</p>
+        <div class="login-form-container">
+            <form method="POST">
+                {% csrf_token %} {{form | crispy}}
+                <br>
+                <button type="submit" class="btn  btn-outline-secondary">Zaloguj&nbsp;się</button>
+            </form>
+            <p class="mt-2">lub <a href="{% url 'django_registration_register' %}">Utwórz konto</a></p>
+        </div>
+    </div>
+    <div class="row-column-about" id="textAbout">
+        <div id="background" class="background"></div>
+        <div class="text-about" >
+            <div class="all-text">
+                        <strong>Sylkos to platforma dostarczająca kompleksowych usług 
+                        w&nbsp;zakresie wspomagania procesu konsultacji społecznych. </strong>
+                        Umożliwia w&nbsp;sposób rzetelny i&nbsp;weryfikowalny 
+                        zbieranie jednoznacznych informacji zwrotnych 
+                        reprezentujących poglądy określonej grupy 
+                        reprezentującej daną jednostkę. 
+                        Dostarcza różne mechanizmy głosowań, 
+                        umożliwiając ich dopasowanie do charakteru 
+                        przeprowadzanych konsultacji i&nbsp;zbieranych 
+                        informacji.
+        <br><br>
+
+                   
+       
+       
+        </div>
+
+        <div class="go-to-button">
+            Odwiedź stronę jako gość
+        </div>
+
+    </div>
+    
+    </div>
+</div>
 {% endblock %}

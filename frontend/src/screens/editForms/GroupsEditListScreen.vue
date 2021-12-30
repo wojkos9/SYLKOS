@@ -152,7 +152,6 @@ export default {
         this.getOnePageGroups()
         this.dialog2 = true;
       })
-      // this.$router.push({name:"admin"})
     },
     backFunction(){
       this.dialog = false

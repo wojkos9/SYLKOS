@@ -40,8 +40,6 @@
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-// import Sort from "../../components/UI/Sort.vue";
-// import Search from "../../components/UI/Search.vue";
 import { apiService } from "@/common/api.service.js";
 import Group from "../components/groups/Group.vue";
 export default {
@@ -149,8 +147,8 @@ export default {
 }
 
 .allGroups {
-  margin-top: 87px;
-  margin-bottom: 50px;
+  margin: 87px auto 50px auto;
+  max-width: 1000px;
 }
 @media only screen and (max-width: 1100px) {
   .options {

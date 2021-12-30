@@ -1,65 +1,68 @@
 <template>
-<div class="container">
-  <div class="row" >
-    <div class="d-none d-sm-block col-md-2 col-lg-3" />
-    <div class="col-sm-12 col-md-8 col-lg-6  d-flex justify-content-center flex-column">
+  <div class="container">
+    <div class="row">
+      <div class="d-none d-sm-block col-md-2 col-lg-3" />
+      <div
+        class="col-sm-12 col-md-8 col-lg-6  d-flex justify-content-center flex-column"
+      >
+        <div
+          id="backgroundGroupForm"
+          class="background d-flex justify-content-center "
+        >
+          <v-form
+            v-model="valid"
+            ref="newGroupForm"
+            id="newGroupForm"
+            class="d-flex justify-content-center p-3 groupForm"
+            enctype="multipart/form-data"
+          >
+            <v-container>
+              <div class="groupName">
+                {{ getString("groupForm", "newGroup") }}
+              </div>
 
-    <div id="backgroundGroupForm" class="background d-flex justify-content-center ">
-
-  
-    <v-form
-      v-model="valid"
-      ref="newGroupForm"
-      id="newGroupForm"
-      class="d-flex justify-content-center p-3 groupForm"
-      enctype="multipart/form-data"
-    >
-    
-      <v-container>
-        <div class="groupName">{{ getString("groupForm", "newGroup") }}</div>
-       
-        <v-text-field class="p-2 m-3"
-        dense
-            v-model="name.value"
-            :rules="name.rule"
-            :label="name.label"
-            required
-          ></v-text-field>
-          <!-- <v-text-field class="p-2 m-3"
+              <v-text-field
+                class="p-2 m-3"
+                dense
+                v-model="name.value"
+                :rules="name.rule"
+                :label="name.label"
+                required
+              ></v-text-field>
+              <!-- <v-text-field class="p-2 m-3"
             v-model="subname.value"
             :rules="subname.rule"
             :label="subname.label"
             required
           ></v-text-field> -->
-          <v-text-field class="p-2 m-3"
-            v-model="desc.value"
-            :rules="desc.rule"
-            :label="desc.label"
-            required
-          ></v-text-field>
-      <v-file-input
-      class="p-2 m-3"
-        :label="photo.label"
-        v-model="selectedFiles"
-        append-icon="mdi-camera"
-        prepend-icon=""
-        multiple
-      ></v-file-input>
-        <div class="d-flex justify-content-end p-4 buttons">
-          <v-btn class="mr-4 p-2" @click="submit">
-            {{ getString("groupForm", "submit") }}
-          </v-btn>
-          <v-btn @click="clear">
-            {{ getString("groupForm", "clearData") }}
-          </v-btn>
-
+              <v-text-field
+                class="p-2 m-3"
+                v-model="desc.value"
+                :rules="desc.rule"
+                :label="desc.label"
+                required
+              ></v-text-field>
+              <v-file-input
+                class="p-2 m-3"
+                :label="photo.label"
+                v-model="selectedFiles"
+                append-icon="mdi-camera"
+                prepend-icon=""
+                multiple
+              ></v-file-input>
+              <div class="d-flex justify-content-end p-4 buttons">
+                <v-btn class="mr-4 p-2" @click="submit">
+                  {{ getString("groupForm", "submit") }}
+                </v-btn>
+                <v-btn @click="clear">
+                  {{ getString("groupForm", "clearData") }}
+                </v-btn>
+              </div>
+            </v-container>
+          </v-form>
         </div>
-      </v-container>
-      
-    </v-form>
-    </div>
-     <div class="d-none d-sm-block col-md-2 col-lg-3"/>
-  </div>
+        <div class="d-none d-sm-block col-md-2 col-lg-3" />
+      </div>
     </div>
 
     <DialogWithUser
@@ -70,31 +73,25 @@
       :dialog="dialog"
       :object="group"
     />
-      
-</div>
-
+  </div>
 </template>
 
 <script>
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-import { apiService, imageUpload} from "@/common/api.service.js";
-import DialogWithUser from '../components/UI/DialogWithUser.vue';
+import { apiService, imageUpload } from "@/common/api.service.js";
+import DialogWithUser from "../components/UI/DialogWithUser.vue";
 
 export default {
   name: "groupScreen",
-  components: {DialogWithUser},
+  components: { DialogWithUser },
   data() {
     return {
       valid: false,
-      newName: 'costam',
+      newName: "costam",
       group: {
         name: {
           label: getString("groupForm", "groupNameLabel"),
-          value: ""
-        },
-        subname: {
-          label: getString("groupForm", "groupSubNameLabel"),
           value: "",
         },
         desc: {
@@ -104,33 +101,27 @@ export default {
         pictures: {
           label: getString("groupForm", "pictures"),
           value: 0,
-        }
+        },
       },
-      name:
-        {
-          label: getString("groupForm", "groupNameLabel"),
-          rule: [(v) => !!v || getString("groupForm", "groupNameError")],
-          value: "",
-        },
-        subname: {
-          label: getString("groupForm", "groupSubNameLabel"),
-          rule: [],
-          value: "",
-        },
-        desc: {
-          label: getString("groupForm", "groupDescLabel"),
-          rule: [(v) => !!v || getString("groupForm", "groupDescError")],
-          value: "",
-        },
-  
-      photo: {
-          label: getString("groupForm", "groupPhotoLabel"),
-          rule: [],
-          value: {},
-        },
+      name: {
+        label: getString("groupForm", "groupNameLabel"),
+        rule: [(v) => !!v || getString("groupForm", "groupNameError")],
+        value: "",
+      },
 
-        selectedFiles: [],
-        dialog: false,
+      desc: {
+        label: getString("groupForm", "groupDescLabel"),
+        rule: [(v) => !!v || getString("groupForm", "groupDescError")],
+        value: "",
+      },
+      photo: {
+        label: getString("groupForm", "groupPhotoLabel"),
+        rule: [],
+        value: {},
+      },
+
+      selectedFiles: [],
+      dialog: false,
     };
   },
   methods: {
@@ -138,7 +129,6 @@ export default {
     getColor,
     clear() {
       this.name.value = "";
-      this.subname.value = "";
       this.desc.value = "";
       this.members = [];
       this.image = "";
@@ -153,64 +143,57 @@ export default {
     async submit() {
       this.validate();
       if (this.valid) {
-
-    await apiService("/api/groups/", "POST", {
+        await apiService("/api/groups/", "POST", {
           name: this.name.value,
-          subname: "",
           description: this.desc.value,
           members: [],
-        }).then(async data => {
-            console.log("komunikat: ", data)
-            if(data != "wrong data"){
-              this.dialog = true
-              let groupId = data.id
-              console.log(data)
-              this.group.name.value = data.name;
-              this.group.subname.value = data.subname;
-              this.group.desc.value = data.description;
-                for (var file of this.selectedFiles){
-              
+          admin_users: []
+        }).then(async (data) => {
+          if (data != "wrong data") {
+            this.dialog = true;
+            let groupId = data.id;
+            this.group.name.value = data.name;
+            this.group.desc.value = data.description;
+            for (var file of this.selectedFiles) {
               let formData = new FormData();
               formData.append("image", file);
               formData.append("group", groupId);
               formData.append("description", "opis zdjęcia");
-              await imageUpload(formData).then((data) => {this.group.pictures.value++; console.log("phtoId" ,data)})
-                }
+              await imageUpload(formData).then(() => {
+                this.group.pictures.value++;
+              });
             }
-            
-        })
-    }
+          }
+        });
+      }
     },
-    nextFunction(){
-      this.dialog = false
-      this.$router.push({name:"admin"})
+    nextFunction() {
+      this.dialog = false;
+      this.$router.push({ name: "admin" });
     },
-    backFunction(){
-      this.dialog = false
-      // this.$router.push({name:"votingTypeNew"})
-    }
-    
+    backFunction() {
+      this.dialog = false;
+    },
   },
-  created(){
-    document.title = this.getString("groupForm", "title")
-  }
+  created() {
+    document.title = this.getString("groupForm", "title");
+  },
 };
 </script>
 
 <style scoped>
 .groupForm {
-  border:solid;
+  border: solid;
   background-color: var(--v-background-lighten3);
   vertical-align: middle;
   margin: 20px;
   width: 90%;
 }
 
-.background{
+.background {
   width: 100%;
-  background-color: #C0CFE6;
+  background-color: #c0cfe6;
   margin-top: 150px;
-
 }
 .groupName {
   font-size: 2rem;
@@ -218,27 +201,24 @@ export default {
   padding-top: 1.5rem;
   text-align: center;
 }
-.v-input__control{
+.v-input__control {
   width: 100%;
-  max-width: none;;
+  max-width: none;
 }
-@media only screen and (max-width: 758px){
-  .background{
-
-  margin-top: 10px;
-  /* position: relative; */
-
-}
-.buttons{
-  flex-direction: column;
-}
-button{
-  width: 100%;
-  margin-top: 20px;
- 
-}
-.v-btn.v-size--default{
- font-size: 0.7rem
-}
+@media only screen and (max-width: 758px) {
+  .background {
+    margin-top: 10px;
+    /* position: relative; */
+  }
+  .buttons {
+    flex-direction: column;
+  }
+  button {
+    width: 100%;
+    margin-top: 20px;
+  }
+  .v-btn.v-size--default {
+    font-size: 0.7rem;
+  }
 }
 </style>

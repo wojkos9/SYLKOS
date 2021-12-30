@@ -143,10 +143,11 @@ LOGOUT_REDIRECT_URL = "/"
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'assets',
-    BASE_DIR / 'frontend'/ 'dist'
+    BASE_DIR / 'frontend'/ 'dist',
+  '/static/'
 ]
 
-# STATIC_ROOT = ""
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -39,7 +39,6 @@ export default {
       this.$emit("changeSearcgName", "");
     },
     sendMssg(str){
-      console.log('tak')
       this.$emit("changeSearcgName", str);
     }
   },

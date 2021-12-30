@@ -29,7 +29,6 @@ export default {
     for(var i of this.slides){
       console.log("element", i)
     }
-    // console.log("cc", this.slides)
   },
 };
 </script>

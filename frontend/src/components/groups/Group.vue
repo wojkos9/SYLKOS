@@ -7,7 +7,29 @@
         </div>
 
         <div class="desc">
-          {{ group.description }}
+          <div v-if="group.description.length > 200">
+            <span v-if="showMore">{{ group.description }} </span>
+            <span v-else> {{ group.description.slice(0, 200) }}...</span>
+            <div v-if="!showMore" class="paddingTop-m">
+              <v-btn x-small color="primary" dark @click="showMore = true">
+                rozwiń opis
+              </v-btn>
+            </div>
+            <div v-else class="paddingTop-m">
+              <v-btn
+                x-small
+                color="primary"
+                dark
+                v-if="showMore"
+                @click="showMore = false"
+              >
+                zwiń opis
+              </v-btn>
+            </div>
+          </div>
+          <div v-else>
+            {{ group.description }}
+          </div>
         </div>
         <div class="membersNumber desc">
           {{ getString("groups", "membersNumber") }} {{ group.count_user }}
@@ -31,23 +53,50 @@
                 <v-card-title class="text-h5 ">
                   <span>{{ group.name }}</span>
 
-                
-                    <span
-                      v-if="isMember"
-                      :title="getString('groups', 'leaveGroup')"
-                      @click="leaveGroup"
-                      class="icon p-2"
-                      ><md-icon>person_remove</md-icon> </span
-                    ><span v-else @click="joinGroup" class="icon p-2"
-                      ><md-icon>person_add</md-icon></span
-                    >
-        
+                  <span
+                    v-if="isMember"
+                    :title="getString('groups', 'leaveGroup')"
+                    @click="leaveGroup"
+                    class="icon p-2"
+                    ><md-icon>person_remove</md-icon> </span
+                  ><span v-else @click="joinGroup" class="icon p-2"
+                    ><md-icon>person_add</md-icon></span
+                  >
                 </v-card-title>
 
                 <v-card-text>
                   <div>
                     <div class="projectDesc">
-                      {{ group.description }}
+                      <div v-if="group.description.length > 200">
+                        <span v-if="showMore2">{{ group.description }} </span>
+                        <span v-else>
+                          {{ group.description.slice(0, 200) }}...</span
+                        >
+                        <div v-if="!showMore2" class="paddingTop-m">
+                          <v-btn
+                            x-small
+                            color="primary"
+                            dark
+                            @click="showMore2 = true"
+                          >
+                            rozwiń opis
+                          </v-btn>
+                        </div>
+                        <div v-else class="paddingTop-m">
+                          <v-btn
+                            x-small
+                            color="primary"
+                            dark
+                            v-if="showMore2"
+                            @click="showMore2 = false"
+                          >
+                            zwiń opis
+                          </v-btn>
+                        </div>
+                      </div>
+                      <div v-else>
+                        {{ group.description }}
+                      </div>
                     </div>
                   </div>
                 </v-card-text>
@@ -57,7 +106,13 @@
                 <div v-show="isAdmin" class="icons-section">
                   <div class="icons-3">
                     <div class="single-icon">
-                      <router-link :to="({ name: 'group', params: { id: group.id, group2: group}})" class="icon-image">
+                      <router-link
+                        :to="{
+                          name: 'group',
+                          params: { id: group.id, group2: group },
+                        }"
+                        class="icon-image"
+                      >
                         <v-btn class="mx-2" fab dark color="teal">
                           <v-icon dark>
                             mdi-format-list-bulleted-square
@@ -115,6 +170,8 @@
                   </div>
                 </div>
 
+             
+
                 <div class="votingList">
                   <div v-for="voting in votings" :key="voting.id">
                     <details>
@@ -160,9 +217,7 @@
 
     <v-dialog v-model="dialog" width="600">
       <v-card>
-        <v-card-title
-          class="text-h4 g p-4 d-flex justify-content-center"
-        >
+        <v-card-title class="text-h4 g p-4 d-flex justify-content-center">
           {{ group.name }}
         </v-card-title>
 
@@ -209,9 +264,7 @@
 
     <v-dialog v-model="dialogLeaveGroup" width="500">
       <v-card>
-        <v-card-title
-          class="text-h4 p-4 d-flex justify-content-center"
-        >
+        <v-card-title class="text-h4 p-4 d-flex justify-content-center">
           {{ group.name }}
         </v-card-title>
 
@@ -237,9 +290,7 @@
 
     <v-dialog v-model="dialogGenerateAccessCode" width="600">
       <v-card>
-        <v-card-title
-          class="text-h4 p-2 d-flex justify-content-center"
-        >
+        <v-card-title class="text-h4 p-2 d-flex justify-content-center">
           GENERATOR KODÓW DOSTĘPU
         </v-card-title>
 
@@ -274,10 +325,10 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn  text @click="clearDialog">
+          <v-btn text @click="clearDialog">
             {{ getString("groups", "generateCancel") }}
           </v-btn>
-          <v-btn  text @click="generateAccessCodes">
+          <v-btn text @click="generateAccessCodes">
             {{ getString("groups", "generateConfirm") }}
           </v-btn>
         </v-card-actions>
@@ -297,6 +348,8 @@ export default {
   props: ["group", "name", "requestUser"],
   data() {
     return {
+      showMore: false,
+      showMore2: false,
       valid: false,
       loading: true,
       myCode: "",
@@ -373,7 +426,6 @@ export default {
           this.dialog = false;
           this.myCode = "";
           this.isUserMember(data);
-          console.log(data);
           this.code1 = "";
           this.code2 = "";
           this.code3 = "";
@@ -386,8 +438,6 @@ export default {
     isUserMember(data) {
       this.isMember = data.members.includes(this.requestUser);
       this.isAdmin = data.admin_users.includes(this.requestUser);
-      console.log(data.admin_users);
-      // print(data)
     },
   },
   components: {
@@ -398,10 +448,8 @@ export default {
       await apiService(`/api/photo/${this.group.image}/`).then((data) => {
         this.image = data.image;
       });
-    console.log(this.group.id);
     await apiService(`/api/groups/${this.group.id}/?details=1`).then((data) => {
       this.votings = data.votings;
-      console.log(data);
       this.loading = false;
     });
     this.isUserMember(this.group);
@@ -470,8 +518,8 @@ export default {
 .groupTitle {
   font-weight: 700;
   font-size: 1.5rem;
-  margin-bottom: 40px;
-  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-top: 30px;
   text-align: center;
 }
 
@@ -491,6 +539,7 @@ export default {
   width: auto;
   max-height: 150px;
   object-fit: contain;
+  margin: 0 auto;
   /* width: 100%; */
 }
 .animation {
@@ -528,7 +577,7 @@ export default {
 }
 
 details {
-  font-family: "Petrona";
+  /* font-family: "Petrona"; */
   padding: 4px 6px;
   width: 15em;
   font-size: 1.7em;
@@ -634,7 +683,7 @@ details .findLast {
   .image {
     height: 300px;
     margin-bottom: 20px;
-    margin-top: 50px;
+    /* margin-top: 50px; */
     width: 300px;
   }
   .center {
@@ -653,7 +702,7 @@ details .findLast {
   }
 }
 
-.icons-section{
+.icons-section {
   background-image: linear-gradient(
     200deg,
     var(--v-secondary-lighten2) 5%,
@@ -661,7 +710,6 @@ details .findLast {
     var(--v-secondary-darken1) 100%
   );
   padding: 40px 10px 40px 10px;
-
 }
 .icons-3 {
   display: flex;
@@ -674,8 +722,7 @@ details .findLast {
   /* border:solid black 3px; */
   filter: contrast(200%);
   filter: drop-shadow(3px 3px 10px var(--v-accent-base)) invert(5%);
-  background-color: rgba(255,255,255,0.2);
-
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .icons-3 .single-icon {
@@ -702,7 +749,7 @@ details .findLast {
 @media only screen and (max-width: 1000px) {
   .aboutGroup {
     margin: 0 auto;
-    padding: 10px;
+    padding: 10px 20px;
   }
   .groupTitle {
     margin: 20px auto;
@@ -714,12 +761,19 @@ details .findLast {
     margin: 0 auto 50px auto;
   }
 
-  .image {
-    margin: 0 auto;
-  }
   .aboutGroup {
     max-width: 700px;
-    padding: 30px;
+    padding: 10px;
+    width: 90%;
+    margin: 10px auto;
+  }
+
+  .desc {
+    margin-top: 0;
+  }
+
+  .center {
+    margin-bottom: 20px;
   }
 }
 </style>

@@ -11,14 +11,13 @@
        <div class="logo-div">
          
                  <router-link :to="{ name: mainPageRoute }" >
-                   <!-- <div v-if="$vuetify.theme.light"> -->
-                <img src="@/assets/logo.png" class="logo" />
+                   <div v-if="!$vuetify.theme.isDark">
+                      <img src="@/assets/logo.png" class="logo" />
+                   </div>
+                   <div v-else>
+                <img src="@/assets/logo_white.png" class="logo" />
 
-                   <!-- </div> -->
-                   <!-- <div v-else> -->
-                <!-- <img src="@/assets/logo_white.png" class="logo" /> -->
-
-                   <!-- </div> -->
+                   </div>
               </router-link>
               </div>
 
@@ -38,20 +37,7 @@
                 v-bind:route="projectsRoute"
                 v-on:reset="select = ''"
               />
-              <!-- <Button
-                v-bind:title="getString('navbar', 'addProject')"
-                v-bind:route="addProjectRoute"
-                v-on:reset="select = ''"
-              /> -->
-                    <!-- <v-combobox
-                      color="accent"
-                      @click="select = ''"
-                      v-model="select"
-                      :items="menuOptions"
-                      :label="role"
-                      item-text="name"
-                      item-value="route"
-                    ></v-combobox> -->
+              
             </div>
           </div>
         </div>
@@ -219,7 +205,7 @@ export default {
   margin-top: 4px;
   margin-bottom: 4px;
   align-self: center;
-  z-index: 1000;
+  z-index: 10;
   opacity: 1;
   position: relative;
 }

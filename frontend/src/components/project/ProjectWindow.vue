@@ -15,7 +15,36 @@
       <v-card-text>
         <div>
           <div class="projectDesc">
-            {{ project.description }}
+             <div v-if="project.description.length > 200">
+                        <span v-if="showMore2">{{ project.description }} </span>
+                        <span v-else>
+                          {{ project.description.slice(0, 200) }}...</span
+                        >
+                        <div v-if="!showMore2" class="paddingTop-m">
+                          <v-btn
+                            x-small
+                            color="primary"
+                            dark
+                            @click="showMore2 = true"
+                          >
+                            rozwiń opis
+                          </v-btn>
+                        </div>
+                        <div v-else class="paddingTop-m">
+                          <v-btn
+                            x-small
+                            color="primary"
+                            dark
+                            v-if="showMore2"
+                            @click="showMore2 = false"
+                          >
+                            zwiń opis
+                          </v-btn>
+                        </div>
+                      </div>
+                      <div v-else>
+                        {{ project.description }}
+                      </div>
           </div>
           <v-data-table
             :headers="headers"
@@ -88,6 +117,7 @@ export default {
       comments: [],
       myComment: {},
       group: false,
+      showMore2: false,
       ifRoute: false, 
       username: window.localStorage.getItem("username"),
       headers: [
@@ -115,7 +145,6 @@ export default {
       let commentsData = await apiService(commentsEndpoint);
       this.myComment = this.project.user_comment;
       this.comments = commentsData.results;
-      console.log(votingData);
       this.desserts = [
         {
           name: this.getString("projectInfo", "price"),

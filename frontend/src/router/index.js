@@ -75,6 +75,7 @@ export const routes = [{
         path:"/newproject",
         name:"projectNew",
         component:ProjectFormScreen,
+        props: true
     },
     {
         path:"/newvoting/:groupId",

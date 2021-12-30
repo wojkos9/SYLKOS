@@ -20,7 +20,6 @@
               <div class="projectName">
                 {{ getString("projectForm", "newProject") }}
               </div>
-
               <v-text-field
                 class="p-2 m-3"
                 dense
@@ -44,16 +43,7 @@
                 type="number"
                 required
               ></v-text-field>
-              <v-text-field
-                class="p-2 m-3"
-                v-model="project.stage.value"
-                :rules="project.stage.rule"
-                :label="project.stage.label"
-               
-                required
-              ></v-text-field>
-
-                <v-menu
+                         <v-menu
                 v-model="menu"
                 :close-on-content-click="false"
                 :nudge-right="40"
@@ -77,25 +67,26 @@
                   color="accent"
                   :first-day-of-week="0"
                   :locale="lang"
+                  :min="nowDate"
                   v-model="project.finish_date.value"
                   @input="menu = false"
                 ></v-date-picker>
               </v-menu>
 
-               <v-combobox
-               class="p-2 m-3"
+              <!-- <v-combobox
+                class="p-2 m-3"
                 v-model="project.group.value"
                 :items="groups"
                 :rules="project.group.rule"
                 :label="project.group.label"
                 item-text="name"
-              ></v-combobox>
+              ></v-combobox> -->
 
-               <!-- <v-combobox
+              <!-- <v-combobox
                class="p-2 m-3"
                 v-model="project.voting.value"
-                :items="votingTypes"
-                :rules="project.voting.rule"
+                :items="votings"
+               
                 :label="project.voting.label"
                 item-text="name"
               ></v-combobox> -->
@@ -111,10 +102,10 @@
 
               <div class="d-flex justify-content-end p-4 buttons">
                 <v-btn class="mr-4 p-2" @click="submit">
-                  {{ getString("groupForm", "submit") }}
+                  {{ getString("projectForm", "submit") }}
                 </v-btn>
                 <v-btn @click="clear">
-                  {{ getString("groupForm", "clearData") }}
+                  {{ getString("projectForm", "clearData") }}
                 </v-btn>
               </div>
             </v-container>
@@ -125,8 +116,8 @@
     </div>
 
     <DialogWithUser
-      :title="getString('groupForm', 'success')"
-      :desc="getString('groupForm', 'desc')"
+      :title="getString('projectForm', 'success')"
+      :desc="getString('projectForm', 'desc')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
@@ -144,6 +135,7 @@ import DialogWithUser from "../components/UI/DialogWithUser.vue";
 export default {
   name: "projectFormScreen",
   components: { DialogWithUser },
+  props: ["groupId", "votingId"],
   data() {
     return {
       lang: getString("language", "lang"),
@@ -154,6 +146,7 @@ export default {
       dialog: false,
       groups: [],
       votings: [],
+      nowDate: new Date().toISOString().slice(0, 10),
       myComment: {},
       project: {
         name: {
@@ -197,7 +190,6 @@ export default {
           value: 0,
         },
       },
-      
     };
   },
   methods: {
@@ -224,24 +216,23 @@ export default {
           name: this.project.name.value,
           description: this.project.description.value,
           budget: this.project.budget.value,
-          stage: this.project.stage.value,
+          stage: "stage",
           finish_date: this.project.finish_date.value + "T00:00:00Z",
-          group: this.project.group.value.id,
-          voting: 3,
+          group: this.groupId,
+          voting: this.votingId,
           votes: 0,
         }).then(async (data) => {
-
           if (data != "wrong data") {
-            
             let projectId = data.id;
 
             this.project.name.value = data.name;
             this.project.description.value = data.description;
             this.project.budget.value = data.budget;
             this.project.stage.value = data.stage;
-            this.project.finish_date.value = data.finish_date;
+            this.project.finish_date.value = data.finish_date.slice(0,10);
             this.project.group.value = this.project.group.value.name;
-            this.project.voting.value = data.voting;
+            this.project.voting.value = this.project.voting.value.name;
+            this.project.voting.label = this.getString('projectForm', 'pictures');
 
             for (var file of this.selectedFiles) {
               let formData = new FormData();
@@ -250,7 +241,6 @@ export default {
               formData.append("description", "opis zdjęcia");
               await imageUpload(formData).then(() => {
                 this.project.images.value++;
-              
               });
             }
 
@@ -270,20 +260,32 @@ export default {
   created() {
     document.title = this.getString("groupForm", "title");
   },
-   async beforeRouteEnter(to, from, next) {
+  async beforeRouteEnter(to, from, next) {
     let userEndpoint = `api/user/`;
-    let userData = await apiService(userEndpoint)
-    
+    let userData = await apiService(userEndpoint);
+
+
+    let votingsEndpoint = `api/voting/`;
+    let votings = [];
+    while (votingsEndpoint) {
+      await apiService(votingsEndpoint).then((data) => {
+        for (let voting of data.results) {
+          votings.push(voting);
+        }
+        votingsEndpoint = data.next;
+      });
+    }
+
     return next((vm) => {
-      console.log(userData.groups);
       vm.groups = userData.groups;
+      vm.votings = votings
     });
   },
 };
 </script>
 
 <style scoped>
-.v-input__control{
+.v-input__control {
   padding-right: 20px;
 }
 

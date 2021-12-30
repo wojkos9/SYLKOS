@@ -108,7 +108,6 @@ export default {
           name: this.votingType.name.value,
           description: this.votingType.description.value,
         }).then(async data => {
-            console.log("komunikat: ", data)
             if(data != "wrong data"){
               this.dialog = true
               this.votingType.name.value = data.name

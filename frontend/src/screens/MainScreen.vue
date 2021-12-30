@@ -1,37 +1,45 @@
 <template>
+<div>
   <div class="row">
-    <div class="col-lg-12 col-xl-6 ">
-      <div class="container">
-        <Groups :groups="myGroups" />
-        <div style="margin-top: 20px;">
-          <Projects />
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12 col-xl-5 ">
-      <div class="container">
-        <user-projects />
+    <div class="container">
+      <div class="section-title">Grupy, do których należysz</div>
+      <div v-for="group in myGroups" :key="group.id">
+        <Group
+          v-bind:group="group"
+          v-show="true"
+          v-bind:requestUser="requestUser"
+        />
       </div>
 
-      <div class="col-sm-1 " />
+      <!-- <div style="margin-top: 20px;">
+        <Projects />
+      </div> -->
     </div>
+  </div>
+  <!-- <div class="col-lg-12 col-xl-5 ">
+    <div class="container">
+      <user-projects />
+    </div>
+
+    <div class="col-sm-1 " />
+  </div> -->
   </div>
 </template>
 
 <script>
-import Groups from "../components/user/Groups.vue";
-import Projects from "../components/user/Projects.vue";
+// import Projects from "../components/user/Projects.vue";
 import { getString } from "@/language/string.js";
 import { getColor } from "@/colors.js";
-import UserProjects from "../components/user/UserProjects.vue";
+// import UserProjects from "../components/user/UserProjects.vue";
 import { apiService } from "@/common/api.service.js";
+import Group from "../components/groups/Group.vue";
 
 export default {
   name: "mainScreen",
   components: {
-    Groups,
-    Projects,
-    UserProjects,
+    // Projects,
+    Group,
+    // UserProjects,
   },
   data() {
     return {
@@ -47,8 +55,8 @@ export default {
   },
   async beforeRouteEnter(to, from, next) {
     let endpoint = `api/user/`;
-    let data = await apiService(endpoint)
-    return next((vm) => vm.myGroups = data.groups);
+    let data = await apiService(endpoint);
+    return next((vm) => (vm.myGroups = data.groups));
   },
 };
 </script>

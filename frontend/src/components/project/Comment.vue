@@ -173,7 +173,6 @@ export default {
     },
     async editPutComment() {
       var endpoint = `api/comments/${this.comment.id}/`;
-      console.log("edycja");
       await apiService(endpoint, "PUT", {
         content: this.myComment.value,
         rating: this.rating,
@@ -190,8 +189,6 @@ export default {
     },
     async deleteComment() {
       this.dialog = false;
-      console.log("comment deleted");
-      console.log(this.comment.id);
       let endpoint = `api/comments/${this.comment.id}/`;
       await apiService(endpoint, "DELETE").then(() => {
         // this.dialog2 = true;

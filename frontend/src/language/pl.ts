@@ -5,6 +5,7 @@ export const pl = {
     projects: 'Projekty',
     votings: 'Głosowania',
     votingTypes: 'Typy głosowań',
+    logout: 'Wyloguj się'
   },
   navbar: {
     projects: 'Projekty',

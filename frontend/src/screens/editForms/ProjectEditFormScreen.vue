@@ -42,16 +42,9 @@
                 type="number"
                 required
               ></v-text-field>
-              <v-text-field
-                class="p-2 m-3"
-                v-model="project.stage.value"
-                :rules="project.stage.rule"
-                :label="project.stage.label"
-               
-                required
-              ></v-text-field>
+           
 
-                <v-menu
+                <!-- <v-menu
                 v-model="menu"
                 :close-on-content-click="false"
                 :nudge-right="40"
@@ -78,16 +71,16 @@
                   v-model="project.finish_date.value"
                   @input="menu = false"
                 ></v-date-picker>
-              </v-menu>
+              </v-menu> -->
 
-               <v-combobox
+               <!-- <v-combobox
                class="p-2 m-3"
                 v-model="project.group.value"
                 :items="groups"
                 :rules="project.group.rule"
                 :label="project.group.label"
                 item-text="name"
-              ></v-combobox>
+              ></v-combobox> -->
 
                <!-- <v-combobox
                class="p-2 m-3"
@@ -224,17 +217,16 @@ export default {
       this.validate();
       if (this.valid) {
 
-    await apiService(`/api/projects/${this.projectId}/`, "PUT", {
+    await apiService(`/api/projects/${this.projectId}/`, "PATCH", {
           name: this.project.name.value,
           description: this.project.description.value,
           budget: this.project.budget.value,
-          stage: this.project.stage.value,
-          finish_date: this.project.finish_date.value + "T00:00:00Z",
-          group: this.project.group.value,
-          voting: this.project.voting.value,
+          // stage: this.project.stage.value,
+          // finish_date: this.project.finish_date.value + "T00:00:00Z",
+          // group: this.project.group.value,
+          // voting: this.project.voting.value,
           // stage: this.group.members.value,
         }).then(async data => {
-            console.log("komunikat: ", data)
             if(data != "wrong data"){ 
               this.dialog = true
               this.project.projectId = data.id
@@ -244,7 +236,6 @@ export default {
               this.project.stage.value = data.stage
               this.project.finish_date.value = data.finish_date 
               this.project.group.value = data.group
-              // this.project.images.value = this.oldProject.images
             }
             
         })
@@ -293,7 +284,8 @@ export default {
 <style scoped>
 .groupForm {
   border:solid;
-  background-color: white;
+  
+  background-color: var(--v-background-lighten3);
   /* display: inline-block; */
   vertical-align: middle;
   margin: 20px;

@@ -212,7 +212,6 @@ export default {
     },
     async submit() {
       this.validate();
-      console.log(this.photo.value);
       if (this.valid) {
         let formData = new FormData();
         formData.append("image", this.selectedFile);

@@ -94,3 +94,4 @@ class Vote(models.Model):
 
     def __str__(self):
         return f"v:{self.voting} u:{self.user} p:{self.project} x:{self.points}"
+ 

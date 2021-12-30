@@ -8,10 +8,16 @@
     <div v-else>
       <div class="votingTitle">
         <div v-if="response">
-          <div v-show="finish">
-              ZAKOŃCZONE
+          <div v-if="voting.status=='finished'">
+              ZAKOŃCZONE GŁOSOWANIE
           </div>
-           {{ getString("votingHeader", "voting") }}
+            <div v-else-if="voting.status=='active'">
+              GŁOSOWANIE
+          </div>
+           <div v-else>
+              GŁOSOWANIE - ZGŁASZANIE PROJEKTÓW
+          </div>
+           {{ voting.name }}
           <div>data rozpoczęcia: {{ voting.start_date.slice(0,10) }} </div> 
           <div>data zakończenia: {{ voting.end_date.slice(0,10) }} </div> 
         </div>
@@ -19,7 +25,7 @@
           404 - NOT FOUND
         </div>
       </div>
-      <div v-if="finish">
+      <div v-if="voting.status=='finished'">
           <div v-for="(project, index) in projectsVotes" :key="index">
              <VotingProjectSelectOne
               v-bind:project="project"
@@ -29,7 +35,7 @@
             />
           </div>
       </div>
-      <div v-else>
+      <div v-else-if="voting.status=='active'">
         <!--{{response}}-->
         <div v-if="alreadyVoted" class="alreadyVotedSection">
           <div v-if="voting.voting_type == 'majority'">
@@ -165,6 +171,30 @@
         </div>
       </div>
 
+      <div v-else-if="voting.status=='announced'">
+           <router-link :to="{ name: routes.addProject, params:{groupId: voting.group, votingId: voting.id} }">
+        <div class="add-project-icon">
+                      <v-btn color="accent" width="90px" height="90px" small fab >
+            <v-icon style="text-decoration: none" color="primary" x-large>mdi-plus</v-icon>
+          </v-btn>
+        </div>
+              </router-link>
+
+       
+         <div class="alreadyVotedSelectedProject">
+              Projekty biorące udział w głosowaniu:
+            </div>
+
+         <div v-for="(project, index) in projectsVotes" :key="index">
+             <VotingProjectSelectOne
+              v-bind:project="project"
+              v-on:change="setUserVotedFor($event)"
+              :ifUserCanVote="!alreadyVoted"
+              :myChoice="alreadyVoted"
+            />
+          </div>
+      </div>
+
       <v-dialog
         v-model="dialogSubmitVote"
         width="500"
@@ -230,8 +260,10 @@ export default {
       approval: [],
       changeKey: true,
       response: {},
-      finish: true,
       projectsVotes: {},
+      routes: {
+        addProject: "projectNew",
+      },
     };
   },
   methods: {
@@ -269,7 +301,7 @@ export default {
         choice: choice,
       }).then((data) => {
         if (data != "wrong data") {
-          console.log("chyba sie udalo");
+          console.log("tak")
         }
       });
       await this.refreshVotingStatus();
@@ -282,7 +314,6 @@ export default {
       if (this.previousUserVote == 0) this.previousUserVote = projectId;
       else this.previousUserVote = this.userVotedFor;
       this.userVotedFor = projectId;
-      console.log(projectId);
     },
     async refreshVotingStatus() {
       let endpoint = `/api/voting/${this.voting.id}/`;
@@ -298,7 +329,6 @@ export default {
               projectVoted.points == 1
             ) {
               this.myChoice = project;
-              console.log("wybor ", project);
               break;
             }
           }
@@ -330,7 +360,6 @@ export default {
         this.notMyApprovalChoice = [];
 
         for (var projectIndex in sortedValues2) {
-          console.log(projects2);
           if (sortedValues2[projectIndex].points == 1) {
             this.myApprovalChoice.push(projects2[projectIndex]);
           } else {
@@ -349,7 +378,6 @@ export default {
     let endpoint = `/api/voting/${to.params.vId}/`;
     let data = await apiService(endpoint);
 
-    console.log(data);
     
     return next((vm) => {
       vm.response = data;
@@ -364,13 +392,11 @@ export default {
         if (vm.alreadyVoted && data.voting_type == "majority") {
           for (var project of data.projects) {
             for (var projectVoted of data.users_votes) {
-              console.log("lista ", projectVoted);
               if (
                 project.id == projectVoted.project &&
                 projectVoted.points == 1
               ) {
                 vm.myChoice = project;
-                console.log("wybor ", project);
                 break;
               }
             }
@@ -400,7 +426,6 @@ export default {
           vm.notMyApprovalChoice = [];
 
           for (var projectIndex in sortedValues2) {
-            console.log(projects2);
             if (sortedValues2[projectIndex].points == 1) {
               vm.myApprovalChoice.push(projects2[projectIndex]);
             } else {
@@ -428,6 +453,16 @@ export default {
   font-size: 32px;
   text-align: center;
   margin-bottom: 30px;
+}
+
+.add-project-icon{
+  margin: 20px auto ;
+  text-align: center;
+  max-width: 90px;
+  transition: all .5s ease;
+}
+.add-project-icon:hover{
+  transform: scale(1.2);
 }
 .buttonSubmit {
   display: flex;

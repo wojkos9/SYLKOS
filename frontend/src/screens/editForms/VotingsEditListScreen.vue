@@ -135,15 +135,6 @@ export default {
     makeSth(str) {
       this.searchName = str;
     },
-    // check(str) {
-    //   return str.toLowerCase().includes(this.searchName.toLowerCase());
-    // },
-    // sortByName() {
-    //   console.log("sortByName");
-    // },
-    // sortByMembers() {
-    //   this.groups = this.groups.sort((a, b) => a.count_user - b.count_user);
-    // },
     setRequestUser() {
       this.requestUser = window.localStorage.getItem("username");
     },

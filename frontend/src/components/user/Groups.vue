@@ -10,7 +10,7 @@
           <div class="titleIn">
             <div class="text">{{ group.name }}</div>
           </div>
-          <div class="desc">{{ group.desc }}</div>
+          <div class="desc">{{ group.description.slice(0,100) }}</div>
         </div>
       </div>
     </div> 
@@ -49,6 +49,10 @@ export default {
   justify-content: center;
   max-width: 100%;
 }
+.titleIn{
+  text-align: center;
+  margin: 0 auto;
+}
 .title {
   align-self: center;
   text-align: center;
@@ -70,6 +74,21 @@ export default {
   justify-self: center;
   object-fit: cover;
   width: 160px;
+}
+
+.content img {
+  height: calc(30vh - 30px);
+  width: auto;
+  max-height: 150px;
+  object-fit: contain;
+  margin: 0 auto;
+  /* width: 100%; */
+}
+
+.content{
+  display: flex; 
+  justify-content: center;
+  flex-direction: row-reverse;
 }
 
 @media only screen and (max-width: 1200px) {

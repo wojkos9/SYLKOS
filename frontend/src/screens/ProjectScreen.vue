@@ -175,26 +175,19 @@ export default {
   methods: {
     getString,
     async updateComments() {
-      console.log("odswiezam");
 
       let projectEndpoint = `api/projects/${this.project.id}/`;
       let projectData = await apiService(projectEndpoint);
-
-      // let commentsEndpoint = `api/projects/${this.project.id}/comments/`;
-      // let commentsData = await apiService(commentsEndpoint);
-      // this.comments = commentsData.results;
 
       if (projectData.user_has_commented)
         this.myComment = projectData.user_comment;
       else this.myComment = {};
 
       this.project.user_has_commented = projectData.user_has_commented;
-      // console.log(this.comments)
     },
   },
 
   async beforeRouteEnter(to, from, next) {
-    console.log(to.params.id);
     let projectEndpoint = `api/projects/${to.params.id}/`;
     let commentsEndpoint = `api/projects/${to.params.id}/comments/`;
 
@@ -226,12 +219,7 @@ export default {
           },
         ]
 
-      // vm.project.images = [];
-      // for (var image of projectData.images){
-      //   vm.project.images.push(image)
-      // }
       if (vm.project.images.length == 0) {
-        console.log("tak  ");
         vm.project.images = [{ image: "images/no_picture.png" }];
       }
     });

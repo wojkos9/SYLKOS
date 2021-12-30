@@ -177,7 +177,6 @@ export default {
             group: this.groupId,
           }).then((data) => {
             if (data == "success") this.check = true;
-            console.log(data);
             if (data != "wrong data") {
               this.voting.votingType.value = data.voting_type;
               this.voting.startDate.value = data.start_date.slice(0,10);

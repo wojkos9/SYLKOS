@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.conf import settings
 
-class IndexTemplateView(LoginRequiredMixin, TemplateView):
+class IndexTemplateView( TemplateView):
 
     def get_template_names(self):
        # if not settings.DEBUG:

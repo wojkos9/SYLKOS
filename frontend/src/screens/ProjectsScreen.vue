@@ -10,14 +10,6 @@
       </div>
     </div>
 
-    <!-- <div class="options">
-      <Search
-        v-on:changeSearchName="makeSth($event)"
-        :title="getString('groups', 'name')"
-      />
-      <Sort :options="sortOptions" />
-    </div> -->
-
     <div class="allGroups">
      <div v-for="project in projects" :key="project.id">
         <Project
@@ -127,14 +119,6 @@ export default {
 </script>
 
 <style>
-/* .singleGroup {
-  padding: 30px;
-  font-size: 1.5rem;
-  width: 800px;
-  margin-bottom: 15px;
-  border: solid;
-  position: relative
-} */
 .groupsTitle {
   align-self: center;
   font-size: 2rem;

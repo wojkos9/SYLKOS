@@ -289,13 +289,11 @@ export default {
       this.printMethod = false;
     },
     removeUserFromGroup(member) {
-      console.log(member);
       this.dialogRemoveUser = true;
       this.userToRemove = member;
     },
     async removeUserConfirmed() {
       this.dialogRemoveUser = false;
-      console.log(this.group);
       var newMembers = this.group.members.filter(
         (member) => member != this.userToRemove
       );
@@ -303,9 +301,7 @@ export default {
       await apiService(endpoint, "PATCH", {
         members: newMembers,
       }).then(async (data) => {
-        console.log("komunikat: ", data);
         if (data != "wrong data") {
-          console.log(data);
           this.group.members = data.members;
           this.dialogSuccess = true;
         }
@@ -320,11 +316,9 @@ export default {
       var keys = [];
       var cnt = 2;
       var nextPage = data.next != null ? true : false;
-      console.log(data);
 
       while (nextPage) {
         await apiService(endpoint + "?page=" + cnt).then((data) => {
-          console.log(data);
           cnt += 1;
           nextPage = data.next != null ? true : false;
           for (var key of data.results) {
@@ -342,7 +336,6 @@ export default {
       ).then((data) => {
         this.dialogGenerateAccessCode = false;
         this.dialogShowNewCodes = true;
-        console.log(data);
         this.newCodes = data;
         this.refreshPage();
       });
@@ -360,11 +353,9 @@ export default {
       var keys = [];
       var cnt = 2;
       var nextPage = data.next != null ? true : false;
-      console.log(data);
 
       while (nextPage) {
         await apiService(endpoint + "?page=" + cnt).then((data) => {
-          console.log(data);
           cnt += 1;
           nextPage = data.next != null ? true : false;
           for (var key of data.results) {
