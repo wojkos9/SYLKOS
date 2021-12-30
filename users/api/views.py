@@ -1,15 +1,15 @@
 from django.db.models.query import QuerySet
 from voting.models import Group
 from django.http.response import HttpResponse
-from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, get_object_or_404
 from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
 from django import http
-from users.api.serializers import UserDisplaySerializer, CustomUserSerializer
+from users.api.serializers import UserDisplaySerializer, CustomUserSerializer, UserOptionsSerializer
 from rest_framework.permissions import IsAdminUser
+from ..models import CustomUser
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -18,6 +18,13 @@ class CurrentUserAPIView(APIView):
     def get(self, request):
         serializer = UserDisplaySerializer(request.user)
         return Response(serializer.data)
+
+    def patch(self, request):
+        serializer = UserOptionsSerializer(instance=request.user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=200)
+        return Response(data="Unexpected Parameters", status=400)
 
 
 class CreateCustomUserView(CreateAPIView):
@@ -37,7 +44,7 @@ class CreateCustomUserView(CreateAPIView):
             return http.HttpResponseBadRequest(e)
 
 from rest_framework.decorators import api_view, parser_classes, permission_classes
-from ..models import CustomUser
+
 
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
