@@ -13,6 +13,10 @@ function handleResponse(response) {
         // console.log(response.json())
         return "wrong data"
     }
+    else if (response.status === 401){
+        // console.log(response.json())
+        return "gosc"
+    }
     else{
         return response.json()
     }

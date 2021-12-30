@@ -17,7 +17,9 @@ export default new Vuetify({
             error: colors.red,
             background: '#eceff1',
             background2: "#fff",
-            link: '#000'
+            link: '#000',
+            night: "#131862",
+            day: "#ffe85d"
           },
           dark: {
             // 263238 49190d
@@ -37,6 +39,8 @@ export default new Vuetify({
             accent:'#ddcc46',
             error: '#dd1e00',
             link: '#fff',
+            night: "#131862",
+            day: "#ffe85d"
           },
         },
       },

@@ -71,7 +71,8 @@
         </div>
       </div>
       <div class="comments">
-        <div v-if="!project.user_has_commented">
+        <div v-show="showAddComment">
+        <div v-if="!project.user_has_commented ">
           <AddComment
             :projectId="project.id"
             v-on:addedComment="updateComments"
@@ -84,6 +85,7 @@
             v-bind:author="username"
             v-on:deleteUpdate="updateComments"
           />
+        </div>
         </div>
         <div v-for="comment in comments" :key="comment.id">
           <div v-show="comment.author != username">
@@ -118,7 +120,8 @@ export default {
       myComment: {},
       group: false,
       showMore2: false,
-      ifRoute: false, 
+      ifRoute: false,
+      showAddComment: true, 
       username: window.localStorage.getItem("username"),
       headers: [
         {
@@ -134,6 +137,18 @@ export default {
   },
   methods: {
     getString,
+    check(funName) {
+      if (
+        window.localStorage.getItem("username") ==
+        window.localStorage.getItem("unauthorized")
+      ) {
+      funName();
+      } 
+        
+    },
+    cannotComment(){
+      this.showAddComment = false;
+    },
     async getVotingData() {
       let tmp = this.project.voting
         ? this.project.voting
@@ -179,6 +194,7 @@ export default {
   },
   created() {
     this.getVotingData();
+    this.check(this.cannotComment)
   },
   components: { Carousel, AddComment, Comment },
 };

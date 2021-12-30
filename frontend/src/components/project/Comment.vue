@@ -152,6 +152,7 @@ export default {
       dialog2: false,
       dialog3: false,
       rating: 5,
+      noReactions: true,
       icons: {
         mdiDelete,
       },
@@ -171,6 +172,7 @@ export default {
     async setUserInfo() {
       this.loggedUser = window.localStorage.getItem("username");
     },
+    
     async editPutComment() {
       var endpoint = `api/comments/${this.comment.id}/`;
       await apiService(endpoint, "PUT", {
@@ -206,6 +208,7 @@ export default {
 .commentContainer {
   background-color: var(--v-primary-lighten3);
   max-width: 450px;
+  min-width: 450px;
   padding: .5em 1.5em;
 }
 .comment-row-1 {
@@ -257,6 +260,12 @@ textarea {
 #editCommentDialog textarea {
   justify-self: center;
 }
+
+@media only screen and (max-width: 550px) {
+   .commentContainer{
+     min-width: unset;
+   }
+}
 @media only screen and (max-width: 500px) {
   .comment-stars {
     flex-direction: column;
@@ -271,6 +280,7 @@ textarea {
     width: 300px;
   }
 }
+
 @media only screen and (max-width: 400px) {
   #editCommentDialog textarea {
     width: 350px !important;

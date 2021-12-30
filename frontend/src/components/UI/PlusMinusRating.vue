@@ -1,10 +1,10 @@
 <template>
     <div class="likes">
-        <div class="plus" @click="incrementLikes">
+        <div class="plus" @click="check(incrementLikes)">
           <v-mdi name="mdiPlusThick"></v-mdi>
         </div>
         {{ likes }}
-        <div class="minus" @click="incrementDislikes">
+        <div class="minus" @click="check(incrementDislikes)">
           <v-mdi name="mdiMinusThick"></v-mdi>
         </div>
         {{ dislikes }}
@@ -16,6 +16,16 @@
         name: "plusMinusRating",
         props: ['likes', 'dislikes', 'userVotedFor'],
         methods:{
+            check(funName) {
+      if (
+        window.localStorage.getItem("username") ==
+        window.localStorage.getItem("unauthorized")
+      ) {
+        this.$root.$refs.App.ifLogin();
+      } else {
+        funName();
+      }
+    },
             incrementLikes(){
                 if(this.userVotedFor == "minus"){
                     this.likes++;

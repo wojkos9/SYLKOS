@@ -35,13 +35,13 @@
           {{ getString("groups", "membersNumber") }} {{ group.count_user }}
         </div>
       </div>
-      <div class="col center">
+      <div class="col center  paddingTop-l">
         <div class="center">
           <div v-if="group.images.length > 0">
             <img :src="`/media/${group.images[0].image}`" class="image" />
           </div>
 
-          <div class="text-center">
+          <div class="text-center paddingTop-m">
             <v-dialog v-model="dialog2" width="unset">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="primary" dark v-bind="attrs" v-on="on">
@@ -56,11 +56,11 @@
                   <span
                     v-if="isMember"
                     :title="getString('groups', 'leaveGroup')"
-                    @click="leaveGroup"
+                    @click="check(leaveGroup)"
                     class="icon p-2"
-                    ><md-icon>person_remove</md-icon> </span
-                  ><span v-else @click="joinGroup" class="icon p-2"
-                    ><md-icon>person_add</md-icon></span
+                    ><v-icon color="link">person_remove</v-icon> </span
+                  ><span v-else @click="check(joinGroup)" class="icon p-2"
+                    ><v-icon color="link">person_add</v-icon></span
                   >
                 </v-card-title>
 
@@ -169,8 +169,6 @@
                     />
                   </div>
                 </div>
-
-             
 
                 <div class="votingList">
                   <div v-for="voting in votings" :key="voting.id">
@@ -281,7 +279,7 @@
           <v-btn color="primary" text @click="dialogLeaveGroup = false">
             {{ getString("groups", "cancel") }}
           </v-btn>
-          <v-btn color="primary" text @click="leaveGroupWithConfirmation">
+          <v-btn color="primary" text @click="check(leaveGroupWithConfirmation)">
             {{ getString("groups", "leave") }}
           </v-btn>
         </v-card-actions>
@@ -380,14 +378,38 @@ export default {
     goToVoting() {
       console.log("ide");
     },
+    check(funName) {
+      if (
+        window.localStorage.getItem("username") ==
+        window.localStorage.getItem("unauthorized")
+      ) {
+        this.$root.$refs.App.ifLogin();
+      } else {
+        funName();
+      }
+    },
     joinGroup() {
-      this.dialog = true;
+      // if (
+      //   window.localStorage.getItem("username") ==
+      //   window.localStorage.getItem("unauthorized")
+      // ) {
+      //   this.$root.$refs.App.ifLogin();
+      // } else {
+        this.dialog = true;
+      // }
     },
     generateAccessCode() {
       this.dialogGenerateAccessCode = true;
     },
     leaveGroup() {
-      this.dialogLeaveGroup = true;
+      // if (
+      //   window.localStorage.getItem("username") ==
+      //   window.localStorage.getItem("unauthorized")
+      // ) {
+      //   this.$root.$refs.App.ifLogin();
+      // } else {
+        this.dialogLeaveGroup = true;
+      // }
     },
     validate() {
       this.$refs.code.validate();
@@ -512,6 +534,7 @@ export default {
   font-size: 1.2rem;
   max-width: 500px;
   margin: 20px auto 50px auto;
+  min-width: 500px;
   /* color: #000; */
 }
 
@@ -775,5 +798,11 @@ details .findLast {
   .center {
     margin-bottom: 20px;
   }
+}
+
+@media only screen and (max-width: 550px) {
+       .projectDesc{
+         min-width: unset;
+       }
 }
 </style>

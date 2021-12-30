@@ -52,6 +52,19 @@ export default {
   methods: {
     getString,
     getColor,
+    ifUser(){
+       if (
+        window.localStorage.getItem("username") ==
+        window.localStorage.getItem("unauthorized")
+      ) {
+        window.location.href = "../accounts/login/?next=/#/"
+      } 
+     
+
+    }
+  },
+  created(){
+    this.ifUser()
   },
   async beforeRouteEnter(to, from, next) {
     let endpoint = `api/user/`;

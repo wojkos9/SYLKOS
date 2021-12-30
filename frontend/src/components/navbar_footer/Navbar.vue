@@ -10,7 +10,7 @@
 
        <div class="logo-div">
          
-                 <router-link :to="{ name: mainPageRoute }" >
+                 <router-link :to="{ name: mainPageRoute }" :is="!clickable ? 'span' : 'router-link'"  >
                    <div v-if="!$vuetify.theme.isDark">
                       <img src="@/assets/logo.png" class="logo" />
                    </div>
@@ -75,6 +75,7 @@ export default {
       projectsRoute: "projects",
       mainPageRoute: "main",
       addProjectRoute: "projectNew",
+      clickable: true,
       role: "",
       sort: "",
       select: "",
@@ -87,6 +88,14 @@ export default {
   methods: {
     getString,
     getColor,
+    check() {
+      if (
+        window.localStorage.getItem("username") ==
+        window.localStorage.getItem("unauthorized")
+      ) {
+        this.clickable = false;
+      } 
+    },
     async setUserInfo() {
       this.role = window.localStorage.getItem("username");
       if (this.role == "admin") {
@@ -99,6 +108,7 @@ export default {
   },
   created() {
     this.setUserInfo();
+    this.check();
   },
   watch: {
     select: function(val) {
