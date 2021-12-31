@@ -10,6 +10,8 @@ import VueRouter from 'vue-router'
 import { routes } from './router/index.js'
 import moment from 'moment';
 import vuetify from './plugins/vuetify';
+import VueI18n from 'vue-i18n'
+import {pl} from '@/language/pl.ts';
 
 Vue.config.productionTip = false
 Vue.component('menu-icon', MenuIcon);
@@ -25,6 +27,7 @@ Vue.use(MdList)
 Vue.use(MdCard)
 Vue.use(MdField)
 Vue.use(MdMenu)
+Vue.use(VueI18n)
 Vue.prototype.moment = moment;
 
 Vue.use(VueRouter)
@@ -32,6 +35,12 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes
+})
+
+export const i18n = new VueI18n({
+  locale: 'pl',
+  fallbackLocale: 'pl',
+  messages: {en: {hello: 'Hello'}, pl: pl}
 })
 
 Vue.config.errorHandler = (err) => {
@@ -48,5 +57,6 @@ Vue.config.errorHandler = (err) => {
 new Vue({
   vuetify,
   render: h => h(App),
+  i18n,
   router,
 }).$mount('#app')

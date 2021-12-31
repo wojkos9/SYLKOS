@@ -1,4 +1,5 @@
 export const pl = {
+  hello: 'czesc',
   admin: {
     title: 'admin',
     groups: 'Grupy',

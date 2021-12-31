@@ -105,6 +105,16 @@
                 </v-list-item>
               </router-link>
 
+               <router-link :to="{ name: routes.admin }" :is="!showSections ? 'span' : 'span'">
+                <v-list-item  @click="chan">
+                  <v-list-item-title>
+                    <v-icon>mdi-account-plus</v-icon>
+                    zarejestruj się 
+                  </v-list-item-title>
+                </v-list-item>
+              </router-link>
+
+
             </v-list-item-group>
 
             <div class="paddingTop-m paddingLeft-s">

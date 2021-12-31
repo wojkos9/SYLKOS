@@ -2,7 +2,8 @@
 <div>
   <div class="row">
     <div class="container">
-      <div class="section-title">Grupy, do których należysz</div>
+      <div class="section-title">Grupy, do których należysz </div>
+       {{ $t('hello') }}
       <div v-for="group in myGroups" :key="group.id">
         <Group
           v-bind:group="group"
