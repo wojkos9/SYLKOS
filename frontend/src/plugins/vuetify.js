@@ -18,7 +18,7 @@ export default new Vuetify({
             background: '#eceff1',
             background2: "#fff",
             link: '#000',
-            night: "#131862",
+            night: "#7377af",
             day: "#ffe85d"
           },
           dark: {

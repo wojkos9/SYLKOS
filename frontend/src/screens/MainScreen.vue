@@ -57,7 +57,7 @@ export default {
         window.localStorage.getItem("username") ==
         window.localStorage.getItem("unauthorized")
       ) {
-        window.location.href = "../accounts/login/?next=/#/"
+        // window.location.href = "../accounts/login/?next=/#/"
       } 
      
 

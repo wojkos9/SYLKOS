@@ -41,7 +41,7 @@
               </router-link>
 
               <router-link :to="{ name: routes.addProject }" :is="!showSections ? 'span' : 'router-link'">
-                <v-list-item @click="ifLogin">
+                <v-list-item @click="!showSection ? ifLogin : {}">
                   <v-list-item-title>
                     <v-icon>add</v-icon>
                     {{ getString("navbar", "addProject") }}
@@ -50,7 +50,7 @@
               </router-link>
 
               <router-link :to="{ name: routes.settings }" :is="!showSections ? 'span' : 'router-link'">
-                <v-list-item  @click="ifLogin">
+                <v-list-item  @click="!showSection ? ifLogin : {}">
                   <v-list-item-title>
                     <v-icon>settings</v-icon>
                     {{ getString("navbar", "settings") }}
@@ -59,10 +59,10 @@
               </router-link>
 
               <router-link :to="{ name: routes.user }" :is="!showSections ? 'span' : 'router-link'">
-                <v-list-item @click="ifLogin">
+                <v-list-item @click="!showSection ? ifLogin : {}">
                   <v-list-item-title>
                     <v-icon>person</v-icon>
-                    {{ getString("navbar", "user") }}
+                    {{ getString("navbar", "user") }}  
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
@@ -78,8 +78,8 @@
                 </router-link>
               </div>
 
-              <router-link  v-show="showSections" :to="{ name: routes.admin }" :is="!showSections ? 'span' : 'router-link'">
-                <v-list-item>
+              <router-link  v-show="showSections" :to="{ name: routes.admin }" :is="!showSections ? 'span' : 'span'">
+                <v-list-item @click="logout">
                   <v-list-item-title>
                     <v-icon>logout</v-icon>
                     {{ getString("navbar", "logout") }}
@@ -110,8 +110,8 @@
             <div class="paddingTop-m paddingLeft-s">
               <v-tooltip v-if="!$vuetify.theme.dark" bottom >
                 <template v-slot:activator="{ on }">
-                  <v-btn v-on="on" color="night" small fab @click="darkMode">
-                    <v-icon class="mr-1">mdi-moon-waxing-crescent</v-icon>
+                  <v-btn v-on="on" color="night" small fab @click="changeColorMode">
+                    <v-icon color="white" class="mr-1">mdi-moon-waxing-crescent</v-icon>
                   </v-btn>
                 </template>
                 <span>włącz tryb ciemny</span>
@@ -119,7 +119,7 @@
 
               <v-tooltip v-else bottom >
                 <template v-slot:activator="{ on }">
-                  <v-btn v-on="on" color="day" small fab @click="darkMode">
+                  <v-btn v-on="on" color="day" small fab @click="changeColorMode">
                     <v-icon color="yellow">mdi-white-balance-sunny</v-icon>
                   </v-btn>
                 </template>
@@ -189,8 +189,18 @@ export default {
     register(){
 window.location.href = "../accounts/register/";
     },
+    logout(){
+      window.location.href = "../logout/";
+
+      // console.log("tak")
+      // await apiService("/logout/");
+    },
     ifLogin() {
       this.dialog = true;
+    },
+    async changeColorMode(){
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+       await apiService("/api/user/", "PATCH", {color_mode: this.$vuetify.theme.dark ? 0 : 1});
     },
     getString,
     check(funName) {
@@ -207,14 +217,16 @@ window.location.href = "../accounts/register/";
       const data = await apiService("/api/user/");
       console.log(data);
       if (data == "gosc") {
+        if(window.location.href.slice(Math.max(window.location.href.length - 3, 1)) == "/#/"){
+        window.location.href = "../accounts/login/?next=/#/"
+        }
         window.localStorage.setItem("username", "gosc");
         this.showSections = false;
       } else {
         const requestUser = data["username"];
         window.localStorage.setItem("username", requestUser);
+        this.$vuetify.theme.dark = !data["color_mode"]
       }
-
-      // this.$vuetify.theme.dark = true;
     },
     setShowSideMenu() {
       this.showSideMenu = false;
@@ -225,8 +237,8 @@ window.location.href = "../accounts/register/";
     },
   },
   created() {
-    this.$root.$refs.App = this;
     this.setUserInfo();
+    this.$root.$refs.App = this;
   },
 
   watch: {
