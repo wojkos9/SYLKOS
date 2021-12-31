@@ -1,8 +1,20 @@
-from django.db.models.query import InstanceCheckMeta
+from voting.api.serializers import GroupSerializer, ProjectSerializer
 from rest_framework import serializers
 from users.models import CustomUser, PersonalKey
 from rest_framework.exceptions import ValidationError
-from voting.models import Group, Photo
+
+
+class UserOptionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ("color_mode",)
+
+    def is_valid(self, raise_exception=False):
+        if any(k not in self.Meta.fields for k in self.initial_data.keys()):
+            if raise_exception:
+                raise ValidationError("Unexpected_parameters")
+            return False
+        return super().is_valid(raise_exception=raise_exception)
 
 class UserDisplaySerializer(serializers.ModelSerializer):
 
@@ -10,18 +22,10 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = "__all__"
+        exclude = ("password",)
 
-    def get_groups(self, instance):
-        user_groups = Group.objects.filter(members=instance.pk).values()
-       
-        for idx, group in enumerate(user_groups):
-            group_images = Photo.objects.filter(group=group['id']).values()
-            if len(group_images) == 0:
-                group_images = [{"image" : "images/no_picture.png"}]
-            user_groups[idx]['images'] = group_images
-
-        return user_groups
+    def get_groups(self, instance: CustomUser):
+        return GroupSerializer(instance.user_groups, many=True).data
 
 class CustomUserSerializer(serializers.ModelSerializer):
     key_value = serializers.IntegerField()
