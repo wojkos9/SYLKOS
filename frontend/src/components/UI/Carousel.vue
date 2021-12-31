@@ -59,7 +59,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
 import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
@@ -84,7 +83,6 @@ export default {
     };
   },
   methods: {
-    getString,
     showNext() {
       this.$refs.carousel.goTo(this.initIndex);
     },

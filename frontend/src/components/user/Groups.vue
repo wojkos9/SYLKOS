@@ -18,20 +18,16 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 
 export default {
   name: "groups",
   props: ["groups"],
   data() {
     return {
-      title: getString("userPanel", "myGroups"),
+      title: this.$t("myGroups"),
     };
   },
   methods: {
-    getString,
-    getColor,
   },
   components: {},
 };

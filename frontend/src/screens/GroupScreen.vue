@@ -121,10 +121,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="clearDialog">
-            {{ getString("groups", "generateCancel") }}
+            {{ $t("cancel") }}
           </v-btn>
           <v-btn text @click="generateAccessCodes">
-            {{ getString("groups", "generateConfirm") }}
+            {{ $t("generateConfirm") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -151,7 +151,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="dialogShowNewCodes = false">
-            {{ getString("groups", "ok") }}
+            {{ $t("ok") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -232,8 +232,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import VueHtml2pdf from "vue-html2pdf";
 import { apiService } from "@/common/api.service.js";
 
@@ -272,8 +270,6 @@ export default {
     };
   },
   methods: {
-    getString,
-    getColor,
     generatePdfCodes() {
       this.$refs.html2Pdf.generatePdf();
     },

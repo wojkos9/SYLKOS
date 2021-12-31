@@ -8,39 +8,44 @@
     <div v-else>
       <div class="votingTitle">
         <div v-if="response">
-          <div v-if="voting.status=='finished'">
-              ZAKOŃCZONE GŁOSOWANIE
+          <div v-if="voting.status == 'finished'">
+            {{ $t("votingScreen.ended") }}
           </div>
-            <div v-else-if="voting.status=='active'">
-              GŁOSOWANIE
+          <div v-else-if="voting.status == 'active'">
+            {{ $t("votingScreen.voting") }}
           </div>
-           <div v-else>
-              GŁOSOWANIE - ZGŁASZANIE PROJEKTÓW
+          <div v-else>
+            {{ $t("votingScreen.votingNewProjects") }}
           </div>
-           {{ voting.name }}
-          <div>data rozpoczęcia: {{ voting.start_date.slice(0,10) }} </div> 
-          <div>data zakończenia: {{ voting.end_date.slice(0,10) }} </div> 
+          {{ voting.name }}
+          <div>
+            {{ $t("votingScreen.startDate") }}:
+            {{ voting.start_date.slice(0, 10) }}
+          </div>
+          <div>
+            {{ $t("votingScreen.endDate") }}: {{ voting.end_date.slice(0, 10) }}
+          </div>
         </div>
         <div v-else style="text-transform:touppercase">
           404 - NOT FOUND
         </div>
       </div>
-      <div v-if="voting.status=='finished'">
-          <div v-for="(project, index) in projectsVotes" :key="index">
-             <VotingProjectSelectOne
-              v-bind:project="project"
-              v-on:change="setUserVotedFor($event)"
-              :ifUserCanVote="!alreadyVoted"
-              :myChoice="alreadyVoted"
-            />
-          </div>
+      <div v-if="voting.status == 'finished'">
+        <div v-for="(project, index) in projectsVotes" :key="index">
+          <VotingProjectSelectOne
+            v-bind:project="project"
+            v-on:change="setUserVotedFor($event)"
+            :ifUserCanVote="!alreadyVoted"
+            :myChoice="alreadyVoted"
+          />
+        </div>
       </div>
-      <div v-else-if="voting.status=='active'">
+      <div v-else-if="voting.status == 'active'">
         <!--{{response}}-->
         <div v-if="alreadyVoted" class="alreadyVotedSection">
           <div v-if="voting.voting_type == 'majority'">
             <div class="alreadyVotedSelectedProject">
-              Projekt, na który oddałeś głos:
+              {{ $t("votingScreen.projectYouVotedFor") }}
             </div>
             <VotingProjectSelectOne
               v-bind:project="myChoice"
@@ -50,7 +55,7 @@
             />
 
             <div class="alreadyVotedSelectedProject">
-              Pozostałe projekty, biorące udział w głosowaniu:
+              {{ $t("votingScreen.restOfProjects") }}
             </div>
             <div v-for="project in voting.projects" :key="project.id">
               <div v-show="project.id != myChoice.id">
@@ -66,7 +71,7 @@
 
           <div v-else-if="voting.voting_type == 'borda'">
             <div class="alreadyVotedSelectedProject">
-              Wybrana kolejność projektów:
+              {{ $t("votingScreen.projectsQueue") }}
             </div>
             <div v-for="project in myBordaChoice" :key="project.id">
               <VotingProject
@@ -78,7 +83,7 @@
 
           <div v-else-if="voting.voting_type == 'approval'">
             <div class="alreadyVotedSelectedProject">
-              Projekty, na które oddałeś głos:
+              {{ $t("votingScreen.projectsYouVotedFor") }}
             </div>
             <div v-for="project in myApprovalChoice" :key="project.id">
               <div v-show="project.id != myChoice.id">
@@ -91,7 +96,7 @@
               </div>
             </div>
             <div class="alreadyVotedSelectedProject">
-              Pozostałe projekty, biorące udział w głosowaniu:
+              {{ $t("votingScreen.restOfProjects") }}
             </div>
             <div v-for="project in notMyApprovalChoice" :key="project.id">
               <VotingProjectSelectOne
@@ -106,6 +111,9 @@
         <!--borda-->
         <div v-else>
           <div v-if="voting.voting_type == 'borda'">
+            <div class="voting_type_desc">
+              {{ $t("votingScreen.borda") }}
+            </div>
             <draggable
               v-model="voting.projects"
               group="votings"
@@ -120,9 +128,7 @@
           <!--majority-->
           <div v-else-if="voting.voting_type == 'majority'">
             <div class="voting_type_desc">
-              Zasady głosowania: należy zagłosować na dokładnie jeden projekt.
-              Można to zrobić klikając na wybrany przez siebie projekt. Wybrany
-              projekt będzie miał jaśniejszy kolor tła
+              {{ $t("votingScreen.majorityRules") }}
             </div>
             <div v-for="project in voting.projects" :key="project.id">
               <VotingProjectSelectOne
@@ -135,9 +141,7 @@
           </div>
           <div v-else-if="voting.voting_type == 'approval'">
             <div class="voting_type_desc">
-              Zasady głosowania: należy wybrac te projekty, ktore chcemy aby
-              przeszły, dostaną one od nas po jednym punkcie. Pozostae
-              (nieywbrane projekty) otrzymają wartość 0
+              {{ $t("votingScreen.approvalRules") }}
             </div>
             <div v-for="(project, index) in voting.projects" :key="index">
               <VotingProjectSelectOne
@@ -150,9 +154,9 @@
             </div>
           </div>
           <div v-else-if="response">
-            jeszcze nie obsłużony typ głosowania {{ voting.voting_type }}
+              {{ $t("votingScreen.newType") }}
+             {{ voting.voting_type }}
           </div>
-
           <!--jeden wybor-->
 
           <!-- <div class="submitButton" @click="submitVote">
@@ -165,34 +169,40 @@
               style="color:black"
               @click="dialogSubmitVote = true"
             >
-              {{ getString("buttonSubmitVote", "submitMyVote").toUpperCase() }}
+              {{ $t("buttonSubmitVote.submitMyVote").toUpperCase() }}
             </v-btn>
           </div>
         </div>
       </div>
 
-      <div v-else-if="voting.status=='announced'">
-           <router-link :to="{ name: routes.addProject, params:{groupId: voting.group, votingId: voting.id} }">
-        <div class="add-project-icon">
-                      <v-btn color="accent" width="90px" height="90px" small fab >
-            <v-icon style="text-decoration: none" color="primary" x-large>mdi-plus</v-icon>
-          </v-btn>
-        </div>
-              </router-link>
-
-       
-         <div class="alreadyVotedSelectedProject">
-              Projekty biorące udział w głosowaniu:
-            </div>
-
-         <div v-for="(project, index) in projectsVotes" :key="index">
-             <VotingProjectSelectOne
-              v-bind:project="project"
-              v-on:change="setUserVotedFor($event)"
-              :ifUserCanVote="!alreadyVoted"
-              :myChoice="alreadyVoted"
-            />
+      <div v-else-if="voting.status == 'announced'">
+        <router-link
+          :to="{
+            name: routes.addProject,
+            params: { groupId: voting.group, votingId: voting.id },
+          }"
+        >
+          <div class="add-project-icon">
+            <v-btn color="accent" width="90px" height="90px" small fab>
+              <v-icon style="text-decoration: none" color="primary" x-large
+                >mdi-plus</v-icon
+              >
+            </v-btn>
           </div>
+        </router-link>
+
+        <div class="alreadyVotedSelectedProject">
+              {{ $t("votingScreen.alProjects") }}
+        </div>
+
+        <div v-for="(project, index) in projectsVotes" :key="index">
+          <VotingProjectSelectOne
+            v-bind:project="project"
+            v-on:change="setUserVotedFor($event)"
+            :ifUserCanVote="!alreadyVoted"
+            :myChoice="alreadyVoted"
+          />
+        </div>
       </div>
 
       <v-dialog
@@ -202,22 +212,21 @@
       >
         <v-card>
           <v-card-title>
-            <span class="text-h4">Uwaga!!</span>
+            <span class="text-h4">{{$t("attention")}}!!</span>
           </v-card-title>
           <v-card-text>
-            Oddanego głosu nie wolno cofnąć ani zmienić
+            {{$t("warningTitle")}}
             <br />
-            Proszę zaznaczyć 'Głosuję' w celu potwierdzenia oddania głosu, lub
-            'Anuluj' aby móc powrócić do listy projektów
+            {{$t("warningDesc")}}
           </v-card-text>
 
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn text @click="dialogSubmitVote = false">
-              {{ getString("groups", "cancel") }}
+              {{ $t("cancel") }}
             </v-btn>
             <v-btn text @click="submitVote">
-              {{ getString("voting", "confirm") }}
+              {{ $t("votingScreen.confirm") }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -228,7 +237,6 @@
 
 <script>
 // import VotingHeader from "../components/voting/VotingHeader.vue";
-import { getString } from "@/language/string.js";
 import VotingProject from "../components/voting/VotingProject.vue";
 import VotingProjectSelectOne from "../components/voting/VotingProjectSelectOne.vue";
 import { apiService } from "@/common/api.service.js";
@@ -267,7 +275,6 @@ export default {
     };
   },
   methods: {
-    getString,
     async submitVote() {
       var choice = [];
       this.dialogSubmitVote = false;
@@ -301,7 +308,7 @@ export default {
         choice: choice,
       }).then((data) => {
         if (data != "wrong data") {
-          console.log("tak")
+          console.log("tak");
         }
       });
       await this.refreshVotingStatus();
@@ -378,16 +385,14 @@ export default {
     let endpoint = `/api/voting/${to.params.vId}/`;
     let data = await apiService(endpoint);
 
-    
     return next((vm) => {
       vm.response = data;
 
       if (data) {
-        vm.voting =  data;
+        vm.voting = data;
         vm.projectsVotes = data.projects.sort(function(a, b) {
           return -(a.votes - b.votes);
-        })
-;
+        });
         vm.alreadyVoted = data.users_votes.length > 0 ? true : false;
         if (vm.alreadyVoted && data.voting_type == "majority") {
           for (var project of data.projects) {
@@ -455,13 +460,13 @@ export default {
   margin-bottom: 30px;
 }
 
-.add-project-icon{
-  margin: 20px auto ;
+.add-project-icon {
+  margin: 20px auto;
   text-align: center;
   max-width: 90px;
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
-.add-project-icon:hover{
+.add-project-icon:hover {
   transform: scale(1.2);
 }
 .buttonSubmit {

@@ -16,7 +16,7 @@
     >
     
       <v-container>
-        <div class="groupName">{{ getString("votingTypeEditForm", "title") }} <br> {{votingType.name.value}}</div>
+        <div class="groupName">{{ $t("votingTypeEditForm.title") }} <br> {{votingType.name.value}}</div>
      
         
           <v-text-field class="p-2 m-3"
@@ -28,10 +28,10 @@
       
         <div class="d-flex justify-content-end p-4 buttons">
           <v-btn class="mr-4 p-2" @click="submit">
-            {{ getString("votingTypeEditForm", "submit") }}
+            {{$t("votingTypeEditForm.submit") }}
           </v-btn>
           <v-btn @click="clear">
-            {{ getString("votingTypeEditForm", "cancel") }}
+            {{ $t("votingTypeEditForm.cancel") }}
           </v-btn>
         </div>
       </v-container>
@@ -43,8 +43,8 @@
     </div>
 
     <DialogWithUser
-      :title="getString('groupForm', 'success')"
-      :desc="getString('groupForm', 'desc')"
+      :title="$t('groupForm.success')"
+      :desc="$t('groupForm.desc')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
@@ -56,8 +56,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService} from "@/common/api.service.js";
 import DialogWithUser from '../../components/UI/DialogWithUser.vue';
 
@@ -72,21 +70,19 @@ export default {
       oldVotingType: [],
       votingType: {
          name:{
-           label: getString("votingTypeForm", "votingName"),
-           rule: [(v) => !!v || getString("votingTypeForm", "nameError")],
+           label: this.$t("votingTypeForm.votingName"),
+           rule: [(v) => !!v || this.$t("votingTypeForm.nameError")],
            value: '',
          },
         description:{
-          label: getString("votingTypeForm", "votingDesc"),
-          rule: [(v) => !!v || getString("votingTypeForm", "descError")],
+          label: this.$t("votingTypeForm.votingDesc"),
+          rule: [(v) => !!v || this.$t("votingTypeForm.descError")],
           value: '',
         },
       },
     };
   },
   methods: {
-    getString,
-    getColor,
     clear() {
       this.votingType.name.value = this.oldVotingType.name;
       this.votingType.description.value = this.oldVotingType.description;
@@ -127,7 +123,7 @@ export default {
     
   },
   created(){
-    document.title = this.getString("votingTypeEditForm", "title")
+    document.title = this.$t("votingTypeEditForm.title")
   },
   async beforeRouteEnter(to, from, next){
         if(to.params.nameId !== undefined){

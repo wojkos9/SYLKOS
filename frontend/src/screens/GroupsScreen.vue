@@ -3,7 +3,7 @@
     <div class="allTitle">
       <div class="nextToGroups">
         <div class="groupsTitle">
-          {{ getString("groups", "groups").toUpperCase() }} ({{
+          {{ $t("groupsScreen.groups").toUpperCase() }} ({{
             allGroups
           }})
         </div>
@@ -38,8 +38,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService } from "@/common/api.service.js";
 import Group from "../components/groups/Group.vue";
 export default {
@@ -53,15 +51,13 @@ export default {
       searchName: "",
       requestUser: "",
       sortOptions: [
-        [getString("groups", "name"), this.sortByName],
-        [getString("groups", "membersNumberSort"), this.sortByMembers],
+        [this.$t("groupsScreen.name"), this.sortByName],
+        [this.$t("groupsScreen.membersNumberSort"), this.sortByMembers],
       ],
       
     };
   },
   methods: {
-    getString,
-    getColor,
     async getAllGroups() {
       let endpoint = "api/groups/";
       let data = await apiService(endpoint);
@@ -102,7 +98,7 @@ export default {
   created() {
     this.getAllGroups();
     this.setRequestUser();
-    document.title = this.getString("groups", "pageTitle");
+    document.title = this.$t("groupsScreen.pageTitle");
   },
   watch: {
     page: function() {

@@ -3,7 +3,7 @@ import Router from "vue-router"
 import MainScreen from '../screens/MainScreen.vue'
 import GroupsScreen from '../screens/GroupsScreen'
 import ProjectsScreen from '../screens/ProjectsScreen'
-import ProjectScreen from '../screens/ProjectScreen'
+// import ProjectScreen from '../screens/ProjectScreen'
 import GroupScreen from '../screens/GroupScreen'
 import VotingScreen from '../screens/VotingScreen'
 import PhotoScreen from '../screens/PhotoScreen'
@@ -125,12 +125,12 @@ export const routes = [{
         name:"projects",
         component:ProjectsScreen
     },
-    {
-        path:"/projects/:id",
-        name:"project",
-        component:ProjectScreen,
-        props: true
-    },
+    // {
+    //     path:"/projects/:id",
+    //     name:"project",
+    //     component:ProjectScreen,
+    //     props: true
+    // },
     {
         path:"/photo",
         name:"photo",

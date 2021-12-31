@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
 import { apiService } from "@/common/api.service.js";
 
 export default {
@@ -55,14 +54,13 @@ export default {
       rating: 5,
       dialog3: false,
       comment: {
-        label: getString("projects", "writeComment"),
-        rule: [(v) => !!v || getString("projects", "writeCommentError")],
+        label: this.$t("writeComment"),
+        rule: [(v) => !!v || this.$t("writeCommentError")],
         value: "",
       },
     };
   },
   methods: {
-    getString,
     validate() {
       this.$refs.newComment.validate();
     },

@@ -26,7 +26,7 @@
                 <v-list-item>
                   <v-list-item-title>
                     <v-icon>grid_view</v-icon>
-                    {{ getString("navbar", "projects") }}
+                   {{$t("projects")}}
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
@@ -35,7 +35,7 @@
                 <v-list-item>
                   <v-list-item-title>
                     <v-icon>groups</v-icon>
-                    {{ getString("navbar", "groups") }}
+                   {{$t("groups")}}
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
@@ -44,7 +44,7 @@
                 <v-list-item @click="!showSection ? ifLogin : {}">
                   <v-list-item-title>
                     <v-icon>add</v-icon>
-                    {{ getString("navbar", "addProject") }}
+                   {{$t("addProject")}}
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
@@ -53,7 +53,7 @@
                 <v-list-item  @click="!showSection ? ifLogin : {}">
                   <v-list-item-title>
                     <v-icon>settings</v-icon>
-                    {{ getString("navbar", "settings") }}
+                   {{$t("settings")}}
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
@@ -62,7 +62,7 @@
                 <v-list-item @click="!showSection ? ifLogin : {}">
                   <v-list-item-title>
                     <v-icon>person</v-icon>
-                    {{ getString("navbar", "user") }}  
+                   {{$t("user")}}
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
@@ -72,7 +72,7 @@
                   <v-list-item>
                     <v-list-item-title>
                       <v-icon>mdi-wrench</v-icon>
-                      {{ getString("navbar", "admin") }}
+                   {{$t("admin")}}
                     </v-list-item-title>
                   </v-list-item>
                 </router-link>
@@ -82,7 +82,7 @@
                 <v-list-item @click="logout">
                   <v-list-item-title>
                     <v-icon>logout</v-icon>
-                    {{ getString("navbar", "logout") }}
+                   {{$t("logout")}}
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
@@ -91,7 +91,7 @@
                 <v-list-item v-show="!showSections" @click="login">
                   <v-list-item-title>
                     <v-icon>login</v-icon>
-                    zaloguj się
+                   {{$t("login")}}
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
@@ -100,16 +100,19 @@
                 <v-list-item v-show="!showSections" @click="register">
                   <v-list-item-title>
                     <v-icon>mdi-account-plus</v-icon>
-                    zarejestruj się 
+                   {{$t("register")}}
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
 
                <router-link :to="{ name: routes.admin }" :is="!showSections ? 'span' : 'span'">
-                <v-list-item  @click="chan">
+                <v-list-item   @click="changeLanguage">
                   <v-list-item-title>
-                    <v-icon>mdi-account-plus</v-icon>
-                    zarejestruj się 
+                    <!-- <div style="font-size:20px"> -->
+                    <flag v-if="currentLang=='pl'" style="font-size:18px; margin-right: 5px" iso="us" />
+                    <flag v-else style="font-size:18px; margin-right: 5px" iso="pl" />
+                   <!-- </div> -->
+                   {{ $t('newLanguage') }}
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
@@ -154,7 +157,6 @@
 import NavbarComp from "@/components/navbar_footer/Navbar.vue";
 import { apiService } from "@/common/api.service.js";
 // import Footer from "./components/navbar_footer/Footer.vue";
-import { getString } from "@/language/string.js";
 import Unauthorized from "@/components/UI/Unauthorized.vue";
 
 export default {
@@ -171,6 +173,8 @@ export default {
       themeChange: true,
       dialog: false,
       showSections: true,
+      currentLang: 'pl',
+      newLang: 'en',
       routes: {
         addProject: "projectNew",
         projects: "projects",
@@ -197,22 +201,24 @@ export default {
       window.location.href = "../accounts/login/?next=/#/";
     },
     register(){
-window.location.href = "../accounts/register/";
+      window.location.href = "../accounts/register/";
     },
     logout(){
       window.location.href = "../logout/";
-
-      // console.log("tak")
-      // await apiService("/logout/");
     },
     ifLogin() {
       this.dialog = true;
+    },
+    changeLanguage(){
+      this.currentLang = this.newLang
+      this.newLang = this.$i18n.locale
+      this.$i18n.locale = this.currentLang
+      
     },
     async changeColorMode(){
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
        await apiService("/api/user/", "PATCH", {color_mode: this.$vuetify.theme.dark ? 0 : 1});
     },
-    getString,
     check(funName) {
       if (
         window.localStorage.getItem("username") ==

@@ -12,7 +12,7 @@
             <span v-else> {{ group.description.slice(0, 200) }}...</span>
             <div v-if="!showMore" class="paddingTop-m">
               <v-btn x-small color="primary" dark @click="showMore = true">
-                rozwiń opis
+                {{ $t('expand') }}
               </v-btn>
             </div>
             <div v-else class="paddingTop-m">
@@ -23,7 +23,7 @@
                 v-if="showMore"
                 @click="showMore = false"
               >
-                zwiń opis
+                 {{ $t('unexpand') }}
               </v-btn>
             </div>
           </div>
@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="membersNumber desc">
-          {{ getString("groups", "membersNumber") }} {{ group.count_user }}
+           {{ $t('membersNumber') }} {{ group.count_user }}
         </div>
       </div>
       <div class="col center  paddingTop-l">
@@ -45,7 +45,7 @@
             <v-dialog v-model="dialog2" width="unset">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="primary" dark v-bind="attrs" v-on="on">
-                  {{ getString("userPanel", "details") }}
+                 {{ $t('details') }}
                 </v-btn>
               </template>
 
@@ -55,7 +55,7 @@
 
                   <span
                     v-if="isMember"
-                    :title="getString('groups', 'leaveGroup')"
+                    :title="$t('leaveGroup')"
                     @click="check(leaveGroup)"
                     class="icon p-2"
                     ><v-icon color="link">person_remove</v-icon> </span
@@ -79,7 +79,7 @@
                             dark
                             @click="showMore2 = true"
                           >
-                            rozwiń opis
+                          {{ $t('expand') }}
                           </v-btn>
                         </div>
                         <div v-else class="paddingTop-m">
@@ -90,7 +90,7 @@
                             v-if="showMore2"
                             @click="showMore2 = false"
                           >
-                            zwiń opis
+                            {{ $t('unexpand') }}
                           </v-btn>
                         </div>
                       </div>
@@ -120,14 +120,14 @@
                         </v-btn>
                       </router-link>
                       <div class="icon-desc">
-                        lista kodów
+                       {{ $t('codeList') }}
                       </div>
                     </div>
 
                     <div class="single-icon">
                       <div
                         class="icon-image"
-                        :title="getString('groups', 'generate')"
+                        :title="$t('generate')"
                         @click="generateAccessCode"
                       >
                         <v-btn class="mx-2" fab dark color="indigo">
@@ -137,14 +137,14 @@
                         </v-btn>
                       </div>
                       <div class="icon-desc">
-                        generuj kody dostępu
+                       {{ $t('generateCodes') }}
                       </div>
                     </div>
 
                     <div class="single-icon">
                       <div
                         class="icon-image"
-                        :title="getString('groups', 'generate')"
+                        :title="$t('generate')"
                         @click="generateAccessCode"
                       >
                         <v-btn class="mx-2" fab dark color="red">
@@ -154,7 +154,7 @@
                         </v-btn>
                       </div>
                       <div class="icon-desc">
-                        usuń użytkownika
+                       {{ $t('removeUser') }}
                       </div>
                     </div>
                   </div>
@@ -192,7 +192,7 @@
                             }"
                           >
                             <v-btn color="primary" @click="goToVoting">
-                              {{ getString("votingsList", "goToVoting") }}
+                                 {{ $t('goToVoting') }}
                             </v-btn>
                           </router-link>
                         </div>
@@ -203,7 +203,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary" text @click="dialog2 = false">
-                    {{ getString("userPanel", "close") }}
+                       {{ $t('cancel') }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -221,7 +221,7 @@
 
         <v-card-text class="text-h6  lighten-2 p-4 ">
           <div>
-            {{ getString("groups", "joinGroup") }}
+            {{ $t('joinGroup') }}
           </div>
 
           <v-form
@@ -251,10 +251,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="clearDialog">
-            {{ getString("groups", "cancel") }}
+            {{ $t('cancel') }}
           </v-btn>
           <v-btn color="primary" text @click="joinGroupWithAccessCode">
-            {{ getString("groups", "confirm") }}
+            {{ $t('confirm') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -268,7 +268,8 @@
 
         <v-card-text class="text-h6  lighten-2 p-4 ">
           <span class="d-flex justify-content-center">
-            {{ getString("groups", "leaveGroupQuestion") }}</span
+            {{ $t('leaveGroupQuestion') }}
+            </span
           >
         </v-card-text>
 
@@ -277,10 +278,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="dialogLeaveGroup = false">
-            {{ getString("groups", "cancel") }}
+            {{ $t('cancel') }}
           </v-btn>
           <v-btn color="primary" text @click="check(leaveGroupWithConfirmation)">
-            {{ getString("groups", "leave") }}
+            {{ $t('leave') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -324,20 +325,18 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="clearDialog">
-            {{ getString("groups", "generateCancel") }}
+            {{ $t('cancel') }}
           </v-btn>
           <v-btn text @click="generateAccessCodes">
-            {{ getString("groups", "generateConfirm") }}
+            {{ $t('generateConfirm') }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
 </template>
-
+ 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService } from "@/common/api.service.js";
 import Carousel from "@/components/UI/Carousel.vue";
 
@@ -364,17 +363,15 @@ export default {
       isMember: false,
       isAdmin: false,
       accessCodeRules: [
-        (v) => !!v || getString("groups", "accessCodeRequired"),
-        (v) => v.length == 4 || getString("groups", "accessCodeLength"),
+        
+        (v) => !!v || this.$t('accessCodeRequired'),
+        (v) => v.length == 4 || this.$t('accessCodeLength'),
       ],
-      // codeGenerateRule[]
       votings: [],
     };
   },
 
   methods: {
-    getString,
-    getColor,
     goToVoting() {
       console.log("ide");
     },

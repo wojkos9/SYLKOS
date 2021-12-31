@@ -16,7 +16,7 @@
           >
             <v-container>
               <div class="groupName">
-                {{ getString("votingForm", "title") }}
+                {{ $t('votingForm.title') }}
               </div>
               <!-- <v-app> -->
               <v-menu
@@ -95,14 +95,14 @@
                       v-on="check && on"
                       v-bind="attrs"
                     >
-                      {{ getString("votingEditForm", "submit") }}
+                      {{  $t('votingForm.submit') }}
                     </v-btn>
                   </template>
                   <v-card>
                     <v-card-text
                       style="text-align: center; padding: 20px; font-size: 1.5rem"
                     >
-                      {{ getString("votingForm", "success") }}
+                      {{ $t('votingForm.success') }}
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -111,20 +111,20 @@
                         text
                         @click="dialog = false"
                       >
-                        {{ getString("votingForm", "stay") }}
+                        {{ $t('votingForm.stay') }}
                       </v-btn>
                       <v-btn
                         color="green darken-1"
                         text
                         @click="dialog = false"
                       >
-                        {{ getString("votingForm", "goToVoting") }}
+                        {{  $t('votingForm.goToVoting') }}
                       </v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
                 <v-btn @click="clear">
-                  {{ getString("votingEditForm", "cancel") }}
+                  {{ $t("votingEditForm.cancel") }}
                 </v-btn>
               </div>
             </v-container>
@@ -135,8 +135,8 @@
     </div>
 
     <DialogWithUser
-      :title="getString('groupForm', 'success')"
-      :desc="getString('groupForm', 'desc')"
+      :title="$t('groupForm.success')"
+      :desc="$t('groupForm.desc')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
@@ -148,8 +148,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService} from "@/common/api.service.js";
 import DialogWithUser from '../../components/UI/DialogWithUser.vue';
 
@@ -171,15 +169,15 @@ export default {
       oldVoting: [],
       voting: {
         startDate: {
-          label: getString("votingForm", "startDateLabel"),
+          label: this.$t("votingForm.startDateLabel"),
           value: "",
         },
         endDate: {
-          label: getString("votingForm", "endDateLabel"),
+          label: this.$t("votingForm.endDateLabel"),
           value: "",
         },
         votingType: {
-          label: getString("votingForm", "votingTypeLabel"),
+          label: this.$t("votingForm.votingTypeLabel"),
           value: "",
         },
       },
@@ -187,8 +185,6 @@ export default {
     };
   },
   methods: {
-    getString,
-    getColor,
     clear() {
      this.voting.startDate.value = this.oldVoting.startDate
       this.voting.endDate.value = this.oldVoting.endDate
@@ -233,7 +229,7 @@ export default {
     
   },
   created(){
-    document.title = this.getString("votingEditForm", "title")
+    document.title = this.$t("votingEditForm.title")
   },
   async beforeRouteEnter(to, from, next){
         if(to.params.id !== undefined){

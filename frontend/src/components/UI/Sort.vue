@@ -3,7 +3,7 @@
     <div class="md-layout-item">
       <md-field>
         <label for="sortGroups"
-          ><md-icon>sort</md-icon> {{ getString("groups", "sortBy") }}</label
+          ><md-icon>sort</md-icon> {{ $t("sortBy") }}</label
         >
         <md-select v-model="sort" name="sortGroups" id="sortGroups">
           <md-option
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
 export default {
   name: "searchEngine",
   props: ["options"],
@@ -30,7 +29,6 @@ export default {
     };
   },
   methods: {
-    getString,
   },
   watch: {
     sort: function(val) {

@@ -3,7 +3,7 @@
     <div class="allTitle">
       <div class="nextToGroups">
         <div class="groupsTitle">
-          {{ getString("projectsEdit", "title").toUpperCase() }}
+          {{ $t("projectsEdit.title").toUpperCase() }}
         </div>
       </div>
     </div>
@@ -60,20 +60,20 @@
         </v-container>
       </div>
       <DialogWithUser
-      :desc="getString('projectsEdit', 'delete')"
+      :desc="$t('projectsEdit.delete')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
-      :yes="getString('projectsEdit', 'accept')"
-      :no="getString('projectsEdit', 'cancel')"
+      :yes="$t('projectsEdit.accept')"
+      :no="$t('projectsEdit.cancel')"
     />
 
     <DialogWithUser
-      :desc="getString('projectsEdit', 'success')"
+      :desc="$t('projectsEdit.success')"
       :nextAction="nextFunction2"
       :backAction="backFunction2"
       :dialog="dialog2"
-      :no="getString('projectsEdit', 'back')"
+      :no="$t('projectsEdit.back')"
     />
 
     </div>
@@ -85,8 +85,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService } from "@/common/api.service.js";
 import DialogWithUser from '../../components/UI/DialogWithUser.vue';
 
@@ -108,14 +106,12 @@ export default {
       editAction: "projectEdit",
       requestUser: "",
       sortOptions: [
-        [getString("projects", "name"), this.sortByName],
-        [getString("projects", "membersNumberSort"), this.sortByMembers],
+        [this.$t("projects.name"), this.sortByName],
+        [this.$t("projects.membersNumberSort"), this.sortByMembers],
       ],
     };
   },
   methods: {
-    getString,
-    getColor,
     async getAllProjects() {
       this.projects = [];
       let endpoint = "api/projects/";
@@ -183,7 +179,7 @@ export default {
   created() {
     this.getAllProjects();
     this.setRequestUser();
-    document.title = this.getString("projects", "pageTitle");
+    document.title = this.$t("projectsScreen.pageTitle");
   },
   watch: {
     page: function() {

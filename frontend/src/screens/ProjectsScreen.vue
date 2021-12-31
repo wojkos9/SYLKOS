@@ -3,7 +3,7 @@
     <div class="allTitle">
       <div class="nextToGroups">
         <div class="groupsTitle">
-          {{ getString("projects", "title").toUpperCase() }} ({{
+          {{ $t("projectsScreen.title").toUpperCase() }} ({{
             allProjects
           }})
         </div>
@@ -37,10 +37,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
-// import Sort from "../../components/UI/Sort.vue";
-// import Search from "../../components/UI/Search.vue";
 import { apiService } from "@/common/api.service.js";
 import Project from "../components/projects/Project.vue";
 export default {
@@ -56,14 +52,11 @@ export default {
       sideDrawer: false,
       allProjects: '',
       searchName: "",
-      sortOptions: [ [getString("groups", "name"), this.sortByName],  [getString("groups", "membersNumberSort"), this.sortByMembers]],
       id: 1,
       page: 1,
     };
   },
   methods: {
-    getString,
-    getColor,
     async getAllProjects() {
       const data = await apiService("/api/projects/");
       this.allProjects = data["count"]
@@ -108,7 +101,7 @@ export default {
   created() {
     this.getAllProjects()
     this.setRequestUser()
-    document.title = this.getString("projects", "pageTitle")
+    document.title = this.$t("projectsScreen.pageTitle")
   },
   watch: {
     page: function() {

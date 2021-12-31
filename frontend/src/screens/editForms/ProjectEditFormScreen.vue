@@ -16,7 +16,7 @@
           >
             <v-container>
               <div class="projectName">
-                {{ getString("projectEditForm", "title") }}
+                {{ $t("projectEditForm.title") }}
               </div>
 
               <v-text-field
@@ -102,10 +102,10 @@
 
               <div class="d-flex justify-content-end p-4 buttons">
                 <v-btn class="mr-4 p-2" @click="submit">
-                  {{ getString("projectEditForm", "submit") }}
+                  {{ $t("projectEditForm.submit") }}
                 </v-btn>
                 <v-btn @click="clear">
-                  {{ getString("projectEditForm", "cancel") }}
+                  {{ $t("projectEditForm.cancel") }}
                 </v-btn>
               </div>
             </v-container>
@@ -116,8 +116,8 @@
     </div>
 
     <DialogWithUser
-      :title="getString('groupForm', 'success')"
-      :desc="getString('groupForm', 'desc')"
+      :title="$t('projectEditForm.success')"
+      :desc="$t('projectEditForm.desc')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
@@ -129,8 +129,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService} from "@/common/api.service.js";
 import DialogWithUser from '../../components/UI/DialogWithUser.vue';
 
@@ -146,42 +144,42 @@ export default {
       groups: [],
       project: {
         name: {
-          label: getString("projectForm", "projectNameLabel"),
-          rule: [(v) => !!v || getString("projectForm", "projectNameError")],
+          label: this.$t("projectForm.projectNameLabel"),
+          rule: [(v) => !!v || this.$t("projectForm.projectNameError")],
           value: "",
         },
         description: {
-          label: getString("projectForm", "projectDescLabel"),
-          rule: [(v) => !!v || getString("projectForm", "projectDescError")],
+          label: this.$t("projectForm.projectDescLabel"),
+          rule: [(v) => !!v || this.$t("projectForm.projectDescError")],
           value: "",
         },
         budget: {
-          label: getString("projectForm", "projectBudgetLabel"),
-          rule: [(v) => !!v || getString("projectForm", "projectBudgetError")],
+          label: this.$t("projectForm.projectBudgetLabel"),
+          rule: [(v) => !!v || this.$t("projectForm.projectBudgetError")],
           value: 0,
         },
         stage: {
-          label: getString("projectForm", "projectStageLabel"),
-          rule: [(v) => !!v || getString("projectForm", "projectStageError")],
+          label: this.$t("projectForm.projectStageLabel"),
+          rule: [(v) => !!v || this.$t("projectForm.projectStageError")],
           value: "",
         },
         finish_date: {
-          label: getString("projectForm", "projectFinishLabel"),
-          rule: [(v) => !!v || getString("projectForm", "projectFinishError")],
+          label: this.$t("projectForm.projectFinishLabel"),
+          rule: [(v) => !!v || this.$t("projectForm.projectFinishError")],
           value: "",
         },
         group: {
-          label: getString("projectForm", "projectGroupLabel"),
-          rule: [(v) => !!v || getString("projectForm", "projectGroupError")],
+          label: this.$t("projectForm.projectGroupLabel"),
+          rule: [(v) => !!v || this.$t("projectForm.projectGroupError")],
           value: "",
         },
         voting: {
-          label: getString("projectForm", "projectVotingLabel"),
+          label: this.$t("projectForm.projectVotingLabel"),
           rule: [],
           value: "",
         },
         images: {
-          label: getString("projectForm", "projectPhotoLabel"),
+          label: this.$t("projectForm.projectPhotoLabel"),
           rule: [],
           value: 0,
         },
@@ -191,8 +189,6 @@ export default {
     };
   },
   methods: {
-    getString,
-    getColor,
     clear() {
 
       this.project.name.value = this.oldProject.name;
@@ -251,7 +247,7 @@ export default {
     
   },
   created(){
-    document.title = this.getString("projectEditForm", "title")
+    document.title = this.$t("projectEditForm.title")
   },
   async beforeRouteEnter(to, from, next){
         if(to.params.id !== undefined){

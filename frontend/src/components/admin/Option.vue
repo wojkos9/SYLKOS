@@ -24,8 +24,8 @@
             </v-btn>
           </v-fab-transition>
         </v-card-text>
-      </router-link>
-
+      </router-link> 
+ 
       <!-- EDIT OBJECT -->
       <router-link :to="{ name: editAction }">
         <v-card-text class="editAction">
@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
 
 export default {
   name: "adminScreen",
@@ -60,7 +59,6 @@ export default {
     };
   },
   methods: {
-    getString,
     optionChange(){
         this.hidden = !this.hidden;
         this.$emit('change');

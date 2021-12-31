@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
 
 export default {
   name: "photoDialog",
@@ -48,7 +47,6 @@ export default {
     };
   },
   methods: {
-    getString,
     showRules() {
       this.photoDialog = true;
     },

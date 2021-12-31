@@ -3,7 +3,6 @@
   <div class="row">
     <div class="container">
       <div class="section-title">Grupy, do których należysz </div>
-       {{ $t('hello') }}
       <div v-for="group in myGroups" :key="group.id">
         <Group
           v-bind:group="group"
@@ -29,8 +28,6 @@
 
 <script>
 // import Projects from "../components/user/Projects.vue";
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 // import UserProjects from "../components/user/UserProjects.vue";
 import { apiService } from "@/common/api.service.js";
 import Group from "../components/groups/Group.vue";
@@ -51,8 +48,6 @@ export default {
     };
   },
   methods: {
-    getString,
-    getColor,
     ifUser(){
        if (
         window.localStorage.getItem("username") ==

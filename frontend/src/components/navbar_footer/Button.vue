@@ -10,14 +10,10 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 export default {
   name: "Button",
   props: ["title", "route"],
   methods: {
-    getString,
-    getColor,
   },
 };
 </script>
@@ -32,7 +28,7 @@ export default {
     position: relative;
     padding: 2px;
     min-width: 110px;
-    margin: 0 16px 10px 0;
+    margin: 0 16px 10px 0; 
     text-align: center;
     text-decoration: none;
     font-weight: 600;

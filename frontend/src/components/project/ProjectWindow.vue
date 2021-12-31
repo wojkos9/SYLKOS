@@ -2,16 +2,14 @@
   <v-dialog v-model="dialog" width="unset">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" dark v-bind="attrs" v-on="on">
-        {{ getString("userPanel", "details") }}
+        {{ $t("details") }}
       </v-btn>
     </template>
 
     <v-card>
-      <!-- <v-system-bar color="background"> -->
         <v-card-title >
           {{ project.name }}
         </v-card-title>
-      <!-- </v-system-bar> -->
       <v-card-text>
         <div>
           <div class="projectDesc">
@@ -19,7 +17,7 @@
                         <span v-if="showMore2">{{ project.description }} </span>
                         <span v-else>
                           {{ project.description.slice(0, 200) }}...</span
-                        >
+                        > 
                         <div v-if="!showMore2" class="paddingTop-m">
                           <v-btn
                             x-small
@@ -27,7 +25,7 @@
                             dark
                             @click="showMore2 = true"
                           >
-                            rozwiń opis
+                            {{ $t("expand")}}
                           </v-btn>
                         </div>
                         <div v-else class="paddingTop-m">
@@ -38,7 +36,7 @@
                             v-if="showMore2"
                             @click="showMore2 = false"
                           >
-                            zwiń opis
+                            {{ $t("unexpand")}}
                           </v-btn>
                         </div>
                       </div>
@@ -96,14 +94,13 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" text @click="dialog = false">
-          {{ getString("userPanel", "close") }}
+         {{$t("close")}}
         </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 <script>
-import { getString } from "@/language/string.js";
 import { apiService } from "@/common/api.service.js";
 import Comment from "@/components/project/Comment.vue";
 import AddComment from "@/components/project/AddComment.vue";
@@ -136,7 +133,6 @@ export default {
     };
   },
   methods: {
-    getString,
     check(funName) {
       if (
         window.localStorage.getItem("username") ==
@@ -162,18 +158,18 @@ export default {
       this.comments = commentsData.results;
       this.desserts = [
         {
-          name: this.getString("projectInfo", "price"),
+          name: this.$t("price"),
           calories: this.project.budget + "zł",
         },
         {
-          name: this.getString("projectInfo", "votingEndDate"),
+          name: this.$t("votingEndDate"),
           calories: votingData.end_date.slice(
             0,
             votingData.end_date.indexOf(" ")
           ),
         },
         {
-          name: this.getString("projectInfo", "projectUploadDate"),
+          name: this.$t("projectUploadDate"),
           calories: this.project.finish_date.slice(
             0,
             this.project.finish_date.indexOf(" ")

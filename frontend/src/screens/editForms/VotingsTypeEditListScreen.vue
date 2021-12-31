@@ -3,7 +3,7 @@
     <div class="allTitle">
       <div class="nextToGroups">
         <div class="groupsTitle">
-          {{ getString("votingTypesEdit", "title").toUpperCase() }}
+          {{ $t("votingTypesEdit.title").toUpperCase() }}
         </div>
       </div>
     </div>
@@ -59,20 +59,20 @@
         </v-container>
       </div>
       <DialogWithUser
-      :desc="getString('votingEdit', 'delete')"
+      :desc="$t('votingEdit.delete')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
-      :yes="getString('votingEdit', 'accept')"
-      :no="getString('votingEdit', 'cancel')"
+      :yes="$t('votingEdit.accept')"
+      :no="$t('votingEdit.cancel')"
     />
 
     <DialogWithUser
-      :desc="getString('votingEdit', 'success')"
+      :desc="$t('votingEdit.success')"
       :nextAction="nextFunction2"
       :backAction="backFunction2"
       :dialog="dialog2"
-      :no="getString('votingEdit', 'back')"
+      :no="$t('votingEdit.back')"
     />
 
     </div>
@@ -84,8 +84,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService } from "@/common/api.service.js";
 import DialogWithUser from '../../components/UI/DialogWithUser.vue';
 
@@ -106,15 +104,9 @@ export default {
       searchName: "",
       editAction: "votingTypeEdit",
       requestUser: "",
-      // sortOptions: [
-      //   [getString("groups", "name"), this.sortByName],
-      //   [getString("groups", "membersNumberSort"), this.sortByMembers],
-      // ],
     };
   },
   methods: {
-    getString,
-    getColor,
     async getOnePageVotingTypes() {
       let endpoint = `api/voting_type/?page=${this.page}`;
       let data = await apiService(endpoint);
@@ -173,7 +165,7 @@ export default {
   created() {
     this.getOnePageVotingTypes();
     this.setRequestUser();
-    document.title = this.getString("votingTypesEdit", "pageTitle");
+    document.title = this.$t("votingTypesEdit.pageTitle");
   },
   watch: {
     page: function() {

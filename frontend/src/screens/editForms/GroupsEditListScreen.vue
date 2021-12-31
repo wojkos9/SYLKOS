@@ -3,7 +3,7 @@
     <div class="allTitle">
       <div class="nextToGroups">
         <div class="groupsTitle">
-          {{ getString("groupsEdit", "title").toUpperCase() }}
+          {{ $t("groupsEdit.title").toUpperCase() }}
         </div>
       </div>
     </div>
@@ -60,20 +60,20 @@
         </v-container>
       </div>
       <DialogWithUser
-      :desc="getString('groupsEdit', 'delete')"
+      :desc="$t('groupsEdit.delete')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
-      :yes="getString('groupsEdit', 'accept')"
-      :no="getString('groupsEdit', 'cancel')"
+      :yes="$t('groupsEdit.accept')"
+      :no="$t('groupsEdit.cancel')"
     />
 
     <DialogWithUser
-      :desc="getString('groupsEdit', 'success')"
+      :desc="$t('groupsEdit.success')"
       :nextAction="nextFunction2"
       :backAction="backFunction2"
       :dialog="dialog2"
-      :no="getString('groupsEdit', 'back')"
+      :no="$t('groupsEdit.back')"
     />
 
     </div>
@@ -83,8 +83,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService } from "@/common/api.service.js";
 import DialogWithUser from '../../components/UI/DialogWithUser.vue';
 
@@ -106,14 +104,12 @@ export default {
       editAction: "groupEdit",
       requestUser: "",
       sortOptions: [
-        [getString("groups", "name"), this.sortByName],
-        [getString("groups", "membersNumberSort"), this.sortByMembers],
+        [this.$t("groupsScreen.name"), this.sortByName],
+        [this.$t("groupsScreen.membersNumberSort"), this.sortByMembers],
       ],
     };
   },
   methods: {
-    getString,
-    getColor,
   
     async getOnePageGroups() {
       let endpoint = `api/groups/?page=${this.page}`;
@@ -168,7 +164,7 @@ export default {
   created() {
     this.getOnePageGroups();
     this.setRequestUser();
-    document.title = this.getString("groups", "pageTitle");
+    document.title = this.$t("groupsScreen.pageTitle");
   },
   watch: {
     page: function() {

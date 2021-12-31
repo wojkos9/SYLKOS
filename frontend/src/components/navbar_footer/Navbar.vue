@@ -28,12 +28,12 @@
             
             >
               <Button
-                v-bind:title="getString('navbar', 'groups')"
+                v-bind:title="$t('groups')"
                 v-bind:route="groupsRoute"
                 v-on:reset="select = ''"
               />
               <Button
-                v-bind:title="getString('navbar', 'projects')"
+                v-bind:title="$t('projects')"
                 v-bind:route="projectsRoute"
                 v-on:reset="select = ''"
               />
@@ -61,8 +61,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import Button from "./Button.vue";
 
 export default {
@@ -80,14 +78,12 @@ export default {
       sort: "",
       select: "",
       menuOptions: [
-        { name: this.getString("navbar", "settings"), route: "groupNew" },
-        { name: this.getString("navbar", "user"), route: "projects" },
+        { name: this.$t('settings'), route: "groupNew" },
+        { name: this.$t('user'), route: "projects" },
       ],
     };
   },
   methods: {
-    getString,
-    getColor,
     check() {
       if (
         window.localStorage.getItem("username") ==
@@ -100,7 +96,7 @@ export default {
       this.role = window.localStorage.getItem("username");
       if (this.role == "admin") {
         this.menuOptions.push({
-          name: this.getString("navbar", "admin"),
+          name: this.$t("admin"),
           route: "admin",
         });
       }

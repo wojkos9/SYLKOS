@@ -16,11 +16,11 @@
           uzyskane punkty: {{project.votes}}
         </div>
         <div class="description">
-          {{ getString("votingProject", "desc") }} {{ project.description }}
+           {{ project.description }}
         </div>
 
         <div class="price">
-          {{ getString("votingProject", "price") }} : {{ project.budget }} zł
+          {{ $t("price") }} : {{ project.budget }} zł
         </div>
       </div>
 
@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
 import ProjectWindow from "@/components/project/ProjectWindow.vue";
 export default {
   name: "votingProject",
@@ -53,7 +52,6 @@ export default {
     ProjectWindow,
   },
   methods: {
-    getString,
     buttonClicked() {
       this.clicked = !this.clicked;
       this.$emit("change", this.project.id);

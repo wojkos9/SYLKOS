@@ -18,7 +18,7 @@
           >
             <v-container>
               <div class="projectName">
-                {{ getString("projectForm", "newProject") }}
+                {{ $t("projectForm.newProject") }}
               </div>
               <v-text-field
                 class="p-2 m-3"
@@ -102,10 +102,10 @@
 
               <div class="d-flex justify-content-end p-4 buttons">
                 <v-btn class="mr-4 p-2" @click="submit">
-                  {{ getString("projectForm", "submit") }}
+                  {{ $t("projectForm.submit") }}
                 </v-btn>
                 <v-btn @click="clear">
-                  {{ getString("projectForm", "clearData") }}
+                  {{ $t("projectForm.clearData") }}
                 </v-btn>
               </div>
             </v-container>
@@ -116,8 +116,8 @@
     </div>
 
     <DialogWithUser
-      :title="getString('projectForm', 'success')"
-      :desc="getString('projectForm', 'desc')"
+      :title="$t('projectForm.success')"
+      :desc="$t('projectForm.desc')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
@@ -127,8 +127,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService, imageUpload } from "@/common/api.service.js";
 import DialogWithUser from "../components/UI/DialogWithUser.vue";
 
@@ -138,7 +136,7 @@ export default {
   props: ["groupId", "votingId"],
   data() {
     return {
-      lang: getString("language", "lang"),
+      lang: this.$t("language.lang"),
       valid: false,
       selectedFiles: [],
       menu: false,
@@ -150,42 +148,42 @@ export default {
       myComment: {},
       project: {
         name: {
-          label: getString("projectForm", "projectNameLabel"),
-          rule: [(v) => !!v || getString("projectForm", "projectNameError")],
+          label: this.$t("projectForm.projectNameLabel"),
+          rule: [(v) => !!v || this.$t("projectForm.projectNameError")],
           value: "",
         },
         description: {
-          label: getString("projectForm", "projectDescLabel"),
-          rule: [(v) => !!v || getString("projectForm", "projectDescError")],
+          label: this.$t("projectForm.projectDescLabel"),
+          rule: [(v) => !!v || this.$t("projectForm.projectDescError")],
           value: "",
         },
         budget: {
-          label: getString("projectForm", "projectBudgetLabel"),
-          rule: [(v) => !!v || getString("projectForm", "projectBudgetError")],
+          label: this.$t("projectForm.projectBudgetLabel"),
+          rule: [(v) => !!v || this.$t("projectForm.projectBudgetError")],
           value: 0,
         },
         stage: {
-          label: getString("projectForm", "projectStageLabel"),
-          rule: [(v) => !!v || getString("projectForm", "projectStageError")],
+          label: this.$t("projectForm.projectStageLabel"),
+          rule: [(v) => !!v || this.$t("projectForm.projectStageError")],
           value: "",
         },
         finish_date: {
-          label: getString("projectForm", "projectFinishLabel"),
-          rule: [(v) => !!v || getString("projectForm", "projectFinishError")],
+          label: this.$t("projectForm.projectFinishLabel"),
+          rule: [(v) => !!v || this.$t("projectForm.projectFinishError")],
           value: "",
         },
         group: {
-          label: getString("projectForm", "projectGroupLabel"),
-          rule: [(v) => !!v || getString("projectForm", "projectGroupError")],
+          label: this.$t("projectForm.projectGroupLabel"),
+          rule: [(v) => !!v || this.$t("projectForm.projectGroupError")],
           value: "",
         },
         voting: {
-          label: getString("projectForm", "projectVotingLabel"),
+          label: this.$t("projectForm.projectVotingLabel"),
           rule: [],
           value: "",
         },
         images: {
-          label: getString("projectForm", "projectPhotoLabel"),
+          label: this.$t("projectForm.projectPhotoLabel"),
           rule: [],
           value: 0,
         },
@@ -193,8 +191,6 @@ export default {
     };
   },
   methods: {
-    getString,
-    getColor,
     clear() {
       this.name.value = "";
       this.subname.value = "";
@@ -232,7 +228,7 @@ export default {
             this.project.finish_date.value = data.finish_date.slice(0,10);
             this.project.group.value = this.project.group.value.name;
             this.project.voting.value = this.project.voting.value.name;
-            this.project.voting.label = this.getString('projectForm', 'pictures');
+            this.project.voting.label = this.$t('projectForm.pictures');
 
             for (var file of this.selectedFiles) {
               let formData = new FormData();
@@ -258,7 +254,7 @@ export default {
     },
   },
   created() {
-    document.title = this.getString("groupForm", "title");
+    document.title = this.$t("groupForm.title");
   },
   async beforeRouteEnter(to, from, next) {
     let userEndpoint = `api/user/`;

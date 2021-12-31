@@ -1,4 +1,4 @@
-export const pl = {
+export const en = {
   newLanguage: 'angielski', //po angielsku polish 
   expand: 'rozwiń opis',
   unexpand: 'zwiń opis',

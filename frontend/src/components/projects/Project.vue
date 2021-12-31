@@ -1,62 +1,51 @@
 <template>
   <div class="container">
     <div class="row area">
-  <div class="aboutGroup">
+      <div class="aboutGroup">
         <div>
           <div class="groupTitle">{{ project.name }}</div>
         </div>
 
         <div class="desc">
           <div v-if="project.description.length > 200">
-                        <span v-if="showMore2">{{ project.description }} </span>
-                        <span v-else>
-                          {{ project.description.slice(0, 200) }}...</span
-                        >
-                        <div v-if="!showMore2" class="paddingTop-m">
-                          <v-btn
-                            x-small
-                            color="primary"
-                            dark
-                            @click="showMore2 = true"
-                          >
-                            rozwiń opis
-                          </v-btn>
-                        </div>
-                        <div v-else class="paddingTop-m">
-                          <v-btn
-                            x-small
-                            color="primary"
-                            dark
-                            v-if="showMore2"
-                            @click="showMore2 = false"
-                          >
-                            zwiń opis
-                          </v-btn>
-                        </div>
-                      </div>
-                      <div v-else>
-                        {{ project.description }}
-                      </div>
-        </div>
-        <div class="price desc">
-            {{ getString("projects", "price") }}: {{ project.budget }} zł
+            <span v-if="showMore2">{{ project.description }} </span>
+            <span v-else> {{ project.description.slice(0, 200) }}...</span>
+            <div v-if="!showMore2" class="paddingTop-m">
+              <v-btn x-small color="primary" dark @click="showMore2 = true">
+                {{ $t("expand") }}
+              </v-btn>
+            </div>
+            <div v-else class="paddingTop-m">
+              <v-btn
+                x-small
+                color="primary"
+                dark
+                v-if="showMore2"
+                @click="showMore2 = false"
+              >
+                {{ $t("unexpand") }}
+              </v-btn>
+            </div>
           </div>
+          <div v-else>
+            {{ project.description }}
+          </div>  
+        </div> 
+        <div class="price desc">{{ $t("price") }}: {{ project.budget }} zł</div>
       </div>
       <div class="col center">
         <div class="center">
           <div v-if="project.images.length > 0">
             <img :src="`/media/${project.images[0].image}`" class="image" />
           </div>
-          <ProjectWindow :project="project"/>
+          <ProjectWindow :project="project" />
         </div>
       </div>
-      
-      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
 import ProjectWindow from "@/components/project/ProjectWindow.vue";
 
 export default {
@@ -64,13 +53,11 @@ export default {
   props: ["project"],
   data() {
     return {
-      showMore2: false, 
+      showMore2: false,
     };
   },
-  methods: {
-    getString,
-  },
-  components: {  ProjectWindow },
+  methods: {},
+  components: { ProjectWindow },
 };
 </script>
 
@@ -82,7 +69,6 @@ export default {
   flex-direction: column;
   justify-content: center;
 }
-
 
 ::v-deep input::-webkit-outer-spin-button,
 ::v-deep input::-webkit-inner-spin-button {
@@ -97,7 +83,6 @@ export default {
   margin-top: 10px;
   padding: 10px;
 }
-
 
 .groupTitle {
   font-weight: 700;
@@ -137,9 +122,6 @@ export default {
   }
 }
 
-
-
-
 @media only screen and (max-width: 1000px) {
   .aboutGroup {
     margin: 0 auto;
@@ -155,7 +137,6 @@ export default {
     margin: 0 auto 50px auto;
   }
 
-
   .aboutGroup {
     max-width: 700px;
     padding: 10px;
@@ -163,11 +144,11 @@ export default {
     margin: 10px auto;
   }
 
-  .desc{
+  .desc {
     margin-top: 0;
   }
 
-  .center{
+  .center {
     margin-bottom: 20px;
   }
 }

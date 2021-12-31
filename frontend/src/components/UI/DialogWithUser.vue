@@ -21,14 +21,14 @@
             text
             @click="nextAction"
           >
-             <span v-if="yes">{{yes}}</span><span v-else>{{getString("votingTypeForm", "next")}}</span>
+             <span v-if="yes">{{yes}}</span><span v-else>{{$t("next")}}</span>
           </v-btn>
           <v-btn
             color="green darken-1"
             text
             @click="backAction"
           >
-              <span v-if="no">{{no}}</span><span v-else>{{getString("votingTypeForm", "back")}}</span>
+              <span v-if="no">{{no}}</span><span v-else>{{$t("back")}}</span>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
 export default ({
     name: "DialogWithUser",
     props: ["title", "desc", "object", "nextAction", "backAction", "dialog", "yes", "no"],
@@ -46,7 +45,6 @@ export default ({
         }
     },
     methods: {
-      getString
     }, 
     computed(){
     } 

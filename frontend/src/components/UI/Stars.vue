@@ -5,16 +5,12 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import Star from './Star.vue';
 
 export default {
   name: "stars",
   props: ["stars"],
   methods: {
-    getString,
-    getColor,
   },
   computed: {},
   components: {Star},

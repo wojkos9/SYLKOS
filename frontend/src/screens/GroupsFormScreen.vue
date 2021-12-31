@@ -18,7 +18,7 @@
           >
             <v-container>
               <div class="groupName">
-                {{ getString("groupForm", "newGroup") }}
+                {{ $t("groupForm.newGroup") }}
               </div>
 
               <v-text-field
@@ -52,10 +52,10 @@
               ></v-file-input>
               <div class="d-flex justify-content-end p-4 buttons">
                 <v-btn class="mr-4 p-2" @click="submit">
-                  {{ getString("groupForm", "submit") }}
+                  {{ $t("groupForm.submit") }}
                 </v-btn>
                 <v-btn @click="clear">
-                  {{ getString("groupForm", "clearData") }}
+                  {{ $t("groupForm.clearData") }}
                 </v-btn>
               </div>
             </v-container>
@@ -66,8 +66,8 @@
     </div>
 
     <DialogWithUser
-      :title="getString('groupForm', 'success')"
-      :desc="getString('groupForm', 'desc')"
+      :title="$t('success')"
+      :desc="$t('desc')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
@@ -77,8 +77,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService, imageUpload } from "@/common/api.service.js";
 import DialogWithUser from "../components/UI/DialogWithUser.vue";
 
@@ -91,31 +89,31 @@ export default {
       newName: "costam",
       group: {
         name: {
-          label: getString("groupForm", "groupNameLabel"),
+          label: this.$t("groupForm.groupNameLabel"),
           value: "",
         },
         desc: {
-          label: getString("groupForm", "groupDescLabel"),
+          label: this.$t("groupForm.groupDescLabel"),
           value: "",
         },
         pictures: {
-          label: getString("groupForm", "pictures"),
+          label: this.$t("groupForm.pictures"),
           value: 0,
         },
       },
       name: {
-        label: getString("groupForm", "groupNameLabel"),
-        rule: [(v) => !!v || getString("groupForm", "groupNameError")],
+        label: this.$t("groupForm.groupNameLabel"),
+        rule: [(v) => !!v || this.$t("groupForm.groupNameError")],
         value: "",
       },
 
       desc: {
-        label: getString("groupForm", "groupDescLabel"),
-        rule: [(v) => !!v || getString("groupForm", "groupDescError")],
+        label: this.$t("groupForm.groupDescLabel"),
+        rule: [(v) => !!v || this.$t("groupForm.groupDescError")],
         value: "",
       },
       photo: {
-        label: getString("groupForm", "groupPhotoLabel"),
+        label: this.$t("groupForm.groupPhotoLabel"),
         rule: [],
         value: {},
       },
@@ -125,8 +123,6 @@ export default {
     };
   },
   methods: {
-    getString,
-    getColor,
     clear() {
       this.name.value = "";
       this.desc.value = "";
@@ -176,7 +172,7 @@ export default {
     },
   },
   created() {
-    document.title = this.getString("groupForm", "title");
+    document.title = this.$t("groupForm.title");
   },
 };
 </script>

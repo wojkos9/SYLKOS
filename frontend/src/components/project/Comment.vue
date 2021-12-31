@@ -53,8 +53,7 @@
       <v-card>
         <v-card-text class="text-h6  lighten-2 p-4 ">
           <span class="d-flex justify-content-center">
-            {{ getString("projects", "deleteCommnet") }}</span
-          >
+            {{ $t("deleteCommnet") }}</span>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -62,10 +61,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="dialog = false">
-            {{ getString("projects", "cancel") }}
+            {{ $t("cancel") }}
           </v-btn>
           <v-btn text @click="deleteComment">
-            {{ getString("projects", "submit") }}
+            {{ $t("projectSubmit") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -75,7 +74,7 @@
       <v-card>
         <v-card-text class="text-h6  lighten-2 p-4 ">
           <span class="d-flex justify-content-center">
-            {{ getString("projects", "success") }}</span
+            {{ $t("deleteCommentSuccess") }}</span
           >
         </v-card-text>
 
@@ -84,7 +83,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="dialog2 = false">
-            {{ getString("projects", "ok") }}
+            {{ $t("ok") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -94,7 +93,7 @@
       <v-card>
         <v-card-title class="p1 d-flex justify-content-center">
           <span class="d-flex justify-content-center">
-            {{ getString("projects", "edit") }}</span
+            {{ $t("editComment") }}</span
           >
         </v-card-title>
 
@@ -125,10 +124,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="dialog3 = false">
-            {{ getString("projects", "editCancel") }}
+            {{ $t("cancel") }}
           </v-btn>
           <v-btn text @click="editPutComment">
-            {{ getString("projects", "editOk") }}
+            {{ $t("editOk") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -140,7 +139,6 @@
 import PlusMinusRating from "../UI/PlusMinusRating.vue";
 import { mdiDelete } from "@mdi/js";
 import { apiService } from "@/common/api.service.js";
-import { getString } from "@/language/string.js";
 
 export default {
   name: "comment",
@@ -157,8 +155,8 @@ export default {
         mdiDelete,
       },
       myComment: {
-        label: getString("projects", "editComment"),
-        rule: [(v) => !!v || getString("projects", "editCommentError")],
+        label: this.$t("editComment"),
+        rule: [(v) => !!v || this.$t("editCommentError")],
         value: "",
       },
       ratingEdit: 5,
@@ -168,7 +166,6 @@ export default {
     PlusMinusRating,
   },
   methods: {
-    getString,
     async setUserInfo() {
       this.loggedUser = window.localStorage.getItem("username");
     },

@@ -16,7 +16,7 @@
     >
     
       <v-container>
-        <div class="groupName">{{ getString("votingTypeForm", "title") }}</div>
+        <div class="groupName">{{ $t( "votingTypetitle") }}</div>
        
         <v-text-field class="p-2 m-3"
         dense
@@ -35,10 +35,10 @@
       
         <div class="d-flex justify-content-end p-4 buttons">
           <v-btn class="mr-4 p-2" @click="submit">
-            {{ getString("votingTypeForm", "submit") }}
+            {{ this.this.$t("submit") }}
           </v-btn>
           <v-btn @click="clear">
-            {{ getString("votingTypeForm", "clearData") }}
+            {{ $t("votingTypesubmit") }}
           </v-btn>
         </div>
       </v-container>
@@ -49,44 +49,12 @@
   </div>
 
   <DialogWithUser 
-  :title="getString('votingTypeForm', 'success')"
-  :desc="getString('votingTypeForm', 'desc')"
+  :title="$t('success')"
+  :desc="$t('desc')"
   :nextAction="nextFunction"
   :backAction="backFunction"
   :dialog="dialog"
   :object="votingType" />
-   <!-- <v-dialog
-      v-model="dialog"
-      width="600px"
-    >
-      <v-card>
-        <v-card-title>
-          <span class="text-h5">{{ getString("votingTypeForm", "success") }}</span>
-        </v-card-title>
-        <v-card-text>
-          {{getString("votingTypeForm", "desc")}}<br> 
-          {{getString("votingTypeForm", "votingName")}} {{votingType.name}} <br> 
-          {{getString("votingTypeForm", "votingDesc")}} {{votingType.description}}
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="nextFunction"
-          >
-             {{getString("votingTypeForm", "next")}}
-          </v-btn>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="backFunction"
-          >
-             {{getString("votingTypeForm", "back")}}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
     </div>
       
 </div>
@@ -94,8 +62,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService } from "@/common/api.service.js";
 import DialogWithUser from '../components/UI/DialogWithUser.vue';
 
@@ -109,30 +75,28 @@ export default {
       dialog: false,
       votingType: {
         name:{
-          label: getString("votingTypeForm", "votingName"),
+          label: this.this.$t("name"),
           value: '',
         },
         description:{
-          label: getString("votingTypeForm", "votingDesc"),
+          label: this.this.$t("desc"),
           value: '',
         },
       },
       name:
         {
-          label: getString("votingTypeForm", "nameLabel"),
-          rule: [(v) => !!v || getString("votingTypeForm", "nameError")],
+          label: this.this.$t("votingTypenameLabel"),
+          rule: [(v) => !!v || this.this.$t("votingTypenameError")],
           value: "",
         },
         desc: {
-          label: getString("votingTypeForm", "descLabel"),
-          rule: [(v) => !!v || getString("votingTypeForm", "descError")],
+          label: this.this.$t("desc"),
+          rule: [(v) => !!v || this.this.$t("votingTypedescError")],
           value: "",
         },
     };
   },
   methods: {
-    getString,
-    getColor,
     selectImage(){
       this.photo.value = this.$refs.file.files.item(0);
     },
@@ -176,7 +140,7 @@ export default {
     }
   },
   created(){
-    document.title = this.getString("votingForm", "title")
+    document.title = this.this.this.$t("votingForm", "title")
   }
 };
 </script>

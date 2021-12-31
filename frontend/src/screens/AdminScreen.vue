@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
 import Option from "../components/admin/Option.vue";
 
 export default {
@@ -59,28 +58,28 @@ export default {
       hidden: true,
       group: {
         id: 0,
-        title: this.getString("admin", "groups"),
+        title: this.$t("groups"),
         newAction: "groupNew",
         editAction: "groupsEditList",
         key: 0,
       },
       project: {
         id: 1,
-        title: this.getString("admin", "projects"),
+        title: this.$t("projects"),
         newAction: "projectNew",
         editAction: "projectsEditList",
         key: 2,
       },
       voting: {
         id:2,
-        title: this.getString("admin", "votings"),
+        title: this.$t("adminScreen.votings"),
         newAction: "votingNew",
         editAction: "votingsEditList",
         key: 4,
       },
       votingType: {
         id: 3,
-        title: this.getString("admin", "votingTypes"),
+        title: this.$t("adminScreen.votingTypes"),
         newAction: "votingTypeNew",
         editAction: "votingTypeEditList",
         // deleteAction: "votingTypeNew",
@@ -89,7 +88,6 @@ export default {
     };
   },
   methods: {
-    getString,
     resetAnother(id){
       if(id != 0) this.group.key = this.group.key == 0 ? 1 : 0
       if(id != 1) this.project.key = this.project.key == 2 ? 3 : 2
@@ -98,7 +96,7 @@ export default {
     }
   },
   created() {
-    document.title = this.getString("admin", "title");
+    document.title = this.$t("adminScreen.title");
     var role = window.localStorage.getItem("username");
       if(role != "admin"){
         this.$router.push({name:"home", })

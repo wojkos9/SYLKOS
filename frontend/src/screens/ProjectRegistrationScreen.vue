@@ -18,7 +18,7 @@
           >
             <v-container>
               <div class="projectName">
-                {{ getString("projectRegistration", "title") }}
+                {{ $t("projectRegistration.title") }}
               </div>
 
               <v-text-field
@@ -107,10 +107,10 @@
               ></v-file-input>
               <div class="d-flex justify-content-end p-4 buttons">
                 <v-btn class="mr-4 p-2" @click="submit">
-                  {{ getString("projectRegistration", "submitProject") }}
+                  {{ $t("projectRegistration.submitProject") }}
                 </v-btn>
                 <v-btn @click="clear">
-                  {{ getString("projectRegistration", "clearData") }}
+                  {{ $t("projectRegistration.clearData") }}
                 </v-btn>
               </div>
             </v-container>
@@ -123,8 +123,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService, imageUpload } from "@/common/api.service.js";
 
 export default {
@@ -135,50 +133,50 @@ export default {
       valid: false,
       menu2: false,
       name: {
-        label: getString("projectRegistration", "projectName"),
+        label: this.$t("projectRegistration.projectName"),
         rule: [
-          (v) => !!v || getString("projectRegistration", "projectNameError"),
+          (v) => !!v || this.$t("projectRegistration.projectNameError"),
         ],
         value: "",
       },
       price: {
-        label: getString("projectRegistration", "projectPrice"),
+        label: this.$t("projectRegistration.projectPrice"),
         rule: [
-          (v) => !!v || getString("projectRegistration", "projectPriceError"),
+          (v) => !!v || this.$t("projectRegistration.projectPriceError"),
         ],
         value: "",
       },
       desc: {
-        label: getString("projectRegistration", "projectDescription"),
+        label: this.$t("projectRegistration.projectDescription"),
         rule: [
           (v) =>
-            !!v || getString("projectRegistration", "projectDescriptionError"),
+            !!v || this.$t("projectRegistration.projectDescriptionError"),
         ],
         value: "",
       },
       group: {
-        label: getString("projectRegistration", "projectGroup"),
+        label: this.$t("projectRegistration.projectGroup"),
         rule: [
-          (v) => !!v || getString("projectRegistration", "projectGroupError"),
+          (v) => !!v || this.$t("projectRegistration.projectGroupError"),
         ],
         items: ["Foo", "Bar", "Fizz", "Buzz"],
         value: "",
       },
       voting: {
-        label: getString("projectRegistration", "projectVoting"),
+        label: this.$t("projectRegistration.projectVoting"),
         rule: [
-          (v) => !!v || getString("projectRegistration", "projectVotingError"),
+          (v) => !!v || this.$t("projectRegistration.projectVotingError"),
         ],
         items: ["Foo", "Bar", "Fizz", "Buzz"],
         value: "",
       },
       endDate: {
-        label: getString("votingForm", "endDateLabel"),
-        rule: [(v) => !!v || getString("votingForm", "endDateError")],
+        label: this.$t("votingForm", "endDateLabel"),
+        rule: [(v) => !!v || this.$t("votingForm", "endDateError")],
         value: "",
       },
       photo: {
-        label: getString("projectRegistration", "projectPhoto"),
+        label: this.$t("projectRegistration.projectPhoto"),
         rule: [],
         value: {},
       },
@@ -187,8 +185,6 @@ export default {
     };
   },
   methods: {
-    getString,
-    getColor,
     selectImage() {
       this.photo.value = this.$refs.file.files.item(0);
     },
@@ -232,12 +228,12 @@ export default {
             name: "project",
             params: { id: data.id },
           });
-        });
+        }); 
       }
     },
   },
   created() {
-    document.title = this.getString("projectRegistration", "pageTitle");
+    document.title = this.$t("projectRegistration.pageTitle");
   },
 };
 </script>

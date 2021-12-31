@@ -16,7 +16,7 @@
     >
     
       <v-container>
-        <div class="groupName">{{ getString("groupsEditForm", "title") }}</div>
+        <div class="groupName">{{ $t("groupsEditForm.title") }}</div>
         <v-text-field class="p-2 m-3"
         dense
             v-model="group.name.value"
@@ -46,10 +46,10 @@
       ></v-file-input> -->
         <div class="d-flex justify-content-end p-4 buttons">
           <v-btn class="mr-4 p-2" @click="submit">
-            {{ getString("groupsEditForm", "submit") }}
+            {{ $t("groupsEditForm.submit") }}
           </v-btn>
           <v-btn @click="cancel">
-            {{ getString("groupsEditForm", "cancel") }}
+            {{ $t("groupsEditForm.cancel") }}
           </v-btn>
 
         </div>
@@ -62,8 +62,8 @@
     </div>
 
     <DialogWithUser
-      :title="getString('groupForm', 'success')"
-      :desc="getString('groupForm', 'desc')"
+      :title="$t('groupForm.success')"
+      :desc="$t('groupForm.desc')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
@@ -75,8 +75,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService} from "@/common/api.service.js";
 import DialogWithUser from '../../components/UI/DialogWithUser.vue';
 
@@ -91,22 +89,22 @@ export default {
       groupId: '',
       group: {
         name: {
-          label: getString("groupForm", "groupNameLabel"),
-          rule: [(v) => !!v || getString("groupForm", "groupNameError")],
+          label: this.$t("groupForm.groupNameLabel"),
+          rule: [(v) => !!v || this.$t("groupForm.groupNameError")],
           value: "",
         },
         subname: {
-          label: getString("groupForm", "groupSubNameLabel"),
+          label: this.$t("groupForm.groupSubNameLabel"),
           rule: [],
           value: "",
         },
         desc: {
-          label: getString("groupForm", "groupDescLabel"),
-          rule: [(v) => !!v || getString("groupForm", "groupDescError")],
+          label: this.$t("groupForm.groupDescLabel"),
+          rule: [(v) => !!v || this.$t("groupForm.groupDescError")],
           value: "",
         },
         pictures: {
-          label: getString("groupForm", "pictures"),
+          label: this.$t("groupForm.pictures"),
           rule: [],
           value: {},
           count: 0,
@@ -120,8 +118,6 @@ export default {
     };
   },
   methods: {
-    getString,
-    getColor,
     clear() {
       this.name.value = "";
       this.subname.value = "";
@@ -170,7 +166,7 @@ export default {
     
   },
   created(){
-    document.title = this.getString("groupForm", "title")
+    document.title = this.$t("groupForm.title")
   },
   async beforeRouteEnter(to, from, next){
         if(to.params.id !== undefined){

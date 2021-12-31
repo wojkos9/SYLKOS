@@ -16,10 +16,10 @@
           >
             <v-container  class="center-all">
               <div class="groupName">
-                {{ getString("votingForm", "title") }}
+                {{ $t("votingForm.title") }}
               </div>
-                <span class="calendar"> wybierz pierwszy i&nbsp;ostatni<br>
-                 dzień głosowania</span>
+                <span class="calendar"> {{$t("votingForm.chooseFirtstLast")}}<br>
+                 {{$t("votingForm.votingDay")}} </span>
                 <v-date-picker
                   :first-day-of-week="0"
                   :locale="lang"
@@ -58,14 +58,14 @@
                       v-on="check && on"
                       v-bind="attrs"
                     >
-                      {{ getString("votingForm", "submit") }}
+                      {{ $t("votingForm.submit") }}
                     </v-btn>
                   </template>
                   <v-card>
                     <v-card-text
                       style="text-align: center; padding: 20px; font-size: 1.5rem"
                     >
-                      {{ getString("votingForm", "success") }}
+                      {{ $t("votingForm.success") }}
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -74,20 +74,20 @@
                         text
                         @click="dialog = false"
                       >
-                        {{ getString("votingForm", "stay") }}
+                        {{ $t("votingForm.stay") }}
                       </v-btn>
                       <v-btn
                         color="green darken-1"
                         text
                         @click="dialog = false"
                       >
-                        {{ getString("votingForm", "goToVoting") }}
+                        {{ $t("votingForm.goToVoting") }}
                       </v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
                 <v-btn @click="clear">
-                  {{ getString("votingForm", "clearData") }}
+                  {{ $t("votingForm.clearData") }}
                 </v-btn>
               </div>
             </v-container>
@@ -97,8 +97,8 @@
       
     </div>
     <DialogWithUser
-      :title="getString('votingForm', 'success')"
-      :desc="getString('votingForm', 'desc')"
+      :title="$t('votingForm.success')"
+      :desc="$t('votingForm.desc')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"
@@ -108,8 +108,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 import { apiService } from "@/common/api.service.js";
 import DialogWithUser from "../components/UI/DialogWithUser.vue";
 
@@ -120,29 +118,29 @@ export default {
   data() {
     return {
       valid: false,
-      lang: getString("language", "lang"),
+      lang: this.$t("language.lang"),
       dialog: false,
       dates: [new Date().toISOString().slice(0, 10), new Date(new Date().getTime()+(5*24*60*60*1000)).toISOString().slice(0, 10)],
       voting: {
 
         name:{
-          label: getString("votingForm", "nameLabel"),
-          rule: [(v) => !!v || getString("votingForm", "votingNameError")],
+          label: this.$t("votingForm.nameLabel"),
+          rule: [(v) => !!v || this.$t("votingForm.votingNameError")],
           value: ''
         },
 
         votingType: {
-          label: getString("votingForm", "votingTypeLabel"),
-          rule: [(v) => !!v || getString("votingForm", "votingTypeError")],
+          label: this.$t("votingForm.votingTypeLabel"),
+          rule: [(v) => !!v || this.$t("votingForm.votingTypeError")],
           value: "",
         },
         
         startDate:{
-          label: getString("votingForm", "startDateLabel"),
+          label: this.$t("votingForm.startDateLabel"),
           value: ''
         },
         endDate:{
-          label: getString("votingForm", "endDateLabel"),
+          label: this.$t("votingForm.endDateLabel"),
           value:''
         },
       },
@@ -152,8 +150,6 @@ export default {
     };
   },
   methods: {
-    getString,
-    getColor,
     clear() {
       this.votingType.value = "";
       this.dates = [];
@@ -202,7 +198,7 @@ export default {
     },
   },
   created() {
-    document.title = this.getString("votingForm", "title");
+    document.title = this.$t("votingForm.title");
   },
   async beforeRouteEnter(to, from, next) {
     let endpoint = `api/voting_type/`;

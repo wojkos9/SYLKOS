@@ -7,7 +7,7 @@
       style="height: 100px "
     >
       <v-btn color="accent" class="ma-2 p-3" dark @click="footer = true" style="color:black" >
-        {{ getString("footer", "rules") }}
+        {{ $t('rules') }}
       </v-btn>
     </div>
 
@@ -23,7 +23,8 @@
           <v-btn icon dark @click="footer = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>{{ getString("footer", "rules") }}</v-toolbar-title>
+        
+          <v-toolbar-title>{{ $t('rules') }}</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-card-text class="p-5">
@@ -72,7 +73,7 @@
           in fringilla. Mauris sit amet fringilla tellus. Proin in est
           convallis, condimentum lectus eu, rhoncus urna. Ut sollicitudin semper
           ultrices. Quisque tempor lacinia lectus at rutrum.
-        </v-card-text>
+        </v-card-text> 
 
         <div style="flex: 1 1 auto;"></div>
       </v-card>
@@ -81,7 +82,6 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
 
 export default {
   name: "Footer",
@@ -91,7 +91,6 @@ export default {
     };
   },
   methods: {
-    getString,
     showRules() {
       this.footer = true;
     },

@@ -1,12 +1,10 @@
 <template>
   <div :style="button">
-    <div>{{ getString("buttonSubmitVote", "submitMyVote").toUpperCase() }}</div>
+    <div>{{ $t("submitMyVote").toUpperCase() }}</div>
   </div>
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 export default {
   name: "buttonSubmitVote",
   data() {
@@ -28,8 +26,6 @@ export default {
     },
   },
   methods: {
-    getString,
-    getColor,
   },
 };
 </script>

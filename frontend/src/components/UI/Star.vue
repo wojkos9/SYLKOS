@@ -10,15 +10,11 @@
 </template>
 
 <script>
-import { getString } from "@/language/string.js";
-import { getColor } from "@/colors.js";
 
 export default {
   name: "star",
   props: ["stars", "number"],
   methods: {
-    getString,
-    getColor,
   },
   computed: {},
   components: {},
@@ -30,12 +26,7 @@ export default {
   margin-top: 7px;
   margin-bottom: 7px;
 }
-.nextTo {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
+
 .star{
   color:gold !important
 }

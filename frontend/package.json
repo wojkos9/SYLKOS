@@ -15,6 +15,7 @@
     "vue": "^2.6.11",
     "vue-axios": "^3.3.6",
     "vue-draggable-nested-tree": "^3.0.0-beta2",
+    "vue-flag-icon": "^1.0.6",
     "vue-html2pdf": "^1.8.0",
     "vue-i18n": "^8.26.8",
     "vue-material": "^1.0.0-beta-15",
