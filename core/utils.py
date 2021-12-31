@@ -1,5 +1,6 @@
 import random
 import string
+from users.models import BasicUser
 
 from django.http.request import HttpRequest
 
@@ -19,3 +20,6 @@ def not_authenticated_return(default):
             return default
         return decorated
     return decorator
+
+def get_default_author():
+    return BasicUser.objects.filter(is_superuser=True).first().id

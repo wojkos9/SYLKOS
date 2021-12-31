@@ -8,9 +8,8 @@ class PersonalKey(models.Model):
 class BasicUser(AbstractUser):
     key = models.ForeignKey(PersonalKey, on_delete=models.DO_NOTHING, null=True)
 
-from voting.models import Group, Voting
+from voting.models import Voting
 
 class CustomUser(BasicUser):
-    user_groups = models.ManyToManyField(Group, related_name="user_groups", blank=True)
     voting_history = models.ManyToManyField(Voting, related_name="user_voting_history", blank=True)
     color_mode = models.IntegerField(default=0)

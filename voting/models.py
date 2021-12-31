@@ -1,4 +1,5 @@
-from django.db.models.deletion import CASCADE
+from core.utils import get_default_author
+from django.db.models.deletion import CASCADE, DO_NOTHING
 from users.models import BasicUser
 from django.db import models
 from django.conf import settings
@@ -44,6 +45,10 @@ class Voting(models.Model):
 
 
 class Project(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+        on_delete=DO_NOTHING,
+        related_name="user_projects",
+        default=get_default_author)
     name = models.CharField(max_length=50)
     description = models.TextField()
     budget = models.DecimalField(decimal_places=2, max_digits=100)
@@ -94,4 +99,3 @@ class Vote(models.Model):
 
     def __str__(self):
         return f"v:{self.voting} u:{self.user} p:{self.project} x:{self.points}"
- 

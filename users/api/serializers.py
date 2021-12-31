@@ -17,15 +17,9 @@ class UserOptionsSerializer(serializers.ModelSerializer):
         return super().is_valid(raise_exception=raise_exception)
 
 class UserDisplaySerializer(serializers.ModelSerializer):
-
-    groups = serializers.SerializerMethodField(read_only=True)
-
     class Meta:
         model = CustomUser
         exclude = ("password",)
-
-    def get_groups(self, instance: CustomUser):
-        return GroupSerializer(instance.user_groups, many=True).data
 
 class CustomUserSerializer(serializers.ModelSerializer):
     key_value = serializers.IntegerField()
