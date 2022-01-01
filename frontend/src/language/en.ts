@@ -124,19 +124,17 @@ export const en = {
     projectsQueue: 'Selected sequence of projects:',
     projectsYouVotedFor: 'Projects you voted for:',
    
-    majorityRules: ' Zasady głosowania: należy zagłosować na dokładnie jeden projekt. ' +
-    'Można to zrobić klikając na wybrany przez siebie projekt. Wybrany ' + 
-    'projekt będzie miał jaśniejszy kolor tła' ,
-    approvalRules: ' Zasady głosowania: należy wybrac te projekty, ktore chcemy aby' +
-    'przeszły, dostaną one od nas po jednym punkcie. Pozostae ' +
-    '(nieywbrane projekty) otrzymają wartość 0' ,
-    bordaRules: 'w sumie nie mam',
-    newType: 'jeszcze nie obsłużony typ głosowania ',
-    alProjects: 'Projekty biorące udział w głosowaniu',
-    warningTitle: 'Oddanego głosu nie wolno cofnąć ani zmienić',
-    warningDesc: ' Proszę zaznaczyć "Głosuję" w celu potwierdzenia oddania głosu, lub ' + 
-    '"Anuluj" aby móc powrócić do listy projektów' ,
-    attention: 'Uwaga'
+    majorityRules: ' Voting rules: You can vote for precisely one project. ' +
+    'This can be done by clicking on chosen project which background will turn brighter',
+    approvalRules: 'Voting rules: Pick number of projects up to specified maximum amount. ' +
+    'They will get one point each. ',
+    bordaRules: 'Rank all projects from the closest to your prefernces to the furthest. ' + 
+    'This can be done by drag and drop option' ,
+    newType: 'Voting type yet not used' , 
+    alProjects: 'Projects participating in this voting' ,
+    warningTitle: 'Sent vote cannot be changed nor withdrawn later! ' ,
+    warningDesc: 'Click `Vote` to confirm your vote or `Cancel` to go back to projects list. ' ,
+    attention: 'Warning'
 
   },
   commentSorting: {
