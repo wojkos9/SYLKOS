@@ -58,6 +58,30 @@ export const pl = {
   votingTypesubmit: "Dodaj typ głosowania",
   votingTypeclearData: "Wyczyść formularz",
   votingTypedesc: "Udało się poprawnie dodać nowy typ głosowania!",
+  codesGenerator: "GENERATOR KODÓW DOSTĘPU",
+  codesCount: 'ilość kodów do wygenerowania',
+  generatedCodes: 'wygenerowane kody',
+  ifYouWantToRemove: 'czy na pewno chcesz usunąć użytkownika',
+  fromGroup: 'z grupy',
+  successRemove: 'udało się usunąć użytkownika',
+  no: 'nie',
+  yes: 'tak',
+  keys: 'klucze',
+  generateKeys: 'wygeneruj klucz',
+  downloadKeys: 'pobierz wszystkie',
+  printKeys: 'drukuj',
+  activeKeysList: 'lista aktywnych kluczy',
+  existingVotings: 'istniejące głosowania',
+  votingList: 'Lista głosowań',
+  addVoting: 'dodaj głosowanie',
+  membersList: 'lista uczestników',
+  adminPanel: 'panel administratora',
+  yourAdminGroups: 'Grupy, które założyłeś',
+  yourMemberGroups: 'Grupy, do których należysz',
+  yourProjects: 'Projekty, które stworzyłeś',
+  activeVoting: 'Aktywne głosowania',
+  futureVotings: 'Nadchodzące głosowania',
+  finishedVotings: 'Zakończone głosowania',
 
     adminScreen: {
     title: 'admin',
@@ -138,7 +162,7 @@ export const pl = {
     warningDesc: ' Proszę zaznaczyć "Głosuję" w celu potwierdzenia oddania głosu, lub ' + 
     '"Anuluj" aby móc powrócić do listy projektów' ,
     attention: 'Uwaga'
-
+ 
   },
   commentSorting: {
     sort: "sortuj",

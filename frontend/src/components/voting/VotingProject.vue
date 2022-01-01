@@ -163,20 +163,26 @@ box-shadow: 0px 0px 35px -14px #00bfa5 ;
   .votingProjectarea {
     /* flex-wrap: wrap; */
     flex-direction: column;
+    max-width: 90%;
   }
   .rightSectionVOting {
     width: 80%;
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
+
   }
   .leftSectionVotingProject {
     width: 80%;
-    margin: 0 auto;
-    border:solid;
+    /* margin: 0 auto; */
+    /* border:solid; */
     padding: 10px;
     padding: 10px 10px 10px 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 }
 </style>

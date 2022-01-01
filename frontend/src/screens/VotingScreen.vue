@@ -112,9 +112,10 @@
         <div v-else>
           <div v-if="voting.voting_type == 'borda'">
             <div class="voting_type_desc">
-              {{ $t("votingScreen.borda") }}
+              {{ $t("votingScreen.bordaRules") }}
             </div>
-            <draggable
+            <div class="draggable">
+            <draggable 
               v-model="voting.projects"
               group="votings"
               @start="drag = true"
@@ -124,6 +125,7 @@
                 <VotingProject v-bind:project="project" />
               </div>
             </draggable>
+          </div>
           </div>
           <!--majority-->
           <div v-else-if="voting.voting_type == 'majority'">
@@ -212,12 +214,12 @@
       >
         <v-card>
           <v-card-title>
-            <span class="text-h4">{{$t("attention")}}!!</span>
+            <span class="text-h4">{{$t("votingScreen.attention")}}!!</span>
           </v-card-title>
           <v-card-text>
-            {{$t("warningTitle")}}
+            {{$t("votingScreen.warningTitle")}}
             <br />
-            {{$t("warningDesc")}}
+            {{$t("votingScreen.warningDesc")}}
           </v-card-text>
 
           <v-card-actions>
@@ -469,11 +471,18 @@ export default {
 .add-project-icon:hover {
   transform: scale(1.2);
 }
+
+.draggable{
+  max-width: 1000px; 
+  margin: 0 auto;
+  /* border: solid; */
+}
 .buttonSubmit {
   display: flex;
   justify-content: flex-end;
   margin-right: 5%;
   margin-bottom: 100px;
+  margin-top: 100px;
 }
 
 .voting_type_desc {

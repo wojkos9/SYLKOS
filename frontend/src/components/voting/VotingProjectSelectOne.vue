@@ -166,12 +166,13 @@ export default {
   .leftSectionVotingProject {
     width: 80%;
     margin: 0 auto;
-    border: solid;
+    /* border: solid; */
     padding: 10px;
     padding: 10px 10px 10px 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
 }
 </style>

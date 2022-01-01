@@ -1,18 +1,17 @@
 <template>
   <div class="container">
-    <div class="row area">
+    <div class=" row area">
       <div class="aboutGroup">
         <div>
           <div class="groupTitle">{{ group.name }}</div>
         </div>
-
         <div class="desc">
           <div v-if="group.description.length > 200">
             <span v-if="showMore">{{ group.description }} </span>
             <span v-else> {{ group.description.slice(0, 200) }}...</span>
             <div v-if="!showMore" class="paddingTop-m">
               <v-btn x-small color="primary" dark @click="showMore = true">
-                {{ $t('expand') }}
+                {{ $t("expand") }}
               </v-btn>
             </div>
             <div v-else class="paddingTop-m">
@@ -23,7 +22,7 @@
                 v-if="showMore"
                 @click="showMore = false"
               >
-                 {{ $t('unexpand') }}
+                {{ $t("unexpand") }}
               </v-btn>
             </div>
           </div>
@@ -32,7 +31,7 @@
           </div>
         </div>
         <div class="membersNumber desc">
-           {{ $t('membersNumber') }} {{ group.count_user }}
+          {{ $t("membersNumber") }} {{ group.count_user }}
         </div>
       </div>
       <div class="col center  paddingTop-l">
@@ -42,10 +41,10 @@
           </div>
 
           <div class="text-center paddingTop-m">
-            <v-dialog v-model="dialog2" width="unset">
+            <v-dialog v-model="dialog2" width="700px">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="primary" dark v-bind="attrs" v-on="on">
-                 {{ $t('details') }}
+                  {{ $t("details") }}
                 </v-btn>
               </template>
 
@@ -54,7 +53,7 @@
                   <span>{{ group.name }}</span>
 
                   <span
-                    v-if="isMember"
+                    v-if="group.is_member"
                     :title="$t('leaveGroup')"
                     @click="check(leaveGroup)"
                     class="icon p-2"
@@ -79,7 +78,7 @@
                             dark
                             @click="showMore2 = true"
                           >
-                          {{ $t('expand') }}
+                            {{ $t("expand") }}
                           </v-btn>
                         </div>
                         <div v-else class="paddingTop-m">
@@ -90,7 +89,7 @@
                             v-if="showMore2"
                             @click="showMore2 = false"
                           >
-                            {{ $t('unexpand') }}
+                            {{ $t("unexpand") }}
                           </v-btn>
                         </div>
                       </div>
@@ -120,7 +119,7 @@
                         </v-btn>
                       </router-link>
                       <div class="icon-desc">
-                       {{ $t('codeList') }}
+                        {{ $t("codeList") }}
                       </div>
                     </div>
 
@@ -137,7 +136,7 @@
                         </v-btn>
                       </div>
                       <div class="icon-desc">
-                       {{ $t('generateCodes') }}
+                        {{ $t("generateCodes") }}
                       </div>
                     </div>
 
@@ -154,7 +153,7 @@
                         </v-btn>
                       </div>
                       <div class="icon-desc">
-                       {{ $t('removeUser') }}
+                        {{ $t("removeUser") }}
                       </div>
                     </div>
                   </div>
@@ -171,9 +170,43 @@
                 </div>
 
                 <div class="votingList">
-                  <div v-for="voting in votings" :key="voting.id">
-                    <details>
-                      <summary>
+                  <details>
+                   <summary class="votingTIme">  {{$t('activeVoting')}} </summary>  
+                  <div v-for="voting in activeVotings" :key="voting.id">
+                    <details class="smaller">
+                      <summary class="beforeYellow">
+                        {{ voting.name }} {{ voting.start_date }}
+                      </summary>
+                      <div class="findLast">
+                        <div
+                          v-for="(project, index) in voting.projects"
+                          :key="`project-${index}`"
+                        >
+                          <p class="projectSingle">{{ project.name }}</p>
+                        </div>
+
+                        <div class="single">
+                          <router-link
+                            :to="{
+                              name: 'voting',
+                              params: { id: group.id, vId: voting.id },
+                            }"
+                          >
+                            <v-btn color="primary" @click="goToVoting">
+                              {{ $t("goToVoting") }}
+                            </v-btn>
+                          </router-link>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                  </details>
+
+                  <details>
+                  <summary class="votingTIme"> {{$t('futureVotings')}} </summary>
+                  <div v-for="voting in announcedVotings" :key="voting.id">
+                    <details class="smaller">
+                      <summary class="beforeYellow">
                         {{ voting.name }} {{ voting.start_date }}
                       </summary>
                       <div class="findLast">
@@ -192,18 +225,50 @@
                             }"
                           >
                             <v-btn color="primary" @click="goToVoting">
-                                 {{ $t('goToVoting') }}
+                              {{ $t("goToVoting") }}
                             </v-btn>
                           </router-link>
                         </div>
                       </div>
                     </details>
                   </div>
+                </details>
+                <details>
+                   <summary class="votingTIme">  {{$t('finishedVotings')}} </summary> 
+                  <div v-for="voting in finishedVotings" :key="voting.id">
+                     <details class="smaller">
+                      <summary class="beforeYellow">
+                        {{ voting.name }} {{ voting.start_date }}
+                      </summary>
+                      <div class="findLast">
+                        <div
+                          v-for="(project, index) in voting.projects"
+                          :key="`project-${index}`"
+                        >
+                          <p>{{ project.name }}</p>
+                        </div>
+
+                        <div class="single">
+                          <router-link
+                            :to="{
+                              name: 'voting',
+                              params: { id: group.id, vId: voting.id },
+                            }"
+                          >
+                            <v-btn color="primary" @click="goToVoting">
+                              {{ $t("goToVoting") }}
+                            </v-btn>
+                          </router-link>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                </details>
                 </div>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary" text @click="dialog2 = false">
-                       {{ $t('cancel') }}
+                    {{ $t("cancel") }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -221,7 +286,7 @@
 
         <v-card-text class="text-h6  lighten-2 p-4 ">
           <div>
-            {{ $t('joinGroup') }}
+            {{ $t("joinGroup") }}
           </div>
 
           <v-form
@@ -251,10 +316,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="clearDialog">
-            {{ $t('cancel') }}
+            {{ $t("cancel") }}
           </v-btn>
           <v-btn color="primary" text @click="joinGroupWithAccessCode">
-            {{ $t('confirm') }}
+            {{ $t("confirm") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -268,9 +333,8 @@
 
         <v-card-text class="text-h6  lighten-2 p-4 ">
           <span class="d-flex justify-content-center">
-            {{ $t('leaveGroupQuestion') }}
-            </span
-          >
+            {{ $t("leaveGroupQuestion") }}
+          </span>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -278,10 +342,14 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="dialogLeaveGroup = false">
-            {{ $t('cancel') }}
+            {{ $t("cancel") }}
           </v-btn>
-          <v-btn color="primary" text @click="check(leaveGroupWithConfirmation)">
-            {{ $t('leave') }}
+          <v-btn
+            color="primary"
+            text
+            @click="check(leaveGroupWithConfirmation)"
+          >
+            {{ $t("leave") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -290,12 +358,12 @@
     <v-dialog v-model="dialogGenerateAccessCode" width="600">
       <v-card>
         <v-card-title class="text-h4 p-2 d-flex justify-content-center">
-          GENERATOR KODÓW DOSTĘPU
+          {{ $t("codesGenerator") }}
         </v-card-title>
 
         <v-card-text class="text-h6  lighten-2 p-4 ">
           <div>
-            ilość kodów do wygenerowania
+            {{ $t("codesCount") }}
           </div>
 
           <v-form
@@ -325,17 +393,17 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="clearDialog">
-            {{ $t('cancel') }}
+            {{ $t("cancel") }}
           </v-btn>
           <v-btn text @click="generateAccessCodes">
-            {{ $t('generateConfirm') }}
+            {{ $t("generateConfirm") }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
 </template>
- 
+
 <script>
 import { apiService } from "@/common/api.service.js";
 import Carousel from "@/components/UI/Carousel.vue";
@@ -363,11 +431,12 @@ export default {
       isMember: false,
       isAdmin: false,
       accessCodeRules: [
-        
-        (v) => !!v || this.$t('accessCodeRequired'),
-        (v) => v.length == 4 || this.$t('accessCodeLength'),
+        (v) => !!v || this.$t("accessCodeRequired"),
+        (v) => v.length == 4 || this.$t("accessCodeLength"),
       ],
-      votings: [],
+      finishedVotings: [],
+      announcedVotings: [],
+      activeVotings: [],
     };
   },
 
@@ -392,7 +461,7 @@ export default {
       // ) {
       //   this.$root.$refs.App.ifLogin();
       // } else {
-        this.dialog = true;
+      this.dialog = true;
       // }
     },
     generateAccessCode() {
@@ -405,7 +474,7 @@ export default {
       // ) {
       //   this.$root.$refs.App.ifLogin();
       // } else {
-        this.dialogLeaveGroup = true;
+      this.dialogLeaveGroup = true;
       // }
     },
     validate() {
@@ -455,20 +524,30 @@ export default {
       }
     },
     isUserMember(data) {
-      this.isMember = data.members.includes(this.requestUser);
+      // this.isMember = data.members.includes(this.requestUser);
       this.isAdmin = data.admin_users.includes(this.requestUser);
     },
   },
   components: {
     Carousel,
   },
+  computed() {},
   async created() {
     if (this.group.image)
       await apiService(`/api/photo/${this.group.image}/`).then((data) => {
         this.image = data.image;
       });
     await apiService(`/api/groups/${this.group.id}/?details=1`).then((data) => {
-      this.votings = data.votings;
+      for (var voting of data.votings) {
+        if (voting.status == "finished") {
+          this.finishedVotings.push(voting);
+        } else if (voting.status == "announced") {
+          this.announcedVotings.push(voting);
+        } else {
+          this.activeVotings.push(voting);
+        }
+      }
+      // this.votings = data.votings;
       this.loading = false;
     });
     this.isUserMember(this.group);
@@ -499,9 +578,12 @@ export default {
 </script>
 
 <style scoped lang="postcss">
+.container {
+  max-width: 90%;
+}
 .aboutGroup {
   width: 60%;
-  margin-left: 50px;
+  padding-left: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -524,7 +606,7 @@ export default {
   border: solid 1px black;
   margin-bottom: 30px;
   margin-top: 10px;
-  padding: 10px;
+  /* padding: 10px; */
 }
 
 .projectDesc {
@@ -535,6 +617,11 @@ export default {
   /* color: #000; */
 }
 
+.votingTIme{
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+}
 .groupTitle {
   font-weight: 700;
   font-size: 1.5rem;
@@ -599,8 +686,8 @@ export default {
 details {
   /* font-family: "Petrona"; */
   padding: 4px 6px;
-  width: 15em;
-  font-size: 1.7em;
+  /* width: 15em; */
+  font-size: 16px;
   font-weight: 700;
   border: none;
   box-shadow: 3px 3px 4px rgba(75, 73, 73, 0.534);
@@ -627,7 +714,7 @@ summary {
   padding: 1rem;
   display: block;
   /* background: rgb(99, 109, 107); */
-  color: rgb(73, 50, 50);
+  /* color: rgb(73, 50, 50); */
   padding-left: 2.2rem;
   position: relative;
   cursor: pointer;
@@ -657,15 +744,24 @@ summary:before {
   content: "";
   border-width: 0.4rem;
   border-style: solid;
-  border-color: transparent transparent transparent rgb(73, 50, 50);
+  border-color: transparent transparent transparent var(--v-accent-base);
   position: absolute;
-  top: 1.6rem;
+  top: 16px;
   left: 1rem;
   transform: rotate(0);
   transform-origin: 0.2rem 50%;
   transition: 1s transform ease;
 }
 
+.beforeYellow:before{
+  top: 21px;
+  border-color: transparent transparent transparent white;
+
+}
+
+.smaller{
+  padding: 10px 30px
+}
 /* details  */
 details p {
   padding-left: 5px;
@@ -673,7 +769,7 @@ details p {
   padding-top: 4px;
 }
 details p::before {
-  content: "✓ ";
+  content: "- ";
 }
 details .findLast {
   margin-bottom: 20px;
@@ -684,7 +780,11 @@ details .findLast {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 30px;
+}
+
+.projectSingle{
+  padding-left: 10%;
 }
 
 .v-card__title {
@@ -798,8 +898,8 @@ details .findLast {
 }
 
 @media only screen and (max-width: 550px) {
-       .projectDesc{
-         min-width: unset;
-       }
+  .projectDesc {
+    min-width: unset;
+  }
 }
 </style>

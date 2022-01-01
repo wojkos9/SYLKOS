@@ -1,9 +1,9 @@
 <template>
   <div class="area">
-    <div class="groupName">{{ group.name }} - panel administratora</div>
+    <div class="groupName">{{ group.name }} - {{$t('adminPanel')}}</div>
 
     <details>
-      <summary> lista uczestników </summary>
+      <summary>  {{$t('membersList')}} </summary>
       <div v-for="(member, index) in group.members" :key="index">
         <div class="single-user">
           <div class="username">
@@ -28,9 +28,9 @@
     </details>
 
     <details>
-      <summary> lista głosowań </summary>
+      <summary> {{$t('votingList')}}</summary>
       <div class="add-voting">
-        <div>dodaj glosowanie</div>
+        <div>{{$t('addVoting')}}</div>
         <router-link
           :to="{ name: newVotingLink, params: { groupId: group.id } }"
           class="customBtn"
@@ -43,15 +43,14 @@
         </router-link>
       </div>
 
-      <div class="exist-votings">istniejące głosowania:</div>
+      <div class="exist-votings">{{$t('existingVotings')}}:</div>
       <div
         v-for="(voting, index) in votings"
         :key="index"
         class="single-voting"
       >
   
-        <span v-if="voting.name">{{ voting.name }}</span>
-        <span v-else>brak nazwy głosowania</span>
+        <span v-show="voting.name">{{ voting.name }}</span>
         <div
           v-for="(project, index2) in voting.projects"
           :key="index2"
@@ -65,14 +64,14 @@
     </details>
 
     <details>
-      <summary> klucze </summary>
-      <div class="key-option" @click="generatePdfCodes">pobierz wszystkie</div>
+      <summary> {{$t('keys')}} </summary>
+      <div class="key-option" @click="generatePdfCodes">{{$t('downloadKeys')}}</div>
       <div class="key-option" @click="dialogGenerateAccessCode = true">
-        wygeneruj klucz
+        {{$t('generateKeys')}}
       </div>
-      <div class="key-option" @click="printKeys">drukuj</div>
+      <div class="key-option" @click="printKeys">{{$t('drukuj')}}</div>
       <div class="key-option" @click="showActiveKeys = !showActiveKeys">
-        lista aktywnych kluczy ({{ keys.length }})
+        {{$t('activeKeysList')}} ({{ keys.length }})
       </div>
       <div v-show="showActiveKeys" class="all-keys">
         <div v-for="(key, index) in keys" :key="index" class="single-key">
@@ -86,12 +85,12 @@
     <v-dialog v-model="dialogGenerateAccessCode" width="600">
       <v-card>
         <v-card-title class="text-h4 p-2 d-flex justify-content-center">
-          GENERATOR KODÓW DOSTĘPU
+          {{$t('codesGenerator')}}
         </v-card-title>
 
         <v-card-text class="text-h6  lighten-2 p-4 ">
           <div>
-            ilość kodów do wygenerowania
+              {{$t('codesGenerator')}}
           </div>
 
           <v-form
@@ -133,12 +132,13 @@
     <v-dialog v-model="dialogShowNewCodes" width="600">
       <v-card>
         <v-card-title class="text-h4 p-2 d-flex justify-content-center">
-          GENERATOR KODÓW DOSTĘPU
+              {{$t('codesGenerator')}}
         </v-card-title>
 
         <v-card-text class="text-h6  lighten-2 p-4 ">
           <div>
-            wygenerowane kody:
+              {{$t('generatedCodes')}}
+            :
           </div>
         </v-card-text>
         <div class="all-keys">
@@ -161,7 +161,10 @@
       <v-card>
         <v-card-text class="text-h6  lighten-2 p-4 ">
           <div>
-            czy na pewno chcesz usunąć użytkownika {{ userToRemove }} z grupy?
+              {{$t('ifYouWantToRemove')}}
+                {{ userToRemove }}
+              {{$t('fromGroup')}}
+
           </div>
         </v-card-text>
         <v-divider></v-divider>
@@ -169,10 +172,11 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="dialogRemoveUser = false">
-            nie
+              {{$t('no')}}
           </v-btn>
           <v-btn text @click="removeUserConfirmed()">
-            tak
+              {{$t('yes')}}
+            
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -181,7 +185,11 @@
     <v-dialog v-model="dialogSuccess" width="600">
       <v-card>
         <v-card-text class="text-h6  lighten-2 p-4 ">
-          <div>udało się usunąć użytkownika {{ userToRemove }} z grupy</div>
+          <div>
+              {{ $t('successRemove')}}
+             {{ userToRemove }} 
+              {{$t('fromGroup')}}
+             </div>
         </v-card-text>
         <v-divider></v-divider>
 
@@ -194,7 +202,7 @@
               userToRemove = '';
             "
           >
-            ok
+              {{$t('ok')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -374,7 +382,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .area {
   margin: 30px;
   border-radius: 20px;
