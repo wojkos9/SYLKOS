@@ -28,6 +28,7 @@ class GroupSerializer(serializers.ModelSerializer):
     count_user = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField(read_only=True)
     admin_users = StringLookupField(BasicUser, "username", many=True)
+    is_member = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Group
@@ -48,6 +49,10 @@ class GroupSerializer(serializers.ModelSerializer):
         if len(group_images) == 0:
             group_images = [{"image" : "images/no_picture.png"}]
         return group_images
+
+    @not_authenticated_return(False)
+    def get_is_member(self, instance: Group):
+        return instance.members.filter(pk=self.context.get('request').user).exists()
 
 class GroupDetailsSerializer(GroupSerializer):
 
