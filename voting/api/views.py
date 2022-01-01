@@ -48,6 +48,9 @@ class ProjectListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def perform_create(self, serializer: ProjectSerializer):
+        serializer.save(author=self.request.user)
+
 
 class ProjectDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()

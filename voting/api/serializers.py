@@ -76,7 +76,6 @@ class PhotoSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-
     rating_avg = serializers.SerializerMethodField(read_only=True)
     images = serializers.SerializerMethodField(read_only=True)
     user_has_commented = serializers.SerializerMethodField()
