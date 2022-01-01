@@ -345,21 +345,14 @@ export const en = {
     cancel: 'Discard changes'
   },
 
-  shortDesc:'Sylkos to platforma dostarczająca kompleksowych usług '+
- ' w zakresie wspomagania procesu konsultacji społecznych.'+ 
- 'Umożliwia w sposób rzetelny i weryfikowalny '+
- 'zbieranie jednoznacznych informacji zwrotnych '+
- 'reprezentujących poglądy określonej grupy '+
- 'reprezentującej daną jednostkę. '+
- 'Dostarcza różne mechanizmy głosowań, '+
- 'umożliwiając ich dopasowanie do charakteru '+
- 'przeprowadzanych konsultacji i&nbsp;zbieranych ' +
-  'informacji.',
-  restOfDesc: 'Ponadto daje użytkownikom możliwość wyrażania opinii i' +
-  ' ocen w ramach przynależności do grup odzwierciedlających realne jednostki' +
-  ' organizacji terytorialnej. Platforma eliminuje również negatywne aspekty' +
-  ' występujące w obecnych formach interakcji z obywatelami, czy to za ' +
-  ' pośrednictwem serwisów społecznościowych czy też w  sposób stacjonarny. ' +
-  ' Jest to nowoczesne i unikalne rozwiązanie wyznaczające nowy trend w relacjach ' +
-  ' władza-obywatel zapewniając maksymalną wygodę i prostotę użytkowania.',
+  shortDesc:'Sylkos is a web platform that provides comprehensive services '+
+ ' in the field of supporting the process of public consultations.'+ 
+ 'It gives a lot of possibilities to gather reliable and verifiable feedback  '+
+ 'from the people representing the views of a specific administration entity. '+
+ 'All the process base on providing varius ways of voting, '+
+ 'which could be properly choosen to character and gola of voting ',
+  
+  restOfDesc: 'Moreover Sylkos gives opportunity for users to share ' +
+  ' or suggestions by writing a public opinion and rating them' +
+  ' That strategy reduce the negative impact of actual form of public debates to minimum ',
 };
