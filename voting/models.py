@@ -9,7 +9,7 @@ class Group(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=1500)
     members = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="members", blank=True)
+        settings.AUTH_USER_MODEL, related_name="user_groups", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     admin_users = models.ManyToManyField(BasicUser, blank=True)
 
