@@ -45,7 +45,7 @@ export const pl = {
   login: 'zaloguj się',
   accessDenied: 'Aby uzyskać dostęp do tej sekcji wymagane jest zalogowanie',
   accesDeniedTitle: "BRAK DOSTĘPU",
-  myGroups: 'Grupy, do kórych należysz',
+  myGroups: 'Twoje grupy',
   submitMyVote: "Zatwierdzam wybór",
   addProject: 'Zgłoś projekt',
   success: 'sukces',
@@ -148,19 +148,19 @@ export const pl = {
     projectsQueue: 'Wybrana kolejność projektów:',
     projectsYouVotedFor: 'Projekty, na które oddałeś głos:',
    
-    //zasady maja moje opisy, są to opisy raczej brzydkie, mogą byc do zmiany xd
     majorityRules: ' Zasady głosowania: należy zagłosować na dokładnie jeden projekt. ' +
     'Można to zrobić klikając na wybrany przez siebie projekt. Wybrany ' + 
-    'projekt będzie miał jaśniejszy kolor tła' ,
-    approvalRules: ' Zasady głosowania: należy wybrac te projekty, ktore chcemy aby' +
-    'przeszły, dostaną one od nas po jednym punkcie. Pozostae ' +
-    '(nieywbrane projekty) otrzymają wartość 0' ,
-    bordaRules: 'w sumie nie mam',
-    newType: 'jeszcze nie obsłużony typ głosowania ',
+    'wariant będzie miał jaśniejszy kolor tła. ' ,
+    approvalRules: ' Zasady głosowania: zaznacz wybraną przez siebie liczbę projektów. ' + 
+    ' Maksymalna ilość wybranych wariantów jest ograniczona. ' + 
+    ' Wszystkie zaznaczone projekty otrzymają po jeden punkt. ' ,
+    bordaRules: ' Uszereguj wszystkie projekty, przeciągając je myszką. ' +
+    ' Na pierwszym miejscu ustaw najbardziej odpowiadający ci wariant, na ostatnim - najmniej. ' ,
+    newType: 'Jeszcze nie obsłużony typ głosowania ',
     alProjects: 'Projekty biorące udział w głosowaniu',
-    warningTitle: 'Oddanego głosu nie wolno cofnąć ani zmienić',
-    warningDesc: ' Proszę zaznaczyć "Głosuję" w celu potwierdzenia oddania głosu, lub ' + 
-    '"Anuluj" aby móc powrócić do listy projektów' ,
+    warningTitle: 'Oddanego głosu nie można cofnąć ani zmienić!',
+    warningDesc: ' Proszę kliknąć "Głosuję" w celu potwierdzenia oddania głosu lub ' + 
+    '"Anuluj", aby powrócić do listy projektów. ' ,
     attention: 'Uwaga'
  
   },
