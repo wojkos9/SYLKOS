@@ -116,7 +116,7 @@ export default {
 .titleAdmin {
   display: flex;
   font-size: 2rem;
-  font-family: "Petrona";
+  /* font-family: "Petrona"; */
   justify-content: center;
   padding: 10px;
   text-align: center;

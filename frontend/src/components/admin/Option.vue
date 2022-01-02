@@ -74,7 +74,7 @@ export default {
   justify-content: center;
   margin: 50px;
   text-align: center;
-  font-family: "Petrona";
+  /* font-family: "Petrona"; */
 
 }
 .oneOption {
