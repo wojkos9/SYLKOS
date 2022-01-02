@@ -275,7 +275,11 @@ export const en = {
     votingNmaeError: 'Name of the voting is required',
     nameLabel: 'Voting name',
     chooseFirtstLast: 'select first-last',
-    votingDay: 'voting day'
+    votingDay: 'voting day',
+    description: 'voting description',
+    descriptionError: 'voting description is required',
+    startDateLabel: 'voting start',
+    endDateLabel: 'voting end',
 
   },
   votingTypeForm:{

@@ -46,8 +46,6 @@ export default ({
     },
     methods: {
     }, 
-    computed(){
-    } 
 })
 </script>
 

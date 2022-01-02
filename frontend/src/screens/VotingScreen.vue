@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!response">
-      <div class="votingTitle" style="text-transform:touppercase">
+      <div class="votingTitle" style="text-transform: touppercase">
         404 - NOT FOUND
       </div>
     </div>
@@ -26,18 +26,23 @@
             {{ $t("votingScreen.endDate") }}: {{ voting.end_date.slice(0, 10) }}
           </div>
         </div>
-        <div v-else style="text-transform:touppercase">
-          404 - NOT FOUND
-        </div>
+        <div v-else style="text-transform: touppercase">404 - NOT FOUND</div>
       </div>
       <div v-if="voting.status == 'finished'">
-        <div v-for="(project, index) in projectsVotes" :key="index">
-          <VotingProjectSelectOne
-            v-bind:project="project"
-            v-on:change="setUserVotedFor($event)"
-            :ifUserCanVote="!alreadyVoted"
-            :myChoice="alreadyVoted"
-          />
+        <div v-if="voting.voting_type != 'borda'">
+          <div v-for="(project, index) in projectsVotes" :key="index">
+            <VotingProjectSelectOne
+              v-bind:project="project"
+              v-on:change="setUserVotedFor($event)"
+              :ifUserCanVote="!alreadyVoted"
+              :myChoice="alreadyVoted"
+            />
+          </div>
+        </div>
+        <div v-else style="margin-top: 20px;">
+           <div v-for="project in voting.projects" :key="project.id">
+              <VotingProject v-bind:project="project" :showPoints="show" />
+            </div>
         </div>
       </div>
       <div v-else-if="voting.status == 'active'">
@@ -115,17 +120,17 @@
               {{ $t("votingScreen.bordaRules") }}
             </div>
             <div class="draggable">
-            <draggable 
-              v-model="voting.projects"
-              group="votings"
-              @start="drag = true"
-              @end="drag = false"
-            >
-              <div v-for="project in voting.projects" :key="project.id">
-                <VotingProject v-bind:project="project" />
-              </div>
-            </draggable>
-          </div>
+              <draggable
+                v-model="voting.projects"
+                group="votings"
+                @start="drag = true"
+                @end="drag = false"
+              >
+                <div v-for="project in voting.projects" :key="project.id">
+                  <VotingProject v-bind:project="project" />
+                </div>
+              </draggable>
+            </div>
           </div>
           <!--majority-->
           <div v-else-if="voting.voting_type == 'majority'">
@@ -156,8 +161,8 @@
             </div>
           </div>
           <div v-else-if="response">
-              {{ $t("votingScreen.newType") }}
-             {{ voting.voting_type }}
+            {{ $t("votingScreen.newType") }}
+            {{ voting.voting_type }}
           </div>
           <!--jeden wybor-->
 
@@ -168,7 +173,7 @@
             <v-btn
               color="accent"
               class="p-3"
-              style="color:black"
+              style="color: black"
               @click="dialogSubmitVote = true"
             >
               {{ $t("buttonSubmitVote.submitMyVote").toUpperCase() }}
@@ -194,7 +199,7 @@
         </router-link>
 
         <div class="alreadyVotedSelectedProject">
-              {{ $t("votingScreen.alProjects") }}
+          {{ $t("votingScreen.alProjects") }}
         </div>
 
         <div v-for="(project, index) in projectsVotes" :key="index">
@@ -210,16 +215,16 @@
       <v-dialog
         v-model="dialogSubmitVote"
         width="500"
-        class="secondary lighten-3 "
+        class="secondary lighten-3"
       >
         <v-card>
           <v-card-title>
-            <span class="text-h4">{{$t("votingScreen.attention")}}!!</span>
+            <span class="text-h4">{{ $t("votingScreen.attention") }}!!</span>
           </v-card-title>
           <v-card-text>
-            {{$t("votingScreen.warningTitle")}}
+            {{ $t("votingScreen.warningTitle") }}
             <br />
-            {{$t("votingScreen.warningDesc")}}
+            {{ $t("votingScreen.warningDesc") }}
           </v-card-text>
 
           <v-card-actions>
@@ -262,6 +267,7 @@ export default {
       userVotedFor: 0,
       voting: {},
       alreadyVoted: false,
+      show: true,
       myChoice: {},
       myBordaChoice: [],
       myApprovalChoice: [],
@@ -343,7 +349,7 @@ export default {
           }
         }
       } else if (this.alreadyVoted && data.voting_type == "borda") {
-        var sortedValues = data.users_votes.sort(function(a, b) {
+        var sortedValues = data.users_votes.sort(function (a, b) {
           return -(a.points - b.points);
         });
         var projects = data.projects;
@@ -360,7 +366,7 @@ export default {
         //   vm.myChoice.append( )
         // }
       } else if (this.voting.voting_type == "approval") {
-        var sortedValues2 = data.users_votes.sort(function(a, b) {
+        var sortedValues2 = data.users_votes.sort(function (a, b) {
           return a.project - b.project;
         });
 
@@ -392,7 +398,7 @@ export default {
 
       if (data) {
         vm.voting = data;
-        vm.projectsVotes = data.projects.sort(function(a, b) {
+        vm.projectsVotes = data.projects.sort(function (a, b) {
           return -(a.votes - b.votes);
         });
         vm.alreadyVoted = data.users_votes.length > 0 ? true : false;
@@ -410,7 +416,7 @@ export default {
           }
         } else if (vm.alreadyVoted && data.voting_type == "borda") {
           // vm.myChoice = "cos tam "
-          var sortedValues = data.users_votes.sort(function(a, b) {
+          var sortedValues = data.users_votes.sort(function (a, b) {
             return -(a.points - b.points);
           });
           var projects = data.projects;
@@ -424,7 +430,7 @@ export default {
             }
           }
         } else if (vm.voting.voting_type == "approval") {
-          var sortedValues2 = data.users_votes.sort(function(a, b) {
+          var sortedValues2 = data.users_votes.sort(function (a, b) {
             return a.project - b.project;
           });
 
@@ -457,9 +463,10 @@ export default {
 
 .votingTitle {
   margin-top: 50px;
-  font-size: 32px;
+  font-size: 24px;
   text-align: center;
   margin-bottom: 30px;
+  font-family: "Petrona";
 }
 
 .add-project-icon {
@@ -472,17 +479,15 @@ export default {
   transform: scale(1.2);
 }
 
-.draggable{
-  max-width: 1000px; 
+.draggable {
+  max-width: 1000px;
   margin: 0 auto;
   /* border: solid; */
 }
 .buttonSubmit {
   display: flex;
   justify-content: flex-end;
-  margin-right: 5%;
-  margin-bottom: 100px;
-  margin-top: 100px;
+  margin: 50px 10% 50px auto;
 }
 
 .voting_type_desc {
@@ -508,6 +513,15 @@ export default {
   max-width: 800px;
   margin: 50px auto 0 auto;
   font-size: 2em;
-  border-bottom: 1px solid var(--v-primary-darken2);
+  border-bottom: 1px solid var(--v-link-base);
+}
+
+@media only screen and (max-width: 800px) {
+  .votingTitle,
+  .alreadyVotedSelectedProject {
+    font-size: 20px;
+    padding: 0 10px;
+    text-align: center;
+  }
 }
 </style>

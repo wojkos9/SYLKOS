@@ -1,5 +1,5 @@
 <template>
-  <div class="commentContainer">
+  <div class="commentContainer paddingTop-l">
     <div class="comment-row-1">
       <div class="comment-author">
         <div class="comment-imauthor" v-if="author">
@@ -40,9 +40,7 @@
       ></v-rating>
 
       <plus-minus-rating
-        :likes="comment.likes_count"
-        :dislikes="comment.dislikes_count"
-        :userVotedFor="comment.user_has_liked"
+        :comment="comment"
       />
     </div>
     <div class="comment-content">

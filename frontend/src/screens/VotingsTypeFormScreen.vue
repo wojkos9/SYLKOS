@@ -20,25 +20,26 @@
        
         <v-text-field class="p-2 m-3"
         dense
-            v-model="name.value"
-            :rules="name.rule"
-            :label="name.label"
+            v-model="votingType.name.value"
+            :rules="votingType.name.rule"
+            :label="votingType.name.label"
             required
           ></v-text-field>
          
           <v-text-field class="p-2 m-3"
-            v-model="desc.value"
-            :rules="desc.rule"
-            :label="desc.label"
+            v-model="votingType.description.value"
+            :rules="votingType.description.rule"
+            :label="votingType.description.label"
             required
           ></v-text-field>
       
         <div class="d-flex justify-content-end p-4 buttons">
-          <v-btn class="mr-4 p-2" @click="submit">
-            {{ this.this.$t("submit") }}
+          <v-btn class="mr-4 p-2"  @click="clear">
+            {{ $t("votingTypeForm.clearData") }}
+            
           </v-btn>
-          <v-btn @click="clear">
-            {{ $t("votingTypesubmit") }}
+          <v-btn  @click="submit">
+              {{ $t("votingTypeForm.submit") }}
           </v-btn>
         </div>
       </v-container>
@@ -50,7 +51,7 @@
 
   <DialogWithUser 
   :title="$t('success')"
-  :desc="$t('desc')"
+  :desc="$t('votingTypeForm.desc')"
   :nextAction="nextFunction"
   :backAction="backFunction"
   :dialog="dialog"
@@ -75,25 +76,16 @@ export default {
       dialog: false,
       votingType: {
         name:{
-          label: this.this.$t("name"),
+          label: this.$t("name"),
+          rule: [(v) => !!v || this.$t("votingTypenameError")],
           value: '',
         },
         description:{
-          label: this.this.$t("desc"),
+          label: this.$t("desc"),
+          rule: [(v) => !!v || this.$t("votingTypedescError")],
           value: '',
         },
       },
-      name:
-        {
-          label: this.this.$t("votingTypenameLabel"),
-          rule: [(v) => !!v || this.this.$t("votingTypenameError")],
-          value: "",
-        },
-        desc: {
-          label: this.this.$t("desc"),
-          rule: [(v) => !!v || this.this.$t("votingTypedescError")],
-          value: "",
-        },
     };
   },
   methods: {
@@ -101,8 +93,8 @@ export default {
       this.photo.value = this.$refs.file.files.item(0);
     },
     clear() {
-      this.name.value = "";
-      this.desc.value = "";
+      this.votingType.name.value = "";
+      this.votingType.description.value = "";
       this.reset();
     },
     reset() {
@@ -113,13 +105,14 @@ export default {
     },
 
     async submit() {
+        console.log("valid")
       this.validate();
      
       if (this.valid) {
-
+        console.log("valid")
       await apiService("/api/voting_type/", "POST", {
-            name: this.name.value,
-            description: this.desc.value,
+            name: this.votingType.name.value,
+            description: this.votingType.description.value,
           }).then(data => {
               console.log(data)
               if(data != "wrong data"){
@@ -140,7 +133,7 @@ export default {
     }
   },
   created(){
-    document.title = this.this.this.$t("votingForm", "title")
+    document.title = this.$t("votingForm.title")
   }
 };
 </script>

@@ -25,7 +25,7 @@
       </div>
 
       <div class="rightSectionVOting">
-        <div v-if="project.images.length > 0">
+        <div v-if="project.images.length > 0" class="centerImage" style="margin-bottom: 20px;">
           <img :src="`/media/${project.images[0].image}`" class="image" />
         </div>
         <div class="commentSectionRedirectButton">
@@ -154,6 +154,13 @@ export default {
   padding: 0;
 }
 
+.centerImage{
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  /* border:solid; */
+}
+
 @media only screen and (max-width: 800px) {
   .votingProjectarea {
     /* flex-wrap: wrap; */
@@ -162,13 +169,17 @@ export default {
   .rightSectionVOting {
     width: 80%;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px ;
+    align-items: center;
+    justify-content: center;
   }
   .leftSectionVotingProject {
     width: 80%;
     margin: 0 auto;
     /* border: solid; */
     padding: 10px;
-    padding: 10px 10px 10px 80px;
     display: flex;
     flex-direction: column;
     align-items: center;

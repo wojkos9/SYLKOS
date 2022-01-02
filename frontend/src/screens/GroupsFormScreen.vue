@@ -67,7 +67,7 @@
 
     <DialogWithUser
       :title="$t('success')"
-      :desc="$t('desc')"
+      :desc="$t('groupForm.desc')"
       :nextAction="nextFunction"
       :backAction="backFunction"
       :dialog="dialog"

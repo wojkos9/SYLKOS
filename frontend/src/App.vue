@@ -293,13 +293,13 @@ a {
   padding-top: 10px;
 }
 .paddingTop-m {
-  padding-top: 20px;
+  padding-top: 20px !important;
 }
 .paddingTop-l {
-  padding-top: 30px;
+  padding-top: 30px  !important;
 }
 .paddingTop-xl {
-  padding-top: 40px;
+  padding-top: 40px  !important;
 }
 
 .paddingBottom-s {
