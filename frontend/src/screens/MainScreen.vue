@@ -15,7 +15,13 @@
 
         <details class="single-sestion">
           <summary class="section-title">{{$t('yourAdminGroups')}}</summary>
-
+            <div v-for="group in adminGroups" :key="group.id">
+            <Group
+              v-bind:group="group"
+              v-show="true"
+              v-bind:requestUser="requestUser"
+            />
+          </div>
         </details>
 
         <details class="single-sestion">
@@ -47,6 +53,7 @@ export default {
       sideDrawer: false,
       myGroups: [],
       myProjects: [],
+      adminGroups: [],
     };
   },
   methods: {
@@ -104,8 +111,29 @@ export default {
       });
     }
 
+    let endpoint3 = `api/user/owned_groups`;
+    let data3 = await apiService(endpoint3);
+    var admin_groups = [];
+    //
+    cnt = 2;
+    nextPage = data3.next != null ? true : false;
+    for (group of data3.results) {
+      admin_groups.push(group);
+    }
+
+    while (nextPage) {
+      await apiService(endpoint3 + "?page=" + cnt).then((data) => {
+        cnt += 1;
+        nextPage = data.next != null ? true : false;
+        for (var group of data.results) {
+          admin_groups.push(group);
+        }
+      });
+    }
+
     return next((vm) => {
       vm.myGroups = groups;
+      vm.adminGroups = admin_groups;
       vm.myProjects = projects;
     });
   },
@@ -114,15 +142,11 @@ export default {
 
 <style>
 .single-sestion{
-  /* border: solid var(--v-background-lighten2); */
-  /* background-color: var(--v-background-lighten2) ; */
   border-radius: 16px;
 
 }
 details {
-   /* font-family: "Petrona"; */
   background-color: var(--v-primary-lighten3);
-  /* opacity: 0.6; */
   padding: 4px 6px;
   font-size: 1.7em;
   font-weight: 700;
@@ -183,8 +207,6 @@ details[open] summary ~ * {
 .section-title{
   text-align: center;
   padding: 15px 26px;
-  /* border: solid var(--v-background-lighten2); */
-  /* background-color: var(--v-background-lighten2) ; */
   border-radius: 16px;
   margin: 10px auto;
   }
