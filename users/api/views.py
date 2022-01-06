@@ -37,6 +37,11 @@ class UserGroupsView(ListAPIView):
     def get_queryset(self):
         return self.request.user.user_groups.all()
 
+class UserOwnedGroupsView(ListAPIView):
+    serializer_class=GroupSerializer
+    def get_queryset(self):
+        return self.request.user.user_owned_groups.all()
+
 class CreateCustomUserView(CreateAPIView):
     serializer_class = CustomUserSerializer
     parser_classes = [JSONParser]
