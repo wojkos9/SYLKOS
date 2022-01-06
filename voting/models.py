@@ -11,7 +11,7 @@ class Group(models.Model):
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="user_groups", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    admin_users = models.ManyToManyField(BasicUser, blank=True)
+    admin_users = models.ManyToManyField(BasicUser, related_name="user_owned_groups", blank=True)
 
     def __str__(self):
         return self.name
