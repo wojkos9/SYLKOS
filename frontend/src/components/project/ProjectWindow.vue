@@ -1,7 +1,7 @@
 <template>
-  <v-dialog v-model="dialog" width="unset">
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" dark v-bind="attrs" v-on="on">
+  <v-dialog v-model="dialog" width="800px" >
+    <template v-slot:activator="{ on, attrs }" >
+      <v-btn color="primary-lighten"  v-bind="attrs" v-on="on"  style="margin: 0 auto">
         {{ $t("details") }}
       </v-btn>
     </template>
@@ -93,7 +93,7 @@
       </div>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" text @click="dialog = false">
+        <v-btn color="link" text @click="dialog = false">
          {{$t("close")}}
         </v-btn>
       </v-card-actions>
@@ -192,7 +192,9 @@ export default {
     this.getVotingData();
     this.check(this.cannotComment)
   },
-  components: { Carousel, AddComment, Comment },
+  components: { 
+    Carousel,
+     AddComment, Comment },
 };
 </script>
 
@@ -219,13 +221,12 @@ export default {
   padding: .5em;
 }
 
-
 .animation {
   max-height: 900px;
-  padding-bottom: 40px;
+  padding-bottom: 10px;
   max-width: 600px;
   display: inherit !important;
-  margin: 40px 24px;
+  margin: 40px auto;
   -webkit-box-shadow: 5px 13px 13px 3px rgba(63, 63, 74, 0.26);
   -moz-box-shadow: 5px 13px 13px 3px rgba(63, 63, 74, 0.26);
   box-shadow: 5px 13px 13px 3px rgba(63, 63, 74, 0.26);
@@ -241,5 +242,12 @@ export default {
   padding-bottom: 0px;
   pointer-events: none; /* disable user interaction */
   user-select: none; /* disable user selection */
+}
+
+@media only screen and (max-width: 800px) {
+  .projectDesc {
+  text-align: center;
+  }
+
 }
 </style>

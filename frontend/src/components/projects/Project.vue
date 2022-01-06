@@ -35,7 +35,7 @@
       </div>
       <div class="col center">
         <div class="center">
-          <div v-if="project.images.length > 0">
+          <div v-if="project.images.length > 0" style="margin-bottom: 20px;">
             <img :src="`/media/${project.images[0].image}`" class="image" />
           </div>
           <ProjectWindow :project="project" />
@@ -106,6 +106,7 @@ export default {
 .center img {
   height: calc(30vh - 30px);
   width: auto;
+  max-width: 250px !important;
   max-height: 150px;
   object-fit: contain;
   margin: 0 auto;
@@ -113,7 +114,7 @@ export default {
 @media only screen and (max-width: 1200px) {
   .image {
     height: 300px;
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
     width: 300px;
   }
   .center {

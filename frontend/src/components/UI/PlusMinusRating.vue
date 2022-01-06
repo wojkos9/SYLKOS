@@ -3,18 +3,20 @@
         <div class="plus" @click="check(incrementLikes)">
           <v-mdi name="mdiPlusThick"></v-mdi>
         </div>
-        {{ likes }}
+        {{ comment.likes_count }}
         <div class="minus" @click="check(incrementDislikes)">
           <v-mdi name="mdiMinusThick"></v-mdi>
         </div>
-        {{ dislikes }}
+        {{ comment.dislikes_count }}
       </div>
 </template>
 
 <script>
+    import { apiService } from "@/common/api.service.js";
+
     export default {
         name: "plusMinusRating",
-        props: ['likes', 'dislikes', 'userVotedFor'],
+        props: ['comment'],
         methods:{
             check(funName) {
       if (
@@ -26,25 +28,34 @@
         funName();
       }
     },
-            incrementLikes(){
-                if(this.userVotedFor == "minus"){
-                    this.likes++;
-                    this.dislikes--;
-                } else if(this.userVotedFor == "nothing"){
-                    this.likes++;
-                }
-                this.userVotedFor = "plus";
-            },
-            incrementDislikes(){
-                if(this.userVotedFor == "nothing"){
-                    this.dislikes++;
-                }
-                else if(this.userVotedFor == "plus" ){
-                    this.dislikes++;
-                    this.likes--;
-                } 
-                this.userVotedFor = "minus";
+           async  incrementLikes(){
+               
+            await apiService(`/api/comments/${this.comment.id}/like`, "POST", {
+
+            }).then(async (data) => {
+            if (data != "wrong data") {
+                this.comment.likes_count = data.likes_count;
+                this.comment.dislikes_count = data.dislikes_count;
+                this.comment.user_has_disliked = data.user_has_disliked;
+                this.comment.user_has_liked = data.user_has_liked;
             }
+            });
+                    
+            },
+            async  incrementDislikes(){
+               
+            await apiService(`/api/comments/${this.comment.id}/dislike`, "POST", {
+
+            }).then(async (data) => {
+            if (data != "wrong data") {
+                this.comment.likes_count = data.likes_count;
+                this.comment.dislikes_count = data.dislikes_count;
+                this.comment.user_has_disliked = data.user_has_disliked;
+                this.comment.user_has_liked = data.user_has_liked;
+            }
+            });
+                    
+            },
         }
     }
 </script>
@@ -53,7 +64,8 @@
     .likes {
         /* border: solid 1px black; */
         display: flex;  
-        font-size: 25px;
+        font-size: 21px;
+        align-items: center;
     }
     .plus {
         color: green;

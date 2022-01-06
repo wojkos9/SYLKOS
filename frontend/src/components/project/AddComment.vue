@@ -20,16 +20,14 @@
           </div>
         </div>
         <div class="rightTopSection">
-          {{ moment(new Date()).format("DD.MM.YYYY") }}
+          {{ moment(new Date()).format("YYYY.MM.DD HH:mm") }}
         </div>
       </div>
 
       <div class="bottomSection" id="addComment">
         <v-textarea
           class="addComment"
-          color="secondary"
           :label="comment.label"
-          :rules="comment.rule"
           v-model="comment.value"
         >
         </v-textarea>
@@ -55,7 +53,6 @@ export default {
       dialog3: false,
       comment: {
         label: this.$t("writeComment"),
-        rule: [(v) => !!v || this.$t("writeCommentError")],
         value: "",
       },
     };
@@ -84,11 +81,11 @@ export default {
 
 <style scoped>
 .commentContainer {
-  border-radius: 25px;
+  /* border-radius: 25px; */
   margin: 20px;
   padding: 20px;
-  max-width: 400px;
-  width: 400px;
+  max-width: 450px;
+  width: 450px;
   background-color: var(--v-primary-lighten3);
 }
 .topSection {
@@ -131,6 +128,7 @@ textarea {
 }
 .userName {
   max-width: 300px;
+  font-size: 21px !important;
 }
 
 @media only screen and (max-width: 500px) {
@@ -164,7 +162,7 @@ textarea {
 
   .commentContainer {
     border: solid 1px black;
-    border-radius: 25px;
+    /* border-radius: 25px; */
     /* height: 400px; */
     margin: 10px;
     padding: 20px;

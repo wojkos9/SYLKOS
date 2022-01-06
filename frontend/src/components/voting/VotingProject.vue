@@ -8,12 +8,15 @@
       </div>
       <div class="price">
         {{ $t("price") }} : {{ project.budget }} zł
+        <span v-if="showPoints">
+          <br> uzyskane punkty: {{project.votes}}
+        </span>
       </div>
     </div>
 
     <div class="rightSectionVOting">
-      <div class="commentSectionRedirectButton">
-      </div>
+      <!-- <div class="commentSectionRedirectButton">
+      </div> -->
 
       <div class="commentSectionRedirectButton">
         <ProjectWindow :project="project" />
@@ -26,7 +29,7 @@
 import ProjectWindow from "@/components/project/ProjectWindow.vue";
 export default {
   name: "votingProject",
-  props: ["project", "clicked"],
+  props: ["project", "clicked", "showPoints"],
   data() {
     return {
       title: "tytul",
@@ -74,6 +77,10 @@ export default {
   padding: 20px;
   font-size: 20px;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
 }
 
 .votingProjectarea {
@@ -128,7 +135,7 @@ box-shadow: 0px 0px 35px -14px #00bfa5 ;
 .commentSectionRedirectButton {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   padding: 0;
   /* margin-right: 10px; */
 }
@@ -140,6 +147,9 @@ box-shadow: 0px 0px 35px -14px #00bfa5 ;
   /* background-color: red; */
   font-weight: 500;
   padding: 5px 10px;
+}
+.price{
+  margin-bottom: 10px;
 }
 .green {
   background-color: rgb(217, 208, 250);

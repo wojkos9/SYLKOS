@@ -155,7 +155,7 @@ export const pl = {
     ' Maksymalna ilość wybranych wariantów jest ograniczona. ' + 
     ' Wszystkie zaznaczone projekty otrzymają po jeden punkt. ' ,
     bordaRules: ' Uszereguj wszystkie projekty, przeciągając je myszką. ' +
-    ' Na pierwszym miejscu ustaw najbardziej odpowiadający ci wariant, na ostatnim - najmniej. ' ,
+    ' Na pierwszym miejscu ustaw najbardziej odpowiadający Ci wariant, na ostatnim - najmniej. ' ,
     newType: 'Jeszcze nie obsłużony typ głosowania ',
     alProjects: 'Projekty biorące udział w głosowaniu',
     warningTitle: 'Oddanego głosu nie można cofnąć ani zmienić!',
@@ -278,8 +278,11 @@ export const pl = {
     votingNmaeError: 'Nazwa głosowania jest wymagana',
     nameLabel: 'Nazwa głosowania',
     chooseFirtstLast: 'wybierz pierwszy  ostatni',
-    votingDay: 'dzień głosowania'
-
+    votingDay: 'dzień głosowania',
+    description: 'Opis głosowania',
+    descriptionError: 'Opis głosowania jest wymagany',
+    startDateLabel: 'Początek głosowania',
+    endDateLabel: 'Koniec głosowania',
   },
   votingTypeForm:{
     title: "Nowy typ głosowania",

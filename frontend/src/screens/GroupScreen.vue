@@ -493,7 +493,7 @@ export default {
 details {
   /* font-family: "Petrona"; */
   background-color: var(--v-primary-lighten3);
-  opacity: 0.6;
+  /* opacity: 0.6; */
   padding: 4px 6px;
   font-size: 1.7em;
   font-weight: 700;

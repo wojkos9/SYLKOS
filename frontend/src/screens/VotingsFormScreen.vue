@@ -37,7 +37,13 @@
                 :label="voting.name.label"
                 required
               ></v-text-field>
-         
+
+              <v-textarea
+                :label="voting.description.label"
+                :rules="voting.description.rule"
+                v-model="voting.description.value"
+              >
+              </v-textarea>
 
               <v-combobox
                 v-model="voting.votingType.value"
@@ -134,6 +140,12 @@ export default {
           rule: [(v) => !!v || this.$t("votingForm.votingTypeError")],
           value: "",
         },
+
+        description: {
+          label: this.$t("votingForm.description"),
+          rule: [(v) => !!v || this.$t("votingForm.descriptionError")],
+          value: "",
+        },
         
         startDate:{
           label: this.$t("votingForm.startDateLabel"),
@@ -162,6 +174,7 @@ export default {
       this.$refs.newGroupForm.validate();
     },
     async submit() {
+      console.log("submit")
       this.validate();
       if (this.valid) {
         if (this.groupId != null)
@@ -170,6 +183,7 @@ export default {
             start_date: this.dates[0] + "T00:00:00Z",
             end_date: this.dates[1] + "T00:00:00Z",
             voting_type: this.voting.votingType.value.name,
+            description: this.voting.description.value,
             group: this.groupId,
           }).then((data) => {
             if (data == "success") this.check = true;
@@ -178,6 +192,7 @@ export default {
               this.voting.startDate.value = data.start_date.slice(0,10);
               this.voting.endDate.value = data.end_date.slice(0,10);
               this.voting.name.value = data.name;
+              this.voting.description.value = data.description;
               this.dialog = true;
             }
           });
@@ -258,6 +273,16 @@ export default {
   padding-top: 0;
   text-align: center;
 }
+
+.v-textarea textarea{
+  width: 200px !important;
+}
+
+.v-textarea {
+  width: 200px !important;
+  /* height: 100px !important; */
+}
+
 @media only screen and (max-width: 758px) {
   .background {
     margin-top: 10px;

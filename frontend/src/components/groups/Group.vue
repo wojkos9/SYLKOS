@@ -175,7 +175,7 @@
                   <div v-for="voting in activeVotings" :key="voting.id">
                     <details class="smaller">
                       <summary class="beforeYellow">
-                        {{ voting.name }} {{ voting.start_date }}
+                        {{ voting.name }} {{ voting.start_date.slice(0,10) }}
                       </summary>
                       <div class="findLast">
                         <div
@@ -207,7 +207,7 @@
                   <div v-for="voting in announcedVotings" :key="voting.id">
                     <details class="smaller">
                       <summary class="beforeYellow">
-                        {{ voting.name }} {{ voting.start_date }}
+                        {{ voting.name }} {{ voting.start_date.slice(0,10) }}
                       </summary>
                       <div class="findLast">
                         <div
@@ -238,7 +238,7 @@
                   <div v-for="voting in finishedVotings" :key="voting.id">
                      <details class="smaller">
                       <summary class="beforeYellow">
-                        {{ voting.name }} {{ voting.start_date }}
+                        {{ voting.name }} {{ voting.start_date.slice(0,10) }}
                       </summary>
                       <div class="findLast">
                         <div
@@ -524,6 +524,7 @@ export default {
       }
     },
     isUserMember(data) {
+      console.log(data)
       // this.isMember = data.members.includes(this.requestUser);
       this.isAdmin = data.admin_users.includes(this.requestUser);
     },
@@ -531,7 +532,6 @@ export default {
   components: {
     Carousel,
   },
-  computed() {},
   async created() {
     if (this.group.image)
       await apiService(`/api/photo/${this.group.image}/`).then((data) => {
@@ -644,6 +644,7 @@ export default {
 .center img {
   height: calc(30vh - 30px);
   width: auto;
+  max-width: 250px !important;
   max-height: 150px;
   object-fit: contain;
   margin: 0 auto;
@@ -652,7 +653,7 @@ export default {
 .animation {
   max-height: 900px;
   padding-bottom: 40px;
-  max-width: 600px;
+  /* max-width: 600px; */
   display: inherit !important;
   margin: 0 auto;
   /* border:solid; */
@@ -886,9 +887,11 @@ details .findLast {
     padding: 10px;
     width: 90%;
     margin: 10px auto;
+    text-align: center;
   }
 
   .desc {
+    text-align: center;
     margin-top: 0;
   }
 

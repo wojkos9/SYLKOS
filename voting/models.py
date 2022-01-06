@@ -36,6 +36,7 @@ class Voting(models.Model):
     end_date = models.DateTimeField()
     voting_type = models.ForeignKey(VotingType, on_delete=CASCADE)
     group = models.ForeignKey(Group, on_delete=CASCADE)
+    description = models.TextField(max_length=1500)
 
     def __str__(self):
         if self.name:

@@ -12,7 +12,6 @@ export default {
   props: ["stars"],
   methods: {
   },
-  computed: {},
   components: {Star},
 };
 </script>
