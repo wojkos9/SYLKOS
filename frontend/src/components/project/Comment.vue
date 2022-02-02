@@ -38,7 +38,6 @@
         medium
         readonly
       ></v-rating>
-
       <plus-minus-rating
         :comment="comment"
       />

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="d-none d-sm-block col-md-2 col-lg-3" />
       <div
-        class="col-sm-12 col-md-8 col-lg-6  d-flex justify-content-center flex-column"
+        class="col-sm-12 col-md-8 col-lg-6 d-flex justify-content-center flex-column"
       >
         <div
           id="backgroundGroupForm"

@@ -26,7 +26,7 @@
 
       <div class="rightSectionVOting">
         <div v-if="project.images.length > 0" class="centerImage" style="margin-bottom: 20px;">
-          <img :src="`/media/${project.images[0].image}`" class="image" />
+          <img :src="`/media/${project.images[project.images.length-1].image}`" class="image" />
         </div>
         <div class="commentSectionRedirectButton">
           <ProjectWindow :project="project" />

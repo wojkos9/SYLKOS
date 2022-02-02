@@ -41,7 +41,7 @@
               </router-link>
 
               <router-link :to="{ name: routes.addProject }" :is="!showSections ? 'span' : 'router-link'">
-                <v-list-item @click="!showSection ? ifLogin : {}">
+                <v-list-item @click="ifLogin">
                   <v-list-item-title>
                     <v-icon>add</v-icon>
                    {{$t("addProject")}}
@@ -50,16 +50,16 @@
               </router-link>
 
               <router-link :to="{ name: routes.settings }" :is="!showSections ? 'span' : 'router-link'">
-                <v-list-item  @click="!showSection ? ifLogin : {}">
+                <v-list-item  @click="ifLogin">
                   <v-list-item-title>
                     <v-icon>settings</v-icon>
-                   {{$t("settings")}}
+                   {{$t("settings")}} 
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
 
               <router-link :to="{ name: routes.user }" :is="!showSections ? 'span' : 'router-link'">
-                <v-list-item @click="!showSection ? ifLogin : {}">
+                <v-list-item @click="ifLogin">
                   <v-list-item-title>
                     <v-icon>person</v-icon>
                    {{$t("user")}}
@@ -100,7 +100,7 @@
                 <v-list-item v-show="!showSections" @click="register">
                   <v-list-item-title>
                     <v-icon>mdi-account-plus</v-icon>
-                   {{$t("register")}}
+                   {{$t("register")}} 
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
@@ -112,7 +112,7 @@
                     <flag v-if="currentLang=='pl'" style="font-size:18px; margin-right: 5px" iso="us" />
                     <flag v-else style="font-size:18px; margin-right: 5px" iso="pl" />
                    <!-- </div> -->
-                   {{ $t('newLanguage') }}
+                   {{ $t('newLanguage') }} 
                   </v-list-item-title>
                 </v-list-item>
               </router-link>
@@ -207,7 +207,7 @@ export default {
       window.location.href = "../logout/";
     },
     ifLogin() {
-      this.dialog = true;
+      this.dialog = this.showSections ? false : true;
     },
     changeLanguage(){
       this.currentLang = this.newLang
@@ -222,7 +222,7 @@ export default {
     check(funName) {
       if (
         window.localStorage.getItem("username") ==
-        window.localStorage.getItem("unauthorized")
+        window.localStorage.getItem("gosc")
       ) {
         this.$root.$refs.App.ifLogin();
       } else {
@@ -238,6 +238,7 @@ export default {
         }
         window.localStorage.setItem("username", "gosc");
         this.showSections = false;
+        this.$vuetify.theme.dark = 1;
       } else {
         const requestUser = data["username"];
         window.localStorage.setItem("username", requestUser);

@@ -191,8 +191,9 @@
                               name: 'voting',
                               params: { id: group.id, vId: voting.id },
                             }"
+
                           >
-                            <v-btn color="primary" @click="goToVoting">
+                            <v-btn color="primary" @click="check(goToVoting)">
                               {{ $t("goToVoting") }}
                             </v-btn>
                           </router-link>
@@ -224,7 +225,7 @@
                               params: { id: group.id, vId: voting.id },
                             }"
                           >
-                            <v-btn color="primary" @click="goToVoting">
+                            <v-btn color="primary" @click="check(goToVoting)">
                               {{ $t("goToVoting") }}
                             </v-btn>
                           </router-link>
@@ -253,10 +254,10 @@
                             :to="{
                               name: 'voting',
                               params: { id: group.id, vId: voting.id },
-                            }"
+                            }" :is="window.localStorage.getItem('username') == 'gosc' ? 'span' : 'router-link'"
                           >
-                            <v-btn color="primary" @click="goToVoting">
-                              {{ $t("goToVoting") }}
+                            <v-btn color="primary" @click="check(goToVoting)">
+                              {{ $t("goToVoting") }} 
                             </v-btn>
                           </router-link>
                         </div>
@@ -401,6 +402,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
   </div>
 </template>
 
@@ -418,6 +420,7 @@ export default {
       valid: false,
       loading: true,
       myCode: "",
+      dialogUnauthorized: false,
       count: 1,
       groupCarousel: true,
       image: "",
@@ -429,6 +432,7 @@ export default {
       dialogGenerateAccessCode: false,
       accessCode: "",
       isMember: false,
+      showSections: true,
       isAdmin: false,
       accessCodeRules: [
         (v) => !!v || this.$t("accessCodeRequired"),
@@ -445,9 +449,10 @@ export default {
       console.log("ide");
     },
     check(funName) {
+      console.log(window.localStorage.getItem("username"))
       if (
         window.localStorage.getItem("username") ==
-        window.localStorage.getItem("unauthorized")
+        "gosc"
       ) {
         this.$root.$refs.App.ifLogin();
       } else {
@@ -455,27 +460,13 @@ export default {
       }
     },
     joinGroup() {
-      // if (
-      //   window.localStorage.getItem("username") ==
-      //   window.localStorage.getItem("unauthorized")
-      // ) {
-      //   this.$root.$refs.App.ifLogin();
-      // } else {
       this.dialog = true;
-      // }
     },
     generateAccessCode() {
       this.dialogGenerateAccessCode = true;
     },
     leaveGroup() {
-      // if (
-      //   window.localStorage.getItem("username") ==
-      //   window.localStorage.getItem("unauthorized")
-      // ) {
-      //   this.$root.$refs.App.ifLogin();
-      // } else {
       this.dialogLeaveGroup = true;
-      // }
     },
     validate() {
       this.$refs.code.validate();
