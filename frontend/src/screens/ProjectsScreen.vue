@@ -11,7 +11,9 @@
     </div>
 
     <div class="allGroups">
-     <div v-for="project in projects" :key="project.id">
+     <div  
+   
+     v-for="project in projects" :key="project.id">
         <Project
           v-show="check(project.name)"
           v-bind:project="project" 
@@ -80,6 +82,7 @@ export default {
         this.projects.push(project)
       // }
       }
+      this.$vuetify.goTo(0)
     },
     makeSth(str){
       this.searchName = str
@@ -106,6 +109,7 @@ export default {
   watch: {
     page: function() {
       this.getOnePageProjects();
+      
     },
   },
 };

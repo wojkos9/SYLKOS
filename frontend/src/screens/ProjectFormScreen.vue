@@ -9,6 +9,8 @@
           id="backgroundGroupForm"
           class="background d-flex justify-content-center "
         >
+         id glosowania {{vId}} <br>
+         id grupy  {{id}}
           <v-form
             v-model="valid"
             ref="newGroupForm"
@@ -43,53 +45,7 @@
                 type="number"
                 required
               ></v-text-field>
-                         <v-menu
-                v-model="menu"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-                class="p-2 m-3"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="project.finish_date.value"
-                    :label="project.finish_date.label"
-                    :rules="project.finish_date.rule"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  color="accent"
-                  :first-day-of-week="0"
-                  :locale="lang"
-                  :min="nowDate"
-                  v-model="project.finish_date.value"
-                  @input="menu = false"
-                ></v-date-picker>
-              </v-menu>
 
-              <!-- <v-combobox
-                class="p-2 m-3"
-                v-model="project.group.value"
-                :items="groups"
-                :rules="project.group.rule"
-                :label="project.group.label"
-                item-text="name"
-              ></v-combobox> -->
-
-              <!-- <v-combobox
-               class="p-2 m-3"
-                v-model="project.voting.value"
-                :items="votings"
-               
-                :label="project.voting.label"
-                item-text="name"
-              ></v-combobox> -->
 
               <v-file-input
                 class="p-2 m-3"
@@ -110,6 +66,7 @@
               </div>
             </v-container>
           </v-form>
+         
         </div>
         <div class="d-none d-sm-block col-md-2 col-lg-3" />
       </div>
@@ -133,7 +90,7 @@ import DialogWithUser from "../components/UI/DialogWithUser.vue";
 export default {
   name: "projectFormScreen",
   components: { DialogWithUser },
-  props: ["groupId", "votingId"],
+  props: ["id", "vId"],
   data() {
     return {
       lang: this.$t("language.lang"),
@@ -162,26 +119,26 @@ export default {
           rule: [(v) => !!v || this.$t("projectForm.projectBudgetError")],
           value: 0,
         },
-        stage: {
-          label: this.$t("projectForm.projectStageLabel"),
-          rule: [(v) => !!v || this.$t("projectForm.projectStageError")],
-          value: "",
-        },
-        finish_date: {
-          label: this.$t("projectForm.projectFinishLabel"),
-          rule: [(v) => !!v || this.$t("projectForm.projectFinishError")],
-          value: "",
-        },
-        group: {
-          label: this.$t("projectForm.projectGroupLabel"),
-          rule: [(v) => !!v || this.$t("projectForm.projectGroupError")],
-          value: "",
-        },
-        voting: {
-          label: this.$t("projectForm.projectVotingLabel"),
-          rule: [],
-          value: "",
-        },
+        // stage: {
+        //   label: this.$t("projectForm.projectStageLabel"),
+        //   rule: [(v) => !!v || this.$t("projectForm.projectStageError")],
+        //   value: "",
+        // },
+        // finish_date: {
+        //   label: this.$t("projectForm.projectFinishLabel"),
+        //   rule: [(v) => !!v || this.$t("projectForm.projectFinishError")],
+        //   value: "",
+        // },
+        // group: {
+        //   label: this.$t("projectForm.projectGroupLabel"),
+        //   rule: [(v) => !!v || this.$t("projectForm.projectGroupError")],
+        //   value: "",
+        // },
+        // voting: {
+        //   label: this.$t("projectForm.projectVotingLabel"),
+        //   rule: [],
+        //   value: "",
+        // },
         images: {
           label: this.$t("projectForm.projectPhotoLabel"),
           rule: [],
@@ -208,15 +165,24 @@ export default {
     async submit() {
       this.validate();
       if (this.valid) {
+        console.log(this.project.name.value)
+        console.log(this.project.description.value)
+        console.log(this.project.budget.value)
+        console.log(this.id)
+        console.log(this.vId)
+
+
         await apiService("/api/projects/", "POST", {
           name: this.project.name.value,
           description: this.project.description.value,
           budget: this.project.budget.value,
+          document: null,
           stage: "stage",
-          finish_date: this.project.finish_date.value + "T00:00:00Z",
-          group: this.groupId,
-          voting: this.votingId,
+          finish_date: "2022-01-11T00:00:00Z",
+          group: this.id,
+          voting: this.vId,
           votes: 0,
+          author:1,
         }).then(async (data) => {
           if (data != "wrong data") {
             let projectId = data.id;
@@ -224,11 +190,11 @@ export default {
             this.project.name.value = data.name;
             this.project.description.value = data.description;
             this.project.budget.value = data.budget;
-            this.project.stage.value = data.stage;
-            this.project.finish_date.value = data.finish_date.slice(0,10);
-            this.project.group.value = this.project.group.value.name;
-            this.project.voting.value = this.project.voting.value.name;
-            this.project.voting.label = this.$t('projectForm.pictures');
+            // this.project.stage.value = data.stage;
+            // this.project.finish_date.value = data.finish_date.slice(0,10);
+            // this.project.group.value = this.project.group.value.name;
+            // this.project.voting.value = this.project.voting.value.name;
+            this.project.images.label = this.$t('projectForm.pictures');
 
             for (var file of this.selectedFiles) {
               let formData = new FormData();

@@ -277,7 +277,7 @@ export const pl = {
     success: "sukces",
     votingNmaeError: 'Nazwa głosowania jest wymagana',
     nameLabel: 'Nazwa głosowania',
-    chooseFirtstLast: 'wybierz pierwszy  ostatni',
+    chooseFirtstLast: 'wybierz pierwszy i ostatni',
     votingDay: 'dzień głosowania',
     description: 'Opis głosowania',
     descriptionError: 'Opis głosowania jest wymagany',

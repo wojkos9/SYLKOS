@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class=" row area">
+    <div class="row area">
       <div class="aboutGroup">
         <div>
           <div class="groupTitle">{{ group.name }}</div>
@@ -10,18 +10,12 @@
             <span v-if="showMore">{{ group.description }} </span>
             <span v-else> {{ group.description.slice(0, 200) }}...</span>
             <div v-if="!showMore" class="paddingTop-m">
-              <v-btn x-small  dark @click="showMore = true">
+              <v-btn x-small dark @click="showMore = true">
                 {{ $t("expand") }}
               </v-btn>
             </div>
             <div v-else class="paddingTop-m">
-              <v-btn
-                x-small
-              
-                dark
-                v-if="showMore"
-                @click="showMore = false"
-              >
+              <v-btn x-small dark v-if="showMore" @click="showMore = false">
                 {{ $t("unexpand") }}
               </v-btn>
             </div>
@@ -34,7 +28,7 @@
           {{ $t("membersNumber") }} {{ group.count_user }}
         </div>
       </div>
-      <div class="col center  paddingTop-l">
+      <div class="col center paddingTop-l">
         <div class="center">
           <div v-if="group.images.length > 0">
             <img :src="`/media/${group.images[0].image}`" class="image" />
@@ -43,23 +37,35 @@
           <div class="text-center paddingTop-m">
             <v-dialog v-model="dialog2" width="700px">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn  dark v-bind="attrs" v-on="on">
+                <v-btn dark v-bind="attrs" v-on="on">
                   {{ $t("details") }}
                 </v-btn>
               </template>
 
               <v-card>
-                <v-card-title class="text-h5 ">
+                <v-card-title class="text-h5">
                   <span>{{ group.name }}</span>
 
-                  <span
-                    v-if="group.is_member"
-                    :title="$t('leaveGroup')"
-                    @click="check(leaveGroup)"
-                    class="icon p-2"
-                    ><v-icon color="link">person_remove</v-icon> </span
-                  ><span v-else @click="check(joinGroup)" class="icon p-2"
-                    ><v-icon color="link">person_add</v-icon></span
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <span
+                        v-if="group.is_member"
+                        :title="$t('leaveGroup')"
+                        @click="check(leaveGroup)"
+                        class="icon p-2"
+                      >
+                        <v-icon color="link" v-bind="attrs" v-on="on"
+                          >person_remove</v-icon
+                        >
+                      </span>
+                      <span v-else @click="check(joinGroup)" class="icon p-2"
+                        ><v-icon color="link" v-bind="attrs" v-on="on"
+                          >person_add</v-icon
+                        ></span
+                      >
+                    </template>
+                    <div v-if="group.is_member"><span>Opuść grupę</span></div>
+                    <div v-else><span>Dołącz do grupy</span></div></v-tooltip
                   >
                 </v-card-title>
 
@@ -72,19 +78,13 @@
                           {{ group.description.slice(0, 200) }}...</span
                         >
                         <div v-if="!showMore2" class="paddingTop-m">
-                          <v-btn
-                            x-small
-                           
-                            dark
-                            @click="showMore2 = true"
-                          >
+                          <v-btn x-small dark @click="showMore2 = true">
                             {{ $t("expand") }}
                           </v-btn>
                         </div>
                         <div v-else class="paddingTop-m">
                           <v-btn
                             x-small
-                           
                             dark
                             v-if="showMore2"
                             @click="showMore2 = false"
@@ -130,9 +130,7 @@
                         @click="generateAccessCode"
                       >
                         <v-btn class="mx-2" fab dark color="indigo">
-                          <v-icon dark>
-                            mdi-plus
-                          </v-icon>
+                          <v-icon dark> mdi-plus </v-icon>
                         </v-btn>
                       </div>
                       <div class="icon-desc">
@@ -147,9 +145,7 @@
                         @click="generateAccessCode"
                       >
                         <v-btn class="mx-2" fab dark color="red">
-                          <v-icon dark>
-                            mdi-minus
-                          </v-icon>
+                          <v-icon dark> mdi-minus </v-icon>
                         </v-btn>
                       </div>
                       <div class="icon-desc">
@@ -171,109 +167,138 @@
 
                 <div class="votingList">
                   <details>
-                   <summary class="votingTIme">  {{$t('activeVoting')}} </summary>  
-                  <div v-for="voting in activeVotings" :key="voting.id">
-                    <details class="smaller">
-                      <summary class="beforeYellow">
-                        {{ voting.name }} {{ voting.start_date.slice(0,10) }}
-                      </summary>
-                      <div class="findLast">
-                        <div
-                          v-for="(project, index) in voting.projects"
-                          :key="`project-${index}`"
-                        >
-                          <p class="projectSingle">{{ project.name }}</p>
-                        </div>
-
-                        <div class="single">
-                          <router-link
-                            :to="{
-                              name: 'voting',
-                              params: { id: group.id, vId: voting.id },
-                            }"
-
+                    <summary class="votingTIme">
+                      {{ $t("activeVoting") }}
+                    </summary>
+                    <div v-for="voting in activeVotings" :key="voting.id">
+                      <details class="smaller">
+                        <summary class="beforeYellow">
+                          {{ voting.name }} {{ voting.start_date.slice(0, 10) }}
+                        </summary>
+                        <div class="findLast">
+                          <div
+                            v-for="(project, index) in voting.projects"
+                            :key="`project-${index}`"
                           >
-                            <v-btn  @click="check(goToVoting)">
-                              {{ $t("goToVoting") }}
-                            </v-btn>
-                          </router-link>
+                            <p class="projectSingle">{{ project.name }}</p>
+                          </div>
+
+                          <div class="single">
+                            <router-link
+                              :to="{
+                                name: 'voting',
+                                params: { id: group.id, vId: voting.id },
+                              }"
+                            >
+                              <v-btn @click="check(goToVoting)">
+                                {{ $t("goToVoting") }}
+                              </v-btn>
+                            </router-link>
+                          </div>
                         </div>
-                      </div>
-                    </details>
-                  </div>
+                      </details>
+                    </div>
                   </details>
 
                   <details>
-                  <summary class="votingTIme"> {{$t('futureVotings')}} </summary>
-                  <div v-for="voting in announcedVotings" :key="voting.id">
-                    <details class="smaller">
-                      <summary class="beforeYellow">
-                        {{ voting.name }} {{ voting.start_date.slice(0,10) }}
-                      </summary>
-                      <div class="findLast">
-                        <div
-                          v-for="(project, index) in voting.projects"
-                          :key="`project-${index}`"
-                        >
-                          <p>{{ project.name }}</p>
-                        </div>
-
-                        <div class="single">
-                          <router-link
-                            :to="{
-                              name: 'voting',
-                              params: { id: group.id, vId: voting.id },
-                            }"
+                    <summary class="votingTIme">
+                      {{ $t("futureVotings") }}
+                    </summary>
+                    <div v-for="voting in announcedVotings" :key="voting.id">
+                      <details class="smaller">
+                        <summary class="beforeYellow">
+                          {{ voting.name }} {{ voting.start_date.slice(0, 10) }}
+                        </summary>
+                        <div class="findLast">
+                          <div
+                            v-for="(project, index) in voting.projects"
+                            :key="`project-${index}`"
                           >
-<<<<<<< HEAD
-                            <v-btn color="primary" @click="check(goToVoting)">
-=======
-                            <v-btn  @click="goToVoting">
->>>>>>> a37fbef12ee157d9f0678d73196ff27243b4a6d3
-                              {{ $t("goToVoting") }}
-                            </v-btn>
-                          </router-link>
-                        </div>
-                      </div>
-                    </details>
-                  </div>
-                </details>
-                <details>
-                   <summary class="votingTIme">  {{$t('finishedVotings')}} </summary> 
-                  <div v-for="voting in finishedVotings" :key="voting.id">
-                     <details class="smaller">
-                      <summary class="beforeYellow">
-                        {{ voting.name }} {{ voting.start_date.slice(0,10) }}
-                      </summary>
-                      <div class="findLast">
-                        <div
-                          v-for="(project, index) in voting.projects"
-                          :key="`project-${index}`"
-                        >
-                          <p>{{ project.name }}</p>
-                        </div>
+                            <p>{{ project.name }}</p>
+                          </div>
 
-                        <div class="single">
-                          <router-link
-                            :to="{
-                              name: 'voting',
-                              params: { id: group.id, vId: voting.id },
-                            }" :is="window.localStorage.getItem('username') == 'gosc' ? 'span' : 'router-link'"
-                          >
-<<<<<<< HEAD
-                            <v-btn color="primary" @click="check(goToVoting)">
-                              {{ $t("goToVoting") }} 
-=======
-                            <v-btn  @click="goToVoting">
-                              {{ $t("goToVoting") }}
->>>>>>> a37fbef12ee157d9f0678d73196ff27243b4a6d3
-                            </v-btn>
-                          </router-link>
+                          <div class="single">
+                            <v-tooltip top>
+                              <template v-slot:activator="{ on, attrs }">
+                                <router-link
+                                  :to="{
+                                    name: 'projectNew',
+                                    params: { id: group.id, vId: voting.id },
+                                  }"
+                                >
+                                  <div class="plus">
+                                    <v-btn
+                                      color="transparent"
+                                      dark
+                                      style="
+                                        box-shadow: none;
+                                        padding: 0;
+                                        max-width: 10px;
+                                      "
+                                      width="20"
+                                      v-bind="attrs"
+                                      v-on="on"
+                                    >
+                                      <div @click="addedReaction = true">
+                                        <v-mdi
+                                          name="mdiPlusThick"
+                                          color="#49e61e"
+                                        ></v-mdi>
+                                      </div>
+                                    </v-btn></div
+                                ></router-link>
+                              </template>
+                              <div><span>Dodaj projekt</span></div>
+                            </v-tooltip>
+
+                            <router-link
+                              :to="{
+                                name: 'voting',
+                                params: { id: group.id, vId: voting.id },
+                              }"
+                            >
+                              <v-btn @click="check(goToVoting)">
+                                {{ $t("goToVoting") }}
+                              </v-btn>
+                            </router-link>
+                          </div>
                         </div>
-                      </div>
-                    </details>
-                  </div>
-                </details>
+                      </details>
+                    </div>
+                  </details>
+                  <details>
+                    <summary class="votingTIme">
+                      {{ $t("finishedVotings") }}
+                    </summary>
+                    <div v-for="voting in finishedVotings" :key="voting.id">
+                      <details class="smaller">
+                        <summary class="beforeYellow">
+                          {{ voting.name }} {{ voting.start_date.slice(0, 10) }}
+                        </summary>
+                        <div class="findLast">
+                          <div
+                            v-for="(project, index) in voting.projects"
+                            :key="`project-${index}`"
+                          >
+                            <p>{{ project.name }}</p>
+                          </div>
+
+                          <div class="single">
+                            <router-link
+                              :to="{
+                                name: 'voting',
+                                params: { id: group.id, vId: voting.id },
+                              }"
+                            >
+                              <v-btn @click="check(goToVoting)">
+                                {{ $t("goToVoting") }}
+                              </v-btn>
+                            </router-link>
+                          </div>
+                        </div>
+                      </details>
+                    </div>
+                  </details>
                 </div>
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -294,7 +319,7 @@
           {{ group.name }}
         </v-card-title>
 
-        <v-card-text class="text-h6  lighten-2 p-4 ">
+        <v-card-text class="text-h6 lighten-2 p-4">
           <div>
             {{ $t("joinGroup") }}
           </div>
@@ -307,10 +332,16 @@
           >
             <v-row class="d-flex justify-content-center">
               <div
-                style="padding-left: 20px;  margin: 5px; padding-right:20px; border: solid; border-radius: 20px"
+                style="
+                  padding-left: 20px;
+                  margin: 5px;
+                  padding-right: 20px;
+                  border: solid;
+                  border-radius: 20px;
+                "
               >
                 <v-text-field
-                  style="width:170px; font-size: 36px"
+                  style="width: 170px; font-size: 36px"
                   v-model="myCode"
                   ref="code1"
                   autofocus
@@ -325,7 +356,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn  text @click="clearDialog">
+          <v-btn text @click="clearDialog">
             {{ $t("cancel") }}
           </v-btn>
           <v-btn text @click="joinGroupWithAccessCode">
@@ -341,7 +372,7 @@
           {{ group.name }}
         </v-card-title>
 
-        <v-card-text class="text-h6  lighten-2 p-4 ">
+        <v-card-text class="text-h6 lighten-2 p-4">
           <span class="d-flex justify-content-center">
             {{ $t("leaveGroupQuestion") }}
           </span>
@@ -354,10 +385,7 @@
           <v-btn text @click="dialogLeaveGroup = false">
             {{ $t("cancel") }}
           </v-btn>
-          <v-btn
-            text
-            @click="check(leaveGroupWithConfirmation)"
-          >
+          <v-btn text @click="check(leaveGroupWithConfirmation)">
             {{ $t("leave") }}
           </v-btn>
         </v-card-actions>
@@ -370,7 +398,7 @@
           {{ $t("codesGenerator") }}
         </v-card-title>
 
-        <v-card-text class="text-h6  lighten-2 p-4 ">
+        <v-card-text class="text-h6 lighten-2 p-4">
           <div>
             {{ $t("codesCount") }}
           </div>
@@ -382,10 +410,16 @@
             style="margin-top: 30px"
           >
             <div
-              style="padding-left: 20px;  margin: 5px; padding-right:20px; border: solid; border-radius: 10px"
+              style="
+                padding-left: 20px;
+                margin: 5px;
+                padding-right: 20px;
+                border: solid;
+                border-radius: 10px;
+              "
             >
               <v-text-field
-                style="width:100px; font-size: 36px"
+                style="width: 100px; font-size: 36px"
                 v-model="count"
                 type="number"
                 min="1"
@@ -411,42 +445,13 @@
       </v-card>
     </v-dialog>
 
-<<<<<<< HEAD
-=======
-     <v-snackbar
-      v-model="memberOfGroup"
-      :multi-line="multiLine"
-    >
-     Dołączyłeś do grupy! 
-
-      <!-- <template v-slot:action="{ attrs }">
-        <v-btn
-          text
-          v-bind="attrs"
-          @click="memberOfGroup = false"
-        >
-          zamknij
-        </v-btn>
-      </template> -->
+    <v-snackbar v-model="memberOfGroup" :multi-line="multiLine">
+      Dołączyłeś do grupy!
     </v-snackbar>
 
-     <v-snackbar
-      v-model="notMemberOfGroup"
-      :multi-line="multiLine"
-    >
-      Opuściłeś grupę 
-
-      <!-- <template v-slot:action="{ attrs }">
-        <v-btn
-          text
-          v-bind="attrs"
-          @click="notMemberOfGroup = false"
-        >
-          zamknij
-        </v-btn>
-      </template> -->
+    <v-snackbar v-model="notMemberOfGroup" :multi-line="multiLine">
+      Opuściłeś grupę
     </v-snackbar>
->>>>>>> a37fbef12ee157d9f0678d73196ff27243b4a6d3
   </div>
 </template>
 
@@ -467,8 +472,8 @@ export default {
       dialogUnauthorized: false,
       count: 1,
       groupCarousel: true,
-      notMemberOfGroup:false,
-      memberOfGroup:false,
+      notMemberOfGroup: false,
+      memberOfGroup: false,
       image: "",
       codeKey: false,
       dialog: false,
@@ -495,11 +500,8 @@ export default {
       console.log("ide");
     },
     check(funName) {
-      console.log(window.localStorage.getItem("username"))
-      if (
-        window.localStorage.getItem("username") ==
-        "gosc"
-      ) {
+      console.log(window.localStorage.getItem("username"));
+      if (window.localStorage.getItem("username") == "gosc") {
         this.$root.$refs.App.ifLogin();
       } else {
         funName();
@@ -565,7 +567,7 @@ export default {
       }
     },
     isUserMember(data) {
-      console.log(data)
+      console.log(data);
       // this.isMember = data.members.includes(this.requestUser);
       this.isAdmin = data.admin_users.includes(this.requestUser);
     },
@@ -588,6 +590,7 @@ export default {
           this.activeVotings.push(voting);
         }
       }
+
       // this.votings = data.votings;
       this.loading = false;
     });
@@ -658,10 +661,10 @@ export default {
   /* color: #000; */
 }
 
-.votingTIme{
-    text-align: center;
-    font-size: 18px;
-    padding: 10px;
+.votingTIme {
+  text-align: center;
+  font-size: 18px;
+  padding: 10px;
 }
 .groupTitle {
   font-weight: 700;
@@ -795,14 +798,13 @@ summary:before {
   transition: 1s transform ease;
 }
 
-.beforeYellow:before{
+.beforeYellow:before {
   top: 21px;
   border-color: transparent transparent transparent white;
-
 }
 
-.smaller{
-  padding: 10px 30px
+.smaller {
+  padding: 10px 30px;
 }
 /* details  */
 details p {
@@ -825,7 +827,7 @@ details .findLast {
   margin-top: 30px;
 }
 
-.projectSingle{
+.projectSingle {
   padding-left: 10%;
 }
 

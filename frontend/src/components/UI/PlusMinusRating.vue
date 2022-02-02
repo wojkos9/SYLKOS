@@ -2,7 +2,7 @@
   <div class="likes">
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
-        <div class="plus" @click="check(incrementLikes)">
+        <div class="plus" >
           <v-btn
             color="transparent"
             dark
@@ -11,7 +11,7 @@
             v-bind="attrs"
             v-on="on"
           >
-            <div v-if="comment.user_has_liked">
+            <div v-if="comment.user_has_liked" @click="addedReaction=true">
               <v-mdi name="mdiPlusThick" color="#49e61e"></v-mdi>
             </div>
             <div v-else>
@@ -22,16 +22,15 @@
           </v-btn>
         </div>
       </template>
-
       <div v-if="comment.user_has_liked"><span>Popieram</span></div>
       <div v-else><span>Wyraź wsparcie</span></div>
     </v-tooltip>
 
     {{ comment.likes_count }}
 
-  <v-tooltip bottom>
+    <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
-        <div class="plus" @click="check(incrementLikes)">
+        <div class="plus" >
           <v-btn
             color="transparent"
             dark
@@ -40,11 +39,11 @@
             v-bind="attrs"
             v-on="on"
           >
-            <div v-if="comment.user_has_disliked">
+            <div v-if="comment.user_has_disliked" @click="addedReaction=true">
               <v-mdi name="mdiMinusThick" color="#ff0015"></v-mdi>
             </div>
             <div v-else>
-              <div class="minus" @click="check(incrementDislikes)">
+              <div class="minus" @click="check(changeDislikes)">
                 <v-mdi name="mdiMinusThick"></v-mdi>
               </div>
             </div>
@@ -56,9 +55,23 @@
       <div v-else><span>Wyraź dezaprobatę</span></div>
     </v-tooltip>
 
-    
     {{ comment.dislikes_count }}
-  </div>
+
+     <v-snackbar
+      v-model="addedReaction"
+      :multi-line="multiLine"
+    >
+     Już zareagowałeś na ten komentarz
+    </v-snackbar>
+     <v-snackbar
+      v-model="newReaction"
+      :multi-line="multiLine"
+    >
+     Reakcja dodana!
+    </v-snackbar>
+ 
+  
+  </div> 
 </template>
 
 <script>
@@ -67,6 +80,12 @@ import { apiService } from "@/common/api.service.js";
 export default {
   name: "plusMinusRating",
   props: ["comment"],
+  data() {
+    return {
+      newReaction: false,
+      addedReaction: false,
+    }
+  },
   methods: {
     check(funName) {
       if (
@@ -75,35 +94,35 @@ export default {
       ) {
         this.$root.$refs.App.ifLogin();
       } else {
+        console.log(funName);
         funName();
       }
     },
     async incrementLikes() {
-    
       await apiService(
         `/api/comments/${this.comment.id}/like`,
         "POST",
         {}
       ).then(async (data) => {
         if (data != "wrong data") {
-          this.comment.likes_count = data.likes_count;
-          this.comment.dislikes_count = data.dislikes_count;
-          this.comment.user_has_disliked = data.user_has_disliked;
-          this.comment.user_has_liked = data.user_has_liked;
+          this.comment.likes_count += 1;
+          this.comment.user_has_liked = true;
+          this.newReaction = true;
         }
       });
     },
-    async incrementDislikes() {
+    async changeDislikes() {
       await apiService(
         `/api/comments/${this.comment.id}/dislike`,
         "POST",
         {}
       ).then(async (data) => {
         if (data != "wrong data") {
-          this.comment.likes_count = data.likes_count;
-          this.comment.dislikes_count = data.dislikes_count;
-          this.comment.user_has_disliked = data.user_has_disliked;
-          this.comment.user_has_liked = data.user_has_liked;
+          // this.comment.likes_count = data.likes_count;
+          this.comment.dislikes_count += 1;
+          this.comment.user_has_disliked = true;
+          this.newReaction = true;
+          // this.comment.user_has_liked = data.user_has_liked;
         }
       });
     },

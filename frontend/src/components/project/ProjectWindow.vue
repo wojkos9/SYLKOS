@@ -172,7 +172,7 @@ export default {
           name: this.$t("projectUploadDate"),
           calories: this.project.finish_date.slice(
             0,
-            this.project.finish_date.indexOf(" ")
+            this.project.finish_date.indexOf("T")
           ),
         },
       ];

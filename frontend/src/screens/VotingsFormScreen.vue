@@ -275,11 +275,14 @@ export default {
 }
 
 .v-textarea textarea{
-  width: 200px !important;
+  width: 400px !important;
 }
-
-.v-textarea {
-  width: 200px !important;
+.v-picker{
+  margin-bottom: 30px !important
+}
+.v-input, .v-textarea {
+  width: 500px !important;
+  padding: 0 !important;
   /* height: 100px !important; */
 }
 

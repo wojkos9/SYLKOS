@@ -201,7 +201,7 @@ details[open] summary ~ * {
 }
 
 .row{
-  margin-top: 100px;
+  margin-top: 30px;
 }
 
 .section-title{

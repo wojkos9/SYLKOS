@@ -62,7 +62,13 @@ export default {
   text-align: center;
   margin-top: 25px;
 }
+.slick-dots li button:before{
+  color: white
+}
 
+.slick-dots li.slick-active button:before{
+  color: white
+}
 .content{
   margin: auto;
   padding: 50px;
@@ -106,7 +112,7 @@ v-dialog{
   width: 100%;
 }
 .slick-prev:before{
-  color: #000 !important;
+  /* color: #000 !important; */
   font-size: 40px;
   background-color: none;
   opacity: 1;
@@ -115,7 +121,7 @@ v-dialog{
 }
 
 .slick-next:before{
-  color: #000 !important;
+  /* color: #000 !important; */
   font-size: 40px;
   background-color: none;
   opacity: 1;
@@ -124,12 +130,12 @@ v-dialog{
 }
 
 .slick-prev:before:hover{
-  color: #000 !important;
+  /* color: #000 !important; */
   font-size: 40px;
 }
 
 .slick-next:before:hover{
-  color: #000 !important;
+  /* color: #000 !important; */
   font-size: 40px;
 }
 
