@@ -23,6 +23,8 @@ from core.views import IndexTemplateView
 from users.forms import CustomUserForm
 
 from django.conf.urls.static import static
+from django.contrib.staticfiles.storage import staticfiles_storage
+from django.views.generic.base import RedirectView
 from django.conf import settings
 
 # form e-mail verification
@@ -30,7 +32,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
+      path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico'))),
     # custom version of the registration view
     path("accounts/register/",
          RegistrationView.as_view(
