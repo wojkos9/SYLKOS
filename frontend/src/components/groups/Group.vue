@@ -10,14 +10,14 @@
             <span v-if="showMore">{{ group.description }} </span>
             <span v-else> {{ group.description.slice(0, 200) }}...</span>
             <div v-if="!showMore" class="paddingTop-m">
-              <v-btn x-small color="primary" dark @click="showMore = true">
+              <v-btn x-small  dark @click="showMore = true">
                 {{ $t("expand") }}
               </v-btn>
             </div>
             <div v-else class="paddingTop-m">
               <v-btn
                 x-small
-                color="primary"
+              
                 dark
                 v-if="showMore"
                 @click="showMore = false"
@@ -43,7 +43,7 @@
           <div class="text-center paddingTop-m">
             <v-dialog v-model="dialog2" width="700px">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn color="primary" dark v-bind="attrs" v-on="on">
+                <v-btn  dark v-bind="attrs" v-on="on">
                   {{ $t("details") }}
                 </v-btn>
               </template>
@@ -74,7 +74,7 @@
                         <div v-if="!showMore2" class="paddingTop-m">
                           <v-btn
                             x-small
-                            color="primary"
+                           
                             dark
                             @click="showMore2 = true"
                           >
@@ -84,7 +84,7 @@
                         <div v-else class="paddingTop-m">
                           <v-btn
                             x-small
-                            color="primary"
+                           
                             dark
                             v-if="showMore2"
                             @click="showMore2 = false"
@@ -192,7 +192,7 @@
                               params: { id: group.id, vId: voting.id },
                             }"
                           >
-                            <v-btn color="primary" @click="goToVoting">
+                            <v-btn  @click="goToVoting">
                               {{ $t("goToVoting") }}
                             </v-btn>
                           </router-link>
@@ -224,7 +224,7 @@
                               params: { id: group.id, vId: voting.id },
                             }"
                           >
-                            <v-btn color="primary" @click="goToVoting">
+                            <v-btn  @click="goToVoting">
                               {{ $t("goToVoting") }}
                             </v-btn>
                           </router-link>
@@ -255,7 +255,7 @@
                               params: { id: group.id, vId: voting.id },
                             }"
                           >
-                            <v-btn color="primary" @click="goToVoting">
+                            <v-btn  @click="goToVoting">
                               {{ $t("goToVoting") }}
                             </v-btn>
                           </router-link>
@@ -267,7 +267,7 @@
                 </div>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" text @click="dialog2 = false">
+                  <v-btn text @click="dialog2 = false">
                     {{ $t("cancel") }}
                   </v-btn>
                 </v-card-actions>
@@ -315,10 +315,10 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="clearDialog">
+          <v-btn  text @click="clearDialog">
             {{ $t("cancel") }}
           </v-btn>
-          <v-btn color="primary" text @click="joinGroupWithAccessCode">
+          <v-btn text @click="joinGroupWithAccessCode">
             {{ $t("confirm") }}
           </v-btn>
         </v-card-actions>
@@ -341,11 +341,10 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialogLeaveGroup = false">
+          <v-btn text @click="dialogLeaveGroup = false">
             {{ $t("cancel") }}
           </v-btn>
           <v-btn
-            color="primary"
             text
             @click="check(leaveGroupWithConfirmation)"
           >
@@ -401,6 +400,40 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+     <v-snackbar
+      v-model="memberOfGroup"
+      :multi-line="multiLine"
+    >
+     Dołączyłeś do grupy! 
+
+      <!-- <template v-slot:action="{ attrs }">
+        <v-btn
+          text
+          v-bind="attrs"
+          @click="memberOfGroup = false"
+        >
+          zamknij
+        </v-btn>
+      </template> -->
+    </v-snackbar>
+
+     <v-snackbar
+      v-model="notMemberOfGroup"
+      :multi-line="multiLine"
+    >
+      Opuściłeś grupę 
+
+      <!-- <template v-slot:action="{ attrs }">
+        <v-btn
+          text
+          v-bind="attrs"
+          @click="notMemberOfGroup = false"
+        >
+          zamknij
+        </v-btn>
+      </template> -->
+    </v-snackbar>
   </div>
 </template>
 
@@ -420,6 +453,8 @@ export default {
       myCode: "",
       count: 1,
       groupCarousel: true,
+      notMemberOfGroup:false,
+      memberOfGroup:false,
       image: "",
       codeKey: false,
       dialog: false,
@@ -494,6 +529,8 @@ export default {
         (data) => {
           this.isUserMember(data);
           this.dialogLeaveGroup = false;
+          this.group.is_member = false;
+          this.notMemberOfGroup = true;
         }
       );
     },
@@ -520,6 +557,8 @@ export default {
           this.code4 = "";
           this.valid = true;
           this.$refs.code.reset();
+          this.group.is_member = data.is_member;
+          this.memberOfGroup = true;
         });
       }
     },

@@ -144,7 +144,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'assets',
     BASE_DIR / 'frontend'/ 'dist',
-  '/static/'
+    BASE_DIR / '/static/'
 ]
 
 STATIC_ROOT = BASE_DIR / 'static'
