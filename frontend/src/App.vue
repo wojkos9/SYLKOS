@@ -52,7 +52,7 @@
               <router-link :to="{ name: routes.settings }" :is="!showSections ? 'span' : 'router-link'">
                 <v-list-item  @click="ifLogin">
                   <v-list-item-title>
-                    <v-icon>settings</v-icon>
+                    <v-icon>mdi-settings</v-icon>
                    {{$t("settings")}} 
                   </v-list-item-title>
                 </v-list-item>
@@ -78,10 +78,10 @@
                 </router-link>
               </div>
 
-              <router-link >
+              <router-link  v-show="showSections" :to="{ name: routes.admin }" :is="!showSections ? 'span' : 'span'">
                 <v-list-item @click="logout">
                   <v-list-item-title>
-                    <v-icon>logout</v-icon>
+                    <v-icon>mdi-logout</v-icon>
                    {{$t("logout")}}
                   </v-list-item-title>
                 </v-list-item>
@@ -90,7 +90,7 @@
               <router-link :to="{ name: routes.admin }" :is="!showSections ? 'span' : 'router-link'">
                 <v-list-item v-show="!showSections" @click="login">
                   <v-list-item-title>
-                    <v-icon>login</v-icon>
+                    <v-icon>mdi-login</v-icon>
                    {{$t("login")}}
                   </v-list-item-title>
                 </v-list-item>

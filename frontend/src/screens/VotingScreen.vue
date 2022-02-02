@@ -35,7 +35,7 @@
             <VotingProjectSelectOne
               v-bind:project="project"
               v-on:change="setUserVotedFor($event)"
-              :ifUserCanVote="!alreadyVoted"
+              :ifUserCanVote="false"
               :myChoice="alreadyVoted"
             />
           </div>
@@ -46,8 +46,10 @@
             </div>
         </div>
 
-        <div >
-        {{plot }}
+        <div class="wykres">
+          Wykres przebiegu głosowania
+        </div>
+        <div class="plot" v-html="plot">
         </div>
       </div>
       <div v-else-if="voting.status == 'active'">
@@ -502,6 +504,16 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin: 50px 10% 50px auto;
+}
+.wykres{
+  font-size: 2em;
+  margin-top: 2em;
+  text-align: center;
+  /* text-transform: lowercase; */
+}
+.plot{
+  margin: 1em auto 4em auto;
+  max-width: 600px;
 }
 
 .voting_type_desc {
