@@ -40,17 +40,53 @@
             />
           </div>
         </div>
-        <div v-else style="margin-top: 20px;">
-           <div v-for="project in voting.projects" :key="project.id">
-              <VotingProject v-bind:project="project" :showPoints="show" />
-            </div>
+        <div v-else style="margin-top: 20px">
+          <div v-for="project in voting.projects" :key="project.id">
+            <VotingProject v-bind:project="project" :showPoints="show" />
+          </div>
         </div>
 
-        <div class="wykres">
-          Wykres przebiegu głosowania
+        <div class="owijka">
+        <div class="wykres">Wykres przebiegu głosowania</div>
+
+        <div class="plot" v-html="plot"></div>
         </div>
-        <div class="plot" v-html="plot">
-        </div>
+        <!-- <v-sheet class="stackSheet" color="white">
+          <div v-for="(spark, index) in plots" :key="index">
+            <v-sparkline
+              style="width: 70%; height: 300px"
+              :value="spark.values"
+              :smooth="radius || false"
+              :color="colors[index]"
+              :padding="padding"
+              :line-width="width"
+              :stroke-linecap="lineCap"
+              :gradient-direction="gradientDirection"
+              :fill="fill"
+              :type="type"
+              :labels="index < 1 ? labels : []"
+              :auto-line-width="autoLineWidth"
+              auto-draw
+              :class="{ stackSpark: index > 0 }"
+            >
+            </v-sparkline>
+          </div>
+          <div style="padding: 30px">
+          <div v-for="(spark, index) in plots" :key="index">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                color: black;
+                margin-bottom: 10px;
+              "
+            >
+              <v-btn class="mx-2" fab :color="colors[index]" small> </v-btn>
+              <span style="padding-left: 10px">{{ spark.name }}</span>
+            </div>
+            </div>
+          </div>
+        </v-sheet> -->
       </div>
       <div v-else-if="voting.status == 'active'">
         <!--{{response}}-->
@@ -256,6 +292,15 @@ import VotingProjectSelectOne from "../components/voting/VotingProjectSelectOne.
 import { apiService } from "@/common/api.service.js";
 import draggable from "vuedraggable";
 
+const gradients = [
+  ["#222"],
+  ["#42b3f4"],
+  ["red", "orange", "yellow"],
+  ["purple", "violet"],
+  ["#00c6ff", "#F0F", "#FF0"],
+  ["#f72047", "#ffd200", "#1feaea"],
+];
+
 export default {
   name: "votingScreen",
   props: {
@@ -269,6 +314,32 @@ export default {
 
   data() {
     return {
+      width: 2,
+      radius: 10,
+      padding: 8,
+      lineCap: "round",
+      gradient: gradients[5],
+      colors: ["#000", "#ccc200", "#e0730d", "#1e07ed", "#eb053e"],
+      plots: [
+        {
+          name: "przystanek przy ul. Koszalińskiej",
+          values: [0, 2, 20, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
+          color: "#456545",
+        },
+        {
+          name: "przystanek przy ul. Wańkowicza",
+          values: [7, 1, 7, 2, 9, 0, 1, 2, 4, 7, 7, 10, 1, 3, 5],
+          color: "#980002",
+        },
+      ],
+      labels: [1, 1, 4, 5, 6, 7, 5, 4, 3, 3],
+      value1: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
+      value2: [7, 4, 7, 2, 9, 0, 1, 2, 4, 7, 7, 10, 1, 3, 5],
+      gradientDirection: "top",
+      gradients,
+      fill: false,
+      type: "trend",
+      autoLineWidth: false,
       active: true,
       previousUserVote: 0,
       userVotedFor: 0,
@@ -402,16 +473,19 @@ export default {
     let endpoint2 = `/api/voting/${to.params.vId}/timeplot`;
     let data = await apiService(endpoint);
     let data2 = await apiService(endpoint2);
-   
+
     return next((vm) => {
       vm.response = data;
- if(data2){
-      // vm.$refs.timeplot.innerHTML = data2
-      vm.plot = data2.substring(data2.indexOf('>', data2.indexOf('>')+1)+1)
-      // let el = document.querySelector('#timeplot')
-      // console.log(el)
-      // el.innerHTML = data2;
-    }
+      if (data2) {
+        // vm.$refs.timeplot.innerHTML = data2
+       
+        vm.plot = data2.substring(
+          data2.indexOf(">", data2.indexOf(">") + 1) + 1
+        );
+        // let el = document.querySelector('#timeplot')
+        // console.log(el)
+        // el.innerHTML = data2;
+      }
       if (data) {
         vm.voting = data;
         vm.projectsVotes = data.projects.sort(function (a, b) {
@@ -482,7 +556,7 @@ export default {
   font-size: 24px;
   text-align: center;
   margin-bottom: 30px;
-  font-family: "Petrona";
+  /* font-family: "Petrona"; */
 }
 
 .add-project-icon {
@@ -494,7 +568,17 @@ export default {
 .add-project-icon:hover {
   transform: scale(1.2);
 }
-
+.stackSheet {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+}
+.stackSpark {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 .draggable {
   max-width: 1000px;
   margin: 0 auto;
@@ -505,15 +589,17 @@ export default {
   justify-content: flex-end;
   margin: 50px 10% 50px auto;
 }
-.wykres{
+.wykres {
   font-size: 2em;
-  margin-top: 2em;
+  margin-top: 1em;
   text-align: center;
+  color: #000;
   /* text-transform: lowercase; */
 }
-.plot{
+.plot {
   margin: 1em auto 4em auto;
   max-width: 600px;
+  border-radius: 32px;
 }
 
 .voting_type_desc {
@@ -534,7 +620,16 @@ export default {
 .alreadyVotedSection {
   margin-bottom: 100px;
 }
-
+.owijka{
+  padding: 10px 20px;
+  background-color: #fff;
+  border-radius: 32px;
+  max-width: 800px;
+  margin: 3em auto;
+  -webkit-box-shadow: 3px 5px 53px -21px rgba(66, 68, 90, 1);
+-moz-box-shadow: 3px 5px 53px -21px rgba(66, 68, 90, 1);
+box-shadow: 3px 5px 53px -21px rgba(66, 68, 90, 1);
+}
 .alreadyVotedSelectedProject {
   max-width: 800px;
   margin: 50px auto 0 auto;

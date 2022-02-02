@@ -260,7 +260,11 @@ def voting_stats(request, **kwargs):
 
     fig, ax = plt.subplots()
     max_points = 0
+
+    max_date = max([x[1][-1][0] for x in plot_data.values()])
+
     for name, date_points in plot_data.values():
+        date_points.append((max_date, date_points[-1][1]))
         dates, points = zip(*date_points)
         print(name, dates, points)
         ax.plot(dates, points, 'o-', label=name)

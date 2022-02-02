@@ -75,7 +75,7 @@ export default {
 
 }
 .image{
-  height: calc(50vh - 50px);
+  height: calc(50vh - 50px) !important;
   width: auto;
   max-height: 200px;
   object-fit: contain;
@@ -148,7 +148,7 @@ v-dialog{
 }
 @media only screen and (max-width: 500px){
   .image{
-  height: calc(50vh - 50px);
+  height: calc(50vh - 50px) !important;
   width: auto;
   max-height: 150px;
   object-fit: contain;
@@ -180,7 +180,7 @@ v-dialog{
 
 @media only screen and (max-width: 400px){
   .image{
-  height: calc(50vh - 50px);
+  height: calc(50vh - 50px) !important;
   width: auto;
   max-height: 100px;
   object-fit: contain;
