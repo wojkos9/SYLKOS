@@ -78,7 +78,7 @@
                 </router-link>
               </div>
 
-              <router-link  v-show="showSections" :to="{ name: routes.admin }" :is="!showSections ? 'span' : 'span'">
+              <router-link >
                 <v-list-item @click="logout">
                   <v-list-item-title>
                     <v-icon>logout</v-icon>

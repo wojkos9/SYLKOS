@@ -45,8 +45,10 @@
               <VotingProject v-bind:project="project" :showPoints="show" />
             </div>
         </div>
-          <img :src="plot"/>
 
+        <div >
+        {{plot }}
+        </div>
       </div>
       <div v-else-if="voting.status == 'active'">
         <!--{{response}}-->
@@ -403,7 +405,7 @@ export default {
       vm.response = data;
  if(data2){
       // vm.$refs.timeplot.innerHTML = data2
-      vm.plot = data2
+      vm.plot = data2.substring(data2.indexOf('>', data2.indexOf('>')+1)+1)
       // let el = document.querySelector('#timeplot')
       // console.log(el)
       // el.innerHTML = data2;
