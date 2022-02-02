@@ -478,7 +478,7 @@ export default {
       vm.response = data;
       if (data2) {
         // vm.$refs.timeplot.innerHTML = data2
-       
+        data2 = data2.replaceAll("#ffffff", "#d7d2f7")
         vm.plot = data2.substring(
           data2.indexOf(">", data2.indexOf(">") + 1) + 1
         );
@@ -622,13 +622,13 @@ export default {
 }
 .owijka{
   padding: 10px 20px;
-  background-color: #fff;
+  background-color: #d7d2f7;
   border-radius: 32px;
   max-width: 800px;
-  margin: 3em auto;
-  -webkit-box-shadow: 3px 5px 53px -21px rgba(66, 68, 90, 1);
--moz-box-shadow: 3px 5px 53px -21px rgba(66, 68, 90, 1);
-box-shadow: 3px 5px 53px -21px rgba(66, 68, 90, 1);
+  margin: 7em auto;
+ -webkit-box-shadow: 3px 10px 73px 13px rgba(220, 220, 247, 1);
+-moz-box-shadow: 3px 10px 73px 13px rgba(220, 220, 247, 1);
+box-shadow: 3px 10px 73px 13px rgba(220, 220, 247, 1);
 }
 .alreadyVotedSelectedProject {
   max-width: 800px;
