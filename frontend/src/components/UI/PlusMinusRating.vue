@@ -95,6 +95,8 @@ export default {
         this.$root.$refs.App.ifLogin();
       } else {
         console.log(funName);
+        // const a = document.createElement('a')
+        // this.$root.$refs.App.replaceWith(a)
         funName();
       }
     },

@@ -7,6 +7,7 @@
     </div>
     <div v-else>
       <div class="votingTitle">
+        <!-- {{plot}} -->
         <div v-if="response">
           <div v-if="voting.status == 'finished'">
             {{ $t("votingScreen.ended") }}
@@ -44,6 +45,8 @@
               <VotingProject v-bind:project="project" :showPoints="show" />
             </div>
         </div>
+          <img :src="plot"/>
+
       </div>
       <div v-else-if="voting.status == 'active'">
         <!--{{response}}-->
@@ -276,6 +279,7 @@ export default {
       approval: [],
       changeKey: true,
       response: {},
+      plot: null,
       projectsVotes: {},
       routes: {
         addProject: "projectNew",
@@ -391,11 +395,19 @@ export default {
   },
   async beforeRouteEnter(to, from, next) {
     let endpoint = `/api/voting/${to.params.vId}/`;
+    let endpoint2 = `/api/voting/${to.params.vId}/timeplot`;
     let data = await apiService(endpoint);
-
+    let data2 = await apiService(endpoint2);
+   
     return next((vm) => {
       vm.response = data;
-
+ if(data2){
+      // vm.$refs.timeplot.innerHTML = data2
+      vm.plot = data2
+      // let el = document.querySelector('#timeplot')
+      // console.log(el)
+      // el.innerHTML = data2;
+    }
       if (data) {
         vm.voting = data;
         vm.projectsVotes = data.projects.sort(function (a, b) {

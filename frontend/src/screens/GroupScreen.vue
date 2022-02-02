@@ -265,6 +265,7 @@ export default {
       keys: {},
       votings: {},
       count: 1,
+      members:[],
       userToRemove: "",
       dialogGenerateAccessCode: false,
       dialogRemoveUser: false,
@@ -301,12 +302,12 @@ export default {
       var newMembers = this.group.members.filter(
         (member) => member != this.userToRemove
       );
-      let endpoint = `api/groups/${this.group.id}/`;
+      let endpoint = `api/groups/${this.group.id}/?details=1`;
       await apiService(endpoint, "PATCH", {
         members: newMembers,
       }).then(async (data) => {
         if (data != "wrong data") {
-          this.group.members = data.members;
+          this.group.members = newMembers;
           this.dialogSuccess = true;
         }
       });
@@ -351,9 +352,9 @@ export default {
   async beforeRouteEnter(to, from, next) {
     if (to.params.id !== undefined) {
       let endpoint = `api/groups/${to.params.id}/keys`;
-      let groupEndpoint = `api/groups/${to.params.id}/`;
+      // let groupEndpoint = `api/groups/${to.params.id}/`;
       let data = await apiService(endpoint);
-      let groupData = await apiService(groupEndpoint);
+      // let groupData = await apiService(groupEndpoint);
       var keys = [];
       var cnt = 2;
       var nextPage = data.next != null ? true : false;
@@ -371,7 +372,7 @@ export default {
       let data2 = await apiService(`/api/groups/${to.params.id}/?details=1`);
 
       return next((vm) => {
-        vm.group = groupData;
+        vm.group = data2;
         vm.keys = keys;
         vm.votings = data2.votings;
       });
@@ -558,6 +559,7 @@ details[open] summary ~ * {
   visibility: hidden;
 }
 
+
 @keyframes sweep {
   0% {
     opacity: 0;
@@ -574,7 +576,13 @@ details[open] summary ~ * {
 }
 
 @media print {
+  html body * {
+    visibility: hidden;
+}
   body * {
+    visibility: hidden;
+  }
+  .gradient  {
     visibility: hidden;
   }
   #print-section,

@@ -67,7 +67,7 @@
                 </v-list-item>
               </router-link>
 
-              <div v-show="showSections">
+              <div v-show="requestUser == 'admin'">
                 <router-link :to="{ name: routes.admin }">
                   <v-list-item>
                     <v-list-item-title>
@@ -169,6 +169,7 @@ export default {
   data() {
     return {
       showSideMenu: false,
+      requestUser: '',
       group: "",
       themeChange: true,
       dialog: false,
@@ -242,6 +243,7 @@ export default {
       } else {
         const requestUser = data["username"];
         window.localStorage.setItem("username", requestUser);
+        this.requestUser = requestUser
         this.$vuetify.theme.dark = !data["color_mode"]
       }
     },

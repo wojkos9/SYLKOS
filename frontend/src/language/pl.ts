@@ -37,7 +37,7 @@ export const pl = {
   price: 'koszt',
   votingEndDate: "Termin głosowania",
   projectUploadDate: "Data wstawienia projektu",
-  next: "zarządzanie",
+  next: "powrót",
   back: "powrót do formularza",
   sortBy: 'sortuj po...',
   logout: 'wyloguj',

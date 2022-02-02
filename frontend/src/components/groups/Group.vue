@@ -570,6 +570,10 @@ export default {
       console.log(data);
       // this.isMember = data.members.includes(this.requestUser);
       this.isAdmin = data.admin_users.includes(this.requestUser);
+      if (!this.isAdmin){
+        if (window.localStorage.getItem("username") == "admin")
+        this.isAdmin = true;
+      }
     },
   },
   components: {

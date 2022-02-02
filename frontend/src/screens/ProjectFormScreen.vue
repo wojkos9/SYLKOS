@@ -9,8 +9,6 @@
           id="backgroundGroupForm"
           class="background d-flex justify-content-center "
         >
-         id glosowania {{vId}} <br>
-         id grupy  {{id}}
           <v-form
             v-model="valid"
             ref="newGroupForm"

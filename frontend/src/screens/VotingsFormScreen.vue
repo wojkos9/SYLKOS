@@ -206,7 +206,7 @@ export default {
     },
     nextFunction() {
       this.dialog = false;
-      this.$router.push({ name: "admin" });
+      this.$router.push({ name: "group", params:{id:this.groupId}  });
     },
     backFunction() {
       this.dialog = false;
